@@ -326,9 +326,10 @@
             overflow: hidden;
         }
         
+        /* GRAND TITRE "Entrée Journal" en fond rouge */
         .journal-header {
             padding: 20px;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, #ff3333, #cc0000);
             color: white;
         }
         
@@ -363,6 +364,18 @@
         
         .data-table th.activite {
             background: linear-gradient(135deg, #ffa500, #ff8c00);
+            color: white;
+        }
+        
+        /* Titres AVANT Concert en bleu */
+        .data-table th.avant-concert {
+            background: linear-gradient(135deg, #4169e1, #1e3cba);
+            color: white;
+        }
+        
+        /* Titres APRES Activité en marron */
+        .data-table th.apres-activite {
+            background: linear-gradient(135deg, #8b4513, #654321);
             color: white;
         }
         
@@ -416,6 +429,24 @@
             border-left: 3px solid #ff3333;
         }
         
+        /* Style pour les cellules Avant Concert */
+        .data-table td.avant-concert-cell {
+            background: linear-gradient(135deg, #e6f0ff, #cce0ff);
+            color: #1e3cba;
+            font-size: 16px;
+            font-weight: bold;
+            border-left: 3px solid #4169e1;
+        }
+        
+        /* Style pour les cellules Après Activité */
+        .data-table td.apres-activite-cell {
+            background: linear-gradient(135deg, #f5e6d9, #ebd4b9);
+            color: #654321;
+            font-size: 16px;
+            font-weight: bold;
+            border-left: 3px solid #8b4513;
+        }
+        
         /* Style pour les cellules Photos */
         .data-table td.photo-cell {
             color: #8a2be2;
@@ -438,6 +469,14 @@
         
         .data-table tr:nth-child(even) td.concert-cell {
             background: linear-gradient(135deg, #ffe6e6, #ffd6d6);
+        }
+        
+        .data-table tr:nth-child(even) td.avant-concert-cell {
+            background: linear-gradient(135deg, #e0ebff, #d6e5ff);
+        }
+        
+        .data-table tr:nth-child(even) td.apres-activite-cell {
+            background: linear-gradient(135deg, #f0e4d4, #e6d4bc);
         }
         
         .photo-gallery {
@@ -703,6 +742,7 @@
                 <div class="example-item">• <strong>répétition</strong> - Les séances de répétition</div>
                 <div class="example-item">• <strong>hôtel transport</strong> - Recherche multiple</div>
                 <div class="example-item">• <span style="color: #32cd32;">🟢 Concert</span> • <span style="color: #ffa500;">🟠 Activité</span> • <span style="color: #4682b4; font-family: Georgia; font-style: italic; text-decoration: underline;">🔵 Interlocuteur</span> • <span style="color: #8a2be2;">🟣 Photos</span></div>
+                <div class="example-item">• <span style="color: #4169e1;">🔵 Avant Concert</span> • <span style="color: #8b4513;">🟤 Après Activité</span></div>
             </div>
             
             <button id="showAllButton" style="background-color: #3498db; margin-top: 15px;">
@@ -893,10 +933,10 @@
             console.log('📝 Utilisation de données d\'exemple...');
             
             // Données d'exemple pour démonstration
-            const sampleCSV = `Date,Titre,Concert,Activité,Interlocuteur,Détails sur l'activité:,Photos
-01/01/2026,Concert d'ouverture,Stade de France,Paris,"Jean Dupont, Directeur","Premier concert de la tournée, public enthousiaste","https://images.unsplash.com/photo-1506157786151-b8491531f063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-02/01/2026,Répétition matinale,Salle de répétition,"Répétition, échauffement","Marie Martin, Chorégraphe","Séance de travail intensive","https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-03/01/2026,Concert à Lyon,Halle Tony Garnier,Lyon,"Pierre Lambert, Manager","Concert sold-out, excellente ambiance","https://images.unsplash.com/photo-1571974599782-87624638275f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"`;
+            const sampleCSV = `Date,Titre,Avant Concert 1,Concert 1,Activité 1,Après Activité 1,Interlocuteur,Détails sur l'activité:,Photos
+01/01/2026,Concert d'ouverture,"Préparation scène","Stade de France","Paris","Débriefing","Jean Dupont, Directeur","Premier concert de la tournée, public enthousiaste","https://images.unsplash.com/photo-1506157786151-b8491531f063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+02/01/2026,Répétition matinale,"Échauffement vocal","Salle de répétition","Répétition, échauffement","Retour technique","Marie Martin, Chorégraphe","Séance de travail intensive","https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+03/01/2026,Concert à Lyon,"Soundcheck","Halle Tony Garnier","Lyon","Analyse performance","Pierre Lambert, Manager","Concert sold-out, excellente ambiance","https://images.unsplash.com/photo-1571974599782-87624638275f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"`;
             
             processCSVData(sampleCSV);
             
@@ -1290,6 +1330,10 @@
                 return 'interlocuteur';
             } else if (headerLower.includes('photo')) {
                 return 'photo';
+            } else if (headerLower.includes('avant') && headerLower.includes('concert')) {
+                return 'avant-concert';
+            } else if (headerLower.includes('après') && headerLower.includes('activité')) {
+                return 'apres-activite';
             }
             
             return 'default';
@@ -1308,6 +1352,10 @@
                 return 'interlocuteur-cell';
             } else if (headerLower.includes('photo')) {
                 return 'photo-cell';
+            } else if (headerLower.includes('avant') && headerLower.includes('concert')) {
+                return 'avant-concert-cell';
+            } else if (headerLower.includes('après') && headerLower.includes('activité')) {
+                return 'apres-activite-cell';
             }
             
             return '';
