@@ -37,15 +37,53 @@
         header {
             text-align: center;
             margin-bottom: 30px;
-            padding: 20px;
-            background-color: white;
+            padding: 50px 20px;
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.8) 100%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><path fill="%23ffb6c1" d="M150,50 Q200,30 250,60 T300,120 Q290,170 240,200 T150,220 Q80,200 50,150 T60,80 Q100,40 150,50 Z"/><path fill="%23ff69b4" d="M180,70 Q220,50 260,80 T290,140 Q280,180 240,200 T180,210 Q130,190 100,150 T110,90 Q140,60 180,70 Z"/><path fill="%23ff1493" d="M120,80 Q160,60 200,90 T230,150 Q220,190 180,210 T120,200 Q70,180 40,130 T50,70 Q90,40 120,80 Z"/><circle fill="%23ffb6c1" cx="80" cy="120" r="25"/><circle fill="%23ff69b4" cx="220" cy="100" r="20"/><circle fill="%23ff1493" cx="100" cy="180" r="15"/></svg>');
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
+            border: 2px solid #ffd1dc;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 182, 193, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 105, 180, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 20, 147, 0.3) 0%, transparent 50%);
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
         }
         
         h1 {
-            color: var(--secondary-color);
-            margin-bottom: 10px;
+            color: #8b0000;
+            margin-bottom: 15px;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            background: linear-gradient(45deg, #8b0000, #b22222, #8b0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+        
+        header p {
+            color: #8b0000;
+            font-size: 1.2em;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
         }
         
         .search-section {
@@ -197,24 +235,6 @@
         .date-item.selected {
             background-color: var(--primary-color);
             color: white;
-        }
-        
-        .search-examples {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: var(--border-radius);
-            margin-top: 15px;
-            font-size: 14px;
-        }
-        
-        .search-examples h4 {
-            margin-bottom: 10px;
-            color: var(--secondary-color);
-        }
-        
-        .example-item {
-            margin-bottom: 5px;
-            color: #666;
         }
         
         label {
@@ -379,6 +399,12 @@
             color: white;
         }
         
+        /* Titres Horodateur, Date, Au programme - EN-TÊTES en marron */
+        .data-table th.horodateur-date {
+            background: linear-gradient(135deg, #a0522d, #8b4513);
+            color: white;
+        }
+        
         /* Style spécial pour les interlocuteurs */
         .data-table th.interlocuteur {
             background: var(--light-color);
@@ -447,6 +473,15 @@
             border-left: 3px solid #8b4513;
         }
         
+        /* Style pour les cellules Horodateur, Date, Au programme - TEXTE en marron */
+        .data-table td.horodateur-date-cell {
+            color: #8b4513 !important;
+            font-size: 16px;
+            font-weight: bold;
+            border-left: 3px solid #a0522d;
+            background: #f9f5f0;
+        }
+        
         /* Style pour les cellules Photos */
         .data-table td.photo-cell {
             color: #8a2be2;
@@ -477,6 +512,10 @@
         
         .data-table tr:nth-child(even) td.apres-activite-cell {
             background: linear-gradient(135deg, #f0e4d4, #e6d4bc);
+        }
+        
+        .data-table tr:nth-child(even) td.horodateur-date-cell {
+            background: #f5f0e8;
         }
         
         .photo-gallery {
@@ -684,14 +723,20 @@
             .modal-content {
                 max-width: 95%;
             }
+            
+            h1 {
+                font-size: 2.2em;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🗓️ Journal de Bord Tournée 2026</h1>
-            <p>Consultation et recherche</p>
+            <div class="header-content">
+                <h1>🗓️ Journal de Bord Tournée 2026</h1>
+                <p>Consultation et recherche</p>
+            </div>
         </header>
         
         <section class="search-section">
@@ -736,14 +781,7 @@
                 </div>
             </div>
             
-            <div class="search-examples">
-                <h4>💡 Exemples de recherche :</h4>
-                <div class="example-item">• <strong>concert</strong> - Tous les événements de concert</div>
-                <div class="example-item">• <strong>répétition</strong> - Les séances de répétition</div>
-                <div class="example-item">• <strong>hôtel transport</strong> - Recherche multiple</div>
-                <div class="example-item">• <span style="color: #32cd32;">🟢 Concert</span> • <span style="color: #ffa500;">🟠 Activité</span> • <span style="color: #4682b4; font-family: Georgia; font-style: italic; text-decoration: underline;">🔵 Interlocuteur</span> • <span style="color: #8a2be2;">🟣 Photos</span></div>
-                <div class="example-item">• <span style="color: #4169e1;">🔵 Avant Concert</span> • <span style="color: #8b4513;">🟤 Après Activité</span></div>
-            </div>
+            <!-- SUPPRIMÉ : Section des exemples de recherche -->
             
             <button id="showAllButton" style="background-color: #3498db; margin-top: 15px;">
                 📋 Afficher tout le journal
@@ -933,10 +971,10 @@
             console.log('📝 Utilisation de données d\'exemple...');
             
             // Données d'exemple pour démonstration
-            const sampleCSV = `Date,Titre,Avant Concert 1,Concert 1,Activité 1,Après Activité 1,Interlocuteur,Détails sur l'activité:,Photos
-01/01/2026,Concert d'ouverture,"Préparation scène","Stade de France","Paris","Débriefing","Jean Dupont, Directeur","Premier concert de la tournée, public enthousiaste","https://images.unsplash.com/photo-1506157786151-b8491531f063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-02/01/2026,Répétition matinale,"Échauffement vocal","Salle de répétition","Répétition, échauffement","Retour technique","Marie Martin, Chorégraphe","Séance de travail intensive","https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-03/01/2026,Concert à Lyon,"Soundcheck","Halle Tony Garnier","Lyon","Analyse performance","Pierre Lambert, Manager","Concert sold-out, excellente ambiance","https://images.unsplash.com/photo-1571974599782-87624638275f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"`;
+            const sampleCSV = `Date,Titre,Horodateur,Avant Concert 1,Concert 1,Activité 1,Après Activité 1,Au programme,Interlocuteur,Détails sur l'activité:,Photos
+01/01/2026,Concert d'ouverture,"01/01/2026 10:00","Préparation scène","Stade de France","Paris","Débriefing","Concert + Rencontre","Jean Dupont, Directeur","Premier concert de la tournée, public enthousiaste","https://images.unsplash.com/photo-1506157786151-b8491531f063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+02/01/2026,Répétition matinale,"02/01/2026 09:30","Échauffement vocal","Salle de répétition","Répétition, échauffement","Retour technique","Répétition complète","Marie Martin, Chorégraphe","Séance de travail intensive","https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+03/01/2026,Concert à Lyon,"03/01/2026 14:00","Soundcheck","Halle Tony Garnier","Lyon","Analyse performance","Concert + Interview","Pierre Lambert, Manager","Concert sold-out, excellente ambiance","https://images.unsplash.com/photo-1571974599782-87624638275f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"`;
             
             processCSVData(sampleCSV);
             
@@ -1334,6 +1372,8 @@
                 return 'avant-concert';
             } else if (headerLower.includes('après') && headerLower.includes('activité')) {
                 return 'apres-activite';
+            } else if (headerLower.includes('horodateur') || headerLower.includes('date') || headerLower.includes('au programme')) {
+                return 'horodateur-date';
             }
             
             return 'default';
@@ -1356,6 +1396,8 @@
                 return 'avant-concert-cell';
             } else if (headerLower.includes('après') && headerLower.includes('activité')) {
                 return 'apres-activite-cell';
+            } else if (headerLower.includes('horodateur') || headerLower.includes('date') || headerLower.includes('au programme')) {
+                return 'horodateur-date-cell';
             }
             
             return '';
@@ -1470,13 +1512,13 @@
                         
                         return `
                             <div class="suggestion-item" data-value="${title}">
-                                🎵 ${before}<span class="suggestion-highlight">${match}</span>${after}
+                                📅 ${before}<span class="suggestion-highlight">${match}</span>${after}
                             </div>
                         `;
                     } else {
                         return `
                             <div class="suggestion-item" data-value="${title}">
-                                🎵 ${title}
+                                📅 ${title}
                             </div>
                         `;
                     }
