@@ -72,7 +72,6 @@
             margin-bottom: 30px;
         }
         
-        /* Sections des listes */
         .liste-section {
             background: linear-gradient(135deg, #f4ecf7, #e8daef);
             border: 2px solid #9b59b6;
@@ -179,7 +178,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        /* Style pour le surlignage */
         .highlight {
             background-color: #FFEB3B;
             padding: 2px 4px;
@@ -227,7 +225,6 @@
             position: relative;
         }
         
-        /* Suggestions de recherche */
         .suggestions-container {
             position: absolute;
             top: 100%;
@@ -256,15 +253,6 @@
         
         .suggestion-item.active {
             background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .suggestion-highlight {
-            color: var(--accent-color);
-            font-weight: bold;
-        }
-        
-        .suggestion-item.active .suggestion-highlight {
             color: white;
         }
         
@@ -456,7 +444,6 @@
             border-bottom: 1px solid #ddd;
         }
         
-        /* COULEURS DES TITRES */
         .data-table th.concert {
             background: linear-gradient(135deg, #32cd32, #228b22);
             color: white;
@@ -478,8 +465,9 @@
         }
         
         .data-table th.horodateur-date {
-            background: linear-gradient(135deg, #a0522d, #8b4513);
-            color: white;
+            color: #8b4513 !important;
+            background: none !important;
+            font-weight: bold;
         }
         
         .data-table th.interlocuteur {
@@ -492,8 +480,9 @@
         }
         
         .data-table th.lieux {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            color: white;
+            color: #6c3483 !important;
+            background: none !important;
+            font-weight: bold;
         }
         
         .data-table th.default {
@@ -509,7 +498,6 @@
             border-bottom: 1px solid #ddd;
         }
         
-        /* COULEURS DES CELLULES */
         .data-table td.interlocuteur-cell {
             color: #4682b4;
             font-family: 'Georgia', 'Times New Roman', serif;
@@ -559,14 +547,13 @@
         }
         
         .data-table td.lieux-cell {
-            background: linear-gradient(135deg, #f4ecf7, #e8daef);
             color: #6c3483;
             font-size: 16px;
             font-weight: bold;
             border-left: 3px solid #9b59b6;
+            background: #f4ecf7;
         }
         
-        /* Style pour les liens */
         .data-table a {
             color: #1a73e8;
             text-decoration: none;
@@ -685,37 +672,26 @@
         </header>
         
         <section class="search-section">
-            <!-- Section des lieux -->
             <div class="liste-section" id="lieuxSection" style="display: none;">
                 <h3>Tous les lieux de la tournée</h3>
-                <div class="liste-container" id="lieuxContainer">
-                    <!-- Les lieux seront générés ici -->
-                </div>
+                <div class="liste-container" id="lieuxContainer"></div>
             </div>
             
-            <!-- Section des interlocuteurs -->
             <div class="liste-section" id="interlocuteursSection" style="display: none;">
                 <h3>Interlocuteurs et hôtes</h3>
-                <div class="liste-container" id="interlocuteursContainer">
-                    <!-- Les interlocuteurs seront générés ici -->
-                </div>
+                <div class="liste-container" id="interlocuteursContainer"></div>
             </div>
             
-            <!-- Section des statistiques -->
             <div class="stats-section" id="statsSection" style="display: none;">
                 <h3>Statistiques de la tournée</h3>
-                <div class="stats-container" id="statsContainer">
-                    <!-- Les statistiques seront générées ici -->
-                </div>
+                <div class="stats-container" id="statsContainer"></div>
             </div>
             
             <form id="searchForm" class="search-form">
                 <div class="form-group">
                     <label for="searchText">Rechercher dans le journal :</label>
                     <input type="text" id="searchText" placeholder="Entrez votre recherche...">
-                    <div class="suggestions-container" id="suggestionsContainer">
-                        <!-- Les suggestions apparaîtront ici -->
-                    </div>
+                    <div class="suggestions-container" id="suggestionsContainer"></div>
                 </div>
                 
                 <div class="form-group">
@@ -730,9 +706,7 @@
                         <h3 id="currentMonth"></h3>
                         <button id="nextMonth">▶</button>
                     </div>
-                    <div class="calendar-grid" id="calendarGrid">
-                        <!-- Le calendrier sera généré ici -->
-                    </div>
+                    <div class="calendar-grid" id="calendarGrid"></div>
                 </div>
                 
                 <div class="date-picker">
@@ -743,9 +717,7 @@
                     </div>
                     <div class="form-group">
                         <label>Dates disponibles :</label>
-                        <div class="date-list" id="dateList">
-                            <!-- Les dates disponibles seront listées ici -->
-                        </div>
+                        <div class="date-list" id="dateList"></div>
                     </div>
                 </div>
             </div>
@@ -771,14 +743,12 @@
                 <h2 id="resultTitle">Résultats de la recherche</h2>
                 <button id="closeResults">✕ Fermer</button>
             </div>
-            <div class="result-content" id="resultContent">
-                <!-- Les résultats seront affichés ici -->
-            </div>
+            <div class="result-content" id="resultContent"></div>
         </section>
     </div>
 
     <script>
-        // URL de votre Google Sheet en format CSV
+        // URL corrigée pour le format CSV
         const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=2047611149&single=true&output=csv';
         
         let sheetData = [];
@@ -791,14 +761,15 @@
         let statsTotals = {};
         let currentSearchTerm = '';
         let currentSearchType = '';
+        let isAdmin = false;
+        let hiddenColumns = [];
 
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Démarrage de l\'application...');
             
-            // Charger les données depuis Google Sheets
+            checkAdminStatus();
             loadDataFromGoogleSheets();
             
-            // Événements
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
             document.getElementById('nextMonth').addEventListener('click', nextMonth);
@@ -807,7 +778,6 @@
             document.getElementById('closeResults').addEventListener('click', closeResults);
             document.getElementById('retryButton').addEventListener('click', loadDataFromGoogleSheets);
             
-            // Événements pour les suggestions
             const searchInput = document.getElementById('searchText');
             const suggestionsContainer = document.getElementById('suggestionsContainer');
             
@@ -840,15 +810,43 @@
             });
         });
 
+        function checkAdminStatus() {
+            const adminStatus = localStorage.getItem('journalAdmin');
+            if (adminStatus === 'true') {
+                isAdmin = true;
+            } else {
+                isAdmin = false;
+            }
+        }
+
+        function promptAdminPassword() {
+            const password = prompt('Veuillez entrer le mot de passe administrateur :');
+            if (password === 'admin') {
+                isAdmin = true;
+                localStorage.setItem('journalAdmin', 'true');
+                alert('Mode administrateur activé !');
+                if (sheetData.length > 0) {
+                    displayResults(sheetData, 'Tout le journal');
+                }
+                return true;
+            } else {
+                alert('Mot de passe incorrect.');
+                return false;
+            }
+        }
+
         async function loadDataFromGoogleSheets() {
             console.log('🔍 Chargement des données depuis Google Sheets...');
             document.getElementById('loadingIndicator').style.display = 'block';
             document.getElementById('retryButton').style.display = 'none';
             
             try {
-                // Essayer avec proxy CORS
-                const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-                const response = await fetch(proxyUrl + GOOGLE_SHEETS_URL);
+                // Utilisation de CORS proxy pour contourner les restrictions
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                const timestamp = new Date().getTime();
+                const url = `${proxyUrl}${encodeURIComponent(GOOGLE_SHEETS_URL)}&t=${timestamp}`;
+                
+                const response = await fetch(url);
                 
                 if (!response.ok) {
                     throw new Error(`Erreur HTTP: ${response.status}`);
@@ -859,24 +857,9 @@
                 processCSVData(csvText);
                 
             } catch (error) {
-                console.error('❌ Erreur de chargement avec proxy:', error);
-                
-                // Essayer sans proxy
-                try {
-                    console.log('🔄 Essai sans proxy...');
-                    const response = await fetch(GOOGLE_SHEETS_URL);
-                    if (response.ok) {
-                        const csvText = await response.text();
-                        console.log('✅ Succès sans proxy');
-                        processCSVData(csvText);
-                    } else {
-                        throw new Error('Échec sans proxy');
-                    }
-                } catch (error2) {
-                    console.error('❌ Échec complet:', error2);
-                    showError('Impossible de charger les données. Vérifiez votre connexion internet.');
-                    document.getElementById('retryButton').style.display = 'block';
-                }
+                console.error('❌ Erreur de chargement:', error);
+                showError('Impossible de charger les données. Vérifiez votre connexion internet.');
+                document.getElementById('retryButton').style.display = 'block';
             } finally {
                 document.getElementById('loadingIndicator').style.display = 'none';
             }
@@ -884,8 +867,6 @@
 
         function processCSVData(csvText) {
             try {
-                console.log('📄 Traitement des données CSV...');
-                
                 if (!csvText || csvText.trim().length === 0) {
                     throw new Error('Le fichier CSV est vide');
                 }
@@ -902,13 +883,12 @@
                 );
                 
                 console.log('✅ Données chargées:', sheetData.length, 'entrées');
-                console.log('🏷️ En-têtes:', headers);
                 
                 if (sheetData.length === 0) {
                     throw new Error('Aucune entrée de journal trouvée');
                 }
                 
-                // Traiter les données
+                identifyHiddenColumns();
                 extractDatesWithData();
                 extractAllLieux();
                 extractAllInterlocuteurs();
@@ -919,13 +899,27 @@
                 renderCalendar();
                 renderDateList();
                 
-                // Afficher le message de succès
                 showDataInfo();
                 
             } catch (error) {
                 console.error('❌ Erreur de traitement:', error);
                 showError(error.message);
             }
+        }
+
+        function identifyHiddenColumns() {
+            hiddenColumns = [];
+            
+            headers.forEach((header, index) => {
+                if (header && header.toLowerCase().includes('lien de cette fiche')) {
+                    hiddenColumns.push(index);
+                }
+                if (header && header.toLowerCase().includes('où souhaitez-vous aller')) {
+                    hiddenColumns.push(index);
+                }
+            });
+            
+            console.log('🔒 Colonnes masquées par défaut:', hiddenColumns);
         }
 
         function parseCSV(csvText) {
@@ -954,14 +948,12 @@
                     currentLine = [];
                     currentField = '';
                 } else if (char === '\r') {
-                    // Ignorer les retours chariot
                     continue;
                 } else {
                     currentField += char;
                 }
             }
             
-            // Ajouter la dernière ligne
             if (currentField !== '' || currentLine.length > 0) {
                 currentLine.push(currentField);
                 lines.push(currentLine);
@@ -970,7 +962,6 @@
             return lines;
         }
 
-        // FONCTION : Déterminer le type de colonne pour la coloration
         function getColumnType(header) {
             const headerLower = header.toLowerCase();
             
@@ -996,7 +987,6 @@
             return 'default';
         }
 
-        // FONCTION : Déterminer la classe de cellule
         function getCellClass(header) {
             const headerLower = header.toLowerCase();
             
@@ -1037,7 +1027,6 @@
             });
             
             allLieux = Array.from(allLieuxSet).sort();
-            console.log('📍 Lieux extraits:', allLieux);
         }
 
         function extractAllInterlocuteurs() {
@@ -1048,7 +1037,6 @@
                     if (header && (header.includes('Interlocuteur') || header.includes('hôte') || header.includes('Hôte'))) {
                         const value = row[index] || '';
                         if (value && value.trim() !== '') {
-                            // Séparer les noms s'il y en a plusieurs
                             const noms = value.split(/[,;]/).map(nom => nom.trim()).filter(nom => nom !== '');
                             noms.forEach(nom => allInterlocuteursSet.add(nom));
                         }
@@ -1057,10 +1045,8 @@
             });
             
             allInterlocuteurs = Array.from(allInterlocuteursSet).sort();
-            console.log('👥 Interlocuteurs extraits:', allInterlocuteurs);
         }
 
-        // MODIFICATION : Calcul des statistiques avec gestion des virgules/décimales
         function calculateStats() {
             statsTotals = {
                 'Durée trajet:': { total: 0, unit: 'h' },
@@ -1073,10 +1059,7 @@
                     if (header && (header.includes('Durée trajet:') || header.includes('Distance trajet:') || header.includes('Nb participant:'))) {
                         const value = row[index] || '';
                         if (value && value.trim() !== '') {
-                            // Remplacer les virgules par des points pour les nombres décimaux
                             const normalizedValue = value.replace(',', '.');
-                            
-                            // Extraire les nombres du texte (décimaux et entiers)
                             const numbers = normalizedValue.match(/\d+\.?\d*/g);
                             if (numbers) {
                                 numbers.forEach(num => {
@@ -1090,14 +1073,11 @@
                     }
                 });
             });
-            
-            console.log('📊 Statistiques calculées:', statsTotals);
         }
 
-        // MODIFICATION : Extraction des dates depuis la colonne B (index 1)
         function extractDatesWithData() {
             datesWithData = [];
-            const dateColumnIndex = 1; // Colonne B pour les dates
+            const dateColumnIndex = 1;
             
             sheetData.forEach((row, index) => {
                 const dateStr = row[dateColumnIndex] || '';
@@ -1114,7 +1094,6 @@
             });
             
             datesWithData.sort((a, b) => a.date - b.date);
-            console.log('📅 Dates avec données (colonne B):', datesWithData.length);
         }
 
         function renderLieuxList() {
@@ -1177,7 +1156,6 @@
             interlocuteursSection.style.display = 'block';
         }
 
-        // MODIFICATION : Affichage des statistiques avec unités
         function renderStats() {
             const statsSection = document.getElementById('statsSection');
             const statsContainer = document.getElementById('statsContainer');
@@ -1197,7 +1175,6 @@
                     const statValue = document.createElement('div');
                     statValue.className = 'stat-value';
                     
-                    // Formater le nombre avec 2 décimales si nécessaire
                     const formattedValue = data.total % 1 === 0 ? 
                         data.total.toString() : 
                         data.total.toFixed(2);
@@ -1217,7 +1194,6 @@
             statsSection.style.display = 'block';
         }
 
-        // NOUVELLE FONCTION : Afficher les suggestions de recherche
         function showSearchSuggestions(searchTerm) {
             const suggestionsContainer = document.getElementById('suggestionsContainer');
             
@@ -1226,7 +1202,6 @@
                 return;
             }
             
-            // Trouver les dates correspondant aux entrées qui contiennent le terme recherché
             const matchingDates = findDatesForSearchTerm(searchTerm);
             
             if (matchingDates.length === 0) {
@@ -1235,7 +1210,7 @@
             }
             
             suggestionsContainer.innerHTML = matchingDates
-                .slice(0, 10) // Limiter à 10 suggestions
+                .slice(0, 10)
                 .map(dateInfo => {
                     return `
                         <div class="suggestion-item" data-date="${dateInfo.date.toISOString()}">
@@ -1247,7 +1222,6 @@
             
             suggestionsContainer.style.display = 'block';
             
-            // Ajouter les événements de clic
             document.querySelectorAll('.suggestion-item').forEach((item, index) => {
                 item.addEventListener('click', function() {
                     const dateStr = this.getAttribute('data-date');
@@ -1262,11 +1236,10 @@
             });
         }
 
-        // NOUVELLE FONCTION : Trouver les dates pour un terme de recherche
         function findDatesForSearchTerm(searchTerm) {
             const searchLower = searchTerm.toLowerCase();
             const matchingDateSet = new Set();
-            const dateColumnIndex = 1; // Colonne B pour les dates
+            const dateColumnIndex = 1;
             
             sheetData.forEach(row => {
                 const hasMatch = row.some(cell => {
@@ -1290,7 +1263,6 @@
                 .sort((a, b) => a.date - b.date);
         }
 
-        // FONCTIONS POUR LA NAVIGATION DES SUGGESTIONS
         function navigateSuggestions(key) {
             const suggestions = document.querySelectorAll('.suggestion-item');
             const activeSuggestion = document.querySelector('.suggestion-item.active');
@@ -1324,7 +1296,6 @@
             }
         }
 
-        // FONCTION : Mettre en évidence le texte
         function highlightText(text, searchTerm, searchType) {
             if (!searchTerm || !text) return text;
             
@@ -1341,11 +1312,9 @@
             return text.replace(regex, `<span class="${highlightClass}">$1</span>`);
         }
 
-        // FONCTION : Convertir les URLs en liens cliquables
         function convertUrlsToLinks(text) {
             if (!text) return text;
             
-            // Regex pour détecter les URLs
             const urlRegex = /(https?:\/\/[^\s]+)/g;
             
             return text.replace(urlRegex, function(url) {
@@ -1378,33 +1347,30 @@
         }
 
         function parseDate(dateStr) {
-            // Essayer différents formats de date
             const formats = [
-                /(\d{2})\/(\d{2})\/(\d{4})/, // DD/MM/YYYY
-                /(\d{4})-(\d{2})-(\d{2})/,   // YYYY-MM-DD
-                /(\d{2})-(\d{2})-(\d{4})/    // DD-MM-YYYY
+                /(\d{2})\/(\d{2})\/(\d{4})/,
+                /(\d{4})-(\d{2})-(\d{2})/,
+                /(\d{2})-(\d{2})-(\d{4})/
             ];
             
             for (const format of formats) {
                 const match = dateStr.match(format);
                 if (match) {
-                    if (format === formats[0]) { // DD/MM/YYYY
+                    if (format === formats[0]) {
                         return new Date(match[3], match[2] - 1, match[1]);
-                    } else if (format === formats[1]) { // YYYY-MM-DD
+                    } else if (format === formats[1]) {
                         return new Date(match[1], match[2] - 1, match[3]);
-                    } else if (format === formats[2]) { // DD-MM-YYYY
+                    } else if (format === formats[2]) {
                         return new Date(match[3], match[2] - 1, match[1]);
                     }
                 }
             }
             
-            // Essayer le parsing natif
             const nativeDate = new Date(dateStr);
             if (!isNaN(nativeDate.getTime())) {
                 return nativeDate;
             }
             
-            console.warn(`Impossible de parser la date: ${dateStr}`);
             return null;
         }
 
@@ -1428,7 +1394,6 @@
             
             calendarGrid.innerHTML = '';
             
-            // En-têtes des jours
             const daysOfWeek = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
             daysOfWeek.forEach(day => {
                 const dayHeader = document.createElement('div');
@@ -1443,7 +1408,6 @@
             let firstDayOfWeek = firstDayOfMonth.getDay();
             firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
             
-            // Jours du mois précédent
             const prevMonthLastDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
             for (let i = firstDayOfWeek - 1; i >= 0; i--) {
                 const day = document.createElement('div');
@@ -1452,7 +1416,6 @@
                 calendarGrid.appendChild(day);
             }
             
-            // Jours du mois actuel
             for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day';
@@ -1483,7 +1446,6 @@
                 calendarGrid.appendChild(day);
             }
             
-            // Jours du mois suivant
             const totalCells = 42;
             const daysInCalendar = firstDayOfWeek + lastDayOfMonth.getDate();
             const nextMonthDays = totalCells - daysInCalendar;
@@ -1536,9 +1498,8 @@
             displayResults(matchingRows, `Journal du ${formatDateForDisplay(date)}`);
         }
 
-        // MODIFICATION : Recherche par date dans la colonne B
         function findEntriesByDate(date) {
-            const dateColumnIndex = 1; // Colonne B pour les dates
+            const dateColumnIndex = 1;
             
             return sheetData.filter((row, index) => {
                 const rowDateStr = row[dateColumnIndex] || '';
@@ -1593,7 +1554,6 @@
             const results = searchData(searchValue);
             displayResults(results, searchValue);
             
-            // Cacher les suggestions après la recherche
             document.getElementById('suggestionsContainer').style.display = 'none';
         }
 
@@ -1633,8 +1593,21 @@
                     </div>
                 `;
                 
+                if (!isAdmin && hiddenColumns.length > 0) {
+                    html += `
+                        <div style="background: #fff3cd; padding: 10px 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ffeaa7;">
+                            <strong>🔒 Colonnes masquées</strong>
+                            <p>Certaines colonnes sont masquées en mode standard. 
+                            <button id="showAdminColumns" style="background: #f39c12; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                                Activer le mode administrateur
+                            </button>
+                            pour les afficher.</p>
+                        </div>
+                    `;
+                }
+                
                 results.forEach((row, index) => {
-                    const dateColumnIndex = 1; // Colonne B pour les dates
+                    const dateColumnIndex = 1;
                     const titreColumnIndex = headers.findIndex(header => 
                         header && header.includes('Titre')
                     ) || 2;
@@ -1652,21 +1625,22 @@
                                 <table class="data-table">
                     `;
                     
-                    // Afficher toutes les colonnes dans l'ordre original avec couleurs, surlignage et liens
                     for (let colIndex = 0; colIndex < headers.length; colIndex++) {
                         const header = headers[colIndex];
+                        
+                        if (!isAdmin && hiddenColumns.includes(colIndex)) {
+                            continue;
+                        }
+                        
                         let value = row[colIndex] || '';
                         
                         if (value && value.trim() !== '') {
-                            // Convertir les URLs en liens cliquables
                             let processedValue = convertUrlsToLinks(value);
                             
-                            // Appliquer le surlignage si un terme est recherché (sauf pour les dates)
-                            if (currentSearchTerm && colIndex !== 1) { // Ne pas surligner dans la colonne date
+                            if (currentSearchTerm && colIndex !== 1) {
                                 processedValue = highlightText(processedValue, currentSearchTerm, currentSearchType);
                             }
                             
-                            // Déterminer les classes CSS pour la coloration
                             const columnType = getColumnType(header);
                             const cellClass = getCellClass(header);
                             
@@ -1687,6 +1661,14 @@
                 });
                 
                 resultContent.innerHTML = html;
+                
+                if (!isAdmin && hiddenColumns.length > 0) {
+                    document.getElementById('showAdminColumns').addEventListener('click', function() {
+                        if (promptAdminPassword()) {
+                            displayResults(results, searchTerm);
+                        }
+                    });
+                }
             }
             
             resultTitle.textContent = `Résultats pour "${searchTerm}"`;
