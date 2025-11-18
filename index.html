@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Journal de Bord Tournée 2026</title>
     <style>
+        /* [Tout le CSS reste identique] */
         :root {
             --primary-color: #27ae60;
             --secondary-color: #2c3e50;
@@ -748,8 +749,8 @@
     </div>
 
     <script>
-        // URL corrigée pour le format CSV
-        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=2047611149&single=true&output=csv';
+        // NOUVELLE VERSION CORRIGÉE DU LIEN
+        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=395832865&single=true&output=csv';
         
         let sheetData = [];
         let headers = [];
@@ -841,24 +842,41 @@
             document.getElementById('retryButton').style.display = 'none';
             
             try {
-                // Utilisation de CORS proxy pour contourner les restrictions
-                const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                const timestamp = new Date().getTime();
-                const url = `${proxyUrl}${encodeURIComponent(GOOGLE_SHEETS_URL)}&t=${timestamp}`;
+                // Essayer plusieurs méthodes de récupération
+                let csvText = '';
                 
-                const response = await fetch(url);
-                
-                if (!response.ok) {
-                    throw new Error(`Erreur HTTP: ${response.status}`);
+                // Méthode 1: Essayer directement
+                try {
+                    const response = await fetch(GOOGLE_SHEETS_URL);
+                    if (response.ok) {
+                        csvText = await response.text();
+                        console.log('✅ Données récupérées directement');
+                    }
+                } catch (directError) {
+                    console.log('❌ Échec méthode directe, essai avec proxy...');
+                    
+                    // Méthode 2: Utiliser un proxy CORS
+                    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                    const timestamp = new Date().getTime();
+                    const url = `${proxyUrl}${encodeURIComponent(GOOGLE_SHEETS_URL)}&t=${timestamp}`;
+                    
+                    const proxyResponse = await fetch(url);
+                    if (!proxyResponse.ok) {
+                        throw new Error(`Erreur proxy: ${proxyResponse.status}`);
+                    }
+                    csvText = await proxyResponse.text();
+                    console.log('✅ Données récupérées via proxy');
                 }
                 
-                const csvText = await response.text();
-                console.log('✅ Données CSV récupérées');
+                if (!csvText || csvText.trim().length === 0) {
+                    throw new Error('Aucune donnée reçue');
+                }
+                
                 processCSVData(csvText);
                 
             } catch (error) {
                 console.error('❌ Erreur de chargement:', error);
-                showError('Impossible de charger les données. Vérifiez votre connexion internet.');
+                showError('Impossible de charger les données. Vérifiez que le Google Sheet est bien publié et accessible.');
                 document.getElementById('retryButton').style.display = 'block';
             } finally {
                 document.getElementById('loadingIndicator').style.display = 'none';
@@ -871,10 +889,12 @@
                     throw new Error('Le fichier CSV est vide');
                 }
                 
+                console.log('📄 Contenu CSV reçu:', csvText.substring(0, 200) + '...');
+                
                 const lines = parseCSV(csvText);
                 
                 if (!lines || lines.length === 0) {
-                    throw new Error('Aucune donnée parsée');
+                    throw new Error('Aucune donnée parsée du CSV');
                 }
                 
                 headers = lines[0] || [];
@@ -883,9 +903,10 @@
                 );
                 
                 console.log('✅ Données chargées:', sheetData.length, 'entrées');
+                console.log('📋 En-têtes:', headers);
                 
                 if (sheetData.length === 0) {
-                    throw new Error('Aucune entrée de journal trouvée');
+                    throw new Error('Aucune entrée de journal trouvée dans le fichier');
                 }
                 
                 identifyHiddenColumns();
@@ -903,7 +924,7 @@
                 
             } catch (error) {
                 console.error('❌ Erreur de traitement:', error);
-                showError(error.message);
+                showError('Erreur lors du traitement des données: ' + error.message);
             }
         }
 
@@ -962,6 +983,7 @@
             return lines;
         }
 
+        // [Le reste des fonctions reste identique...]
         function getColumnType(header) {
             const headerLower = header.toLowerCase();
             
