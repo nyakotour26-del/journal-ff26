@@ -20,6 +20,7 @@
             --concert-bg: #e8f4fc;
             --activity-bg: #f8f9fa;
             --concert-orange: #ff9800;
+            --neutral-border: #e0e0e0;
         }
         
         * {
@@ -86,7 +87,7 @@
             box-shadow: var(--box-shadow);
             margin-bottom: 30px;
             overflow: hidden;
-            border: 2px solid var(--light-blue);
+            border: 2px solid var(--neutral-border);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
@@ -275,7 +276,7 @@
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             margin-bottom: 30px;
-            border: 2px solid var(--light-blue);
+            border: 2px solid var(--neutral-border);
         }
         
         .search-form {
@@ -370,7 +371,7 @@
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             margin-bottom: 20px;
-            border: 2px solid var(--light-blue);
+            border: 2px solid var(--neutral-border);
         }
         
         .calendar-header {
@@ -468,7 +469,7 @@
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             text-align: center;
-            border: 2px solid var(--light-blue);
+            border: 2px solid var(--neutral-border);
             transition: transform 0.3s ease;
         }
         
@@ -627,7 +628,7 @@
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
-            border: 2px solid #3498db;
+            border: 2px solid var(--neutral-border);
         }
         
         .admin-panel {
@@ -658,6 +659,13 @@
         .admin-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .admin-button:disabled {
+            background: linear-gradient(to bottom, #95a5a6, #7f8c8d);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         
         .stats-row {
@@ -694,6 +702,15 @@
         .activity-stat:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .activity-stat.concert-stat {
+            cursor: default;
+        }
+        
+        .activity-stat.concert-stat:hover {
+            transform: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         .activity-stat-value {
@@ -936,7 +953,7 @@
             padding: 20px;
             border-radius: 10px;
             margin-top: 15px;
-            border: 2px solid var(--light-blue);
+            border: 2px solid var(--neutral-border);
         }
         
         .contact-header {
@@ -945,7 +962,7 @@
             gap: 10px;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-blue);
+            border-bottom: 2px solid var(--neutral-border);
         }
         
         .contact-header h4 {
@@ -1133,37 +1150,6 @@
             border: 1px solid #ddd;
         }
         
-        /* Styles pour les statistiques avec unités */
-        .stat-with-unit {
-            display: flex;
-            align-items: baseline;
-            justify-content: center;
-            gap: 5px;
-        }
-        
-        .stat-number {
-            font-size: 2.2em;
-            font-weight: 800;
-            color: var(--secondary-color);
-        }
-        
-        .stat-unit {
-            font-size: 1em;
-            color: #7f8c8d;
-            font-weight: 500;
-        }
-        
-        /* Style pour les activités non cliquables */
-        .activity-stat.non-clickable {
-            cursor: default;
-            opacity: 0.8;
-        }
-        
-        .activity-stat.non-clickable:hover {
-            transform: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
         @media (max-width: 768px) {
             .search-form {
                 flex-direction: column;
@@ -1305,24 +1291,15 @@
                     <div class="stat-label">Interlocuteurs</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-with-unit">
-                        <span class="stat-number" id="totalParticipants">0</span>
-                        <span class="stat-unit">personnes</span>
-                    </div>
+                    <div class="stat-value" id="totalParticipants">0</div>
                     <div class="stat-label">Participants total</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-with-unit">
-                        <span class="stat-number" id="totalDureeTrajet">0</span>
-                        <span class="stat-unit">heures</span>
-                    </div>
+                    <div class="stat-value" id="totalDureeTrajet">0 h</div>
                     <div class="stat-label">Durée trajet total</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-with-unit">
-                        <span class="stat-number" id="totalDistance">0</span>
-                        <span class="stat-unit">km</span>
-                    </div>
+                    <div class="stat-value" id="totalDistance">0 km</div>
                     <div class="stat-label">Distance totale</div>
                 </div>
             </div>
@@ -1349,15 +1326,14 @@
             </button>
         </section>
         
-        <!-- Panneau d'administration visible sans mot de passe -->
         <div class="admin-section" id="adminSection">
             <h3>🔐 Panneau d'administration</h3>
             <div class="admin-panel">
                 <p>Accès aux fonctionnalités avancées</p>
                 <div class="admin-controls">
-                    <button class="admin-button" id="groupEmailButton">📧 Envoi mail groupé</button>
-                    <button class="admin-button" id="organizeListsButton">📋 Listes organisées</button>
-                    <button class="admin-button" id="exportDataButton">💾 Exporter les données</button>
+                    <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
+                    <button class="admin-button" id="organizeListsButton" disabled>📋 Listes organisées</button>
+                    <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
                 </div>
             </div>
         </div>
@@ -1522,7 +1498,7 @@ L'équipe NY AKO</textarea>
         let totalParticipants = 0;
         let currentSearchTerm = '';
         let currentSearchType = '';
-        let isAdmin = true; // Toujours true maintenant
+        let isAdmin = false;
         let showOnlyConcerts = false;
         let showFicheLinks = false;
         let activityCounts = {
@@ -1548,7 +1524,7 @@ L'équipe NY AKO</textarea>
             document.getElementById('retryButton').addEventListener('click', loadDataFromGoogleSheets);
             document.getElementById('concertFilterButton').addEventListener('click', toggleConcertFilter);
             
-            // Événements pour l'admin (toujours actifs)
+            // Événements pour l'admin
             document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
             document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
             document.getElementById('exportDataButton').addEventListener('click', showExportModal);
@@ -1582,9 +1558,12 @@ L'équipe NY AKO</textarea>
                 });
             });
             
-            // Événements pour le mot de passe (uniquement pour les liens de fiches)
+            // Événements pour le mot de passe
             document.getElementById('passwordButton').addEventListener('click', togglePasswordInput);
             document.getElementById('submitPassword').addEventListener('click', validatePassword);
+            
+            // Vérifier si l'admin est déjà connecté
+            checkAdminStatus();
             
             // Charger les données
             loadDataFromGoogleSheets();
@@ -1599,25 +1578,48 @@ L'équipe NY AKO</textarea>
             document.getElementById(modalId).style.display = 'none';
         }
 
-        // Toggle du champ de mot de passe (uniquement pour les liens de fiches)
+        // Vérifier le statut admin
+        function checkAdminStatus() {
+            const savedAdmin = localStorage.getItem('tourneeAdmin');
+            if (savedAdmin === 'true') {
+                isAdmin = true;
+                enableAdminButtons();
+            }
+        }
+
+        // Activer les boutons admin
+        function enableAdminButtons() {
+            document.querySelectorAll('.admin-button').forEach(button => {
+                button.disabled = false;
+            });
+        }
+
+        // Toggle du champ de mot de passe
         function togglePasswordInput() {
             const passwordContainer = document.getElementById('passwordInputContainer');
             passwordContainer.style.display = passwordContainer.style.display === 'none' ? 'block' : 'none';
         }
 
-        // Validation du mot de passe (uniquement pour les liens de fiches)
+        // Validation du mot de passe
         function validatePassword() {
             const password = document.getElementById('passwordInput').value;
             if (password === 'admin') {
+                isAdmin = true;
                 showFicheLinks = true;
                 document.getElementById('passwordInputContainer').style.display = 'none';
                 document.getElementById('passwordInput').value = '';
+                
+                // Enregistrer le statut admin
+                localStorage.setItem('tourneeAdmin', 'true');
+                
+                // Activer les boutons admin
+                enableAdminButtons();
                 
                 // Afficher un message de succès
                 const dataInfo = document.getElementById('dataInfo');
                 dataInfo.innerHTML = `
                     <div class="success-message">
-                        ✅ Accès aux liens de fiches activé
+                        ✅ Accès administrateur activé
                     </div>
                 `;
                 dataInfo.style.display = 'block';
@@ -1763,7 +1765,7 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Afficher les statistiques d'activités - MODIFIÉ pour rendre les concerts non cliquables
+        // Afficher les statistiques d'activités
         function renderActivityStats() {
             const container = document.getElementById('activityStats');
             container.innerHTML = '';
@@ -1771,15 +1773,14 @@ L'équipe NY AKO</textarea>
             Object.keys(activityCounts).forEach(type => {
                 if (activityCounts[type] > 0) {
                     const statDiv = document.createElement('div');
+                    statDiv.className = 'activity-stat';
                     
-                    // Rendre toutes les activités cliquables SAUF les concerts
+                    // Pour les concerts, on ne veut pas que ce soit cliquable
                     if (type === 'Concert') {
-                        statDiv.className = 'activity-stat non-clickable';
+                        statDiv.classList.add('concert-stat');
                     } else {
-                        statDiv.className = 'activity-stat';
+                        statDiv.setAttribute('data-activity-type', type);
                     }
-                    
-                    statDiv.setAttribute('data-activity-type', type);
                     
                     const valueDiv = document.createElement('div');
                     valueDiv.className = 'activity-stat-value';
@@ -1792,7 +1793,7 @@ L'équipe NY AKO</textarea>
                     statDiv.appendChild(valueDiv);
                     statDiv.appendChild(labelDiv);
                     
-                    // Ajouter l'événement de clic pour filtrer par type d'activité SAUF pour les concerts
+                    // Ajouter l'événement de clic pour filtrer par type d'activité (sauf pour les concerts)
                     if (type !== 'Concert') {
                         statDiv.addEventListener('click', function() {
                             filterByActivityType(type);
@@ -2015,23 +2016,14 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Mise à jour des statistiques - MODIFIÉ pour afficher les unités
+        // Mise à jour des statistiques
         function updateStats() {
             document.getElementById('totalLieux').textContent = allLieux.length;
             document.getElementById('totalPays').textContent = allPays.length;
             document.getElementById('totalInterlocuteurs').textContent = allInterlocuteurs.length;
-            
-            // Participants avec unité
-            const totalParticipantsEl = document.getElementById('totalParticipants');
-            totalParticipantsEl.textContent = totalParticipants;
-            
-            // Durée trajet avec unité
-            const totalDureeTrajetEl = document.getElementById('totalDureeTrajet');
-            totalDureeTrajetEl.textContent = totalDureeTrajet.toFixed(1);
-            
-            // Distance avec unité
-            const totalDistanceEl = document.getElementById('totalDistance');
-            totalDistanceEl.textContent = totalDistance.toFixed(0);
+            document.getElementById('totalParticipants').textContent = totalParticipants;
+            document.getElementById('totalDureeTrajet').textContent = totalDureeTrajet.toFixed(1) + ' h';
+            document.getElementById('totalDistance').textContent = totalDistance.toFixed(0) + ' km';
         }
 
         // Rendu des tags de filtre
@@ -2341,7 +2333,7 @@ L'équipe NY AKO</textarea>
             header.style.padding = '15px 20px';
             header.style.borderRadius = '10px';
             header.style.marginBottom = '25px';
-            header.style.border = '2px solid var(--light-blue)';
+            header.style.border = '2px solid var(--neutral-border)';
             header.innerHTML = `<strong style="font-size: 1.1em;">${results.length} journée(s) trouvée(s)</strong> pour : "${title}"`;
             container.appendChild(header);
             
@@ -3092,12 +3084,10 @@ L'équipe NY AKO</textarea>
             title.textContent = '🔐 Informations Administrateur';
             sectionDiv.appendChild(title);
             
-            // Lien de fiche (uniquement si mot de passe validé)
-            if (showFicheLinks) {
-                const ficheIndex = findHeaderIndex('Lien de cette fiche:');
-                if (ficheIndex !== -1 && row[ficheIndex]) {
-                    sectionDiv.appendChild(createInfoItem('Lien de cette fiche:', row[ficheIndex]));
-                }
+            // Lien de fiche
+            const ficheIndex = findHeaderIndex('Lien de cette fiche:');
+            if (ficheIndex !== -1 && row[ficheIndex]) {
+                sectionDiv.appendChild(createInfoItem('Lien de cette fiche:', row[ficheIndex]));
             }
             
             return sectionDiv;
