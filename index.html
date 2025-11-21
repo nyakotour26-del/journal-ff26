@@ -225,13 +225,13 @@
         }
         
         .highlight-value {
-            font-size: 1.5em;
+            font-size: 1.2em; /* Réduit de 1.5em */
             font-weight: 800;
             color: var(--accent-color);
             padding: 15px;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             border-radius: 10px;
-            text-align: center;
+            text-align: left; /* Alignement à gauche */
             border: 3px solid var(--light-blue);
             margin: 15px 0;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -421,6 +421,11 @@
             border: 2px solid #f0f0f0;
             transition: all 0.3s ease;
             font-weight: 500;
+            position: relative;
+            min-height: 120px; /* Augmenté pour afficher plus de lieux */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         
         .calendar-day.has-data {
@@ -433,6 +438,20 @@
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
             transform: scale(1.05);
+        }
+        
+        .calendar-day-number {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .calendar-day-lieux {
+            font-size: 0.7em;
+            line-height: 1.2;
+            max-height: none; /* Supprime la limitation de hauteur */
+            overflow: visible; /* Permet l'affichage complet */
+            text-overflow: unset; /* Supprime l'ellipse */
         }
         
         .stats-section {
@@ -465,7 +484,7 @@
         
         .stat-label {
             color: #7f8c8d;
-            font-size: 0.95em;
+            font-size: 0.85em; /* Réduit de 0.95em */
             font-weight: 500;
         }
         
@@ -529,7 +548,7 @@
         
         .activity-title {
             font-size: 1.4em;
-            color: var(--primary-color);
+            color: #e67e22; /* Orange au lieu de var(--primary-color) */
             margin-bottom: 20px;
             padding-bottom: 12px;
             border-bottom: 2px solid rgba(0,0,0,0.1);
@@ -537,6 +556,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            justify-content: center; /* Centrage du titre */
+            text-align: center;
         }
         
         .activity-title::before {
@@ -660,6 +681,13 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             text-align: center;
             border-left: 4px solid var(--secondary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .activity-stat:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         .activity-stat-value {
@@ -896,6 +924,211 @@
             margin-bottom: 10px;
         }
         
+        /* Nouveaux styles pour l'affichage des informations interlocuteur */
+        .contact-info {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 2px solid var(--light-blue);
+        }
+        
+        .contact-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-blue);
+        }
+        
+        .contact-header h4 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+        
+        .contact-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .contact-icon {
+            font-size: 1.2em;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .contact-value {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .contact-value a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .contact-value a:hover {
+            text-decoration: underline;
+        }
+        
+        .trajet-info {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .trajet-item {
+            flex: 1;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .trajet-value {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .trajet-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        
+        /* Nouveaux styles pour les heures */
+        .heure-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .heure-item {
+            flex: 1;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: none; /* Supprime l'ombre */
+            text-align: center;
+            border-left: none; /* Supprime la bordure gauche */
+            border: 1px solid #e0e0e0; /* Bordure légère */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .heure-icon {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+        }
+        
+        .heure-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        
+        .heure-value {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        /* Nouveaux styles pour les lieux */
+        .lieux-info {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .lieux-item {
+            flex: 1;
+            min-width: 150px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: none; /* Supprime l'ombre */
+            text-align: center;
+            border-left: none; /* Supprime la bordure gauche */
+            border: 1px solid #e0e0e0; /* Bordure légère */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lieux-icon {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+        }
+        
+        .lieux-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        
+        .lieux-value {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        /* Bouton mot de passe */
+        .password-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .password-button {
+            background: linear-gradient(to bottom, #8e44ad, #7d3c98);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .password-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .password-input-container {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        
         @media (max-width: 768px) {
             .search-form {
                 flex-direction: column;
@@ -945,6 +1178,31 @@
             .action-button {
                 width: 100%;
             }
+            
+            .contact-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .trajet-info {
+                flex-direction: column;
+            }
+            
+            .heure-group {
+                flex-direction: column;
+            }
+            
+            .lieux-info {
+                flex-direction: column;
+            }
+            
+            .calendar-day {
+                min-height: 100px;
+                padding: 10px;
+            }
+            
+            .calendar-day-lieux {
+                font-size: 0.6em;
+            }
         }
     </style>
 </head>
@@ -968,6 +1226,17 @@
                     🎵 Filtrer les concerts
                 </button>
             </form>
+            
+            <div class="password-section">
+                <button class="password-button" id="passwordButton">
+                    🔓 Accès aux liens de fiches
+                </button>
+                <div class="password-input-container" id="passwordInputContainer">
+                    <label for="passwordInput">Mot de passe:</label>
+                    <input type="password" id="passwordInput" class="form-input" placeholder="Entrez le mot de passe...">
+                    <button class="search-button" id="submitPassword" style="margin-top: 10px;">Valider</button>
+                </div>
+            </div>
             
             <div class="filters-section">
                 <div class="filter-group">
@@ -1005,11 +1274,11 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="totalDureeTrajet">0</div>
-                    <div class="stat-label">Durée trajet total (h)</div>
+                    <div class="stat-label">Durée trajet total (Heures)</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="totalDistance">0</div>
-                    <div class="stat-label">Distance totale (km)</div>
+                    <div class="stat-label">Distance totale (Km)</div>
                 </div>
             </div>
             
@@ -1209,6 +1478,7 @@ L'équipe NY AKO</textarea>
         let currentSearchType = '';
         let isAdmin = false;
         let showOnlyConcerts = false;
+        let showFicheLinks = false;
         let activityCounts = {
             'Rencontre/Invitation': 0,
             'Concert': 0,
@@ -1266,6 +1536,10 @@ L'équipe NY AKO</textarea>
                 });
             });
             
+            // Événements pour le mot de passe
+            document.getElementById('passwordButton').addEventListener('click', togglePasswordInput);
+            document.getElementById('submitPassword').addEventListener('click', validatePassword);
+            
             // Vérifier si l'admin est déjà connecté
             checkAdminStatus();
             
@@ -1288,14 +1562,38 @@ L'équipe NY AKO</textarea>
             if (savedAdmin === 'true') {
                 isAdmin = true;
                 document.getElementById('adminSection').style.display = 'block';
-            } else {
-                // Demander le mot de passe
-                const password = prompt('Mot de passe admin (laisser vide pour continuer en mode public):');
-                if (password === 'admin') {
-                    isAdmin = true;
-                    localStorage.setItem('tourneeAdmin', 'true');
-                    document.getElementById('adminSection').style.display = 'block';
+            }
+        }
+
+        // Toggle du champ de mot de passe
+        function togglePasswordInput() {
+            const passwordContainer = document.getElementById('passwordInputContainer');
+            passwordContainer.style.display = passwordContainer.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Validation du mot de passe
+        function validatePassword() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === 'admin') {
+                showFicheLinks = true;
+                document.getElementById('passwordInputContainer').style.display = 'none';
+                document.getElementById('passwordInput').value = '';
+                
+                // Afficher un message de succès
+                const dataInfo = document.getElementById('dataInfo');
+                dataInfo.innerHTML = `
+                    <div class="success-message">
+                        ✅ Accès aux liens de fiches activé
+                    </div>
+                `;
+                dataInfo.style.display = 'block';
+                
+                // Si des résultats sont déjà affichés, les mettre à jour
+                if (document.getElementById('journalEntries').children.length > 0) {
+                    displayAllJournalEntries();
                 }
+            } else {
+                alert('Mot de passe incorrect. Veuillez réessayer.');
             }
         }
 
@@ -1440,6 +1738,7 @@ L'équipe NY AKO</textarea>
                 if (activityCounts[type] > 0) {
                     const statDiv = document.createElement('div');
                     statDiv.className = 'activity-stat';
+                    statDiv.setAttribute('data-activity-type', type);
                     
                     const valueDiv = document.createElement('div');
                     valueDiv.className = 'activity-stat-value';
@@ -1451,9 +1750,41 @@ L'équipe NY AKO</textarea>
                     
                     statDiv.appendChild(valueDiv);
                     statDiv.appendChild(labelDiv);
+                    
+                    // Ajouter l'événement de clic pour filtrer par type d'activité
+                    statDiv.addEventListener('click', function() {
+                        filterByActivityType(type);
+                    });
+                    
                     container.appendChild(statDiv);
                 }
             });
+        }
+
+        // Filtrer par type d'activité
+        function filterByActivityType(activityType) {
+            const results = [];
+            
+            sheetData.forEach(row => {
+                // Rechercher les colonnes d'activités
+                const activityColumns = headers
+                    .map((header, index) => 
+                        (header && (header.includes('ACTIVITÉ') || header.includes('CONCERT'))) ? index : -1
+                    )
+                    .filter(index => index !== -1);
+                
+                // Vérifier si cette ligne a l'activité recherchée
+                const hasActivity = activityColumns.some(colIndex => {
+                    const value = row[colIndex] || '';
+                    return value && value.includes(activityType);
+                });
+                
+                if (hasActivity) {
+                    results.push(row);
+                }
+            });
+            
+            displayFilteredEntries(results, `Activité: ${activityType}`);
         }
 
         // Parser CSV amélioré
@@ -1507,16 +1838,43 @@ L'équipe NY AKO</textarea>
                 if (dateStr && dateStr.trim() !== '') {
                     const date = parseDate(dateStr);
                     if (date) {
+                        // Extraire les lieux pour cette date
+                        const lieux = extractLieuxForDate(row);
+                        
                         datesWithData.push({
                             date: date,
                             dateStr: dateStr,
-                            rowIndex: index
+                            rowIndex: index,
+                            lieux: lieux
                         });
                     }
                 }
             });
             
             datesWithData.sort((a, b) => a.date - b.date);
+        }
+
+        // Extraction des lieux pour une date donnée - AMÉLIORATION POUR AFFICHER TOUS LES LIEUX
+        function extractLieuxForDate(row) {
+            const lieux = [];
+            
+            // Rechercher les colonnes de lieux
+            const lieuxColumns = headers
+                .map((header, index) => 
+                    (header && header.includes('Lieux')) ? index : -1
+                )
+                .filter(index => index !== -1);
+            
+            lieuxColumns.forEach(colIndex => {
+                const value = row[colIndex] || '';
+                if (value && value.trim() !== '') {
+                    // Séparer par virgules si plusieurs lieux dans une même cellule
+                    const lieuxInCell = value.split(',').map(lieu => lieu.trim());
+                    lieux.push(...lieuxInCell);
+                }
+            });
+            
+            return [...new Set(lieux)]; // Supprimer les doublons
         }
 
         // Extraction de tous les lieux
@@ -1621,9 +1979,9 @@ L'équipe NY AKO</textarea>
             document.getElementById('totalLieux').textContent = allLieux.length;
             document.getElementById('totalPays').textContent = allPays.length;
             document.getElementById('totalInterlocuteurs').textContent = allInterlocuteurs.length;
-            document.getElementById('totalParticipants').textContent = totalParticipants;
-            document.getElementById('totalDureeTrajet').textContent = totalDureeTrajet.toFixed(1);
-            document.getElementById('totalDistance').textContent = totalDistance.toFixed(0);
+            document.getElementById('totalParticipants').textContent = totalParticipants + " personne(s)";
+            document.getElementById('totalDureeTrajet').textContent = totalDureeTrajet.toFixed(1) + " Heures";
+            document.getElementById('totalDistance').textContent = totalDistance.toFixed(0) + " Km";
         }
 
         // Rendu des tags de filtre
@@ -1691,7 +2049,7 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Rendu du calendrier
+        // Rendu du calendrier avec lieux - AMÉLIORATION POUR AFFICHER TOUS LES LIEUX
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
             const monthElement = document.getElementById('currentMonth');
@@ -1725,17 +2083,29 @@ L'équipe NY AKO</textarea>
             for (let i = 1; i <= lastDay.getDate(); i++) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day';
-                day.textContent = i;
                 
                 const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
-                const hasData = datesWithData.some(d => 
+                const dayData = datesWithData.find(d => 
                     d.date.getDate() === date.getDate() &&
                     d.date.getMonth() === date.getMonth() &&
                     d.date.getFullYear() === date.getFullYear()
                 );
                 
-                if (hasData) {
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'calendar-day-number';
+                dayNumber.textContent = i;
+                day.appendChild(dayNumber);
+                
+                if (dayData) {
                     day.classList.add('has-data');
+                    
+                    const lieuxDiv = document.createElement('div');
+                    lieuxDiv.className = 'calendar-day-lieux';
+                    
+                    // AFFICHER TOUS LES LIEUX sans limitation
+                    lieuxDiv.textContent = dayData.lieux.join(', ');
+                    
+                    day.appendChild(lieuxDiv);
                 }
                 
                 if (selectedDate && 
@@ -1746,7 +2116,7 @@ L'équipe NY AKO</textarea>
                 }
                 
                 day.addEventListener('click', () => {
-                    if (hasData) {
+                    if (dayData) {
                         selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), i));
                     }
                 });
@@ -1962,7 +2332,7 @@ L'équipe NY AKO</textarea>
             // 3. Données générales de fin de journée
             contentDiv.appendChild(createEndOfDaySection(row));
             
-            // 4. Section admin (si connecté)
+            // 4. Section admin (si connecté) - MODIFICATION ICI
             if (isAdmin) {
                 contentDiv.appendChild(createAdminSection(row));
             }
@@ -2153,7 +2523,7 @@ L'équipe NY AKO</textarea>
             // Le type d'activité est dans la colonne de l'activité elle-même
             data.type = row[activityIndex] || '';
             
-            // Les champs suivent dans l'ordre séquentiel
+            // Les champs suivis dans l'ordre séquentiel
             const startIndex = activityIndex + 1;
             
             // Mapping des champs dans l'ordre attendu basé sur votre exemple
@@ -2198,12 +2568,12 @@ L'équipe NY AKO</textarea>
             return data;
         }
 
-        // Création d'une section de concert
+        // Création d'une section de concert - MODIFICATION POUR LE TITRE ORANGE
         function createConcertSection(activityData, concertPrefix) {
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'activity-section concert-section';
             
-            // Titre de l'activité
+            // Titre de l'activité EN ORANGE ET CENTRÉ
             const activityTitle = document.createElement('h4');
             activityTitle.className = 'activity-title';
             
@@ -2218,58 +2588,92 @@ L'équipe NY AKO</textarea>
             activityTitle.textContent = title;
             sectionDiv.appendChild(activityTitle);
             
-            // Heures début et fin côte à côte
+            // Heures début et fin côte à côte avec emojis
             if (activityData.heureDebut || activityData.heureFin) {
                 const heureGroup = document.createElement('div');
-                heureGroup.className = 'inline-group';
+                heureGroup.className = 'heure-group';
                 
                 if (activityData.heureDebut) {
-                    heureGroup.appendChild(createInfoItem('Heure début:', activityData.heureDebut));
+                    const heureItem = document.createElement('div');
+                    heureItem.className = 'heure-item';
+                    heureItem.innerHTML = `
+                        <div class="heure-icon">🕐</div>
+                        <div class="heure-label">Heure début</div>
+                        <div class="heure-value">${activityData.heureDebut}</div>
+                    `;
+                    heureGroup.appendChild(heureItem);
                 }
                 
                 if (activityData.heureFin) {
-                    heureGroup.appendChild(createInfoItem('Heure fin:', activityData.heureFin));
+                    const heureItem = document.createElement('div');
+                    heureItem.className = 'heure-item';
+                    heureItem.innerHTML = `
+                        <div class="heure-icon">🕔</div>
+                        <div class="heure-label">Heure fin</div>
+                        <div class="heure-value">${activityData.heureFin}</div>
+                    `;
+                    heureGroup.appendChild(heureItem);
                 }
                 
                 sectionDiv.appendChild(heureGroup);
             }
             
             // Concernant les lieux
-            if (activityData.lieux || activityData.trajet) {
+            if (activityData.lieux || activityData.trajet || activityData.dureeTrajet || activityData.distanceTrajet) {
                 const lieuSubtitle = document.createElement('h5');
                 lieuSubtitle.className = 'subsection-title';
                 lieuSubtitle.textContent = 'Concernant les lieux:';
                 sectionDiv.appendChild(lieuSubtitle);
                 
-                // Lieux et Trajet côte à côte
-                const lieuTrajetGroup = document.createElement('div');
-                lieuTrajetGroup.className = 'inline-group';
+                // Informations sur les lieux en une seule ligne
+                const lieuxInfo = document.createElement('div');
+                lieuxInfo.className = 'lieux-info';
                 
                 if (activityData.lieux) {
-                    lieuTrajetGroup.appendChild(createInfoItem('Lieux:', activityData.lieux));
+                    const lieuItem = document.createElement('div');
+                    lieuItem.className = 'lieux-item';
+                    lieuItem.innerHTML = `
+                        <div class="lieux-icon">📍</div>
+                        <div class="lieux-label">Lieux</div>
+                        <div class="lieux-value">${activityData.lieux}</div>
+                    `;
+                    lieuxInfo.appendChild(lieuItem);
                 }
                 
                 if (activityData.trajet) {
-                    lieuTrajetGroup.appendChild(createInfoItem('Trajet:', activityData.trajet));
+                    const trajetItem = document.createElement('div');
+                    trajetItem.className = 'lieux-item';
+                    trajetItem.innerHTML = `
+                        <div class="lieux-icon">🛣️</div>
+                        <div class="lieux-label">Trajet</div>
+                        <div class="lieux-value">${activityData.trajet}</div>
+                    `;
+                    lieuxInfo.appendChild(trajetItem);
                 }
                 
-                sectionDiv.appendChild(lieuTrajetGroup);
-            }
-            
-            // Durée et Distance trajet côte à côte
-            if (activityData.dureeTrajet || activityData.distanceTrajet) {
-                const dureeDistanceGroup = document.createElement('div');
-                dureeDistanceGroup.className = 'inline-group';
-                
                 if (activityData.dureeTrajet) {
-                    dureeDistanceGroup.appendChild(createInfoItem('Durée trajet:', `${activityData.dureeTrajet} Heure(s)`));
+                    const dureeItem = document.createElement('div');
+                    dureeItem.className = 'lieux-item';
+                    dureeItem.innerHTML = `
+                        <div class="lieux-icon">⏱️</div>
+                        <div class="lieux-label">Durée</div>
+                        <div class="lieux-value">${activityData.dureeTrajet} Heures</div>
+                    `;
+                    lieuxInfo.appendChild(dureeItem);
                 }
                 
                 if (activityData.distanceTrajet) {
-                    dureeDistanceGroup.appendChild(createInfoItem('Distance trajet:', `${activityData.distanceTrajet} Km`));
+                    const distanceItem = document.createElement('div');
+                    distanceItem.className = 'lieux-item';
+                    distanceItem.innerHTML = `
+                        <div class="lieux-icon">📏</div>
+                        <div class="lieux-label">Distance</div>
+                        <div class="lieux-value">${activityData.distanceTrajet} Km</div>
+                    `;
+                    lieuxInfo.appendChild(distanceItem);
                 }
                 
-                sectionDiv.appendChild(dureeDistanceGroup);
+                sectionDiv.appendChild(lieuxInfo);
             }
             
             // Notes
@@ -2306,39 +2710,7 @@ L'équipe NY AKO</textarea>
             // Informations sur l'Organisateur/Hôte
             if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || 
                 activityData.mail || activityData.reseauxSociaux) {
-                const hoteSubtitle = document.createElement('h5');
-                hoteSubtitle.className = 'subsection-title';
-                hoteSubtitle.textContent = 'Informations sur l\'Organisateur/Hôte';
-                sectionDiv.appendChild(hoteSubtitle);
-                
-                // Nom de l'interlocuteur/hôte
-                if (activityData.interlocuteur) {
-                    sectionDiv.appendChild(createInfoItem('Nom:', activityData.interlocuteur));
-                }
-                
-                // Coordonnées
-                const contactGrid = document.createElement('div');
-                contactGrid.className = 'contact-grid';
-                
-                if (activityData.telephone) {
-                    contactGrid.appendChild(createInfoItem('Téléphone:', activityData.telephone));
-                }
-                
-                if (activityData.whatsapp) {
-                    contactGrid.appendChild(createInfoItem('Whatsapp:', activityData.whatsapp));
-                }
-                
-                if (activityData.mail) {
-                    contactGrid.appendChild(createInfoItem('Mail:', formatEmail(activityData.mail)));
-                }
-                
-                if (activityData.reseauxSociaux) {
-                    contactGrid.appendChild(createInfoItem('Réseaux sociaux:', activityData.reseauxSociaux));
-                }
-                
-                if (contactGrid.children.length > 0) {
-                    sectionDiv.appendChild(contactGrid);
-                }
+                sectionDiv.appendChild(createContactInfoSection(activityData));
             }
             
             // Liens de photos
@@ -2372,12 +2744,12 @@ L'équipe NY AKO</textarea>
             return sectionDiv;
         }
 
-        // Création d'une section d'activité
+        // Création d'une section d'activité - MODIFICATION POUR LE TITRE ORANGE
         function createActivitySection(activityData, activityPrefix, activityType) {
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'activity-section';
             
-            // Titre de l'activité
+            // Titre de l'activité EN ORANGE ET CENTRÉ
             const activityTitle = document.createElement('h4');
             activityTitle.className = 'activity-title activity-type';
             
@@ -2393,59 +2765,92 @@ L'équipe NY AKO</textarea>
             activityTitle.textContent = title;
             sectionDiv.appendChild(activityTitle);
             
-            // Le reste de la structure est identique à createConcertSection
-            // Heures début et fin côte à côte
+            // Heures début et fin côte à côte avec emojis
             if (activityData.heureDebut || activityData.heureFin) {
                 const heureGroup = document.createElement('div');
-                heureGroup.className = 'inline-group';
+                heureGroup.className = 'heure-group';
                 
                 if (activityData.heureDebut) {
-                    heureGroup.appendChild(createInfoItem('Heure début:', activityData.heureDebut));
+                    const heureItem = document.createElement('div');
+                    heureItem.className = 'heure-item';
+                    heureItem.innerHTML = `
+                        <div class="heure-icon">🕐</div>
+                        <div class="heure-label">Heure début</div>
+                        <div class="heure-value">${activityData.heureDebut}</div>
+                    `;
+                    heureGroup.appendChild(heureItem);
                 }
                 
                 if (activityData.heureFin) {
-                    heureGroup.appendChild(createInfoItem('Heure fin:', activityData.heureFin));
+                    const heureItem = document.createElement('div');
+                    heureItem.className = 'heure-item';
+                    heureItem.innerHTML = `
+                        <div class="heure-icon">🕔</div>
+                        <div class="heure-label">Heure fin</div>
+                        <div class="heure-value">${activityData.heureFin}</div>
+                    `;
+                    heureGroup.appendChild(heureItem);
                 }
                 
                 sectionDiv.appendChild(heureGroup);
             }
             
             // Concernant les lieux
-            if (activityData.lieux || activityData.trajet) {
+            if (activityData.lieux || activityData.trajet || activityData.dureeTrajet || activityData.distanceTrajet) {
                 const lieuSubtitle = document.createElement('h5');
                 lieuSubtitle.className = 'subsection-title';
                 lieuSubtitle.textContent = 'Concernant les lieux:';
                 sectionDiv.appendChild(lieuSubtitle);
                 
-                // Lieux et Trajet côte à côte
-                const lieuTrajetGroup = document.createElement('div');
-                lieuTrajetGroup.className = 'inline-group';
+                // Informations sur les lieux en une seule ligne
+                const lieuxInfo = document.createElement('div');
+                lieuxInfo.className = 'lieux-info';
                 
                 if (activityData.lieux) {
-                    lieuTrajetGroup.appendChild(createInfoItem('Lieux:', activityData.lieux));
+                    const lieuItem = document.createElement('div');
+                    lieuItem.className = 'lieux-item';
+                    lieuItem.innerHTML = `
+                        <div class="lieux-icon">📍</div>
+                        <div class="lieux-label">Lieux</div>
+                        <div class="lieux-value">${activityData.lieux}</div>
+                    `;
+                    lieuxInfo.appendChild(lieuItem);
                 }
                 
                 if (activityData.trajet) {
-                    lieuTrajetGroup.appendChild(createInfoItem('Trajet:', activityData.trajet));
+                    const trajetItem = document.createElement('div');
+                    trajetItem.className = 'lieux-item';
+                    trajetItem.innerHTML = `
+                        <div class="lieux-icon">🛣️</div>
+                        <div class="lieux-label">Trajet</div>
+                        <div class="lieux-value">${activityData.trajet}</div>
+                    `;
+                    lieuxInfo.appendChild(trajetItem);
                 }
                 
-                sectionDiv.appendChild(lieuTrajetGroup);
-            }
-            
-            // Durée et Distance trajet côte à côte
-            if (activityData.dureeTrajet || activityData.distanceTrajet) {
-                const dureeDistanceGroup = document.createElement('div');
-                dureeDistanceGroup.className = 'inline-group';
-                
                 if (activityData.dureeTrajet) {
-                    dureeDistanceGroup.appendChild(createInfoItem('Durée trajet:', `${activityData.dureeTrajet} Heure(s)`));
+                    const dureeItem = document.createElement('div');
+                    dureeItem.className = 'lieux-item';
+                    dureeItem.innerHTML = `
+                        <div class="lieux-icon">⏱️</div>
+                        <div class="lieux-label">Durée</div>
+                        <div class="lieux-value">${activityData.dureeTrajet} Heures</div>
+                    `;
+                    lieuxInfo.appendChild(dureeItem);
                 }
                 
                 if (activityData.distanceTrajet) {
-                    dureeDistanceGroup.appendChild(createInfoItem('Distance trajet:', `${activityData.distanceTrajet} Km`));
+                    const distanceItem = document.createElement('div');
+                    distanceItem.className = 'lieux-item';
+                    distanceItem.innerHTML = `
+                        <div class="lieux-icon">📏</div>
+                        <div class="lieux-label">Distance</div>
+                        <div class="lieux-value">${activityData.distanceTrajet} Km</div>
+                    `;
+                    lieuxInfo.appendChild(distanceItem);
                 }
                 
-                sectionDiv.appendChild(dureeDistanceGroup);
+                sectionDiv.appendChild(lieuxInfo);
             }
             
             // Notes
@@ -2482,39 +2887,7 @@ L'équipe NY AKO</textarea>
             // Informations sur l'Organisateur/Hôte
             if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || 
                 activityData.mail || activityData.reseauxSociaux) {
-                const hoteSubtitle = document.createElement('h5');
-                hoteSubtitle.className = 'subsection-title';
-                hoteSubtitle.textContent = 'Informations sur l\'Organisateur/Hôte';
-                sectionDiv.appendChild(hoteSubtitle);
-                
-                // Nom de l'interlocuteur/hôte
-                if (activityData.interlocuteur) {
-                    sectionDiv.appendChild(createInfoItem('Nom:', activityData.interlocuteur));
-                }
-                
-                // Coordonnées
-                const contactGrid = document.createElement('div');
-                contactGrid.className = 'contact-grid';
-                
-                if (activityData.telephone) {
-                    contactGrid.appendChild(createInfoItem('Téléphone:', activityData.telephone));
-                }
-                
-                if (activityData.whatsapp) {
-                    contactGrid.appendChild(createInfoItem('Whatsapp:', activityData.whatsapp));
-                }
-                
-                if (activityData.mail) {
-                    contactGrid.appendChild(createInfoItem('Mail:', formatEmail(activityData.mail)));
-                }
-                
-                if (activityData.reseauxSociaux) {
-                    contactGrid.appendChild(createInfoItem('Réseaux sociaux:', activityData.reseauxSociaux));
-                }
-                
-                if (contactGrid.children.length > 0) {
-                    sectionDiv.appendChild(contactGrid);
-                }
+                sectionDiv.appendChild(createContactInfoSection(activityData));
             }
             
             // Liens de photos
@@ -2546,6 +2919,84 @@ L'équipe NY AKO</textarea>
             }
             
             return sectionDiv;
+        }
+
+        // Création de la section d'informations de contact
+        function createContactInfoSection(activityData) {
+            const contactDiv = document.createElement('div');
+            contactDiv.className = 'contact-info';
+            
+            // En-tête
+            const contactHeader = document.createElement('div');
+            contactHeader.className = 'contact-header';
+            contactHeader.innerHTML = `
+                <span class="contact-icon">📞</span>
+                <h4>Information sur Interlocuteur ,hôte</h4>
+            `;
+            contactDiv.appendChild(contactHeader);
+            
+            // Détails des contacts
+            const contactDetails = document.createElement('div');
+            contactDetails.className = 'contact-details';
+            
+            // Nom de l'interlocuteur/hôte
+            if (activityData.interlocuteur) {
+                const contactItem = document.createElement('div');
+                contactItem.className = 'contact-item';
+                contactItem.innerHTML = `
+                    <span class="contact-icon">👤</span>
+                    <span class="contact-value">${activityData.interlocuteur}</span>
+                `;
+                contactDetails.appendChild(contactItem);
+            }
+            
+            // Téléphone
+            if (activityData.telephone) {
+                const contactItem = document.createElement('div');
+                contactItem.className = 'contact-item';
+                contactItem.innerHTML = `
+                    <span class="contact-icon">🔢</span>
+                    <span class="contact-value">${activityData.telephone}</span>
+                `;
+                contactDetails.appendChild(contactItem);
+            }
+            
+            // WhatsApp
+            if (activityData.whatsapp) {
+                const contactItem = document.createElement('div');
+                contactItem.className = 'contact-item';
+                contactItem.innerHTML = `
+                    <span class="contact-icon">💬</span>
+                    <span class="contact-value">${activityData.whatsapp}</span>
+                `;
+                contactDetails.appendChild(contactItem);
+            }
+            
+            // Email
+            if (activityData.mail) {
+                const contactItem = document.createElement('div');
+                contactItem.className = 'contact-item';
+                contactItem.innerHTML = `
+                    <span class="contact-icon">📧</span>
+                    <span class="contact-value">${formatEmail(activityData.mail)}</span>
+                `;
+                contactDetails.appendChild(contactItem);
+            }
+            
+            // Réseaux sociaux
+            if (activityData.reseauxSociaux) {
+                const contactItem = document.createElement('div');
+                contactItem.className = 'contact-item';
+                contactItem.innerHTML = `
+                    <span class="contact-icon">👥</span>
+                    <span class="contact-value">${activityData.reseauxSociaux}</span>
+                `;
+                contactDetails.appendChild(contactItem);
+            }
+            
+            contactDiv.appendChild(contactDetails);
+            
+            return contactDiv;
         }
 
         // Création de la section de fin de journée
@@ -2580,7 +3031,7 @@ L'équipe NY AKO</textarea>
             return sectionDiv;
         }
 
-        // Création de la section admin
+        // Création de la section admin - MODIFICATION ICI
         function createAdminSection(row) {
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'section';
@@ -2591,7 +3042,7 @@ L'équipe NY AKO</textarea>
             title.textContent = '🔐 Informations Administrateur';
             sectionDiv.appendChild(title);
             
-            // Lien de fiche
+            // Lien de fiche - MAINTENANT CACHÉ SI PAS ADMIN
             const ficheIndex = findHeaderIndex('Lien de cette fiche:');
             if (ficheIndex !== -1 && row[ficheIndex]) {
                 sectionDiv.appendChild(createInfoItem('Lien de cette fiche:', row[ficheIndex]));
