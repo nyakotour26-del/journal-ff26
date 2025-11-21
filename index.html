@@ -1133,6 +1133,37 @@
             border: 1px solid #ddd;
         }
         
+        /* Styles pour les statistiques avec unités */
+        .stat-with-unit {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .stat-number {
+            font-size: 2.2em;
+            font-weight: 800;
+            color: var(--secondary-color);
+        }
+        
+        .stat-unit {
+            font-size: 1em;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        
+        /* Style pour les activités non cliquables */
+        .activity-stat.non-clickable {
+            cursor: default;
+            opacity: 0.8;
+        }
+        
+        .activity-stat.non-clickable:hover {
+            transform: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
         @media (max-width: 768px) {
             .search-form {
                 flex-direction: column;
@@ -1274,16 +1305,25 @@
                     <div class="stat-label">Interlocuteurs</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" id="totalParticipants">0</div>
+                    <div class="stat-with-unit">
+                        <span class="stat-number" id="totalParticipants">0</span>
+                        <span class="stat-unit">personnes</span>
+                    </div>
                     <div class="stat-label">Participants total</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" id="totalDureeTrajet">0</div>
-                    <div class="stat-label">Durée trajet total (Heures)</div>
+                    <div class="stat-with-unit">
+                        <span class="stat-number" id="totalDureeTrajet">0</span>
+                        <span class="stat-unit">heures</span>
+                    </div>
+                    <div class="stat-label">Durée trajet total</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" id="totalDistance">0</div>
-                    <div class="stat-label">Distance totale (Km)</div>
+                    <div class="stat-with-unit">
+                        <span class="stat-number" id="totalDistance">0</span>
+                        <span class="stat-unit">km</span>
+                    </div>
+                    <div class="stat-label">Distance totale</div>
                 </div>
             </div>
             
@@ -1309,7 +1349,8 @@
             </button>
         </section>
         
-        <div class="admin-section" id="adminSection" style="display: none;">
+        <!-- Panneau d'administration visible sans mot de passe -->
+        <div class="admin-section" id="adminSection">
             <h3>🔐 Panneau d'administration</h3>
             <div class="admin-panel">
                 <p>Accès aux fonctionnalités avancées</p>
@@ -1481,7 +1522,7 @@ L'équipe NY AKO</textarea>
         let totalParticipants = 0;
         let currentSearchTerm = '';
         let currentSearchType = '';
-        let isAdmin = false;
+        let isAdmin = true; // Toujours true maintenant
         let showOnlyConcerts = false;
         let showFicheLinks = false;
         let activityCounts = {
@@ -1507,7 +1548,7 @@ L'équipe NY AKO</textarea>
             document.getElementById('retryButton').addEventListener('click', loadDataFromGoogleSheets);
             document.getElementById('concertFilterButton').addEventListener('click', toggleConcertFilter);
             
-            // Événements pour l'admin
+            // Événements pour l'admin (toujours actifs)
             document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
             document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
             document.getElementById('exportDataButton').addEventListener('click', showExportModal);
@@ -1541,12 +1582,9 @@ L'équipe NY AKO</textarea>
                 });
             });
             
-            // Événements pour le mot de passe
+            // Événements pour le mot de passe (uniquement pour les liens de fiches)
             document.getElementById('passwordButton').addEventListener('click', togglePasswordInput);
             document.getElementById('submitPassword').addEventListener('click', validatePassword);
-            
-            // Vérifier si l'admin est déjà connecté
-            checkAdminStatus();
             
             // Charger les données
             loadDataFromGoogleSheets();
@@ -1561,22 +1599,13 @@ L'équipe NY AKO</textarea>
             document.getElementById(modalId).style.display = 'none';
         }
 
-        // Vérifier le statut admin
-        function checkAdminStatus() {
-            const savedAdmin = localStorage.getItem('tourneeAdmin');
-            if (savedAdmin === 'true') {
-                isAdmin = true;
-                document.getElementById('adminSection').style.display = 'block';
-            }
-        }
-
-        // Toggle du champ de mot de passe
+        // Toggle du champ de mot de passe (uniquement pour les liens de fiches)
         function togglePasswordInput() {
             const passwordContainer = document.getElementById('passwordInputContainer');
             passwordContainer.style.display = passwordContainer.style.display === 'none' ? 'block' : 'none';
         }
 
-        // Validation du mot de passe
+        // Validation du mot de passe (uniquement pour les liens de fiches)
         function validatePassword() {
             const password = document.getElementById('passwordInput').value;
             if (password === 'admin') {
@@ -1734,7 +1763,7 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Afficher les statistiques d'activités
+        // Afficher les statistiques d'activités - MODIFIÉ pour rendre les concerts non cliquables
         function renderActivityStats() {
             const container = document.getElementById('activityStats');
             container.innerHTML = '';
@@ -1742,7 +1771,14 @@ L'équipe NY AKO</textarea>
             Object.keys(activityCounts).forEach(type => {
                 if (activityCounts[type] > 0) {
                     const statDiv = document.createElement('div');
-                    statDiv.className = 'activity-stat';
+                    
+                    // Rendre toutes les activités cliquables SAUF les concerts
+                    if (type === 'Concert') {
+                        statDiv.className = 'activity-stat non-clickable';
+                    } else {
+                        statDiv.className = 'activity-stat';
+                    }
+                    
                     statDiv.setAttribute('data-activity-type', type);
                     
                     const valueDiv = document.createElement('div');
@@ -1756,10 +1792,12 @@ L'équipe NY AKO</textarea>
                     statDiv.appendChild(valueDiv);
                     statDiv.appendChild(labelDiv);
                     
-                    // Ajouter l'événement de clic pour filtrer par type d'activité
-                    statDiv.addEventListener('click', function() {
-                        filterByActivityType(type);
-                    });
+                    // Ajouter l'événement de clic pour filtrer par type d'activité SAUF pour les concerts
+                    if (type !== 'Concert') {
+                        statDiv.addEventListener('click', function() {
+                            filterByActivityType(type);
+                        });
+                    }
                     
                     container.appendChild(statDiv);
                 }
@@ -1977,14 +2015,23 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Mise à jour des statistiques
+        // Mise à jour des statistiques - MODIFIÉ pour afficher les unités
         function updateStats() {
             document.getElementById('totalLieux').textContent = allLieux.length;
             document.getElementById('totalPays').textContent = allPays.length;
             document.getElementById('totalInterlocuteurs').textContent = allInterlocuteurs.length;
-            document.getElementById('totalParticipants').textContent = totalParticipants;
-            document.getElementById('totalDureeTrajet').textContent = totalDureeTrajet.toFixed(1);
-            document.getElementById('totalDistance').textContent = totalDistance.toFixed(0);
+            
+            // Participants avec unité
+            const totalParticipantsEl = document.getElementById('totalParticipants');
+            totalParticipantsEl.textContent = totalParticipants;
+            
+            // Durée trajet avec unité
+            const totalDureeTrajetEl = document.getElementById('totalDureeTrajet');
+            totalDureeTrajetEl.textContent = totalDureeTrajet.toFixed(1);
+            
+            // Distance avec unité
+            const totalDistanceEl = document.getElementById('totalDistance');
+            totalDistanceEl.textContent = totalDistance.toFixed(0);
         }
 
         // Rendu des tags de filtre
@@ -3045,10 +3092,12 @@ L'équipe NY AKO</textarea>
             title.textContent = '🔐 Informations Administrateur';
             sectionDiv.appendChild(title);
             
-            // Lien de fiche
-            const ficheIndex = findHeaderIndex('Lien de cette fiche:');
-            if (ficheIndex !== -1 && row[ficheIndex]) {
-                sectionDiv.appendChild(createInfoItem('Lien de cette fiche:', row[ficheIndex]));
+            // Lien de fiche (uniquement si mot de passe validé)
+            if (showFicheLinks) {
+                const ficheIndex = findHeaderIndex('Lien de cette fiche:');
+                if (ficheIndex !== -1 && row[ficheIndex]) {
+                    sectionDiv.appendChild(createInfoItem('Lien de cette fiche:', row[ficheIndex]));
+                }
             }
             
             return sectionDiv;
