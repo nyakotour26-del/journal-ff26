@@ -109,7 +109,7 @@
         }
         
         .entry-date {
-            font-size: 1.1em;
+            font-size: 1.3em; /* Taille de police augmentée */
             opacity: 0.9;
             font-weight: 300;
         }
@@ -456,6 +456,13 @@
             max-height: 60px;
         }
         
+        .calendar-day-pays {
+            font-size: 0.6em;
+            color: var(--accent-color);
+            margin-top: 3px;
+            font-weight: 600;
+        }
+        
         .stats-section {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -565,11 +572,6 @@
         
         .activity-title.concert-title {
             color: var(--concert-orange);
-        }
-        
-        .activity-title::before {
-            content: '🎵';
-            font-size: 1.3em;
         }
         
         .activity-title.activity-type::before {
@@ -683,6 +685,13 @@
         .activity-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .activity-stats-mobile {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-top: 20px;
         }
@@ -1041,6 +1050,13 @@
             margin-bottom: 20px;
         }
         
+        .heure-group-mobile {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
         .heure-item {
             flex: 1;
             background: #f8f9fa;
@@ -1080,6 +1096,13 @@
             margin-top: 15px;
         }
         
+        .lieux-trajet-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
         .lieux-item {
             background: #f8f9fa;
             padding: 15px;
@@ -1108,6 +1131,14 @@
             font-size: 1.1em;
             font-weight: 700;
             color: var(--primary-color);
+        }
+        
+        /* Nouveaux styles pour durée et distance */
+        .duree-distance-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
         /* Bouton mot de passe */
@@ -1269,6 +1300,53 @@
                 min-height: 70px;
                 padding: 12px;
             }
+            
+            /* NOUVELLES AMÉLIORATIONS MOBILE */
+            
+            /* Statistiques d'activités en 2x2 sur mobile */
+            .activity-stats {
+                display: none;
+            }
+            
+            .activity-stats-mobile {
+                display: grid;
+            }
+            
+            /* Heures début/fin côte à côte sur mobile */
+            .heure-group {
+                display: none;
+            }
+            
+            .heure-group-mobile {
+                display: grid;
+            }
+            
+            /* Lieux et trajet côte à côte sur mobile */
+            .lieux-info {
+                display: none;
+            }
+            
+            .lieux-trajet-group {
+                display: grid;
+            }
+            
+            /* Durée et distance côte à côte sur mobile */
+            .trajet-info {
+                display: none;
+            }
+            
+            .duree-distance-group {
+                display: grid;
+            }
+            
+            /* Titre des fiches amélioré */
+            .entry-title {
+                font-size: 1.5em;
+            }
+            
+            .entry-date {
+                font-size: 1.1em;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1282,6 +1360,22 @@
             
             .heure-group {
                 flex-direction: column;
+            }
+            
+            .activity-stats-mobile {
+                grid-template-columns: 1fr;
+            }
+            
+            .heure-group-mobile {
+                grid-template-columns: 1fr;
+            }
+            
+            .lieux-trajet-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .duree-distance-group {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1362,7 +1456,9 @@
                 </div>
             </div>
             
+            <!-- Version mobile des statistiques d'activités -->
             <div class="activity-stats" id="activityStats"></div>
+            <div class="activity-stats-mobile" id="activityStatsMobile"></div>
             
             <div class="calendar-section">
                 <div class="calendar-header">
@@ -1826,7 +1922,9 @@ L'équipe NY AKO</textarea>
         // Afficher les statistiques d'activités
         function renderActivityStats() {
             const container = document.getElementById('activityStats');
+            const mobileContainer = document.getElementById('activityStatsMobile');
             container.innerHTML = '';
+            mobileContainer.innerHTML = '';
             
             Object.keys(activityCounts).forEach(type => {
                 if (activityCounts[type] > 0) {
@@ -1859,6 +1957,10 @@ L'équipe NY AKO</textarea>
                     }
                     
                     container.appendChild(statDiv);
+                    
+                    // Version mobile
+                    const mobileStatDiv = statDiv.cloneNode(true);
+                    mobileContainer.appendChild(mobileStatDiv);
                 }
             });
         }
@@ -1943,11 +2045,15 @@ L'équipe NY AKO</textarea>
                         // Extraire les lieux pour cette date
                         const lieux = extractLieuxForDate(row);
                         
+                        // Extraire les pays pour cette date
+                        const pays = extractPaysForDate(row);
+                        
                         datesWithData.push({
                             date: date,
                             dateStr: dateStr,
                             rowIndex: index,
-                            lieux: lieux
+                            lieux: lieux,
+                            pays: pays
                         });
                     }
                 }
@@ -1975,6 +2081,27 @@ L'équipe NY AKO</textarea>
             });
             
             return [...new Set(lieux)]; // Supprimer les doublons
+        }
+
+        // Extraction des pays pour une date donnée
+        function extractPaysForDate(row) {
+            const pays = [];
+            
+            // Rechercher les colonnes de pays
+            const paysColumns = headers
+                .map((header, index) => 
+                    (header && header.includes('Pays')) ? index : -1
+                )
+                .filter(index => index !== -1);
+            
+            paysColumns.forEach(colIndex => {
+                const value = row[colIndex] || '';
+                if (value && value.trim() !== '') {
+                    pays.push(value.trim());
+                }
+            });
+            
+            return [...new Set(pays)]; // Supprimer les doublons
         }
 
         // Extraction de tous les lieux
@@ -2149,7 +2276,7 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Rendu du calendrier avec lieux
+        // Rendu du calendrier avec lieux et pays
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
             const monthElement = document.getElementById('currentMonth');
@@ -2206,6 +2333,14 @@ L'équipe NY AKO</textarea>
                     lieuxDiv.textContent = dayData.lieux.join(', ');
                     
                     day.appendChild(lieuxDiv);
+                    
+                    // Afficher les pays avec une couleur différente
+                    if (dayData.pays && dayData.pays.length > 0) {
+                        const paysDiv = document.createElement('div');
+                        paysDiv.className = 'calendar-day-pays';
+                        paysDiv.textContent = dayData.pays.join(', ');
+                        day.appendChild(paysDiv);
+                    }
                 }
                 
                 if (selectedDate && 
@@ -2408,15 +2543,23 @@ L'équipe NY AKO</textarea>
             const dateStr = row[dateIndex] || 'Date non spécifiée';
             const dayNumber = index + 1;
             
+            // Extraire le pays pour le titre
+            const paysIndex = findHeaderIndex('Pays:');
+            const pays = paysIndex !== -1 && row[paysIndex] ? row[paysIndex] : '';
+            
             const entryDiv = document.createElement('div');
             entryDiv.className = 'journal-entry';
             
-            // En-tête avec titre et date
+            // En-tête avec titre et date amélioré
             const headerDiv = document.createElement('div');
             headerDiv.className = 'entry-header';
+            
+            // Nouveau format de titre avec pays
+            const titleText = pays ? `Jour ${dayNumber} - ${pays}` : `Jour ${dayNumber}`;
+            
             headerDiv.innerHTML = `
-                <h2 class="entry-title">Jour ${dayNumber}</h2>
-                <div class="entry-date">Date: ${dateStr}</div>
+                <h2 class="entry-title">${titleText}</h2>
+                <div class="entry-date">${dateStr}</div>
             `;
             entryDiv.appendChild(headerDiv);
             
@@ -2688,10 +2831,10 @@ L'équipe NY AKO</textarea>
             activityTitle.textContent = title;
             sectionDiv.appendChild(activityTitle);
             
-            // Heures début et fin côte à côte avec emojis
+            // Heures début et fin côte à côte avec emojis - version mobile
             if (activityData.heureDebut || activityData.heureFin) {
                 const heureGroup = document.createElement('div');
-                heureGroup.className = 'heure-group';
+                heureGroup.className = 'heure-group-mobile'; // Nouvelle classe pour mobile
                 
                 if (activityData.heureDebut) {
                     const heureItem = document.createElement('div');
@@ -2726,8 +2869,8 @@ L'équipe NY AKO</textarea>
                 sectionDiv.appendChild(lieuSubtitle);
                 
                 // Informations sur les lieux en grille 2x2 pour mobile
-                const lieuxInfo = document.createElement('div');
-                lieuxInfo.className = 'lieux-info';
+                const lieuxTrajetGroup = document.createElement('div');
+                lieuxTrajetGroup.className = 'lieux-trajet-group'; // Nouvelle classe pour mobile
                 
                 if (activityData.lieux) {
                     const lieuItem = document.createElement('div');
@@ -2737,7 +2880,7 @@ L'équipe NY AKO</textarea>
                         <div class="lieux-label">Lieux</div>
                         <div class="lieux-value">${activityData.lieux}</div>
                     `;
-                    lieuxInfo.appendChild(lieuItem);
+                    lieuxTrajetGroup.appendChild(lieuItem);
                 }
                 
                 if (activityData.trajet) {
@@ -2748,32 +2891,40 @@ L'équipe NY AKO</textarea>
                         <div class="lieux-label">Trajet</div>
                         <div class="lieux-value">${activityData.trajet}</div>
                     `;
-                    lieuxInfo.appendChild(trajetItem);
+                    lieuxTrajetGroup.appendChild(trajetItem);
                 }
                 
-                if (activityData.dureeTrajet) {
-                    const dureeItem = document.createElement('div');
-                    dureeItem.className = 'lieux-item';
-                    dureeItem.innerHTML = `
-                        <div class="lieux-icon">⏱️</div>
-                        <div class="lieux-label">Durée</div>
-                        <div class="lieux-value">${activityData.dureeTrajet} Heures</div>
-                    `;
-                    lieuxInfo.appendChild(dureeItem);
-                }
+                sectionDiv.appendChild(lieuxTrajetGroup);
                 
-                if (activityData.distanceTrajet) {
-                    const distanceItem = document.createElement('div');
-                    distanceItem.className = 'lieux-item';
-                    distanceItem.innerHTML = `
-                        <div class="lieux-icon">📏</div>
-                        <div class="lieux-label">Distance</div>
-                        <div class="lieux-value">${activityData.distanceTrajet} Km</div>
-                    `;
-                    lieuxInfo.appendChild(distanceItem);
+                // Durée et distance côte à côte pour mobile
+                if (activityData.dureeTrajet || activityData.distanceTrajet) {
+                    const dureeDistanceGroup = document.createElement('div');
+                    dureeDistanceGroup.className = 'duree-distance-group'; // Nouvelle classe pour mobile
+                    
+                    if (activityData.dureeTrajet) {
+                        const dureeItem = document.createElement('div');
+                        dureeItem.className = 'lieux-item';
+                        dureeItem.innerHTML = `
+                            <div class="lieux-icon">⏱️</div>
+                            <div class="lieux-label">Durée</div>
+                            <div class="lieux-value">${activityData.dureeTrajet} Heures</div>
+                        `;
+                        dureeDistanceGroup.appendChild(dureeItem);
+                    }
+                    
+                    if (activityData.distanceTrajet) {
+                        const distanceItem = document.createElement('div');
+                        distanceItem.className = 'lieux-item';
+                        distanceItem.innerHTML = `
+                            <div class="lieux-icon">📏</div>
+                            <div class="lieux-label">Distance</div>
+                            <div class="lieux-value">${activityData.distanceTrajet} Km</div>
+                        `;
+                        dureeDistanceGroup.appendChild(distanceItem);
+                    }
+                    
+                    sectionDiv.appendChild(dureeDistanceGroup);
                 }
-                
-                sectionDiv.appendChild(lieuxInfo);
             }
             
             // Notes
@@ -2865,10 +3016,10 @@ L'équipe NY AKO</textarea>
             activityTitle.textContent = title;
             sectionDiv.appendChild(activityTitle);
             
-            // Heures début et fin côte à côte avec emojis
+            // Heures début et fin côte à côte avec emojis - version mobile
             if (activityData.heureDebut || activityData.heureFin) {
                 const heureGroup = document.createElement('div');
-                heureGroup.className = 'heure-group';
+                heureGroup.className = 'heure-group-mobile'; // Nouvelle classe pour mobile
                 
                 if (activityData.heureDebut) {
                     const heureItem = document.createElement('div');
@@ -2903,8 +3054,8 @@ L'équipe NY AKO</textarea>
                 sectionDiv.appendChild(lieuSubtitle);
                 
                 // Informations sur les lieux en grille 2x2 pour mobile
-                const lieuxInfo = document.createElement('div');
-                lieuxInfo.className = 'lieux-info';
+                const lieuxTrajetGroup = document.createElement('div');
+                lieuxTrajetGroup.className = 'lieux-trajet-group'; // Nouvelle classe pour mobile
                 
                 if (activityData.lieux) {
                     const lieuItem = document.createElement('div');
@@ -2914,7 +3065,7 @@ L'équipe NY AKO</textarea>
                         <div class="lieux-label">Lieux</div>
                         <div class="lieux-value">${activityData.lieux}</div>
                     `;
-                    lieuxInfo.appendChild(lieuItem);
+                    lieuxTrajetGroup.appendChild(lieuItem);
                 }
                 
                 if (activityData.trajet) {
@@ -2925,32 +3076,40 @@ L'équipe NY AKO</textarea>
                         <div class="lieux-label">Trajet</div>
                         <div class="lieux-value">${activityData.trajet}</div>
                     `;
-                    lieuxInfo.appendChild(trajetItem);
+                    lieuxTrajetGroup.appendChild(trajetItem);
                 }
                 
-                if (activityData.dureeTrajet) {
-                    const dureeItem = document.createElement('div');
-                    dureeItem.className = 'lieux-item';
-                    dureeItem.innerHTML = `
-                        <div class="lieux-icon">⏱️</div>
-                        <div class="lieux-label">Durée</div>
-                        <div class="lieux-value">${activityData.dureeTrajet} Heures</div>
-                    `;
-                    lieuxInfo.appendChild(dureeItem);
-                }
+                sectionDiv.appendChild(lieuxTrajetGroup);
                 
-                if (activityData.distanceTrajet) {
-                    const distanceItem = document.createElement('div');
-                    distanceItem.className = 'lieux-item';
-                    distanceItem.innerHTML = `
-                        <div class="lieux-icon">📏</div>
-                        <div class="lieux-label">Distance</div>
-                        <div class="lieux-value">${activityData.distanceTrajet} Km</div>
-                    `;
-                    lieuxInfo.appendChild(distanceItem);
+                // Durée et distance côte à côte pour mobile
+                if (activityData.dureeTrajet || activityData.distanceTrajet) {
+                    const dureeDistanceGroup = document.createElement('div');
+                    dureeDistanceGroup.className = 'duree-distance-group'; // Nouvelle classe pour mobile
+                    
+                    if (activityData.dureeTrajet) {
+                        const dureeItem = document.createElement('div');
+                        dureeItem.className = 'lieux-item';
+                        dureeItem.innerHTML = `
+                            <div class="lieux-icon">⏱️</div>
+                            <div class="lieux-label">Durée</div>
+                            <div class="lieux-value">${activityData.dureeTrajet} Heures</div>
+                        `;
+                        dureeDistanceGroup.appendChild(dureeItem);
+                    }
+                    
+                    if (activityData.distanceTrajet) {
+                        const distanceItem = document.createElement('div');
+                        distanceItem.className = 'lieux-item';
+                        distanceItem.innerHTML = `
+                            <div class="lieux-icon">📏</div>
+                            <div class="lieux-label">Distance</div>
+                            <div class="lieux-value">${activityData.distanceTrajet} Km</div>
+                        `;
+                        dureeDistanceGroup.appendChild(distanceItem);
+                    }
+                    
+                    sectionDiv.appendChild(dureeDistanceGroup);
                 }
-                
-                sectionDiv.appendChild(lieuxInfo);
             }
             
             // Notes
