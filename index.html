@@ -3,37 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Journal de Bord - Tournée Europe 2026</title>
+    <title>Tournée Europe 2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --text-color: #2c3e50;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            --dark-blue: #1a2530;
-            --light-blue: #aed6f1;
-            --note-bg: #fff9c4;
-            --note-border: #ffd54f;
-            --concert-bg: #e8f4fc;
-            --activity-bg: #f8f9fa;
-            --concert-orange: #ff9800;
-            --neutral-border: #e0e0e0;
-        }
-        
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background: linear-gradient(135deg, #e8f4f8 0%, #d1e7f5 100%);
+            background: 
+                linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.9)),
+                url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #2d3748;
+            min-height: 100vh;
             padding: 20px;
         }
         
@@ -42,3704 +30,584 @@
             margin: 0 auto;
         }
         
-        .special-frame {
-            position: relative;
-            padding: 15px;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, var(--light-blue), var(--secondary-color));
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border: 12px solid transparent;
-            background-clip: padding-box;
-            overflow: hidden;
-        }
-        
-        .special-frame::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            left: -6px;
-            right: -6px;
-            bottom: -6px;
-            background: linear-gradient(45deg, var(--secondary-color), var(--light-blue), var(--secondary-color));
-            border-radius: 26px;
-            z-index: -1;
-        }
-        
         header {
             text-align: center;
-            padding: 30px 20px;
-            color: var(--text-color);
+            padding: 30px 0;
             position: relative;
-            background: rgba(255,255,255,0.8);
-            border-radius: 10px;
+            overflow: hidden;
         }
         
         h1 {
+            font-size: 2.8rem;
             margin-bottom: 10px;
-            font-size: 2.5em;
-            color: var(--dark-blue);
+            color: #2d3748;
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
-        .journal-entry {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            margin-bottom: 30px;
+        .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+        
+        .flags-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .flag {
+            width: 55px;
+            height: 37px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .flag:hover {
+            transform: translateY(-5px) scale(1.1);
+        }
+        
+        .flag-france {
+            background: linear-gradient(to right, #002395 33%, white 33%, white 66%, #ED2939 66%);
+        }
+        
+        .flag-germany {
+            background: linear-gradient(to bottom, #000000 33%, #DD0000 33%, #DD0000 66%, #FFCE00 66%);
+        }
+        
+        .flag-belgium {
+            background: linear-gradient(to right, #000000 33%, #FAE042 33%, #FAE042 66%, #ED2939 66%);
+        }
+        
+        .flag-switzerland {
+            background: #D52B1E;
+            position: relative;
+        }
+        
+        .flag-switzerland::before, .flag-switzerland::after {
+            content: '';
+            position: absolute;
+            background: white;
+        }
+        
+        .flag-switzerland::before {
+            width: 35px;
+            height: 9px;
+            top: 14px;
+            left: 10px;
+        }
+        
+        .flag-switzerland::after {
+            width: 9px;
+            height: 37px;
+            top: 0;
+            left: 23px;
+        }
+        
+        .flag-uk {
+            background: #012169;
+            position: relative;
+        }
+        
+        .flag-uk::before, .flag-uk::after {
+            content: '';
+            position: absolute;
+            background: white;
+        }
+        
+        .flag-uk::before {
+            width: 55px;
+            height: 7px;
+            top: 15px;
+        }
+        
+        .flag-uk::after {
+            width: 7px;
+            height: 37px;
+            left: 24px;
+        }
+        
+        .flag-wales {
+            background: white;
+            position: relative;
             overflow: hidden;
-            border: 2px solid var(--neutral-border);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .journal-entry:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        .flag-wales::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFFFFF 50%, #D21034 50%, #D21034 100%);
         }
         
-        .entry-header {
-            background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
-            color: white;
-            padding: 15px 20px;
+        .flag-wales::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: 
+                radial-gradient(circle, #008000 0%, #008000 40%, transparent 40%),
+                linear-gradient(45deg, transparent 45%, #FFFFFF 45%, #FFFFFF 55%, transparent 55%),
+                linear-gradient(-45deg, transparent 45%, #FFFFFF 45%, #FFFFFF 55%, transparent 55%);
         }
         
-        .entry-title {
-            font-size: 1.8em;
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-        
-        .entry-date {
-            font-size: 1.1em;
-            opacity: 0.9;
-            font-weight: 300;
-        }
-        
-        .entry-content {
-            padding: 25px;
+        .sections-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
         }
         
         .section {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px dashed #e0e0e0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         
-        .section:last-child {
-            border-bottom: none;
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
         
         .section-title {
-            font-size: 1.5em;
-            color: var(--secondary-color);
+            font-size: 1.5rem;
             margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 3px solid var(--light-blue);
-            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 10px;
+            border-bottom: 3px solid rgba(66, 153, 225, 0.4);
+            padding-bottom: 12px;
+            color: #2d3748;
         }
         
-        .section-title::before {
-            content: '';
-            width: 8px;
-            height: 25px;
-            background: var(--secondary-color);
-            border-radius: 4px;
-        }
-        
-        .subsection-title {
-            font-size: 1.2em;
-            color: var(--primary-color);
-            margin: 20px 0 15px;
-            padding-left: 15px;
-            border-left: 4px solid var(--accent-color);
-            font-weight: 600;
-        }
-        
-        .info-grid {
+        .btn-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .info-item {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .info-label {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 8px;
-            font-size: 0.95em;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .info-value {
-            padding: 12px;
-            background-color: #f8f9fa;
-            border-radius: 6px;
-            border-left: 4px solid var(--secondary-color);
-            font-size: 1.05em;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        
-        .inline-group {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .inline-item {
-            flex: 1;
-        }
-        
-        .note-box {
-            background-color: var(--note-bg);
-            border: 2px solid var(--note-border);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-            transition: transform 0.2s ease;
-        }
-        
-        .note-box:hover {
-            transform: translateX(5px);
-        }
-        
-        .note-title {
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--primary-color);
-            font-size: 1.1em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .note-title::before {
-            content: '📝';
-            font-size: 1.2em;
-        }
-        
-        .highlight-value {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: var(--accent-color);
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            text-align: left;
-            border: 1px solid #e9ecef;
-            margin: 15px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
         }
         
-        .photo-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
-            color: white;
-            padding: 10px 18px;
-            border-radius: 25px;
-            text-decoration: none;
-            margin: 8px;
-            font-size: 0.95em;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .photo-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-        }
-        
-        .photo-button::before {
-            content: '📸';
-            font-size: 1.1em;
-        }
-        
-        .search-section {
-            background-color: white;
-            padding: 25px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            margin-bottom: 30px;
-            border: 2px solid var(--neutral-border);
-        }
-        
-        .search-form {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .search-input {
-            flex: 1;
-            padding: 15px;
-            font-size: 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: var(--border-radius);
-            transition: border-color 0.3s ease;
-        }
-        
-        .search-input:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-        }
-        
-        .search-button {
-            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .search-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        .filters-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .filter-group {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            border: 2px solid #e9ecef;
-            transition: transform 0.2s ease;
-        }
-        
-        .filter-group:hover {
-            transform: translateY(-3px);
-        }
-        
-        .filter-group h3 {
-            margin-bottom: 15px;
-            color: var(--secondary-color);
-            font-weight: 600;
-        }
-        
-        .filter-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            max-height: 120px;
-            overflow-y: auto;
-        }
-        
-        .tag {
-            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .tag:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        .calendar-section {
-            background: white;
-            padding: 25px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            margin-bottom: 20px;
-            border: 2px solid var(--neutral-border);
-        }
-        
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .calendar-nav {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .calendar-nav button {
-            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .calendar-nav button:hover {
-            transform: scale(1.05);
-        }
-        
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-        }
-        
-        .calendar-day-header {
-            text-align: center;
-            font-weight: bold;
-            padding: 12px;
-            background-color: var(--light-color);
-            border-radius: 6px;
-            font-weight: 600;
-        }
-        
-        .calendar-day {
-            text-align: center;
-            padding: 15px;
-            cursor: pointer;
-            border-radius: 6px;
-            border: 2px solid #f0f0f0;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            position: relative;
-            min-height: 100px;
+        .btn {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-        }
-        
-        .calendar-day.has-data {
-            background-color: #e8f4f8;
-            font-weight: 700;
-            border-color: var(--secondary-color);
-        }
-        
-        .calendar-day.selected {
-            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
-            color: white;
-            transform: scale(1.05);
-        }
-        
-        .calendar-day-number {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .calendar-day-lieux {
-            font-size: 0.7em;
-            line-height: 1.2;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-height: 60px;
-        }
-        
-        .stats-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 20px 15px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            text-align: center;
-            border: 2px solid var(--neutral-border);
-            transition: transform 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-value {
-            font-size: 2.2em;
-            font-weight: 800;
-            color: var(--secondary-color);
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            color: #7f8c8d;
-            font-size: 0.8em;
-            font-weight: 500;
-            line-height: 1.2;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 50px;
-        }
-        
-        .spinner {
-            border: 5px solid rgba(0, 0, 0, 0.1);
-            border-left-color: var(--secondary-color);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 25px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .error-message {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 15px 0;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        .success-message {
-            background: linear-gradient(135deg, #27ae60, #219a52);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 15px 0;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        .activity-section {
-            background: var(--activity-bg);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border-left: 6px solid var(--secondary-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
-        }
-        
-        .activity-section:hover {
-            transform: translateX(5px);
-        }
-        
-        .concert-section {
-            background: var(--concert-bg);
-            border-left: 6px solid var(--concert-orange);
-        }
-        
-        .activity-title {
-            font-size: 1.4em;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid rgba(0,0,0,0.1);
-            font-weight: 700;
-            display: flex;
             align-items: center;
-            gap: 10px;
-            text-align: center;
             justify-content: center;
-        }
-        
-        .activity-title.concert-title {
-            color: var(--concert-orange);
-        }
-        
-        .activity-title::before {
-            content: '🎵';
-            font-size: 1.3em;
-        }
-        
-        .activity-title.activity-type::before {
-            content: '📅';
-        }
-        
-        .no-data {
+            gap: 10px;
+            padding: 20px 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(66, 153, 225, 0.2);
+            border-radius: 15px;
+            color: #2d3748;
+            font-size: 0.95rem;
             text-align: center;
-            color: #7f8c8d;
-            font-style: italic;
-            padding: 30px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 2px dashed #dee2e6;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            height: 120px;
         }
         
-        .debug-info {
-            display: none;
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 10px 0;
-            font-family: monospace;
-            font-size: 0.9em;
-            max-height: 200px;
-            overflow-y: auto;
+        .btn:hover {
+            background: rgba(66, 153, 225, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(66, 153, 225, 0.2);
+            border-color: rgba(66, 153, 225, 0.4);
         }
         
-        .photos-section {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border: 2px dashed #dee2e6;
+        .btn-emoji {
+            font-size: 1.8rem;
         }
         
-        .photos-title {
-            font-size: 1.1em;
-            color: var(--primary-color);
-            margin-bottom: 15px;
+        .btn-text {
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .photos-title::before {
-            content: '🖼️';
-            font-size: 1.2em;
+            line-height: 1.3;
         }
         
         .admin-section {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 2px solid var(--neutral-border);
-        }
-        
-        .admin-panel {
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 15px;
-        }
-        
-        .admin-controls {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-        
-        .admin-button {
-            background: linear-gradient(to bottom, #3498db, #2980b9);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .admin-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        .admin-button:disabled {
-            background: linear-gradient(to bottom, #95a5a6, #7f8c8d);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .stats-row {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .stats-row .stat-card {
-            flex: 1;
-            min-width: 150px;
-        }
-        
-        .activity-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .activity-stat {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 40px;
             text-align: center;
-            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .admin-toggle {
+            background: rgba(237, 137, 54, 0.2);
+            border: 2px solid #ed8936;
+            color: #c05621;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
         }
         
-        .activity-stat:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        .admin-toggle:hover {
+            background: rgba(237, 137, 54, 0.3);
+            transform: scale(1.05);
         }
         
-        .activity-stat.concert-stat {
-            cursor: default;
-        }
-        
-        .activity-stat.concert-stat:hover {
-            transform: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .activity-stat-value {
-            font-size: 1.8em;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-        }
-        
-        .activity-stat-label {
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }
-        
-        .concert-filter-button {
-            background: linear-gradient(to bottom, #e74c3c, #c0392b);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-left: 10px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .concert-filter-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        .concert-filter-button.active {
-            background: linear-gradient(to bottom, #27ae60, #219a52);
-        }
-        
-        .email-link {
-            color: #3498db;
-            text-decoration: none;
-        }
-        
-        .email-link:hover {
-            text-decoration: underline;
+        .admin-content {
+            display: none;
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         
         .password-input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-right: 10px;
-            width: 200px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
         }
         
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+        .password-input input {
+            padding: 10px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            width: 200px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .password-input input:focus {
+            border-color: #4299e1;
+            outline: none;
+            box-shadow: 0 0 8px rgba(66, 153, 225, 0.5);
+        }
+        
+        .password-input button {
+            padding: 10px 20px;
+            background: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .password-input button:hover {
+            background: #38a169;
+        }
+        
+        .monuments {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            gap: 15px;
+        }
+        
+        .monument {
+            width: 140px;
+            height: 100px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .monument:hover {
+            transform: scale(1.05);
+        }
+        
+        .monument img {
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
+            object-fit: cover;
         }
         
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--light-blue);
-        }
-        
-        .modal-title {
-            font-size: 1.5em;
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            color: var(--accent-color);
-            padding: 5px;
-        }
-        
-        .email-recipients {
-            max-height: 200px;
-            overflow-y: auto;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 5px;
-            background: #f9f9f9;
-            margin-bottom: 20px;
-        }
-        
-        .recipient-item {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-        }
-        
-        .recipient-item:last-child {
-            border-bottom: none;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
+        .monument-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 6px;
+            text-align: center;
+            font-size: 0.8rem;
             font-weight: 600;
-            color: var(--primary-color);
         }
         
-        .form-input, .form-textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: inherit;
-            font-size: 14px;
-        }
-        
-        .form-textarea {
-            height: 150px;
-            resize: vertical;
-        }
-        
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        
-        .action-button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .action-button.primary {
-            background: linear-gradient(to bottom, #27ae60, #219a52);
-            color: white;
-        }
-        
-        .action-button.secondary {
-            background: linear-gradient(to bottom, #3498db, #2980b9);
-            color: white;
-        }
-        
-        .action-button.cancel {
-            background: linear-gradient(to bottom, #95a5a6, #7f8c8d);
-            color: white;
-        }
-        
-        .action-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        .list-container {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        
-        .list-item {
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .list-item:last-child {
-            border-bottom: none;
-        }
-        
-        .list-item:hover {
-            background: #f8f9fa;
-        }
-        
-        .export-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .export-option {
-            background: #f8f9fa;
+        footer {
+            text-align: center;
+            margin-top: 50px;
             padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            border: 2px solid #e9ecef;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            color: #718096;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
         }
         
-        .export-option:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-color: var(--secondary-color);
-        }
-        
-        .export-icon {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-        
-        /* Nouveaux styles pour l'affichage des informations interlocuteur */
-        .contact-info {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 15px;
-            border: 2px solid var(--neutral-border);
-        }
-        
-        .contact-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--neutral-border);
-        }
-        
-        .contact-header h4 {
-            margin: 0;
-            color: var(--primary-color);
-            font-size: 1.2em;
-        }
-        
-        .contact-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: white;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        
-        .contact-icon {
-            font-size: 1.2em;
-            width: 24px;
-            text-align: center;
-        }
-        
-        .contact-value {
-            flex: 1;
-            font-weight: 500;
-        }
-        
-        .contact-value a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-        
-        .contact-value a:hover {
-            text-decoration: underline;
-        }
-        
-        .trajet-info {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .trajet-item {
-            flex: 1;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-            border-left: 4px solid var(--secondary-color);
-        }
-        
-        .trajet-value {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-        }
-        
-        .trajet-label {
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }
-        
-        /* NOUVEAUX STYLES POUR LES HEURES ET TRAJET - SIMILAIRES À "INFORMATION SUR INTERLOCUTEUR" */
-        .heure-group {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .heure-item {
-            flex: 1;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid #e9ecef;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 80px;
-        }
-        
-        .heure-icon {
-            font-size: 1.5em;
-            margin-bottom: 8px;
-        }
-        
-        .heure-label {
-            font-size: 0.9em;
-            color: #7f8c8d;
-            margin-bottom: 5px;
-        }
-        
-        .heure-value {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-        
-        /* Nouveaux styles pour les lieux */
-        .lieux-info {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .lieux-item {
-            flex: 1;
-            min-width: 150px;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid #e9ecef;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 80px;
-        }
-        
-        .lieux-icon {
-            font-size: 1.5em;
-            margin-bottom: 8px;
-        }
-        
-        .lieux-label {
-            font-size: 0.9em;
-            color: #7f8c8d;
-            margin-bottom: 5px;
-        }
-        
-        .lieux-value {
-            font-size: 1.1em;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-        
-        /* Bouton mot de passe */
-        .password-section {
-            margin-top: 15px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 2px solid #e9ecef;
-        }
-        
-        .password-button {
-            background: linear-gradient(to bottom, #8e44ad, #7d3c98);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .password-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        .password-input-container {
-            display: none;
-            margin-top: 10px;
-            padding: 15px;
-            background: white;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-        }
-        
-        @media (max-width: 768px) {
-            .search-form {
-                flex-direction: column;
-            }
-            
-            .filters-section {
+        /* Media Queries pour garantir 2 boutons par ligne */
+        @media (max-width: 600px) {
+            .sections-container {
                 grid-template-columns: 1fr;
             }
             
-            .stats-section {
+            .btn-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
             }
             
-            .inline-group {
-                flex-direction: column;
+            .btn {
+                padding: 15px 8px;
+                height: 110px;
+                font-size: 0.85rem;
             }
             
-            .info-grid {
-                grid-template-columns: 1fr;
+            .btn-emoji {
+                font-size: 1.6rem;
+            }
+            
+            .monument {
+                width: calc(50% - 10px);
+                max-width: 160px;
+            }
+            
+            .flags-container {
+                gap: 10px;
+            }
+            
+            .flag {
+                width: 45px;
+                height: 30px;
+            }
+            
+            .flag-switzerland::before {
+                width: 28px;
+                height: 7px;
+                top: 11px;
+                left: 8px;
+            }
+            
+            .flag-switzerland::after {
+                width: 7px;
+                height: 30px;
+                left: 19px;
+            }
+            
+            .flag-uk::before {
+                width: 45px;
+                height: 6px;
+                top: 12px;
+            }
+            
+            .flag-uk::after {
+                width: 6px;
+                height: 30px;
+                left: 19px;
+            }
+            
+            .flag-wales::after {
+                width: 16px;
+                height: 16px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .btn {
+                height: 100px;
+                font-size: 0.8rem;
+            }
+            
+            .btn-emoji {
+                font-size: 1.4rem;
+            }
+            
+            .monument {
+                width: calc(50% - 8px);
             }
             
             h1 {
-                font-size: 2em;
+                font-size: 2.2rem;
             }
             
-            .activity-title {
-                font-size: 1.2em;
+            .subtitle {
+                font-size: 1.1rem;
             }
-            
-            .stats-row {
-                flex-direction: column;
-            }
-            
-            .admin-controls {
-                flex-direction: column;
-            }
-            
-            .modal-content {
-                padding: 20px;
-                width: 95%;
-            }
-            
-            .modal-actions {
-                flex-direction: column;
-            }
-            
-            .action-button {
-                width: 100%;
-            }
-            
-            .contact-details {
+        }
+        
+        @media (max-width: 350px) {
+            .btn-grid {
                 grid-template-columns: 1fr;
             }
             
-            .trajet-info {
-                flex-direction: column;
-            }
-            
-            .heure-group {
-                flex-direction: column;
-            }
-            
-            .lieux-info {
-                flex-direction: column;
-            }
-            
-            .calendar-day {
-                min-height: 80px;
-                padding: 10px;
-            }
-            
-            .calendar-day-lieux {
-                font-size: 0.6em;
-                max-height: 50px;
+            .btn {
+                height: 90px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="special-frame">
-            <header>
-                <h1>📓 Journal de Bord - Tournée Europe 2026</h1>
-                <p>NY AKO - Suivi détaillé des activités quotidiennes</p>
-            </header>
+        <header>
+            <h1>Tournée Europe 2026</h1>
+            <p class="subtitle">Découvrez tous les aspects de notre tournée à travers l'Europe</p>
+            
+            <div class="flags-container">
+                <div class="flag flag-france" title="France"></div>
+                <div class="flag flag-germany" title="Allemagne"></div>
+                <div class="flag flag-belgium" title="Belgique"></div>
+                <div class="flag flag-switzerland" title="Suisse"></div>
+                <div class="flag flag-uk" title="Royaume-Uni"></div>
+                <div class="flag flag-wales" title="Pays de Galles"></div>
+            </div>
+        </header>
+        
+        <div class="sections-container">
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-info-circle"></i> Informations générales</h2>
+                <div class="btn-grid">
+                    <a href="https://nyakotour26-del.github.io/PV-TOURNEE26/" class="btn" target="_blank">
+                        <span class="btn-emoji">📄</span>
+                        <span class="btn-text">PV réunion et répétition</span>
+                    </a>
+                    <a href="https://nyakotour26-del.github.io/journal-ff26/" class="btn" target="_blank">
+                        <span class="btn-emoji">📔</span>
+                        <span class="btn-text">Journal de bord tournée</span>
+                    </a>
+                    <a href="https://nyakotour26-del.github.io/h-bergeur--tourn-e26/" class="btn" target="_blank">
+                        <span class="btn-emoji">🏠</span>
+                        <span class="btn-text">Liste Hébergeurs</span>
+                    </a>
+                    <a href="https://nyakotour26-del.github.io/chansons-nyako/" class="btn" target="_blank">
+                        <span class="btn-emoji">🎵</span>
+                        <span class="btn-text">Fiche chanson tournée</span>
+                    </a>
+                    <a href="https://nyakotour26-del.github.io/LIVRE-D-OR-TOUR26/" class="btn" target="_blank">
+                        <span class="btn-emoji">📖</span>
+                        <span class="btn-text">Livre d'or</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-edit"></i> Contributions</h2>
+                <div class="btn-grid">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScty4eoEMuR6pQ9wtchtVK9awB01HIGi5OeEtggZuRkKJM8og/viewform?usp=header" class="btn" target="_blank">
+                        <span class="btn-emoji">🏠</span>
+                        <span class="btn-text">Fiche pour remplir Hébergeurs</span>
+                    </a>
+                </div>
+            </div>
         </div>
         
-        <section class="search-section">
-            <form class="search-form" id="searchForm">
-                <input type="text" 
-                       class="search-input" 
-                       id="searchInput" 
-                       placeholder="🔍 Rechercher dans le journal...">
-                <button type="submit" class="search-button">Rechercher</button>
-                <button type="button" class="concert-filter-button" id="concertFilterButton">
-                    🎵 Filtrer les concerts
-                </button>
-            </form>
+        <div class="admin-section">
+            <button class="admin-toggle" onclick="toggleAdminSection()">
+                <i class="fas fa-lock"></i>
+                <span>Accès Administrateur</span>
+            </button>
             
-            <div class="password-section">
-                <button class="password-button" id="passwordButton">
-                    🔓 Accès aux liens de fiches
-                </button>
-                <div class="password-input-container" id="passwordInputContainer">
-                    <label for="passwordInput">Mot de passe:</label>
-                    <input type="password" id="passwordInput" class="form-input" placeholder="Entrez le mot de passe...">
-                    <button class="search-button" id="submitPassword" style="margin-top: 10px;">Valider</button>
-                </div>
-            </div>
-            
-            <div class="filters-section">
-                <div class="filter-group">
-                    <h3>📍 Lieux</h3>
-                    <div class="filter-tags" id="lieuxTags"></div>
+            <div class="admin-content" id="adminContent">
+                <h2><i class="fas fa-user-shield"></i> Zone Administrateur</h2>
+                <p>Veuillez entrer le mot de passe pour accéder aux formulaires d'administration</p>
+                
+                <div class="password-input">
+                    <input type="password" id="passwordInput" placeholder="Mot de passe">
+                    <button onclick="checkPassword()">Valider</button>
                 </div>
                 
-                <div class="filter-group">
-                    <h3>👤 Interlocuteurs/Hôtes</h3>
-                    <div class="filter-tags" id="nomsTags"></div>
-                </div>
-                
-                <div class="filter-group">
-                    <h3>🌍 Pays</h3>
-                    <div class="filter-tags" id="paysTags"></div>
-                </div>
-            </div>
-            
-            <div class="stats-row">
-                <div class="stat-card">
-                    <div class="stat-value" id="totalLieux">0</div>
-                    <div class="stat-label">Lieux visités</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalPays">0</div>
-                    <div class="stat-label">Pays visités</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalInterlocuteurs">0</div>
-                    <div class="stat-label">Interlocuteurs</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalParticipants">0</div>
-                    <div class="stat-label">Participants total</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalDureeTrajet">0 h</div>
-                    <div class="stat-label">Durée trajet total</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalDistance">0 km</div>
-                    <div class="stat-label">Distance totale</div>
-                </div>
-            </div>
-            
-            <div class="activity-stats" id="activityStats"></div>
-            
-            <div class="calendar-section">
-                <div class="calendar-header">
-                    <h3>📅 Calendrier des journées</h3>
-                    <div class="calendar-nav">
-                        <button id="prevMonth">◀</button>
-                        <span id="currentMonth">Mois en cours</span>
-                        <button id="nextMonth">▶</button>
+                <div id="adminLinks" style="display: none;">
+                    <div class="btn-grid">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeHoUZ_Y5fl_Boa6MtcFDjmXw54sFo-CXMqv4GagrmHr2hfdg/viewform?usp=header" class="btn" target="_blank">
+                            <span class="btn-emoji">📄</span>
+                            <span class="btn-text">Fiche PV réunion et répétition</span>
+                        </a>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header" class="btn" target="_blank">
+                            <span class="btn-emoji">📔</span>
+                            <span class="btn-text">Fiche Journal de bord tournée</span>
+                        </a>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc8-vDc86ukap_X4BYRQUlpCoIN_59Ugry7XdDZR-QPyRTPxQ/viewform?usp=header" class="btn" target="_blank">
+                            <span class="btn-emoji">🎵</span>
+                            <span class="btn-text">Fiche chanson tournée</span>
+                        </a>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfrJKU6QpRFo8ni9RVDBPUo8H-Wi-rJzxDXHQNWxoeC2LxL0A/viewform?usp=header" class="btn" target="_blank">
+                            <span class="btn-emoji">📖</span>
+                            <span class="btn-text">Fiche Livre d'or</span>
+                        </a>
                     </div>
                 </div>
-                <div class="calendar-grid" id="calendarGrid"></div>
-            </div>
-            
-            <button id="showAllButton" class="search-button" style="width: 100%; margin-top: 10px;">
-                📋 Afficher toutes les journées
-            </button>
-            <button id="retryButton" class="search-button" style="background: linear-gradient(135deg, #f39c12, #e67e22); width: 100%; margin-top: 10px; display: none;">
-                🔄 Réessayer le chargement
-            </button>
-        </section>
-        
-        <div class="admin-section" id="adminSection">
-            <h3>🔐 Panneau d'administration</h3>
-            <div class="admin-panel">
-                <p>Accès aux fonctionnalités avancées</p>
-                <div class="admin-controls">
-                    <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
-                    <button class="admin-button" id="organizeListsButton" disabled>📋 Listes organisées</button>
-                    <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
-                </div>
             </div>
         </div>
         
-        <div class="loading" id="loadingIndicator">
-            <div class="spinner"></div>
-            <p>Chargement des données depuis Google Sheets...</p>
+        <div class="monuments">
+            <div class="monument">
+                <img src="https://images.unsplash.com/photo-1549144511-f099e773c147?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Tour Eiffel">
+                <div class="monument-label">Tour Eiffel - France</div>
+            </div>
+            <div class="monument">
+                <img src="https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Brandenburg Gate">
+                <div class="monument-label">Porte de Brandebourg - Allemagne</div>
+            </div>
+            <div class="monument">
+                <img src="https://images.unsplash.com/photo-1590077428593-a55bb07c4665?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Atomium">
+                <div class="monument-label">Atomium - Belgique</div>
+            </div>
+            <div class="monument">
+                <img src="https://images.unsplash.com/photo-1594736797933-d0ea3ff8db41?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Matterhorn">
+                <div class="monument-label">Matterhorn - Suisse</div>
+            </div>
+            <div class="monument">
+                <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Big Ben">
+                <div class="monument-label">Big Ben - Royaume-Uni</div>
+            </div>
         </div>
-
-        <div id="dataInfo"></div>
-        <div id="debugInfo"></div>
         
-        <div id="journalEntries"></div>
-    </div>
-
-    <!-- Modal pour l'envoi d'emails groupés -->
-    <div id="emailModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">📧 Envoi d'email groupé</h3>
-                <button class="close-modal" id="closeEmailModal">✕</button>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Destinataires avec email:</label>
-                <div id="emailRecipients" class="email-recipients">
-                    <!-- Liste des destinataires générée ici -->
-                </div>
-                <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                    <span id="recipientCount">0</span> destinataire(s) sélectionné(s)
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Sujet:</label>
-                <input type="text" id="emailSubject" class="form-input" 
-                       value="Tournée Europe 2026 - Suivi des activités">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Message:</label>
-                <textarea id="emailMessage" class="form-textarea">Bonjour,
-
-Voici le suivi de nos activités durant la tournée Europe 2026.
-
-Cordialement,
-L'équipe NY AKO</textarea>
-            </div>
-            
-            <div class="modal-actions">
-                <button class="action-button cancel" id="cancelEmail">Annuler</button>
-                <button class="action-button secondary" id="copyEmails">📋 Copier les adresses</button>
-                <button class="action-button primary" id="sendEmails">📧 Envoyer les emails</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal pour les listes organisées -->
-    <div id="listsModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">📋 Listes organisées</h3>
-                <button class="close-modal" id="closeListsModal">✕</button>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Type de liste:</label>
-                <select id="listType" class="form-input">
-                    <option value="interlocuteurs">👤 Interlocuteurs/Hôtes</option>
-                    <option value="concerts">🎵 Concerts</option>
-                    <option value="activites">📅 Activités par type</option>
-                    <option value="pays">🌍 Par pays</option>
-                    <option value="lieux">📍 Par lieu</option>
-                </select>
-            </div>
-            
-            <div class="list-container" id="organizedList">
-                <!-- Liste organisée générée ici -->
-            </div>
-            
-            <div class="modal-actions">
-                <button class="action-button cancel" id="cancelLists">Fermer</button>
-                <button class="action-button secondary" id="exportList">📄 Exporter cette liste</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal pour l'export de données -->
-    <div id="exportModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">💾 Export des données</h3>
-                <button class="close-modal" id="closeExportModal">✕</button>
-            </div>
-            
-            <div class="export-options">
-                <div class="export-option" data-format="csv">
-                    <div class="export-icon">📊</div>
-                    <h4>CSV</h4>
-                    <p>Format tableur compatible Excel</p>
-                </div>
-                
-                <div class="export-option" data-format="json">
-                    <div class="export-icon">🔧</div>
-                    <h4>JSON</h4>
-                    <p>Format technique pour développeurs</p>
-                </div>
-                
-                <div class="export-option" data-format="pdf">
-                    <div class="export-icon">📄</div>
-                    <h4>PDF</h4>
-                    <p>Rapport imprimable</p>
-                </div>
-                
-                <div class="export-option" data-format="excel">
-                    <div class="export-icon">📈</div>
-                    <h4>Excel</h4>
-                    <p>Fichier XLSX optimisé</p>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Options d'export:</label>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <label style="display: flex; align-items: center; gap: 5px;">
-                        <input type="checkbox" id="includeContacts" checked>
-                        Inclure les contacts
-                    </label>
-                    <label style="display: flex; align-items: center; gap: 5px;">
-                        <input type="checkbox" id="includePhotos" checked>
-                        Inclure les liens photos
-                    </label>
-                    <label style="display: flex; align-items: center; gap: 5px;">
-                        <input type="checkbox" id="includeStats" checked>
-                        Inclure les statistiques
-                    </label>
-                </div>
-            </div>
-            
-            <div class="modal-actions">
-                <button class="action-button cancel" id="cancelExport">Annuler</button>
-                <button class="action-button primary" id="confirmExport" disabled>💾 Exporter</button>
-            </div>
-        </div>
+        <footer>
+            <p>Tournée Europe 2026 - Tous droits réservés</p>
+        </footer>
     </div>
 
     <script>
-        // URL du Google Sheets
-        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=395832865&single=true&output=csv';
+        function toggleAdminSection() {
+            const adminContent = document.getElementById('adminContent');
+            adminContent.style.display = adminContent.style.display === 'block' ? 'none' : 'block';
+        }
         
-        // Variables globales
-        let sheetData = [];
-        let headers = [];
-        let datesWithData = [];
-        let currentDate = new Date();
-        let selectedDate = null;
-        let allLieux = [];
-        let allInterlocuteurs = [];
-        let allPays = [];
-        let totalDureeTrajet = 0;
-        let totalDistance = 0;
-        let totalParticipants = 0;
-        let currentSearchTerm = '';
-        let currentSearchType = '';
-        let isAdmin = false;
-        let showOnlyConcerts = false;
-        let showFicheLinks = false;
-        let activityCounts = {
-            'Rencontre/Invitation': 0,
-            'Concert': 0,
-            'Ecole': 0,
-            'Sortie/visite/Tourisme': 0,
-            'Eglise/culte': 0,
-            'Marché': 0,
-            'Shopping': 0
-        };
-        let selectedExportFormat = null;
-
-        // Initialisation au chargement de la page
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Démarrage du Journal de Bord...');
+        function checkPassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            const adminLinks = document.getElementById('adminLinks');
             
-            // Configuration des événements
-            document.getElementById('searchForm').addEventListener('submit', handleSearch);
-            document.getElementById('prevMonth').addEventListener('click', prevMonth);
-            document.getElementById('nextMonth').addEventListener('click', nextMonth);
-            document.getElementById('showAllButton').addEventListener('click', showAllData);
-            document.getElementById('retryButton').addEventListener('click', loadDataFromGoogleSheets);
-            document.getElementById('concertFilterButton').addEventListener('click', toggleConcertFilter);
-            
-            // Événements pour l'admin
-            document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
-            document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
-            document.getElementById('exportDataButton').addEventListener('click', showExportModal);
-            
-            // Événements pour les modales
-            document.getElementById('closeEmailModal').addEventListener('click', () => hideModal('emailModal'));
-            document.getElementById('cancelEmail').addEventListener('click', () => hideModal('emailModal'));
-            document.getElementById('closeListsModal').addEventListener('click', () => hideModal('listsModal'));
-            document.getElementById('cancelLists').addEventListener('click', () => hideModal('listsModal'));
-            document.getElementById('closeExportModal').addEventListener('click', () => hideModal('exportModal'));
-            document.getElementById('cancelExport').addEventListener('click', () => hideModal('exportModal'));
-            
-            // Événements pour les fonctionnalités
-            document.getElementById('sendEmails').addEventListener('click', sendEmails);
-            document.getElementById('copyEmails').addEventListener('click', copyEmailAddresses);
-            document.getElementById('listType').addEventListener('change', updateOrganizedList);
-            document.getElementById('exportList').addEventListener('click', exportCurrentList);
-            document.getElementById('confirmExport').addEventListener('click', exportData);
-            
-            // Événements pour les options d'export
-            document.querySelectorAll('.export-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('.export-option').forEach(opt => {
-                        opt.style.borderColor = '#e9ecef';
-                        opt.style.background = '#f8f9fa';
-                    });
-                    this.style.borderColor = 'var(--secondary-color)';
-                    this.style.background = '#e8f4f8';
-                    selectedExportFormat = this.getAttribute('data-format');
-                    document.getElementById('confirmExport').disabled = false;
-                });
-            });
-            
-            // Événements pour le mot de passe
-            document.getElementById('passwordButton').addEventListener('click', togglePasswordInput);
-            document.getElementById('submitPassword').addEventListener('click', validatePassword);
-            
-            // Vérifier si l'admin est déjà connecté
-            checkAdminStatus();
-            
-            // Charger les données
-            loadDataFromGoogleSheets();
+            if (passwordInput.value === 'admin') {
+                adminLinks.style.display = 'block';
+                passwordInput.style.border = '2px solid #48bb78';
+            } else {
+                adminLinks.style.display = 'none';
+                passwordInput.style.border = '2px solid #e53e3e';
+                alert('Mot de passe incorrect');
+            }
+        }
+        
+        // Permettre de valider avec la touche Entrée
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
         });
-
-        // Fonctions pour les modales
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-
-        function hideModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Vérifier le statut admin
-        function checkAdminStatus() {
-            const savedAdmin = localStorage.getItem('tourneeAdmin');
-            if (savedAdmin === 'true') {
-                isAdmin = true;
-                enableAdminButtons();
-            }
-        }
-
-        // Activer les boutons admin
-        function enableAdminButtons() {
-            document.querySelectorAll('.admin-button').forEach(button => {
-                button.disabled = false;
-            });
-        }
-
-        // Toggle du champ de mot de passe
-        function togglePasswordInput() {
-            const passwordContainer = document.getElementById('passwordInputContainer');
-            passwordContainer.style.display = passwordContainer.style.display === 'none' ? 'block' : 'none';
-        }
-
-        // Validation du mot de passe
-        function validatePassword() {
-            const password = document.getElementById('passwordInput').value;
-            if (password === 'admin') {
-                isAdmin = true;
-                showFicheLinks = true;
-                document.getElementById('passwordInputContainer').style.display = 'none';
-                document.getElementById('passwordInput').value = '';
-                
-                // Enregistrer le statut admin
-                localStorage.setItem('tourneeAdmin', 'true');
-                
-                // Activer les boutons admin
-                enableAdminButtons();
-                
-                // Afficher un message de succès
-                const dataInfo = document.getElementById('dataInfo');
-                dataInfo.innerHTML = `
-                    <div class="success-message">
-                        ✅ Accès administrateur activé
-                    </div>
-                `;
-                dataInfo.style.display = 'block';
-                
-                // Si des résultats sont déjà affichés, les mettre à jour
-                if (document.getElementById('journalEntries').children.length > 0) {
-                    displayAllJournalEntries();
-                }
-            } else {
-                alert('Mot de passe incorrect. Veuillez réessayer.');
-            }
-        }
-
-        // Chargement des données depuis Google Sheets
-        async function loadDataFromGoogleSheets() {
-            console.log('📥 Chargement des données depuis Google Sheets...');
-            document.getElementById('loadingIndicator').style.display = 'block';
-            document.getElementById('retryButton').style.display = 'none';
-            
-            try {
-                // Essayer plusieurs méthodes de récupération
-                let csvText = '';
-                
-                // Méthode 1: Essayer directement
-                try {
-                    const response = await fetch(GOOGLE_SHEETS_URL);
-                    if (response.ok) {
-                        csvText = await response.text();
-                        console.log('✅ Données récupérées directement');
-                    }
-                } catch (directError) {
-                    console.log('❌ Échec méthode directe, essai avec proxy...');
-                    
-                    // Méthode 2: Utiliser un proxy CORS
-                    const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                    const timestamp = new Date().getTime();
-                    const url = `${proxyUrl}${encodeURIComponent(GOOGLE_SHEETS_URL)}&t=${timestamp}`;
-                    
-                    const proxyResponse = await fetch(url);
-                    if (!proxyResponse.ok) {
-                        throw new Error(`Erreur proxy: ${proxyResponse.status}`);
-                    }
-                    csvText = await proxyResponse.text();
-                    console.log('✅ Données récupérées via proxy');
-                }
-                
-                if (!csvText || csvText.trim().length === 0) {
-                    throw new Error('Aucune donnée reçue');
-                }
-                
-                processCSVData(csvText);
-                
-            } catch (error) {
-                console.error('❌ Erreur de chargement:', error);
-                showError('Impossible de charger les données. Vérifiez que le Google Sheet est bien publié et accessible.');
-                document.getElementById('retryButton').style.display = 'block';
-            } finally {
-                document.getElementById('loadingIndicator').style.display = 'none';
-            }
-        }
-
-        // Traitement des données CSV
-        function processCSVData(csvText) {
-            try {
-                if (!csvText || csvText.trim().length === 0) {
-                    throw new Error('Le fichier CSV est vide');
-                }
-                
-                console.log('📄 Contenu CSV reçu:', csvText.substring(0, 500) + '...');
-                
-                const lines = parseCSV(csvText);
-                
-                if (!lines || lines.length === 0) {
-                    throw new Error('Aucune donnée parsée du CSV');
-                }
-                
-                headers = lines[0] || [];
-                sheetData = lines.slice(1).filter(row => 
-                    row && row.some(cell => cell && cell.trim() !== '')
-                );
-                
-                console.log('✅ Données chargées:', sheetData.length, 'entrées');
-                console.log('📋 En-têtes:', headers);
-                
-                if (sheetData.length === 0) {
-                    throw new Error('Aucune entrée de journal trouvée dans le fichier');
-                }
-                
-                // Traitement des données
-                extractDatesWithData();
-                extractAllLieux();
-                extractAllInterlocuteurs();
-                extractAllPays();
-                calculateTotals();
-                calculateActivityCounts();
-                updateStats();
-                renderFilterTags();
-                renderCalendar();
-                renderActivityStats();
-                
-                showDataInfo();
-                displayAllJournalEntries();
-                
-            } catch (error) {
-                console.error('❌ Erreur de traitement:', error);
-                showError('Erreur lors du traitement des données: ' + error.message);
-            }
-        }
-
-        // Calculer les comptages d'activités
-        function calculateActivityCounts() {
-            // Réinitialiser les compteurs
-            Object.keys(activityCounts).forEach(key => {
-                activityCounts[key] = 0;
-            });
-            
-            // Rechercher les colonnes d'activités
-            const activityColumns = headers
-                .map((header, index) => 
-                    (header && (header.includes('ACTIVITÉ') || header.includes('CONCERT'))) ? index : -1
-                )
-                .filter(index => index !== -1);
-            
-            // Compter les activités par type
-            sheetData.forEach(row => {
-                activityColumns.forEach(colIndex => {
-                    const activityType = row[colIndex] || '';
-                    if (activityType && activityType.trim() !== '') {
-                        // Vérifier si le type correspond à l'un de nos types d'activité
-                        Object.keys(activityCounts).forEach(type => {
-                            if (activityType.includes(type)) {
-                                activityCounts[type]++;
-                            }
-                        });
-                        
-                        // Compter les concerts séparément
-                        if ((activityType.toLowerCase().includes('concert') || activityType === 'OUI') && 
-                            (headers[colIndex] && headers[colIndex].includes('CONCERT'))) {
-                            activityCounts['Concert']++;
-                        }
-                    }
-                });
-            });
-        }
-
-        // Afficher les statistiques d'activités
-        function renderActivityStats() {
-            const container = document.getElementById('activityStats');
-            container.innerHTML = '';
-            
-            Object.keys(activityCounts).forEach(type => {
-                if (activityCounts[type] > 0) {
-                    const statDiv = document.createElement('div');
-                    statDiv.className = 'activity-stat';
-                    
-                    // Pour les concerts, on ne veut pas que ce soit cliquable
-                    if (type === 'Concert') {
-                        statDiv.classList.add('concert-stat');
-                    } else {
-                        statDiv.setAttribute('data-activity-type', type);
-                    }
-                    
-                    const valueDiv = document.createElement('div');
-                    valueDiv.className = 'activity-stat-value';
-                    valueDiv.textContent = activityCounts[type];
-                    
-                    const labelDiv = document.createElement('div');
-                    labelDiv.className = 'activity-stat-label';
-                    labelDiv.textContent = type;
-                    
-                    statDiv.appendChild(valueDiv);
-                    statDiv.appendChild(labelDiv);
-                    
-                    // Ajouter l'événement de clic pour filtrer par type d'activité (sauf pour les concerts)
-                    if (type !== 'Concert') {
-                        statDiv.addEventListener('click', function() {
-                            filterByActivityType(type);
-                        });
-                    }
-                    
-                    container.appendChild(statDiv);
-                }
-            });
-        }
-
-        // Filtrer par type d'activité
-        function filterByActivityType(activityType) {
-            const results = [];
-            
-            sheetData.forEach(row => {
-                // Rechercher les colonnes d'activités
-                const activityColumns = headers
-                    .map((header, index) => 
-                        (header && (header.includes('ACTIVITÉ') || header.includes('CONCERT'))) ? index : -1
-                    )
-                    .filter(index => index !== -1);
-                
-                // Vérifier si cette ligne a l'activité recherchée
-                const hasActivity = activityColumns.some(colIndex => {
-                    const value = row[colIndex] || '';
-                    return value && value.includes(activityType);
-                });
-                
-                if (hasActivity) {
-                    results.push(row);
-                }
-            });
-            
-            displayFilteredEntries(results, `Activité: ${activityType}`);
-        }
-
-        // Parser CSV amélioré
-        function parseCSV(csvText) {
-            const lines = [];
-            let currentLine = [];
-            let currentField = '';
-            let inQuotes = false;
-            
-            for (let i = 0; i < csvText.length; i++) {
-                const char = csvText[i];
-                const nextChar = csvText[i + 1];
-                
-                if (char === '"') {
-                    if (inQuotes && nextChar === '"') {
-                        currentField += '"';
-                        i++;
-                    } else {
-                        inQuotes = !inQuotes;
-                    }
-                } else if (char === ',' && !inQuotes) {
-                    currentLine.push(currentField);
-                    currentField = '';
-                } else if (char === '\n' && !inQuotes) {
-                    currentLine.push(currentField);
-                    lines.push(currentLine);
-                    currentLine = [];
-                    currentField = '';
-                } else if (char === '\r') {
-                    continue;
-                } else {
-                    currentField += char;
-                }
-            }
-            
-            if (currentField !== '' || currentLine.length > 0) {
-                currentLine.push(currentField);
-                lines.push(currentLine);
-            }
-            
-            return lines;
-        }
-
-        // Extraction des dates avec données (colonne B)
-        function extractDatesWithData() {
-            datesWithData = [];
-            const dateColumnIndex = 1; // Colonne B
-            
-            sheetData.forEach((row, index) => {
-                const dateStr = row[dateColumnIndex] || '';
-                if (dateStr && dateStr.trim() !== '') {
-                    const date = parseDate(dateStr);
-                    if (date) {
-                        // Extraire les lieux pour cette date
-                        const lieux = extractLieuxForDate(row);
-                        
-                        datesWithData.push({
-                            date: date,
-                            dateStr: dateStr,
-                            rowIndex: index,
-                            lieux: lieux
-                        });
-                    }
-                }
-            });
-            
-            datesWithData.sort((a, b) => a.date - b.date);
-        }
-
-        // Extraction des lieux pour une date donnée
-        function extractLieuxForDate(row) {
-            const lieux = [];
-            
-            // Rechercher les colonnes de lieux
-            const lieuxColumns = headers
-                .map((header, index) => 
-                    (header && header.includes('Lieux')) ? index : -1
-                )
-                .filter(index => index !== -1);
-            
-            lieuxColumns.forEach(colIndex => {
-                const value = row[colIndex] || '';
-                if (value && value.trim() !== '') {
-                    lieux.push(value.trim());
-                }
-            });
-            
-            return [...new Set(lieux)]; // Supprimer les doublons
-        }
-
-        // Extraction de tous les lieux
-        function extractAllLieux() {
-            const allLieuxSet = new Set();
-            
-            headers.forEach((header, index) => {
-                if (header && header.includes('Lieux')) {
-                    sheetData.forEach(row => {
-                        const value = row[index] || '';
-                        if (value.trim()) allLieuxSet.add(value.trim());
-                    });
-                }
-            });
-            
-            allLieux = Array.from(allLieuxSet).sort();
-        }
-
-        // Extraction de tous les interlocuteurs/hôtes (noms seulement)
-        function extractAllInterlocuteurs() {
-            const allInterlocuteursSet = new Set();
-            
-            const interlocuteurColumnIndex = headers.findIndex(header => 
-                header && header.trim() === "Interlocuteur ,hôte"
-            );
-            
-            if (interlocuteurColumnIndex !== -1) {
-                sheetData.forEach(row => {
-                    const value = row[interlocuteurColumnIndex] || '';
-                    if (value.trim()) {
-                        value.split(/[,;]/).forEach(nom => {
-                            const trimmed = nom.trim();
-                            // Exclure les URLs et les adresses
-                            if (trimmed && !trimmed.includes('http') && !trimmed.includes('@') && !trimmed.includes('facebook')) {
-                                allInterlocuteursSet.add(trimmed);
-                            }
-                        });
-                    }
-                });
-            }
-            
-            allInterlocuteurs = Array.from(allInterlocuteursSet).sort();
-        }
-
-        // Extraction de tous les pays
-        function extractAllPays() {
-            const allPaysSet = new Set();
-            
-            headers.forEach((header, index) => {
-                if (header && header.includes('Pays')) {
-                    sheetData.forEach(row => {
-                        const value = row[index] || '';
-                        if (value.trim()) allPaysSet.add(value.trim());
-                    });
-                }
-            });
-            
-            allPays = Array.from(allPaysSet).sort();
-        }
-
-        // Calcul des totaux pour les statistiques
-        function calculateTotals() {
-            totalDureeTrajet = 0;
-            totalDistance = 0;
-            totalParticipants = 0;
-            
-            headers.forEach((header, index) => {
-                if (header && header.includes('Durée trajet')) {
-                    sheetData.forEach(row => {
-                        const value = row[index] || '';
-                        if (value.trim()) {
-                            const num = parseFloat(value.replace(',', '.')) || 0;
-                            totalDureeTrajet += num;
-                        }
-                    });
-                }
-                
-                if (header && header.includes('Distance trajet')) {
-                    sheetData.forEach(row => {
-                        const value = row[index] || '';
-                        if (value.trim()) {
-                            const num = parseFloat(value.replace(',', '.')) || 0;
-                            totalDistance += num;
-                        }
-                    });
-                }
-                
-                if (header && header.includes('Nb participant')) {
-                    sheetData.forEach(row => {
-                        const value = row[index] || '';
-                        if (value.trim()) {
-                            const num = parseInt(value) || 0;
-                            totalParticipants += num;
-                        }
-                    });
-                }
-            });
-        }
-
-        // Mise à jour des statistiques
-        function updateStats() {
-            document.getElementById('totalLieux').textContent = allLieux.length;
-            document.getElementById('totalPays').textContent = allPays.length;
-            document.getElementById('totalInterlocuteurs').textContent = allInterlocuteurs.length;
-            document.getElementById('totalParticipants').textContent = totalParticipants;
-            document.getElementById('totalDureeTrajet').textContent = totalDureeTrajet.toFixed(1) + ' h';
-            document.getElementById('totalDistance').textContent = totalDistance.toFixed(0) + ' km';
-        }
-
-        // Rendu des tags de filtre
-        function renderFilterTags() {
-            renderTags('lieuxTags', allLieux, 'lieu');
-            renderTags('nomsTags', allInterlocuteurs, 'nom');
-            renderTags('paysTags', allPays, 'pays');
-        }
-
-        // Rendu des tags pour un type donné
-        function renderTags(containerId, items, type) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            
-            if (items.length === 0) {
-                container.innerHTML = '<div style="color: #7f8c8d; font-style: italic;">Aucun ' + type + ' trouvé</div>';
-                return;
-            }
-            
-            items.forEach(item => {
-                const tag = document.createElement('div');
-                tag.className = 'tag';
-                tag.textContent = item;
-                
-                tag.addEventListener('click', () => {
-                    currentSearchTerm = item;
-                    currentSearchType = type;
-                    const results = filterDataByType(item, type);
-                    displayFilteredEntries(results, `${type.charAt(0).toUpperCase() + type.slice(1)}: ${item}`);
-                });
-                
-                container.appendChild(tag);
-            });
-        }
-
-        // Filtrage des données par type
-        function filterDataByType(value, type) {
-            let columnIndices = [];
-            
-            switch(type) {
-                case 'lieu':
-                    columnIndices = headers
-                        .map((header, index) => header.includes('Lieux') ? index : -1)
-                        .filter(index => index !== -1);
-                    break;
-                case 'nom':
-                    columnIndices = [headers.findIndex(header => 
-                        header && header.trim() === "Interlocuteur ,hôte"
-                    )].filter(index => index !== -1);
-                    break;
-                case 'pays':
-                    columnIndices = headers
-                        .map((header, index) => header.includes('Pays') ? index : -1)
-                        .filter(index => index !== -1);
-                    break;
-            }
-            
-            if (columnIndices.length === 0) return [];
-            
-            return sheetData.filter(row => {
-                return columnIndices.some(index => {
-                    const cellValue = row[index] || '';
-                    return cellValue.includes(value);
-                });
-            });
-        }
-
-        // Rendu du calendrier avec lieux
-        function renderCalendar() {
-            const grid = document.getElementById('calendarGrid');
-            const monthElement = document.getElementById('currentMonth');
-            
-            monthElement.textContent = currentDate.toLocaleDateString('fr-FR', {
-                month: 'long',
-                year: 'numeric'
-            });
-            
-            grid.innerHTML = '';
-            
-            ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].forEach(day => {
-                const dayHeader = document.createElement('div');
-                dayHeader.className = 'calendar-day-header';
-                dayHeader.textContent = day;
-                grid.appendChild(dayHeader);
-            });
-            
-            const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-            const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-            
-            let startDay = firstDay.getDay();
-            startDay = startDay === 0 ? 6 : startDay - 1;
-            
-            for (let i = 0; i < startDay; i++) {
-                const emptyDay = document.createElement('div');
-                emptyDay.className = 'calendar-day other-month';
-                grid.appendChild(emptyDay);
-            }
-            
-            for (let i = 1; i <= lastDay.getDate(); i++) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day';
-                
-                const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
-                const dayData = datesWithData.find(d => 
-                    d.date.getDate() === date.getDate() &&
-                    d.date.getMonth() === date.getMonth() &&
-                    d.date.getFullYear() === date.getFullYear()
-                );
-                
-                const dayNumber = document.createElement('div');
-                dayNumber.className = 'calendar-day-number';
-                dayNumber.textContent = i;
-                day.appendChild(dayNumber);
-                
-                if (dayData) {
-                    day.classList.add('has-data');
-                    
-                    const lieuxDiv = document.createElement('div');
-                    lieuxDiv.className = 'calendar-day-lieux';
-                    
-                    // Afficher tous les lieux
-                    lieuxDiv.textContent = dayData.lieux.join(', ');
-                    
-                    day.appendChild(lieuxDiv);
-                }
-                
-                if (selectedDate && 
-                    selectedDate.getDate() === i &&
-                    selectedDate.getMonth() === currentDate.getMonth() &&
-                    selectedDate.getFullYear() === currentDate.getFullYear()) {
-                    day.classList.add('selected');
-                }
-                
-                day.addEventListener('click', () => {
-                    if (dayData) {
-                        selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), i));
-                    }
-                });
-                
-                grid.appendChild(day);
-            }
-        }
-
-        // Sélection d'une date
-        function selectDate(date) {
-            selectedDate = date;
-            const matchingRows = findEntriesByDate(date);
-            displayFilteredEntries(matchingRows, `Journal du ${formatDateForDisplay(date)}`);
-            renderCalendar();
-        }
-
-        // Recherche des entrées par date
-        function findEntriesByDate(date) {
-            const dateColumnIndex = 1;
-            
-            return sheetData.filter(row => {
-                const rowDateStr = row[dateColumnIndex] || '';
-                const rowDate = parseDate(rowDateStr);
-                return rowDate && 
-                       rowDate.getDate() === date.getDate() &&
-                       rowDate.getMonth() === date.getMonth() &&
-                       rowDate.getFullYear() === date.getFullYear();
-            });
-        }
-
-        // Parse une date
-        function parseDate(dateStr) {
-            const formats = [
-                /(\d{2})\/(\d{2})\/(\d{4})/,
-                /(\d{4})-(\d{2})-(\d{2})/,
-                /(\d{2})-(\d{2})-(\d{4})/
-            ];
-            
-            for (const format of formats) {
-                const match = dateStr.match(format);
-                if (match) {
-                    if (format === formats[0]) {
-                        return new Date(match[3], match[2] - 1, match[1]);
-                    } else {
-                        return new Date(match[1], match[2] - 1, match[3]);
-                    }
-                }
-            }
-            
-            const nativeDate = new Date(dateStr);
-            return isNaN(nativeDate.getTime()) ? null : nativeDate;
-        }
-
-        // Formatage d'une date pour l'affichage
-        function formatDateForDisplay(date) {
-            return date.toLocaleDateString('fr-FR', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-        }
-
-        // Gestion de la recherche
-        function handleSearch(event) {
-            event.preventDefault();
-            const searchValue = document.getElementById('searchInput').value.trim();
-            
-            if (!searchValue) {
-                alert('Veuillez entrer un mot ou une phrase pour la recherche');
-                return;
-            }
-            
-            currentSearchTerm = searchValue;
-            currentSearchType = 'text';
-            const results = searchData(searchValue);
-            displayFilteredEntries(results, `Résultats pour "${searchValue}"`);
-        }
-
-        // Recherche dans les données
-        function searchData(searchValue) {
-            const searchLower = searchValue.toLowerCase();
-            return sheetData.filter(row => 
-                row.some(cell => cell && cell.toLowerCase().includes(searchLower))
-            );
-        }
-
-        // Basculer le filtre des concerts
-        function toggleConcertFilter() {
-            showOnlyConcerts = !showOnlyConcerts;
-            const button = document.getElementById('concertFilterButton');
-            
-            if (showOnlyConcerts) {
-                button.classList.add('active');
-                button.textContent = '🎵 Voir toutes les activités';
-                filterConcertsOnly();
-            } else {
-                button.classList.remove('active');
-                button.textContent = '🎵 Filtrer les concerts';
-                displayAllJournalEntries();
-            }
-        }
-
-        // Filtrer uniquement les concerts
-        function filterConcertsOnly() {
-            const concertRows = [];
-            
-            sheetData.forEach(row => {
-                // Rechercher les colonnes de concert
-                const concertColumns = headers
-                    .map((header, index) => 
-                        (header && header.includes('CONCERT')) ? index : -1
-                    )
-                    .filter(index => index !== -1);
-                
-                // Vérifier si cette ligne a au moins un concert
-                const hasConcert = concertColumns.some(colIndex => {
-                    const value = row[colIndex] || '';
-                    return value && (value.toLowerCase().includes('concert') || value === 'OUI');
-                });
-                
-                if (hasConcert) {
-                    concertRows.push(row);
-                }
-            });
-            
-            displayFilteredEntries(concertRows, 'Concerts uniquement');
-        }
-
-        // Affichage de tous les messages
-        function showAllData() {
-            currentSearchTerm = '';
-            currentSearchType = '';
-            showOnlyConcerts = false;
-            document.getElementById('concertFilterButton').classList.remove('active');
-            document.getElementById('concertFilterButton').textContent = '🎵 Filtrer les concerts';
-            displayAllJournalEntries();
-        }
-
-        // Affichage de toutes les entrées de journal
-        function displayAllJournalEntries() {
-            const container = document.getElementById('journalEntries');
-            container.innerHTML = '';
-            
-            if (sheetData.length === 0) {
-                container.innerHTML = '<div class="no-data">Aucune donnée de journal disponible</div>';
-                return;
-            }
-            
-            sheetData.forEach((row, index) => {
-                container.appendChild(generateJournalEntry(row, index));
-            });
-        }
-
-        // Affichage des entrées filtrées
-        function displayFilteredEntries(results, title) {
-            const container = document.getElementById('journalEntries');
-            container.innerHTML = '';
-            
-            if (results.length === 0) {
-                container.innerHTML = `
-                    <div class="no-data">
-                        <h3>❌ Aucune journée trouvée</h3>
-                        <p>Aucune journée ne correspond à votre recherche</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            const header = document.createElement('div');
-            header.style.background = 'linear-gradient(135deg, #e8f4fc, #d1e7f5)';
-            header.style.padding = '15px 20px';
-            header.style.borderRadius = '10px';
-            header.style.marginBottom = '25px';
-            header.style.border = '2px solid var(--neutral-border)';
-            header.innerHTML = `<strong style="font-size: 1.1em;">${results.length} journée(s) trouvée(s)</strong> pour : "${title}"`;
-            container.appendChild(header);
-            
-            results.forEach((row, index) => {
-                container.appendChild(generateJournalEntry(row, index));
-            });
-            
-            container.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Génération d'une entrée de journal selon la nouvelle structure
-        function generateJournalEntry(row, index) {
-            const dateIndex = 1;
-            const dateStr = row[dateIndex] || 'Date non spécifiée';
-            const dayNumber = index + 1;
-            
-            const entryDiv = document.createElement('div');
-            entryDiv.className = 'journal-entry';
-            
-            // En-tête avec titre et date
-            const headerDiv = document.createElement('div');
-            headerDiv.className = 'entry-header';
-            headerDiv.innerHTML = `
-                <h2 class="entry-title">Jour ${dayNumber}</h2>
-                <div class="entry-date">Date: ${dateStr}</div>
-            `;
-            entryDiv.appendChild(headerDiv);
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'entry-content';
-            
-            // 1. Données générales de la journée
-            contentDiv.appendChild(createGeneralInfoSection(row));
-            
-            // 2. Données par catégories (Concerts et Activités)
-            contentDiv.appendChild(createActivitiesSection(row));
-            
-            // 3. Données générales de fin de journée
-            contentDiv.appendChild(createEndOfDaySection(row));
-            
-            // 4. Section admin (si connecté) ou liens de fiches (si mot de passe validé)
-            if (isAdmin || showFicheLinks) {
-                contentDiv.appendChild(createAdminSection(row));
-            }
-            
-            entryDiv.appendChild(contentDiv);
-            
-            return entryDiv;
-        }
-
-        // Création de la section d'informations générales
-        function createGeneralInfoSection(row) {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'section';
-            
-            // Titre de section
-            const title = document.createElement('h3');
-            title.className = 'section-title';
-            title.textContent = 'Informations Générales';
-            sectionDiv.appendChild(title);
-            
-            // Grille d'informations
-            const infoGrid = document.createElement('div');
-            infoGrid.className = 'info-grid';
-            
-            // Date
-            const dateIndex = findHeaderIndex('Date:');
-            if (dateIndex !== -1 && row[dateIndex]) {
-                infoGrid.appendChild(createInfoItem('Date:', row[dateIndex]));
-            }
-            
-            // Pays
-            const paysIndex = findHeaderIndex('Pays:');
-            if (paysIndex !== -1 && row[paysIndex]) {
-                infoGrid.appendChild(createInfoItem('Pays:', row[paysIndex]));
-            }
-            
-            // Au Programme
-            const programmeIndices = findAllHeaderIndices('Au Programme:');
-            if (programmeIndices.length > 0) {
-                let programmeValues = [];
-                programmeIndices.forEach(index => {
-                    if (row[index]) {
-                        programmeValues.push(row[index]);
-                    }
-                });
-                
-                if (programmeValues.length > 0) {
-                    infoGrid.appendChild(createInfoItem('Au Programme:', programmeValues.join(', ')));
-                }
-            }
-            
-            sectionDiv.appendChild(infoGrid);
-            
-            return sectionDiv;
-        }
-
-        // Création de la section des activités
-        function createActivitiesSection(row) {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'section';
-            
-            // Titre de section
-            const title = document.createElement('h3');
-            title.className = 'section-title';
-            title.textContent = 'Activités de la Journée';
-            sectionDiv.appendChild(title);
-            
-            // Recherche flexible des sections d'activités
-            const activitySections = findActivitySectionsInHeaders();
-            let hasActivities = false;
-            
-            activitySections.forEach(section => {
-                const activityData = extractActivityData(row, section.index, section.prefix);
-                
-                if (section.type === 'concert') {
-                    // Pour les concerts, vérifier si c'est "OUI"
-                    if (activityData.type && activityData.type.toLowerCase() === 'oui') {
-                        sectionDiv.appendChild(createConcertSection(activityData, section.prefix));
-                        hasActivities = true;
-                    }
-                } else {
-                    // Pour les activités, vérifier si c'est un type valide
-                    const validActivityTypes = [
-                        'Rencontre/Invitation', 'Concert', 'Ecole', 
-                        'Sortie/visite/Tourisme', 'Eglise/culte', 'Marché', 'Shopping',
-                        'Rencontre' // Ajouté basé sur votre exemple
-                    ];
-                    
-                    if (activityData.type && validActivityTypes.includes(activityData.type)) {
-                        sectionDiv.appendChild(createActivitySection(activityData, section.prefix, activityData.type));
-                        hasActivities = true;
-                    }
-                }
-            });
-            
-            if (!hasActivities) {
-                const noActivities = document.createElement('div');
-                noActivities.className = 'no-data';
-                noActivities.textContent = 'Aucune activité trouvée pour cette journée';
-                sectionDiv.appendChild(noActivities);
-            }
-            
-            return sectionDiv;
-        }
-
-        // RECHERCHE AMÉLIORÉE DES SECTIONS D'ACTIVITÉS
-        function findActivitySectionsInHeaders() {
-            const sections = [];
-            
-            console.log('🔍 Recherche des sections d\'activités dans les en-têtes...');
-            
-            // Recherche plus flexible pour les activités
-            headers.forEach((header, index) => {
-                if (!header) return;
-                
-                const headerUpper = header.toUpperCase().trim();
-                
-                // Détection des concerts
-                if (headerUpper.includes('CONCERT')) {
-                    const concertNumber = extractNumber(headerUpper);
-                    const prefix = concertNumber ? `CONCERT ${concertNumber}` : 'CONCERT';
-                    
-                    sections.push({
-                        prefix: prefix,
-                        type: 'concert',
-                        index: index
-                    });
-                    console.log(`🎵 Concert détecté: ${header} -> ${prefix}`);
-                }
-                
-                // Détection des activités
-                else if (headerUpper.includes('ACTIVITÉ') || headerUpper.includes('ACTIVITE')) {
-                    const activityNumber = extractNumber(headerUpper);
-                    const prefix = activityNumber ? `ACTIVITÉ ${activityNumber}` : 'ACTIVITÉ';
-                    
-                    sections.push({
-                        prefix: prefix,
-                        type: 'activity',
-                        index: index
-                    });
-                    console.log(`📅 Activité détectée: ${header} -> ${prefix}`);
-                }
-                
-                // Détection des activités avec numéros (1, 2, 3, etc.)
-                else if (/ACTIVITÉ?\s*\d+|ACTIVITY\s*\d+/i.test(header)) {
-                    const activityNumber = extractNumber(headerUpper);
-                    const prefix = `ACTIVITÉ ${activityNumber || '1'}`;
-                    
-                    sections.push({
-                        prefix: prefix,
-                        type: 'activity',
-                        index: index
-                    });
-                    console.log(`📅 Activité numérotée détectée: ${header} -> ${prefix}`);
-                }
-            });
-            
-            // Trier les sections pour avoir un ordre logique
-            sections.sort((a, b) => {
-                // D'abord les concerts, puis les activités
-                if (a.type !== b.type) {
-                    return a.type === 'concert' ? -1 : 1;
-                }
-                // Ensuite par numéro
-                const numA = extractNumber(a.prefix);
-                const numB = extractNumber(b.prefix);
-                return (numA || 0) - (numB || 0);
-            });
-            
-            console.log(`✅ Sections d'activités trouvées: ${sections.length}`);
-            sections.forEach(section => {
-                console.log(`   - ${section.prefix} (${section.type}) à l'index ${section.index}`);
-            });
-            
-            return sections;
-        }
-
-        // Fonction utilitaire pour extraire les numéros des en-têtes
-        function extractNumber(text) {
-            const match = text.match(/\d+/);
-            return match ? parseInt(match[0]) : null;
-        }
-
-        // Extraction des données d'une section d'activité
-        function extractActivityData(row, activityIndex, prefix) {
-            const data = {};
-            
-            // Le type d'activité est dans la colonne de l'activité elle-même
-            data.type = row[activityIndex] || '';
-            
-            // Les champs suivis dans l'ordre séquentiel
-            const startIndex = activityIndex + 1;
-            
-            // Mapping des champs dans l'ordre attendu basé sur votre exemple
-            const fieldMapping = [
-                { name: 'heureDebut', patterns: ['Heure début:', 'Heure début'] },
-                { name: 'heureFin', patterns: ['Heure fin:', 'Heure fin'] },
-                { name: 'lieux', patterns: ['Lieux :', 'Lieux'] },
-                { name: 'trajet', patterns: ['Trajet:', 'Trajet'] },
-                { name: 'dureeTrajet', patterns: ['Durée trajet:', 'Durée trajet'] },
-                { name: 'distanceTrajet', patterns: ['Distance trajet:', 'Distance trajet'] },
-                { name: 'details', patterns: ['Détails sur l\'activité:', 'Détails sur l\'activité'] },
-                { name: 'faits', patterns: ['Faits marquants et Anecdote:', 'Faits marquants et Anecdote'] },
-                { name: 'observations', patterns: ['Observations :', 'Observations'] },
-                { name: 'nbParticipant', patterns: ['Nb participant:', 'Nb participant'] },
-                { name: 'interlocuteur', patterns: ['Interlocuteur ,hôte', 'Interlocuteur'] },
-                { name: 'telephone', patterns: ['Téléphone', 'Telephone'] },
-                { name: 'whatsapp', patterns: ['Whatsapp', 'WhatsApp'] },
-                { name: 'mail', patterns: ['Mail:'] },
-                { name: 'reseauxSociaux', patterns: ['fb ou autre contact sur réseaux sociaux de l\'hôte'] },
-                { name: 'photosLieux', patterns: ['Photos des lieux (extérieur ,intérieur, coulisse)'] },
-                { name: 'repertoire', patterns: ['Répertoire:'] },
-                { name: 'photosGroupe', patterns: ['Photos de groupe,marquante'] }
-            ];
-            
-            // Parcourir les colonnes suivantes pour trouver les données
-            let currentIndex = startIndex;
-            fieldMapping.forEach(field => {
-                if (currentIndex < headers.length) {
-                    // Vérifier si l'en-tête correspond à l'un des patterns
-                    const header = headers[currentIndex] || '';
-                    const isMatching = field.patterns.some(pattern => 
-                        header.includes(pattern)
-                    );
-                    
-                    if (isMatching && row[currentIndex]) {
-                        data[field.name] = row[currentIndex];
-                    }
-                    currentIndex++;
-                }
-            });
-            
-            return data;
-        }
-
-        // Création d'une section de concert
-        function createConcertSection(activityData, concertPrefix) {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'activity-section concert-section';
-            
-            // Titre de l'activité
-            const activityTitle = document.createElement('h4');
-            activityTitle.className = 'activity-title concert-title';
-            
-            // Construire le titre selon le format demandé
-            let title = `${concertPrefix}`;
-            if (activityData.lieux) {
-                title += ` à ${activityData.lieux}`;
-            } else {
-                title += ` à Lieu non spécifié`;
-            }
-            
-            activityTitle.textContent = title;
-            sectionDiv.appendChild(activityTitle);
-            
-            // Heures début et fin côte à côte avec emojis
-            if (activityData.heureDebut || activityData.heureFin) {
-                const heureGroup = document.createElement('div');
-                heureGroup.className = 'heure-group';
-                
-                if (activityData.heureDebut) {
-                    const heureItem = document.createElement('div');
-                    heureItem.className = 'heure-item';
-                    heureItem.innerHTML = `
-                        <div class="heure-icon">🕐</div>
-                        <div class="heure-label">Heure début</div>
-                        <div class="heure-value">${activityData.heureDebut}</div>
-                    `;
-                    heureGroup.appendChild(heureItem);
-                }
-                
-                if (activityData.heureFin) {
-                    const heureItem = document.createElement('div');
-                    heureItem.className = 'heure-item';
-                    heureItem.innerHTML = `
-                        <div class="heure-icon">🕔</div>
-                        <div class="heure-label">Heure fin</div>
-                        <div class="heure-value">${activityData.heureFin}</div>
-                    `;
-                    heureGroup.appendChild(heureItem);
-                }
-                
-                sectionDiv.appendChild(heureGroup);
-            }
-            
-            // Concernant les lieux
-            if (activityData.lieux || activityData.trajet || activityData.dureeTrajet || activityData.distanceTrajet) {
-                const lieuSubtitle = document.createElement('h5');
-                lieuSubtitle.className = 'subsection-title';
-                lieuSubtitle.textContent = 'Concernant les lieux:';
-                sectionDiv.appendChild(lieuSubtitle);
-                
-                // Informations sur les lieux en une seule ligne
-                const lieuxInfo = document.createElement('div');
-                lieuxInfo.className = 'lieux-info';
-                
-                if (activityData.lieux) {
-                    const lieuItem = document.createElement('div');
-                    lieuItem.className = 'lieux-item';
-                    lieuItem.innerHTML = `
-                        <div class="lieux-icon">📍</div>
-                        <div class="lieux-label">Lieux</div>
-                        <div class="lieux-value">${activityData.lieux}</div>
-                    `;
-                    lieuxInfo.appendChild(lieuItem);
-                }
-                
-                if (activityData.trajet) {
-                    const trajetItem = document.createElement('div');
-                    trajetItem.className = 'lieux-item';
-                    trajetItem.innerHTML = `
-                        <div class="lieux-icon">🛣️</div>
-                        <div class="lieux-label">Trajet</div>
-                        <div class="lieux-value">${activityData.trajet}</div>
-                    `;
-                    lieuxInfo.appendChild(trajetItem);
-                }
-                
-                if (activityData.dureeTrajet) {
-                    const dureeItem = document.createElement('div');
-                    dureeItem.className = 'lieux-item';
-                    dureeItem.innerHTML = `
-                        <div class="lieux-icon">⏱️</div>
-                        <div class="lieux-label">Durée</div>
-                        <div class="lieux-value">${activityData.dureeTrajet} Heures</div>
-                    `;
-                    lieuxInfo.appendChild(dureeItem);
-                }
-                
-                if (activityData.distanceTrajet) {
-                    const distanceItem = document.createElement('div');
-                    distanceItem.className = 'lieux-item';
-                    distanceItem.innerHTML = `
-                        <div class="lieux-icon">📏</div>
-                        <div class="lieux-label">Distance</div>
-                        <div class="lieux-value">${activityData.distanceTrajet} Km</div>
-                    `;
-                    lieuxInfo.appendChild(distanceItem);
-                }
-                
-                sectionDiv.appendChild(lieuxInfo);
-            }
-            
-            // Notes
-            if (activityData.details || activityData.faits || activityData.observations) {
-                const notesSubtitle = document.createElement('h5');
-                notesSubtitle.className = 'subsection-title';
-                notesSubtitle.textContent = 'Notes';
-                sectionDiv.appendChild(notesSubtitle);
-                
-                // Détails sur l'activité
-                if (activityData.details) {
-                    sectionDiv.appendChild(createNoteBox('Détails sur l\'activité:', activityData.details));
-                }
-                
-                // Faits marquants et Anecdote
-                if (activityData.faits) {
-                    sectionDiv.appendChild(createNoteBox('Faits marquants et Anecdote:', activityData.faits));
-                }
-                
-                // Observations
-                if (activityData.observations) {
-                    sectionDiv.appendChild(createNoteBox('Observations:', activityData.observations));
-                }
-            }
-            
-            // Nombre de participants
-            if (activityData.nbParticipant) {
-                const participantsDiv = document.createElement('div');
-                participantsDiv.className = 'highlight-value';
-                participantsDiv.innerHTML = `<strong>Nb participant:</strong> ${activityData.nbParticipant} personne(s)`;
-                sectionDiv.appendChild(participantsDiv);
-            }
-            
-            // Informations sur l'Organisateur/Hôte
-            if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || 
-                activityData.mail || activityData.reseauxSociaux) {
-                sectionDiv.appendChild(createContactInfoSection(activityData));
-            }
-            
-            // Liens de photos
-            if (activityData.photosLieux || activityData.repertoire || activityData.photosGroupe) {
-                const photosDiv = document.createElement('div');
-                photosDiv.className = 'photos-section';
-                
-                const photosTitle = document.createElement('div');
-                photosTitle.className = 'photos-title';
-                photosTitle.textContent = 'Liens des photos';
-                photosDiv.appendChild(photosTitle);
-                
-                if (activityData.photosLieux) {
-                    const photoButton = createPhotoButton('Photos des lieux', activityData.photosLieux);
-                    photosDiv.appendChild(photoButton);
-                }
-                
-                if (activityData.repertoire) {
-                    const photoButton = createPhotoButton('Répertoire', activityData.repertoire);
-                    photosDiv.appendChild(photoButton);
-                }
-                
-                if (activityData.photosGroupe) {
-                    const photoButton = createPhotoButton('Photos de groupe', activityData.photosGroupe);
-                    photosDiv.appendChild(photoButton);
-                }
-                
-                sectionDiv.appendChild(photosDiv);
-            }
-            
-            return sectionDiv;
-        }
-
-        // Création d'une section d'activité
-        function createActivitySection(activityData, activityPrefix, activityType) {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'activity-section';
-            
-            // Titre de l'activité
-            const activityTitle = document.createElement('h4');
-            activityTitle.className = 'activity-title activity-type';
-            
-            // Construire le titre selon le format demandé - "Type - Interlocuteur à Lieu"
-            let title = activityType;
-            if (activityData.interlocuteur) {
-                title += ` - ${activityData.interlocuteur}`;
-            }
-            if (activityData.lieux) {
-                title += ` à ${activityData.lieux}`;
-            }
-            
-            activityTitle.textContent = title;
-            sectionDiv.appendChild(activityTitle);
-            
-            // Heures début et fin côte à côte avec emojis
-            if (activityData.heureDebut || activityData.heureFin) {
-                const heureGroup = document.createElement('div');
-                heureGroup.className = 'heure-group';
-                
-                if (activityData.heureDebut) {
-                    const heureItem = document.createElement('div');
-                    heureItem.className = 'heure-item';
-                    heureItem.innerHTML = `
-                        <div class="heure-icon">🕐</div>
-                        <div class="heure-label">Heure début</div>
-                        <div class="heure-value">${activityData.heureDebut}</div>
-                    `;
-                    heureGroup.appendChild(heureItem);
-                }
-                
-                if (activityData.heureFin) {
-                    const heureItem = document.createElement('div');
-                    heureItem.className = 'heure-item';
-                    heureItem.innerHTML = `
-                        <div class="heure-icon">🕔</div>
-                        <div class="heure-label">Heure fin</div>
-                        <div class="heure-value">${activityData.heureFin}</div>
-                    `;
-                    heureGroup.appendChild(heureItem);
-                }
-                
-                sectionDiv.appendChild(heureGroup);
-            }
-            
-            // Concernant les lieux
-            if (activityData.lieux || activityData.trajet || activityData.dureeTrajet || activityData.distanceTrajet) {
-                const lieuSubtitle = document.createElement('h5');
-                lieuSubtitle.className = 'subsection-title';
-                lieuSubtitle.textContent = 'Concernant les lieux:';
-                sectionDiv.appendChild(lieuSubtitle);
-                
-                // Informations sur les lieux en une seule ligne
-                const lieuxInfo = document.createElement('div');
-                lieuxInfo.className = 'lieux-info';
-                
-                if (activityData.lieux) {
-                    const lieuItem = document.createElement('div');
-                    lieuItem.className = 'lieux-item';
-                    lieuItem.innerHTML = `
-                        <div class="lieux-icon">📍</div>
-                        <div class="lieux-label">Lieux</div>
-                        <div class="lieux-value">${activityData.lieux}</div>
-                    `;
-                    lieuxInfo.appendChild(lieuItem);
-                }
-                
-                if (activityData.trajet) {
-                    const trajetItem = document.createElement('div');
-                    trajetItem.className = 'lieux-item';
-                    trajetItem.innerHTML = `
-                        <div class="lieux-icon">🛣️</div>
-                        <div class="lieux-label">Trajet</div>
-                        <div class="lieux-value">${activityData.trajet}</div>
-                    `;
-                    lieuxInfo.appendChild(trajetItem);
-                }
-                
-                if (activityData.dureeTrajet) {
-                    const dureeItem = document.createElement('div');
-                    dureeItem.className = 'lieux-item';
-                    dureeItem.innerHTML = `
-                        <div class="lieux-icon">⏱️</div>
-                        <div class="lieux-label">Durée</div>
-                        <div class="lieux-value">${activityData.dureeTrajet} Heures</div>
-                    `;
-                    lieuxInfo.appendChild(dureeItem);
-                }
-                
-                if (activityData.distanceTrajet) {
-                    const distanceItem = document.createElement('div');
-                    distanceItem.className = 'lieux-item';
-                    distanceItem.innerHTML = `
-                        <div class="lieux-icon">📏</div>
-                        <div class="lieux-label">Distance</div>
-                        <div class="lieux-value">${activityData.distanceTrajet} Km</div>
-                    `;
-                    lieuxInfo.appendChild(distanceItem);
-                }
-                
-                sectionDiv.appendChild(lieuxInfo);
-            }
-            
-            // Notes
-            if (activityData.details || activityData.faits || activityData.observations) {
-                const notesSubtitle = document.createElement('h5');
-                notesSubtitle.className = 'subsection-title';
-                notesSubtitle.textContent = 'Notes';
-                sectionDiv.appendChild(notesSubtitle);
-                
-                // Détails sur l'activité
-                if (activityData.details) {
-                    sectionDiv.appendChild(createNoteBox('Détails sur l\'activité:', activityData.details));
-                }
-                
-                // Faits marquants et Anecdote
-                if (activityData.faits) {
-                    sectionDiv.appendChild(createNoteBox('Faits marquants et Anecdote:', activityData.faits));
-                }
-                
-                // Observations
-                if (activityData.observations) {
-                    sectionDiv.appendChild(createNoteBox('Observations:', activityData.observations));
-                }
-            }
-            
-            // Nombre de participants
-            if (activityData.nbParticipant) {
-                const participantsDiv = document.createElement('div');
-                participantsDiv.className = 'highlight-value';
-                participantsDiv.innerHTML = `<strong>Nb participant:</strong> ${activityData.nbParticipant} personne(s)`;
-                sectionDiv.appendChild(participantsDiv);
-            }
-            
-            // Informations sur l'Organisateur/Hôte
-            if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || 
-                activityData.mail || activityData.reseauxSociaux) {
-                sectionDiv.appendChild(createContactInfoSection(activityData));
-            }
-            
-            // Liens de photos
-            if (activityData.photosLieux || activityData.repertoire || activityData.photosGroupe) {
-                const photosDiv = document.createElement('div');
-                photosDiv.className = 'photos-section';
-                
-                const photosTitle = document.createElement('div');
-                photosTitle.className = 'photos-title';
-                photosTitle.textContent = 'Liens des photos';
-                photosDiv.appendChild(photosTitle);
-                
-                if (activityData.photosLieux) {
-                    const photoButton = createPhotoButton('Photos des lieux', activityData.photosLieux);
-                    photosDiv.appendChild(photoButton);
-                }
-                
-                if (activityData.repertoire) {
-                    const photoButton = createPhotoButton('Répertoire', activityData.repertoire);
-                    photosDiv.appendChild(photoButton);
-                }
-                
-                if (activityData.photosGroupe) {
-                    const photoButton = createPhotoButton('Photos de groupe', activityData.photosGroupe);
-                    photosDiv.appendChild(photoButton);
-                }
-                
-                sectionDiv.appendChild(photosDiv);
-            }
-            
-            return sectionDiv;
-        }
-
-        // Création de la section d'informations de contact
-        function createContactInfoSection(activityData) {
-            const contactDiv = document.createElement('div');
-            contactDiv.className = 'contact-info';
-            
-            // En-tête
-            const contactHeader = document.createElement('div');
-            contactHeader.className = 'contact-header';
-            contactHeader.innerHTML = `
-                <span class="contact-icon">📞</span>
-                <h4>Information sur Interlocuteur ,hôte</h4>
-            `;
-            contactDiv.appendChild(contactHeader);
-            
-            // Détails des contacts
-            const contactDetails = document.createElement('div');
-            contactDetails.className = 'contact-details';
-            
-            // Nom de l'interlocuteur/hôte
-            if (activityData.interlocuteur) {
-                const contactItem = document.createElement('div');
-                contactItem.className = 'contact-item';
-                contactItem.innerHTML = `
-                    <span class="contact-icon">👤</span>
-                    <span class="contact-value">${activityData.interlocuteur}</span>
-                `;
-                contactDetails.appendChild(contactItem);
-            }
-            
-            // Téléphone
-            if (activityData.telephone) {
-                const contactItem = document.createElement('div');
-                contactItem.className = 'contact-item';
-                contactItem.innerHTML = `
-                    <span class="contact-icon">🔢</span>
-                    <span class="contact-value">${activityData.telephone}</span>
-                `;
-                contactDetails.appendChild(contactItem);
-            }
-            
-            // WhatsApp
-            if (activityData.whatsapp) {
-                const contactItem = document.createElement('div');
-                contactItem.className = 'contact-item';
-                contactItem.innerHTML = `
-                    <span class="contact-icon">💬</span>
-                    <span class="contact-value">${activityData.whatsapp}</span>
-                `;
-                contactDetails.appendChild(contactItem);
-            }
-            
-            // Email
-            if (activityData.mail) {
-                const contactItem = document.createElement('div');
-                contactItem.className = 'contact-item';
-                contactItem.innerHTML = `
-                    <span class="contact-icon">📧</span>
-                    <span class="contact-value">${formatEmail(activityData.mail)}</span>
-                `;
-                contactDetails.appendChild(contactItem);
-            }
-            
-            // Réseaux sociaux
-            if (activityData.reseauxSociaux) {
-                const contactItem = document.createElement('div');
-                contactItem.className = 'contact-item';
-                contactItem.innerHTML = `
-                    <span class="contact-icon">👥</span>
-                    <span class="contact-value">${activityData.reseauxSociaux}</span>
-                `;
-                contactDetails.appendChild(contactItem);
-            }
-            
-            contactDiv.appendChild(contactDetails);
-            
-            return contactDiv;
-        }
-
-        // Création de la section de fin de journée
-        function createEndOfDaySection(row) {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'section';
-            
-            // Titre de section
-            const title = document.createElement('h3');
-            title.className = 'section-title';
-            title.textContent = 'Bilan de la Journée';
-            sectionDiv.appendChild(title);
-            
-            // Notes
-            const notesSubtitle = document.createElement('h5');
-            notesSubtitle.className = 'subsection-title';
-            notesSubtitle.textContent = 'Notes';
-            sectionDiv.appendChild(notesSubtitle);
-            
-            // RESUME
-            const resumeIndex = findHeaderIndex('RESUME');
-            if (resumeIndex !== -1 && row[resumeIndex]) {
-                sectionDiv.appendChild(createNoteBox('RESUME', row[resumeIndex]));
-            }
-            
-            // Note de la journée
-            const noteIndex = findHeaderIndex('Note de la journée:');
-            if (noteIndex !== -1 && row[noteIndex]) {
-                sectionDiv.appendChild(createNoteBox('Note de la journée:', row[noteIndex]));
-            }
-            
-            return sectionDiv;
-        }
-
-        // Création de la section admin
-        function createAdminSection(row) {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'section';
-            
-            // Titre de section
-            const title = document.createElement('h3');
-            title.className = 'section-title';
-            title.textContent = '🔐 Informations Administrateur';
-            sectionDiv.appendChild(title);
-            
-            // Lien de fiche
-            const ficheIndex = findHeaderIndex('Lien de cette fiche:');
-            if (ficheIndex !== -1 && row[ficheIndex]) {
-                sectionDiv.appendChild(createInfoItem('Lien de cette fiche:', row[ficheIndex]));
-            }
-            
-            return sectionDiv;
-        }
-
-        // Fonctions utilitaires pour créer des éléments d'interface
-        function createInfoItem(label, value) {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'info-item';
-            
-            const labelSpan = document.createElement('div');
-            labelSpan.className = 'info-label';
-            labelSpan.textContent = label;
-            
-            const valueDiv = document.createElement('div');
-            valueDiv.className = 'info-value';
-            
-            // Convertir les URLs en liens
-            const urlRegex = /(https?:\/\/[^\s]+)/g;
-            valueDiv.innerHTML = value.replace(urlRegex, function(url) {
-                return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
-            });
-            
-            itemDiv.appendChild(labelSpan);
-            itemDiv.appendChild(valueDiv);
-            
-            return itemDiv;
-        }
-
-        function createNoteBox(title, content) {
-            const noteDiv = document.createElement('div');
-            noteDiv.className = 'note-box';
-            
-            const titleDiv = document.createElement('div');
-            titleDiv.className = 'note-title';
-            titleDiv.textContent = title;
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.innerHTML = content;
-            
-            noteDiv.appendChild(titleDiv);
-            noteDiv.appendChild(contentDiv);
-            
-            return noteDiv;
-        }
-
-        function createPhotoButton(text, url) {
-            const button = document.createElement('a');
-            button.className = 'photo-button';
-            button.href = url;
-            button.target = '_blank';
-            button.rel = 'noopener noreferrer';
-            button.textContent = text;
-            
-            return button;
-        }
-
-        // Formater les emails pour les rendre cliquables
-        function formatEmail(emailText) {
-            const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
-            return emailText.replace(emailRegex, function(email) {
-                return `<a href="mailto:${email}" class="email-link">${email}</a>`;
-            });
-        }
-
-        // Fonctions utilitaires pour trouver des en-têtes
-        function findHeaderIndex(headerText) {
-            return headers.findIndex(header => 
-                header && header.trim() === headerText
-            );
-        }
-
-        function findAllHeaderIndices(headerText) {
-            const indices = [];
-            headers.forEach((header, index) => {
-                if (header && header.includes(headerText)) {
-                    indices.push(index);
-                }
-            });
-            return indices;
-        }
-
-        // Navigation dans le calendrier
-        function prevMonth() {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
-        }
-
-        function nextMonth() {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
-        }
-
-        // Fonctions pour l'envoi d'emails groupés
-        function showEmailModal() {
-            const modal = document.getElementById('emailModal');
-            const recipientsContainer = document.getElementById('emailRecipients');
-            const recipientCount = document.getElementById('recipientCount');
-            
-            // Récupérer tous les interlocuteurs avec email
-            const interlocuteursAvecEmail = [];
-            const emailsDejaVus = new Set();
-            
-            sheetData.forEach(row => {
-                // Rechercher les colonnes email
-                const emailColumns = headers
-                    .map((header, index) => 
-                        (header && (header.includes('Mail') || header.includes('Email'))) ? index : -1
-                    )
-                    .filter(index => index !== -1);
-                
-                // Rechercher les colonnes nom
-                const nomColumns = headers
-                    .map((header, index) => 
-                        (header && header.includes('Interlocuteur')) ? index : -1
-                    )
-                    .filter(index => index !== -1);
-                
-                emailColumns.forEach(emailCol => {
-                    nomColumns.forEach(nomCol => {
-                        const email = row[emailCol] || '';
-                        const nom = row[nomCol] || '';
-                        
-                        if (email && email.trim() && nom && nom.trim()) {
-                            const emailClean = email.trim().toLowerCase();
-                            if (!emailsDejaVus.has(emailClean)) {
-                                emailsDejaVus.add(emailClean);
-                                interlocuteursAvecEmail.push({
-                                    nom: nom,
-                                    email: email
-                                });
-                            }
-                        }
-                    });
-                });
-            });
-            
-            recipientsContainer.innerHTML = '';
-            interlocuteursAvecEmail.forEach((interlocuteur, index) => {
-                const recipientDiv = document.createElement('div');
-                recipientDiv.className = 'recipient-item';
-                recipientDiv.innerHTML = `
-                    <input type="checkbox" class="recipient-checkbox" data-index="${index}" checked style="margin-right: 10px;">
-                    <div>
-                        <strong>${interlocuteur.nom}</strong><br>
-                        <small style="color: #666;">${interlocuteur.email}</small>
-                    </div>
-                `;
-                recipientsContainer.appendChild(recipientDiv);
-            });
-            
-            recipientCount.textContent = interlocuteursAvecEmail.length;
-            showModal('emailModal');
-        }
-
-        function copyEmailAddresses() {
-            const checkboxes = document.querySelectorAll('.recipient-checkbox:checked');
-            const emails = [];
-            
-            checkboxes.forEach(checkbox => {
-                const index = parseInt(checkbox.getAttribute('data-index'));
-                const recipientDiv = checkbox.closest('.recipient-item');
-                const email = recipientDiv.querySelector('small').textContent;
-                emails.push(email);
-            });
-            
-            if (emails.length === 0) {
-                alert('Aucun email à copier');
-                return;
-            }
-            
-            const emailString = emails.join('; ');
-            navigator.clipboard.writeText(emailString).then(() => {
-                alert(`${emails.length} adresse(s) email copiée(s) dans le presse-papier`);
-            }).catch(err => {
-                console.error('Erreur lors de la copie:', err);
-                // Fallback pour les navigateurs qui ne supportent pas clipboard API
-                const textArea = document.createElement('textarea');
-                textArea.value = emailString;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                alert(`${emails.length} adresse(s) email copiée(s) dans le presse-papier`);
-            });
-        }
-
-        function sendEmails() {
-            const checkboxes = document.querySelectorAll('.recipient-checkbox:checked');
-            const subject = document.getElementById('emailSubject').value;
-            const message = document.getElementById('emailMessage').value;
-            
-            if (checkboxes.length === 0) {
-                alert('Veuillez sélectionner au moins un destinataire');
-                return;
-            }
-            
-            // Récupérer les emails sélectionnés
-            const emails = [];
-            checkboxes.forEach(checkbox => {
-                const recipientDiv = checkbox.closest('.recipient-item');
-                const nom = recipientDiv.querySelector('strong').textContent;
-                const email = recipientDiv.querySelector('small').textContent;
-                emails.push({ nom, email });
-            });
-            
-            // Préparer le corps de l'email
-            const emailBody = message;
-            
-            // Ouvrir le client email par défaut
-            const encodedBody = encodeURIComponent(emailBody);
-            const encodedSubject = encodeURIComponent(subject);
-            
-            // Pour Gmail (ou autre client email)
-            const emailRecipients = emails.map(e => e.email).join(',');
-            
-            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailRecipients}&su=${encodedSubject}&body=${encodedBody}`;
-            
-            window.open(gmailUrl, '_blank');
-            
-            alert(`${emails.length} email(s) préparé(s) pour envoi. Vérifiez les destinataires avant d'envoyer.`);
-            
-            // Fermer la modale
-            hideModal('emailModal');
-        }
-
-        // Fonctions pour les listes organisées
-        function showListsModal() {
-            showModal('listsModal');
-            updateOrganizedList();
-        }
-
-        function updateOrganizedList() {
-            const listType = document.getElementById('listType').value;
-            const listContainer = document.getElementById('organizedList');
-            
-            let listData = [];
-            let listTitle = '';
-            
-            switch(listType) {
-                case 'interlocuteurs':
-                    listData = allInterlocuteurs;
-                    listTitle = 'Interlocuteurs/Hôtes';
-                    break;
-                case 'concerts':
-                    listData = getConcertsList();
-                    listTitle = 'Concerts';
-                    break;
-                case 'activites':
-                    listData = getActivitiesByType();
-                    listTitle = 'Activités par type';
-                    break;
-                case 'pays':
-                    listData = allPays;
-                    listTitle = 'Pays visités';
-                    break;
-                case 'lieux':
-                    listData = allLieux;
-                    listTitle = 'Lieux visités';
-                    break;
-            }
-            
-            let html = `<h4 style="margin-bottom: 15px; color: var(--primary-color);">${listTitle} (${listData.length})</h4>`;
-            
-            if (Array.isArray(listData)) {
-                listData.forEach((item, index) => {
-                    if (typeof item === 'string') {
-                        html += `
-                            <div class="list-item">
-                                <span>${item}</span>
-                                <span class="tag">${getItemCount(item, listType)}</span>
-                            </div>
-                        `;
-                    } else if (typeof item === 'object') {
-                        // Pour les objets (comme dans getActivitiesByType)
-                        html += `
-                            <div class="list-item">
-                                <span>${item.type}</span>
-                                <span class="tag">${item.count}</span>
-                            </div>
-                        `;
-                    }
-                });
-            } else if (typeof listData === 'object') {
-                // Pour les objets complexes (comme dans getConcertsList)
-                Object.keys(listData).forEach(key => {
-                    html += `
-                        <div class="list-item">
-                            <span>${key}</span>
-                            <span class="tag">${listData[key]}</span>
-                        </div>
-                    `;
-                });
-            }
-            
-            listContainer.innerHTML = html;
-        }
-
-        function getConcertsList() {
-            const concerts = {};
-            
-            sheetData.forEach(row => {
-                // Rechercher les colonnes de concert
-                const concertColumns = headers
-                    .map((header, index) => 
-                        (header && header.includes('CONCERT')) ? index : -1
-                    )
-                    .filter(index => index !== -1);
-                
-                concertColumns.forEach(colIndex => {
-                    const concertType = headers[colIndex] || '';
-                    const concertValue = row[colIndex] || '';
-                    
-                    if (concertValue && (concertValue.toLowerCase().includes('concert') || concertValue === 'OUI')) {
-                        if (!concerts[concertType]) {
-                            concerts[concertType] = 0;
-                        }
-                        concerts[concertType]++;
-                    }
-                });
-            });
-            
-            return concerts;
-        }
-
-        function getActivitiesByType() {
-            const activities = [];
-            
-            Object.keys(activityCounts).forEach(type => {
-                if (activityCounts[type] > 0) {
-                    activities.push({
-                        type: type,
-                        count: activityCounts[type]
-                    });
-                }
-            });
-            
-            return activities.sort((a, b) => b.count - a.count);
-        }
-
-        function getItemCount(item, listType) {
-            switch(listType) {
-                case 'interlocuteurs':
-                    return sheetData.filter(row => {
-                        const interlocuteurCol = headers.findIndex(h => h && h.trim() === "Interlocuteur ,hôte");
-                        return interlocuteurCol !== -1 && row[interlocuteurCol] === item;
-                    }).length;
-                case 'pays':
-                    return sheetData.filter(row => {
-                        const paysCol = headers.findIndex(h => h && h.includes('Pays'));
-                        return paysCol !== -1 && row[paysCol] === item;
-                    }).length;
-                case 'lieux':
-                    return sheetData.filter(row => {
-                        const lieuCol = headers.findIndex(h => h && h.includes('Lieux'));
-                        return lieuCol !== -1 && row[lieuCol] === item;
-                    }).length;
-                default:
-                    return 0;
-            }
-        }
-
-        function exportCurrentList() {
-            const listType = document.getElementById('listType').value;
-            let dataToExport = '';
-            let filename = '';
-            
-            switch(listType) {
-                case 'interlocuteurs':
-                    dataToExport = allInterlocuteurs.join('\n');
-                    filename = 'interlocuteurs_tournee_2026.txt';
-                    break;
-                case 'concerts':
-                    const concerts = getConcertsList();
-                    dataToExport = Object.keys(concerts).map(key => `${key}: ${concerts[key]}`).join('\n');
-                    filename = 'concerts_tournee_2026.txt';
-                    break;
-                case 'activites':
-                    const activities = getActivitiesByType();
-                    dataToExport = activities.map(a => `${a.type}: ${a.count}`).join('\n');
-                    filename = 'activites_tournee_2026.txt';
-                    break;
-                case 'pays':
-                    dataToExport = allPays.join('\n');
-                    filename = 'pays_tournee_2026.txt';
-                    break;
-                case 'lieux':
-                    dataToExport = allLieux.join('\n');
-                    filename = 'lieux_tournee_2026.txt';
-                    break;
-            }
-            
-            downloadFile(dataToExport, filename, 'text/plain');
-            alert(`Liste exportée: ${filename}`);
-        }
-
-        // Fonctions pour l'export de données
-        function showExportModal() {
-            showModal('exportModal');
-            selectedExportFormat = null;
-            document.getElementById('confirmExport').disabled = true;
-        }
-
-        function exportData() {
-            if (!selectedExportFormat) {
-                alert('Veuillez sélectionner un format d\'export');
-                return;
-            }
-            
-            const includeContacts = document.getElementById('includeContacts').checked;
-            const includePhotos = document.getElementById('includePhotos').checked;
-            const includeStats = document.getElementById('includeStats').checked;
-            
-            let dataToExport;
-            let filename;
-            let mimeType;
-            
-            switch(selectedExportFormat) {
-                case 'csv':
-                    dataToExport = exportToCSV(includeContacts, includePhotos);
-                    filename = 'tournee_europe_2026.csv';
-                    mimeType = 'text/csv';
-                    break;
-                case 'json':
-                    dataToExport = exportToJSON(includeContacts, includePhotos, includeStats);
-                    filename = 'tournee_europe_2026.json';
-                    mimeType = 'application/json';
-                    break;
-                case 'pdf':
-                    // Pour PDF, on ouvre une nouvelle fenêtre avec le contenu formaté
-                    exportToPDF(includeContacts, includePhotos, includeStats);
-                    return;
-                case 'excel':
-                    dataToExport = exportToExcel(includeContacts, includePhotos);
-                    filename = 'tournee_europe_2026.xlsx';
-                    mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-                    break;
-            }
-            
-            if (dataToExport) {
-                downloadFile(dataToExport, filename, mimeType);
-                alert(`Données exportées: ${filename}`);
-                hideModal('exportModal');
-            }
-        }
-
-        function exportToCSV(includeContacts, includePhotos) {
-            let csvContent = '';
-            
-            // En-têtes
-            const headersToExport = headers.filter((header, index) => {
-                if (!includeContacts && (
-                    header.includes('Mail') || 
-                    header.includes('Téléphone') || 
-                    header.includes('Whatsapp') ||
-                    header.includes('Interlocuteur')
-                )) {
-                    return false;
-                }
-                if (!includePhotos && (
-                    header.includes('Photos') || 
-                    header.includes('Répertoire')
-                )) {
-                    return false;
-                }
-                return true;
-            });
-            
-            csvContent += headersToExport.map(header => `"${header}"`).join(',') + '\n';
-            
-            // Données
-            sheetData.forEach(row => {
-                const rowData = headersToExport.map(header => {
-                    const index = headers.indexOf(header);
-                    const value = row[index] || '';
-                    // Échapper les guillemets et les retours à la ligne
-                    return `"${value.replace(/"/g, '""').replace(/\n/g, ' ')}"`;
-                });
-                csvContent += rowData.join(',') + '\n';
-            });
-            
-            return csvContent;
-        }
-
-        function exportToJSON(includeContacts, includePhotos, includeStats) {
-            const exportData = {
-                metadata: {
-                    exportDate: new Date().toISOString(),
-                    totalEntries: sheetData.length,
-                    source: 'Journal de Bord Tournée Europe 2026'
-                },
-                data: []
-            };
-            
-            if (includeStats) {
-                exportData.stats = {
-                    totalLieux: allLieux.length,
-                    totalPays: allPays.length,
-                    totalInterlocuteurs: allInterlocuteurs.length,
-                    totalParticipants: totalParticipants,
-                    totalDureeTrajet: totalDureeTrajet,
-                    totalDistance: totalDistance,
-                    activityCounts: activityCounts
-                };
-            }
-            
-            sheetData.forEach((row, index) => {
-                const entry = {};
-                headers.forEach((header, colIndex) => {
-                    if (!includeContacts && (
-                        header.includes('Mail') || 
-                        header.includes('Téléphone') || 
-                        header.includes('Whatsapp') ||
-                        header.includes('Interlocuteur')
-                    )) {
-                        return;
-                    }
-                    if (!includePhotos && (
-                        header.includes('Photos') || 
-                        header.includes('Répertoire')
-                    )) {
-                        return;
-                    }
-                    entry[header] = row[colIndex] || '';
-                });
-                exportData.data.push(entry);
-            });
-            
-            return JSON.stringify(exportData, null, 2);
-        }
-
-        function exportToPDF(includeContacts, includePhotos, includeStats) {
-            // Créer une nouvelle fenêtre avec le contenu formaté pour impression
-            const printWindow = window.open('', '_blank');
-            let content = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Tournée Europe 2026 - Rapport</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; margin: 20px; }
-                        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-                        .entry { margin-bottom: 30px; border: 1px solid #ddd; padding: 15px; }
-                        .entry-header { background: #3498db; color: white; padding: 10px; margin: -15px -15px 15px -15px; }
-                        .section { margin-bottom: 20px; }
-                        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-                        .info-item { margin-bottom: 10px; }
-                        .info-label { font-weight: bold; color: #2c3e50; }
-                        @media print { body { margin: 0; } }
-                    </style>
-                </head>
-                <body>
-                    <h1>📓 Journal de Bord - Tournée Europe 2026</h1>
-                    <p>Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
-            `;
-            
-            if (includeStats) {
-                content += `
-                    <div style="background: #f8f9fa; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
-                        <h2>📊 Statistiques</h2>
-                        <div class="info-grid">
-                            <div class="info-item"><span class="info-label">Lieux visités:</span> ${allLieux.length}</div>
-                            <div class="info-item"><span class="info-label">Pays visités:</span> ${allPays.length}</div>
-                            <div class="info-item"><span class="info-label">Interlocuteurs:</span> ${allInterlocuteurs.length}</div>
-                            <div class="info-item"><span class="info-label">Participants total:</span> ${totalParticipants}</div>
-                            <div class="info-item"><span class="info-label">Durée trajet total:</span> ${totalDureeTrajet.toFixed(1)}h</div>
-                            <div class="info-item"><span class="info-label">Distance totale:</span> ${totalDistance.toFixed(0)}km</div>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            sheetData.forEach((row, index) => {
-                const dateIndex = 1;
-                const dateStr = row[dateIndex] || 'Date non spécifiée';
-                
-                content += `
-                    <div class="entry">
-                        <div class="entry-header">
-                            <h2>Jour ${index + 1} - ${dateStr}</h2>
-                        </div>
-                        <div class="section">
-                            <h3>Informations Générales</h3>
-                            <div class="info-grid">
-                `;
-                
-                // Date
-                const dateIndexCol = findHeaderIndex('Date:');
-                if (dateIndexCol !== -1 && row[dateIndexCol]) {
-                    content += `<div class="info-item"><span class="info-label">Date:</span> ${row[dateIndexCol]}</div>`;
-                }
-                
-                // Pays
-                const paysIndex = findHeaderIndex('Pays:');
-                if (paysIndex !== -1 && row[paysIndex]) {
-                    content += `<div class="info-item"><span class="info-label">Pays:</span> ${row[paysIndex]}</div>`;
-                }
-                
-                content += `
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            content += `
-                </body>
-                </html>
-            `;
-            
-            printWindow.document.write(content);
-            printWindow.document.close();
-            printWindow.print();
-        }
-
-        function exportToExcel(includeContacts, includePhotos) {
-            // Pour Excel, on utilise le format CSV qui est compatible
-            return exportToCSV(includeContacts, includePhotos);
-        }
-
-        function downloadFile(content, filename, mimeType) {
-            const blob = new Blob([content], { type: mimeType });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        // Affichage des informations de données
-        function showDataInfo() {
-            document.getElementById('dataInfo').innerHTML = `
-                <div class="success-message">
-                    ✅ Journal chargé avec succès : ${sheetData.length} journée${sheetData.length > 1 ? 's' : ''}
-                    <br><small>${headers.length} colonnes détectées • Durée totale des trajets: ${totalDureeTrajet.toFixed(1)}h • Distance totale: ${totalDistance.toFixed(0)}km</small>
-                    <br><small>Cliquez sur un lieu, un interlocuteur ou un pays pour filtrer les entrées</small>
-                </div>
-            `;
-        }
-
-        // Affichage des erreurs
-        function showError(message) {
-            document.getElementById('dataInfo').innerHTML = `
-                <div class="error-message">
-                    ❌ ${message}
-                    <br><small>Vérifiez que votre Google Sheet est bien publié (Fichier → Partager → Publier sur le web)</small>
-                </div>
-            `;
-        }
     </script>
 </body>
-</html>f
+</html>
