@@ -1645,8 +1645,8 @@ L'équipe NY AKO</textarea>
     </div>
 
     <script>
-        // URL du Google Sheets mise à jour
-        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=1821204333&single=true&output=csv';
+        // URL du Google Sheets
+        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=395832865&single=true&output=csv';
         
         // Variables globales
         let sheetData = [];
@@ -1665,8 +1665,6 @@ L'équipe NY AKO</textarea>
         let isAdmin = false;
         let showOnlyConcerts = false;
         let showFicheLinks = false;
-        
-        // Mise à jour des types d'activités avec les nouveaux ajouts
         let activityCounts = {
             'Rencontre/Invitation': 0,
             'Concert': 0,
@@ -1674,12 +1672,8 @@ L'équipe NY AKO</textarea>
             'Sortie/visite/Tourisme': 0,
             'Eglise/culte': 0,
             'Marché': 0,
-            'Shopping': 0,
-            'Hospice/Hopital': 0,
-            'Voyage': 0,
-            'Festival': 0
+            'Shopping': 0
         };
-        
         let selectedExportFormat = null;
 
         // Initialisation au chargement de la page
@@ -2352,12 +2346,10 @@ L'équipe NY AKO</textarea>
                     
                     day.appendChild(lieuxDiv);
                     
-                    // Afficher les pays sous les lieux en rouge
+                    // Afficher les pays sous les lieux
                     if (dayData.pays && dayData.pays.length > 0) {
                         const paysDiv = document.createElement('div');
                         paysDiv.className = 'calendar-day-pays';
-                        paysDiv.style.color = 'red';
-                        paysDiv.style.fontWeight = 'bold';
                         paysDiv.textContent = dayData.pays.join(', ');
                         day.appendChild(paysDiv);
                     }
@@ -2570,19 +2562,19 @@ L'équipe NY AKO</textarea>
             const entryDiv = document.createElement('div');
             entryDiv.className = 'journal-entry';
             
-            // En-tête avec titre et date améliorés - DATE en premier
+            // En-tête avec titre et date améliorés
             const headerDiv = document.createElement('div');
             headerDiv.className = 'entry-header';
             
-            // Construire le titre avec la DATE en premier, puis le pays
-            let title = `${formatDateForDisplay(parseDate(dateStr) || new Date())}`;
+            // Construire le titre avec le pays
+            let title = `Jour ${dayNumber}`;
             if (pays) {
                 title += ` - ${pays}`;
             }
-            title += ` - Jour ${dayNumber}`;
             
             headerDiv.innerHTML = `
                 <h2 class="entry-title-large">${title}</h2>
+                <div class="entry-date-large">${formatDateForDisplay(parseDate(dateStr) || new Date())}</div>
             `;
             entryDiv.appendChild(headerDiv);
             
@@ -2684,7 +2676,6 @@ L'équipe NY AKO</textarea>
                     const validActivityTypes = [
                         'Rencontre/Invitation', 'Concert', 'Ecole', 
                         'Sortie/visite/Tourisme', 'Eglise/culte', 'Marché', 'Shopping',
-                        'Hospice/Hopital', 'Voyage', 'Festival',
                         'Rencontre' // Ajouté basé sur votre exemple
                     ];
                     
@@ -2810,7 +2801,6 @@ L'équipe NY AKO</textarea>
                 { name: 'whatsapp', patterns: ['Whatsapp', 'WhatsApp'] },
                 { name: 'mail', patterns: ['Mail:'] },
                 { name: 'reseauxSociaux', patterns: ['fb ou autre contact sur réseaux sociaux de l\'hôte'] },
-                { name: 'aSavoir', patterns: ['à savoir sur l\'interlocuteur', 'a savoir sur l\'interlocuteur'] },
                 { name: 'photosLieux', patterns: ['Photos des lieux (extérieur ,intérieur, coulisse)'] },
                 { name: 'repertoire', patterns: ['Répertoire:'] },
                 { name: 'photosGroupe', patterns: ['Photos de groupe,marquante'] }
@@ -2995,7 +2985,7 @@ L'équipe NY AKO</textarea>
             
             // Informations sur l'Organisateur/Hôte
             if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || 
-                activityData.mail || activityData.reseauxSociaux || activityData.aSavoir) {
+                activityData.mail || activityData.reseauxSociaux) {
                 sectionDiv.appendChild(createContactInfoSection(activityData));
             }
             
@@ -3190,7 +3180,7 @@ L'équipe NY AKO</textarea>
             
             // Informations sur l'Organisateur/Hôte
             if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || 
-                activityData.mail || activityData.reseauxSociaux || activityData.aSavoir) {
+                activityData.mail || activityData.reseauxSociaux) {
                 sectionDiv.appendChild(createContactInfoSection(activityData));
             }
             
@@ -3294,18 +3284,6 @@ L'équipe NY AKO</textarea>
                 contactItem.innerHTML = `
                     <span class="contact-icon">👥</span>
                     <span class="contact-value">${activityData.reseauxSociaux}</span>
-                `;
-                contactDetails.appendChild(contactItem);
-            }
-            
-            // À savoir sur l'interlocuteur
-            if (activityData.aSavoir) {
-                const contactItem = document.createElement('div');
-                contactItem.className = 'contact-item';
-                contactItem.style.gridColumn = '1 / -1'; // Prend toute la largeur
-                contactItem.innerHTML = `
-                    <span class="contact-icon">💡</span>
-                    <span class="contact-value"><strong>À savoir sur l'interlocuteur:</strong> ${activityData.aSavoir}</span>
                 `;
                 contactDetails.appendChild(contactItem);
             }
