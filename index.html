@@ -21,6 +21,7 @@
             --activity-bg: #f8f9fa;
             --concert-orange: #ff9800;
             --neutral-border: #e0e0e0;
+            --activity-title-bg: #fce4ec; /* Rose clair pour les titres d'activités */
         }
         
         * {
@@ -108,6 +109,13 @@
             font-weight: 700;
         }
         
+        .entry-lieux {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
         .jour-number {
             font-size: 1.1em;
             opacity: 0.8;
@@ -190,6 +198,25 @@
             border-left: 4px solid var(--secondary-color);
             font-size: 1.05em;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .programme-list {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .programme-item {
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .programme-item:last-child {
+            margin-bottom: 0;
         }
         
         .inline-group {
@@ -565,7 +592,8 @@
             font-size: 1.4em;
             color: var(--primary-color);
             margin-bottom: 20px;
-            padding-bottom: 12px;
+            padding: 15px;
+            border-radius: 8px;
             border-bottom: 2px solid rgba(0,0,0,0.1);
             font-weight: 700;
             display: flex;
@@ -573,6 +601,7 @@
             gap: 10px;
             text-align: center;
             justify-content: center;
+            background-color: var(--activity-title-bg); /* Fond rose clair pour les titres d'activités */
         }
         
         .activity-title.concert-title {
@@ -1381,6 +1410,10 @@
             
             .entry-title-large {
                 font-size: 1.6em;
+            }
+            
+            .entry-lieux {
+                font-size: 1em;
             }
         }
         
@@ -2601,6 +2634,9 @@ L'équipe NY AKO</textarea>
             const paysIndex = findHeaderIndex('Pays:');
             const pays = paysIndex !== -1 ? row[paysIndex] : '';
             
+            // MODIFICATION: Extraire tous les lieux de la journée
+            const lieux = extractLieuxForDate(row);
+            
             const entryDiv = document.createElement('div');
             entryDiv.className = 'journal-entry';
             
@@ -2608,7 +2644,7 @@ L'équipe NY AKO</textarea>
             const headerDiv = document.createElement('div');
             headerDiv.className = 'entry-header';
             
-            // MODIFICATION: Nouvel ordre et style du titre - seulement la date formatée et le pays
+            // MODIFICATION: Nouvel ordre et style du titre - ligne 1: date formatée et pays, ligne 2: lieux
             let title = formatDateForDisplay(parseDate(dateStr) || new Date());
             if (pays) {
                 title += ` - ${pays}`;
@@ -2616,6 +2652,7 @@ L'équipe NY AKO</textarea>
             
             headerDiv.innerHTML = `
                 <h2 class="entry-title-large">${title}</h2>
+                <div class="entry-lieux">${lieux.join(', ')}</div>
                 <div class="jour-number">Jour ${dayNumber}</div>
             `;
             entryDiv.appendChild(headerDiv);
@@ -2669,24 +2706,62 @@ L'équipe NY AKO</textarea>
                 infoGrid.appendChild(createInfoItem('Pays:', row[paysIndex]));
             }
             
-            // Au Programme
-            const programmeIndices = findAllHeaderIndices('Au Programme:');
-            if (programmeIndices.length > 0) {
-                let programmeValues = [];
-                programmeIndices.forEach(index => {
-                    if (row[index]) {
-                        programmeValues.push(row[index]);
-                    }
+            // MODIFICATION: Au Programme formaté en liste multiligne
+            const programmeValues = extractProgrammeValues(row);
+            if (programmeValues.length > 0) {
+                const programmeDiv = document.createElement('div');
+                programmeDiv.className = 'info-item';
+                
+                const labelSpan = document.createElement('div');
+                labelSpan.className = 'info-label';
+                labelSpan.textContent = 'Au Programme:';
+                
+                const valueDiv = document.createElement('div');
+                valueDiv.className = 'programme-list';
+                
+                programmeValues.forEach(item => {
+                    const programmeItem = document.createElement('div');
+                    programmeItem.className = 'programme-item';
+                    programmeItem.textContent = item;
+                    valueDiv.appendChild(programmeItem);
                 });
                 
-                if (programmeValues.length > 0) {
-                    infoGrid.appendChild(createInfoItem('Au Programme:', programmeValues.join(', ')));
-                }
+                programmeDiv.appendChild(labelSpan);
+                programmeDiv.appendChild(valueDiv);
+                infoGrid.appendChild(programmeDiv);
             }
             
             sectionDiv.appendChild(infoGrid);
             
             return sectionDiv;
+        }
+
+        // MODIFICATION: Fonction pour extraire les valeurs "Au Programme" formatées
+        function extractProgrammeValues(row) {
+            const programmeValues = [];
+            
+            // Rechercher toutes les colonnes "Au Programme"
+            const programmeIndices = headers
+                .map((header, index) => 
+                    (header && header.includes('Au Programme')) ? index : -1
+                )
+                .filter(index => index !== -1);
+            
+            programmeIndices.forEach(index => {
+                const value = row[index] || '';
+                if (value.trim() !== '') {
+                    // Extraire le numéro du programme (ex: [1-], [2-], etc.)
+                    const header = headers[index] || '';
+                    const numMatch = header.match(/\[(\d+)-?\]/);
+                    const num = numMatch ? numMatch[1] : '';
+                    
+                    // Formater la valeur
+                    const formattedValue = num ? `${num}- ${value}` : value;
+                    programmeValues.push(formattedValue);
+                }
+            });
+            
+            return programmeValues;
         }
 
         // Création de la section des activités
