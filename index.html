@@ -2139,26 +2139,38 @@ L'équipe NY AKO</textarea>
         function extractAllInterlocuteurs() {
             const allInterlocuteursSet = new Set();
             
-            const interlocuteurColumnIndex = headers.findIndex(header => 
-                header && header.trim() === "Interlocuteur ,hôte"
-            );
+            // Trouver TOUTES les colonnes avec "Interlocuteur ,hôte"
+            const interlocuteurColumns = headers
+                .map((header, index) => 
+                    (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
+                )
+                .filter(index => index !== -1);
             
-            if (interlocuteurColumnIndex !== -1) {
+            console.log(`🔍 Colonnes interlocuteurs trouvées: ${interlocuteurColumns.length}`);
+            
+            interlocuteurColumns.forEach(colIndex => {
                 sheetData.forEach(row => {
-                    const value = row[interlocuteurColumnIndex] || '';
+                    const value = row[colIndex] || '';
                     if (value.trim()) {
+                        // Séparer par virgules et points-virgules
                         value.split(/[,;]/).forEach(nom => {
                             const trimmed = nom.trim();
-                            // Exclure les URLs et les adresses
-                            if (trimmed && !trimmed.includes('http') && !trimmed.includes('@') && !trimmed.includes('facebook')) {
+                            // Exclure les URLs, emails et valeurs vides
+                            if (trimmed && 
+                                !trimmed.includes('http') && 
+                                !trimmed.includes('@') && 
+                                !trimmed.includes('facebook') &&
+                                !trimmed.includes('www.') &&
+                                trimmed.length > 1) {
                                 allInterlocuteursSet.add(trimmed);
                             }
                         });
                     }
                 });
-            }
+            });
             
             allInterlocuteurs = Array.from(allInterlocuteursSet).sort();
+            console.log(`✅ Interlocuteurs uniques trouvés: ${allInterlocuteurs.length}`);
         }
 
         // Extraction de tous les pays
@@ -2270,9 +2282,11 @@ L'équipe NY AKO</textarea>
                         .filter(index => index !== -1);
                     break;
                 case 'nom':
-                    columnIndices = [headers.findIndex(header => 
-                        header && header.trim() === "Interlocuteur ,hôte"
-                    )].filter(index => index !== -1);
+                    columnIndices = headers
+                        .map((header, index) => 
+                            (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
+                        )
+                        .filter(index => index !== -1);
                     break;
                 case 'pays':
                     columnIndices = headers
@@ -2569,15 +2583,16 @@ L'équipe NY AKO</textarea>
             const headerDiv = document.createElement('div');
             headerDiv.className = 'entry-header';
             
-            // Construire le titre avec le pays - AJOUT DU PAYS DANS LE TITRE
-            let title = `Jour ${dayNumber}`;
+            // MODIFICATION: Nouvel ordre du titre - Date - Pays - Jour X
+            let title = formatDateForDisplay(parseDate(dateStr) || new Date());
             if (pays) {
                 title += ` - ${pays}`;
             }
+            title += ` - Jour ${dayNumber}`;
             
             headerDiv.innerHTML = `
                 <h2 class="entry-title-large">${title}</h2>
-                <div class="entry-date-large">${formatDateForDisplay(parseDate(dateStr) || new Date())}</div>
+                <div class="entry-date-large">${dateStr}</div>
             `;
             entryDiv.appendChild(headerDiv);
             
@@ -2805,7 +2820,13 @@ L'équipe NY AKO</textarea>
                 { name: 'whatsapp', patterns: ['Whatsapp', 'WhatsApp'] },
                 { name: 'mail', patterns: ['Mail:'] },
                 { name: 'reseauxSociaux', patterns: ['fb ou autre contact sur réseaux sociaux de l\'hôte'] },
-                { name: 'aSavoir', patterns: ['À savoir sur l\'interlocuteur', 'A savoir sur l\'interlocuteur'] },
+                // MODIFICATION: Amélioration de la détection du champ "À savoir sur l'interlocuteur"
+                { name: 'aSavoir', patterns: [
+                    'À savoir sur l\'interlocuteur', 
+                    'A savoir sur l\'interlocuteur',
+                    'à savoir sur l\'interlocuteur',
+                    'a savoir sur l\'interlocuteur'
+                ] },
                 { name: 'photosLieux', patterns: ['Photos des lieux (extérieur ,intérieur, coulisse)'] },
                 { name: 'repertoire', patterns: ['Répertoire:'] },
                 { name: 'photosGroupe', patterns: ['Photos de groupe,marquante'] }
@@ -3293,13 +3314,13 @@ L'équipe NY AKO</textarea>
                 contactDetails.appendChild(contactItem);
             }
             
-            // À savoir sur l'interlocuteur
+            // MODIFICATION: "À savoir sur l'interlocuteur" intégré dans la section contact
             if (activityData.aSavoir) {
                 const contactItem = document.createElement('div');
                 contactItem.className = 'contact-item';
                 contactItem.style.gridColumn = '1 / -1';
                 contactItem.innerHTML = `
-                    <span class="contact-icon">ℹ️</span>
+                    <span class="contact-icon">💡</span>
                     <span class="contact-value"><strong>À savoir sur l'interlocuteur:</strong> ${activityData.aSavoir}</span>
                 `;
                 contactDetails.appendChild(contactItem);
@@ -3701,8 +3722,16 @@ L'équipe NY AKO</textarea>
             switch(listType) {
                 case 'interlocuteurs':
                     return sheetData.filter(row => {
-                        const interlocuteurCol = headers.findIndex(h => h && h.trim() === "Interlocuteur ,hôte");
-                        return interlocuteurCol !== -1 && row[interlocuteurCol] === item;
+                        const interlocuteurCols = headers
+                            .map((header, index) => 
+                                (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
+                            )
+                            .filter(index => index !== -1);
+                        
+                        return interlocuteurCols.some(colIndex => {
+                            const value = row[colIndex] || '';
+                            return value && value.includes(item);
+                        });
                     }).length;
                 case 'pays':
                     return sheetData.filter(row => {
