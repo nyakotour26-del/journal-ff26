@@ -831,7 +831,7 @@
             border: 1px solid #ddd;
             padding: 15px;
             border-radius: 5px;
-            background: #f9f9f9;
+            background: #f9f9fa;
             margin-bottom: 20px;
         }
         
@@ -1645,8 +1645,8 @@ L'équipe NY AKO</textarea>
     </div>
 
     <script>
-        // URL du Google Sheets
-        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=395832865&single=true&output=csv';
+        // URL du Google Sheets MIS À JOUR
+        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=1755798110&single=true&output=csv';
         
         // Variables globales
         let sheetData = [];
@@ -1672,7 +1672,10 @@ L'équipe NY AKO</textarea>
             'Sortie/visite/Tourisme': 0,
             'Eglise/culte': 0,
             'Marché': 0,
-            'Shopping': 0
+            'Shopping': 0,
+            'Hospice/Hopital': 0,
+            'Voyage': 0,
+            'Festival': 0
         };
         let selectedExportFormat = null;
 
@@ -1903,7 +1906,7 @@ L'équipe NY AKO</textarea>
             // Rechercher les colonnes d'activités
             const activityColumns = headers
                 .map((header, index) => 
-                    (header && (header.includes('ACTIVITÉ') || header.includes('CONCERT'))) ? index : -1
+                    (header && (header.includes('ACTIVITÉ') || header.includes('ACTIVITE') || header.includes('CONCERT'))) ? index : -1
                 )
                 .filter(index => index !== -1);
             
@@ -1986,7 +1989,7 @@ L'équipe NY AKO</textarea>
                 // Rechercher les colonnes d'activités
                 const activityColumns = headers
                     .map((header, index) => 
-                        (header && (header.includes('ACTIVITÉ') || header.includes('CONCERT'))) ? index : -1
+                        (header && (header.includes('ACTIVITÉ') || header.includes('ACTIVITE') || header.includes('CONCERT'))) ? index : -1
                     )
                     .filter(index => index !== -1);
                 
@@ -2566,7 +2569,7 @@ L'équipe NY AKO</textarea>
             const headerDiv = document.createElement('div');
             headerDiv.className = 'entry-header';
             
-            // Construire le titre avec le pays
+            // Construire le titre avec le pays - AJOUT DU PAYS DANS LE TITRE
             let title = `Jour ${dayNumber}`;
             if (pays) {
                 title += ` - ${pays}`;
@@ -2676,6 +2679,7 @@ L'équipe NY AKO</textarea>
                     const validActivityTypes = [
                         'Rencontre/Invitation', 'Concert', 'Ecole', 
                         'Sortie/visite/Tourisme', 'Eglise/culte', 'Marché', 'Shopping',
+                        'Hospice/Hopital', 'Voyage', 'Festival',
                         'Rencontre' // Ajouté basé sur votre exemple
                     ];
                     
@@ -2801,6 +2805,7 @@ L'équipe NY AKO</textarea>
                 { name: 'whatsapp', patterns: ['Whatsapp', 'WhatsApp'] },
                 { name: 'mail', patterns: ['Mail:'] },
                 { name: 'reseauxSociaux', patterns: ['fb ou autre contact sur réseaux sociaux de l\'hôte'] },
+                { name: 'aSavoir', patterns: ['À savoir sur l\'interlocuteur', 'A savoir sur l\'interlocuteur'] },
                 { name: 'photosLieux', patterns: ['Photos des lieux (extérieur ,intérieur, coulisse)'] },
                 { name: 'repertoire', patterns: ['Répertoire:'] },
                 { name: 'photosGroupe', patterns: ['Photos de groupe,marquante'] }
@@ -2985,7 +2990,7 @@ L'équipe NY AKO</textarea>
             
             // Informations sur l'Organisateur/Hôte
             if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || 
-                activityData.mail || activityData.reseauxSociaux) {
+                activityData.mail || activityData.reseauxSociaux || activityData.aSavoir) {
                 sectionDiv.appendChild(createContactInfoSection(activityData));
             }
             
@@ -3180,7 +3185,7 @@ L'équipe NY AKO</textarea>
             
             // Informations sur l'Organisateur/Hôte
             if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || 
-                activityData.mail || activityData.reseauxSociaux) {
+                activityData.mail || activityData.reseauxSociaux || activityData.aSavoir) {
                 sectionDiv.appendChild(createContactInfoSection(activityData));
             }
             
@@ -3284,6 +3289,18 @@ L'équipe NY AKO</textarea>
                 contactItem.innerHTML = `
                     <span class="contact-icon">👥</span>
                     <span class="contact-value">${activityData.reseauxSociaux}</span>
+                `;
+                contactDetails.appendChild(contactItem);
+            }
+            
+            // À savoir sur l'interlocuteur
+            if (activityData.aSavoir) {
+                const contactItem = document.createElement('div');
+                contactItem.className = 'contact-item';
+                contactItem.style.gridColumn = '1 / -1';
+                contactItem.innerHTML = `
+                    <span class="contact-icon">ℹ️</span>
+                    <span class="contact-value"><strong>À savoir sur l'interlocuteur:</strong> ${activityData.aSavoir}</span>
                 `;
                 contactDetails.appendChild(contactItem);
             }
