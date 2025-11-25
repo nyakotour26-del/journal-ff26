@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Journal de Bord - Tournée Europe 2026</title>
     <style>
+        /* Tous les styles précédents restent inchangés */
         :root {
             --primary-color: #2c3e50;
             --secondary-color: #3498db;
@@ -21,7 +22,7 @@
             --activity-bg: #f8f9fa;
             --concert-orange: #ff9800;
             --neutral-border: #e0e0e0;
-            --activity-title-bg: #fce4ec; /* Rose clair pour les titres d'activités */
+            --activity-title-bg: #fce4ec;
         }
         
         * {
@@ -82,6 +83,127 @@
             color: var(--dark-blue);
         }
         
+        /* Styles pour la modale des options de date */
+        .date-options-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .date-options-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .date-options-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-blue);
+        }
+        
+        .date-options-title {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        .close-date-options {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--accent-color);
+            padding: 5px;
+        }
+        
+        .date-options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .date-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            border: 2px solid var(--neutral-border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .date-option:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .date-option-icon {
+            font-size: 1.5em;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .date-option-text {
+            flex: 1;
+        }
+        
+        .date-option-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .date-option-description {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        
+        .date-option.admin-only {
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .date-option.admin-only .date-option-title {
+            color: var(--accent-color);
+        }
+        
+        .date-option.locked {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .date-option.locked .date-option-title {
+            color: #7f8c8d;
+        }
+        
+        .date-option.locked:hover {
+            background: white;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .lock-icon {
+            color: var(--accent-color);
+            font-size: 1.2em;
+        }
+        
+        /* Le reste des styles reste inchangé */
         .journal-entry {
             background-color: white;
             border-radius: var(--border-radius);
@@ -601,7 +723,7 @@
             gap: 10px;
             text-align: center;
             justify-content: center;
-            background-color: var(--activity-title-bg); /* Fond rose clair pour les titres d'activités */
+            background-color: var(--activity-title-bg);
         }
         
         .activity-title.concert-title {
@@ -1415,6 +1537,16 @@
             .entry-lieux {
                 font-size: 1em;
             }
+            
+            /* Styles pour la modale des options de date en mobile */
+            .date-options-content {
+                padding: 20px;
+                width: 95%;
+            }
+            
+            .date-option {
+                padding: 12px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1567,6 +1699,24 @@
         <div id="debugInfo"></div>
         
         <div id="journalEntries"></div>
+    </div>
+
+    <!-- Modal pour les options de date -->
+    <div id="dateOptionsModal" class="date-options-modal">
+        <div class="date-options-content">
+            <div class="date-options-header">
+                <h3 class="date-options-title" id="dateOptionsTitle">Options pour le [Date]</h3>
+                <button class="close-date-options" id="closeDateOptions">✕</button>
+            </div>
+            
+            <div class="date-options-list" id="dateOptionsList">
+                <!-- Les options seront générées dynamiquement ici -->
+            </div>
+            
+            <div class="modal-actions">
+                <button class="action-button cancel" id="cancelDateOptions">Fermer</button>
+            </div>
+        </div>
     </div>
 
     <!-- Modal pour l'envoi d'emails groupés -->
@@ -1734,6 +1884,7 @@ L'équipe NY AKO</textarea>
             'Festival': 0
         };
         let selectedExportFormat = null;
+        let currentSelectedDate = null;
 
         // Initialisation au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
@@ -1759,6 +1910,10 @@ L'équipe NY AKO</textarea>
             document.getElementById('cancelLists').addEventListener('click', () => hideModal('listsModal'));
             document.getElementById('closeExportModal').addEventListener('click', () => hideModal('exportModal'));
             document.getElementById('cancelExport').addEventListener('click', () => hideModal('exportModal'));
+            
+            // Événements pour la modale des options de date
+            document.getElementById('closeDateOptions').addEventListener('click', () => hideModal('dateOptionsModal'));
+            document.getElementById('cancelDateOptions').addEventListener('click', () => hideModal('dateOptionsModal'));
             
             // Événements pour les fonctionnalités
             document.getElementById('sendEmails').addEventListener('click', sendEmails);
@@ -2435,17 +2590,330 @@ L'équipe NY AKO</textarea>
                     day.classList.add('selected');
                 }
                 
+                // MODIFICATION: Nouvel événement de clic pour afficher les options de date
                 day.addEventListener('click', () => {
-                    if (dayData) {
-                        selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), i));
-                    }
+                    showDateOptions(new Date(currentDate.getFullYear(), currentDate.getMonth(), i));
                 });
                 
                 grid.appendChild(day);
             }
         }
 
-        // Sélection d'une date
+        // NOUVELLE FONCTION: Afficher les options pour une date sélectionnée
+        function showDateOptions(date) {
+            currentSelectedDate = date;
+            const dateStr = formatDateForDisplay(date);
+            const dayData = datesWithData.find(d => 
+                d.date.getDate() === date.getDate() &&
+                d.date.getMonth() === date.getMonth() &&
+                d.date.getFullYear() === date.getFullYear()
+            );
+            
+            const hasData = !!dayData;
+            
+            // Mettre à jour le titre de la modale
+            document.getElementById('dateOptionsTitle').textContent = `Options pour le ${dateStr}`;
+            
+            // Générer les options en fonction de si la date a des données ou non
+            const optionsList = document.getElementById('dateOptionsList');
+            optionsList.innerHTML = '';
+            
+            if (hasData) {
+                // La date a des données - afficher les options pour les données existantes
+                
+                // MODIFICATION: "Voir les données du jour" redirige vers les données correspondantes
+                optionsList.appendChild(createDateOption(
+                    'Voir les données du jour',
+                    'Accéder aux données correspondantes de cette journée',
+                    '📄',
+                    () => {
+                        // Récupérer l'index de la ligne pour cette date
+                        const rowIndex = dayData.rowIndex;
+                        if (rowIndex !== undefined && rowIndex >= 0) {
+                            // Trouver l'élément correspondant dans le journal et le faire défiler
+                            const journalEntries = document.getElementById('journalEntries');
+                            const entryElements = journalEntries.querySelectorAll('.journal-entry');
+                            
+                            if (entryElements.length > rowIndex) {
+                                // Faire défiler jusqu'à l'entrée correspondante
+                                entryElements[rowIndex].scrollIntoView({ 
+                                    behavior: 'smooth', 
+                                    block: 'center' 
+                                });
+                                
+                                // Ajouter un effet visuel pour mettre en évidence l'entrée
+                                entryElements[rowIndex].style.boxShadow = '0 0 0 3px var(--accent-color)';
+                                setTimeout(() => {
+                                    entryElements[rowIndex].style.boxShadow = '';
+                                }, 3000);
+                            }
+                        }
+                        hideModal('dateOptionsModal');
+                    }
+                ));
+                
+                // MODIFICATION: Amélioration de l'affichage des interlocuteurs
+                optionsList.appendChild(createDateOption(
+                    'Voir les Interlocuteurs/Hôtes',
+                    'Afficher la liste des interlocuteurs pour cette date',
+                    '👤',
+                    () => {
+                        // Afficher les interlocuteurs pour cette date dans une modale améliorée
+                        showInterlocuteursForDate(dayData);
+                        hideModal('dateOptionsModal');
+                    }
+                ));
+                
+                // MODIFICATION: Amélioration de l'affichage des lieux
+                optionsList.appendChild(createDateOption(
+                    'Voir les Lieux',
+                    'Afficher la liste des lieux visités cette date',
+                    '📍',
+                    () => {
+                        // Afficher les lieux pour cette date dans une modale améliorée
+                        showLieuxForDate(dayData);
+                        hideModal('dateOptionsModal');
+                    }
+                ));
+                
+                // MODIFICATION: L'option "Modifier les données du jour" est TOUJOURS affichée
+                optionsList.appendChild(createDateOption(
+                    'Modifier les données du jour',
+                    isAdmin ? 
+                        'Accéder au formulaire de modification' : 
+                        'Connectez-vous en tant qu\'administrateur pour modifier les données',
+                    isAdmin ? '✏️' : '🔒',
+                    () => {
+                        if (isAdmin) {
+                            // Récupérer l'index de la ligne pour cette date
+                            const rowIndex = dayData.rowIndex;
+                            if (rowIndex !== undefined && rowIndex >= 0) {
+                                // Trouver le lien de la fiche pour cette date
+                                const ficheIndex = findHeaderIndex('Lien de cette fiche:');
+                                if (ficheIndex !== -1) {
+                                    const ficheLink = sheetData[rowIndex][ficheIndex];
+                                    if (ficheLink && ficheLink.trim() !== '') {
+                                        window.open(ficheLink, '_blank');
+                                    } else {
+                                        alert('Aucun lien de fiche disponible pour cette date.');
+                                    }
+                                } else {
+                                    alert('Colonne "Lien de cette fiche" non trouvée.');
+                                }
+                            }
+                            hideModal('dateOptionsModal');
+                        } else {
+                            alert('Cette fonctionnalité est réservée aux administrateurs. Veuillez vous connecter avec le mot de passe.');
+                        }
+                    },
+                    !isAdmin // locked si pas admin
+                ));
+            } else {
+                // La date est vierge - MODIFICATION: Toujours afficher l'option mais verrouillée si pas admin
+                optionsList.appendChild(createDateOption(
+                    'Écrire le journal du jour',
+                    isAdmin ? 
+                        'Accéder au formulaire pour créer une nouvelle entrée' : 
+                        'Connectez-vous en tant qu\'administrateur pour ajouter des données',
+                    isAdmin ? '📝' : '🔒',
+                    () => {
+                        if (isAdmin) {
+                            // Rediriger vers le formulaire Google
+                            window.open('https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header', '_blank');
+                            hideModal('dateOptionsModal');
+                        } else {
+                            alert('Cette fonctionnalité est réservée aux administrateurs. Veuillez vous connecter avec le mot de passe.');
+                        }
+                    },
+                    !isAdmin // locked si pas admin
+                ));
+            }
+            
+            // Afficher la modale
+            showModal('dateOptionsModal');
+        }
+
+        // NOUVELLE FONCTION: Créer une option de date
+        function createDateOption(title, description, icon, onClick, locked = false) {
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'date-option';
+            if (locked) {
+                optionDiv.classList.add('locked');
+            }
+            
+            optionDiv.innerHTML = `
+                <div class="date-option-icon">${icon}</div>
+                <div class="date-option-text">
+                    <div class="date-option-title">${title}</div>
+                    <div class="date-option-description">${description}</div>
+                </div>
+                ${locked ? '<div class="lock-icon">🔒</div>' : ''}
+            `;
+            
+            if (!locked) {
+                optionDiv.addEventListener('click', onClick);
+            } else {
+                optionDiv.addEventListener('click', () => {
+                    alert('Cette fonctionnalité est réservée aux administrateurs. Veuillez vous connecter avec le mot de passe.');
+                });
+            }
+            
+            return optionDiv;
+        }
+
+        // NOUVELLE FONCTION: Afficher les interlocuteurs pour une date (version améliorée)
+        function showInterlocuteursForDate(dayData) {
+            const rowIndex = dayData.rowIndex;
+            if (rowIndex === undefined || rowIndex < 0) return;
+            
+            const row = sheetData[rowIndex];
+            const interlocuteurs = [];
+            
+            // Rechercher les colonnes avec "Interlocuteur ,hôte"
+            const interlocuteurColumns = headers
+                .map((header, index) => 
+                    (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
+                )
+                .filter(index => index !== -1);
+            
+            interlocuteurColumns.forEach(colIndex => {
+                const value = row[colIndex] || '';
+                if (value.trim()) {
+                    // Séparer par virgules et points-virgules
+                    value.split(/[,;]/).forEach(nom => {
+                        const trimmed = nom.trim();
+                        // Exclure les URLs, emails et valeurs vides
+                        if (trimmed && 
+                            !trimmed.includes('http') && 
+                            !trimmed.includes('@') && 
+                            !trimmed.includes('facebook') &&
+                            !trimmed.includes('www.') &&
+                            trimmed.length > 1) {
+                            interlocuteurs.push(trimmed);
+                        }
+                    });
+                }
+            });
+            
+            // MODIFICATION: Afficher dans une modale améliorée plutôt qu'une alerte
+            const uniqueInterlocuteurs = [...new Set(interlocuteurs)];
+            
+            if (uniqueInterlocuteurs.length > 0) {
+                // Créer une modale personnalisée pour afficher les interlocuteurs
+                const modalContent = `
+                    <div class="modal-header">
+                        <h3 class="modal-title">👤 Interlocuteurs/Hôtes</h3>
+                        <button class="close-modal" onclick="this.closest('.modal').style.display='none'">✕</button>
+                    </div>
+                    <div class="form-group">
+                        <p><strong>Date:</strong> ${formatDateForDisplay(dayData.date)}</p>
+                        <div class="list-container">
+                            ${uniqueInterlocuteurs.map(interlocuteur => `
+                                <div class="list-item">
+                                    <span>${interlocuteur}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="action-button cancel" onclick="this.closest('.modal').style.display='none'">Fermer</button>
+                    </div>
+                `;
+                
+                // Créer une modale temporaire
+                const tempModal = document.createElement('div');
+                tempModal.className = 'modal';
+                tempModal.style.display = 'flex';
+                tempModal.innerHTML = `
+                    <div class="modal-content" style="max-width: 500px;">
+                        ${modalContent}
+                    </div>
+                `;
+                document.body.appendChild(tempModal);
+                
+                // Fermer la modale en cliquant à l'extérieur
+                tempModal.addEventListener('click', function(e) {
+                    if (e.target === tempModal) {
+                        tempModal.style.display = 'none';
+                        document.body.removeChild(tempModal);
+                    }
+                });
+            } else {
+                alert('Aucun interlocuteur/hôte trouvé pour cette date.');
+            }
+        }
+
+        // NOUVELLE FONCTION: Afficher les lieux pour une date (version améliorée)
+        function showLieuxForDate(dayData) {
+            const rowIndex = dayData.rowIndex;
+            if (rowIndex === undefined || rowIndex < 0) return;
+            
+            const row = sheetData[rowIndex];
+            const lieux = [];
+            
+            // Rechercher les colonnes avec "Lieux"
+            const lieuxColumns = headers
+                .map((header, index) => 
+                    (header && header.includes('Lieux')) ? index : -1
+                )
+                .filter(index => index !== -1);
+            
+            lieuxColumns.forEach(colIndex => {
+                const value = row[colIndex] || '';
+                if (value.trim()) {
+                    lieux.push(value.trim());
+                }
+            });
+            
+            // MODIFICATION: Afficher dans une modale améliorée plutôt qu'une alerte
+            const uniqueLieux = [...new Set(lieux)];
+            
+            if (uniqueLieux.length > 0) {
+                // Créer une modale personnalisée pour afficher les lieux
+                const modalContent = `
+                    <div class="modal-header">
+                        <h3 class="modal-title">📍 Lieux visités</h3>
+                        <button class="close-modal" onclick="this.closest('.modal').style.display='none'">✕</button>
+                    </div>
+                    <div class="form-group">
+                        <p><strong>Date:</strong> ${formatDateForDisplay(dayData.date)}</p>
+                        <div class="list-container">
+                            ${uniqueLieux.map(lieu => `
+                                <div class="list-item">
+                                    <span>${lieu}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="action-button cancel" onclick="this.closest('.modal').style.display='none'">Fermer</button>
+                    </div>
+                `;
+                
+                // Créer une modale temporaire
+                const tempModal = document.createElement('div');
+                tempModal.className = 'modal';
+                tempModal.style.display = 'flex';
+                tempModal.innerHTML = `
+                    <div class="modal-content" style="max-width: 500px;">
+                        ${modalContent}
+                    </div>
+                `;
+                document.body.appendChild(tempModal);
+                
+                // Fermer la modale en cliquant à l'extérieur
+                tempModal.addEventListener('click', function(e) {
+                    if (e.target === tempModal) {
+                        tempModal.style.display = 'none';
+                        document.body.removeChild(tempModal);
+                    }
+                });
+            } else {
+                alert('Aucun lieu trouvé pour cette date.');
+            }
+        }
+
+        // Sélection d'une date (ancienne fonction, maintenant remplacée par showDateOptions)
         function selectDate(date) {
             selectedDate = date;
             const matchingRows = findEntriesByDate(date);
@@ -3914,7 +4382,7 @@ L'équipe NY AKO</textarea>
                     mimeType = 'application/json';
                     break;
                 case 'pdf':
-                    // Pour PDF, on ouvre une nouvelle fenêtre avec le contenu formaté
+                    // Pour PDF, on ouvre une nouvelle fenêtre avec le contenu formaté pour impression
                     exportToPDF(includeContacts, includePhotos, includeStats);
                     return;
                 case 'excel':
@@ -4147,6 +4615,6 @@ L'équipe NY AKO</textarea>
                 displayAllJournalEntries();
             }
         });
-    </script>
+    </script> 
 </body>
 </html>
