@@ -526,6 +526,8 @@
             box-shadow: var(--box-shadow);
             margin-bottom: 20px;
             border: 2px solid var(--neutral-border);
+            /* NOUVEAU: permettre le défilement horizontal en mobile */
+            overflow-x: auto;
         }
         
         .calendar-header {
@@ -558,6 +560,8 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 8px;
+            /* NOUVEAU: largeur minimale pour assurer le défilement */
+            min-width: 600px;
         }
         
         .calendar-day-header {
@@ -4618,4 +4622,3 @@ L'équipe NY AKO</textarea>
     </script> 
 </body>
 </html>
-
