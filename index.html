@@ -1894,6 +1894,9 @@ L'équipe NY AKO</textarea>
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Démarrage du Journal de Bord...');
             
+            // Vérifier si l'admin est déjà connecté (DOIT ÊTRE AVANT le chargement des données)
+            checkAdminStatus();
+            
             // Configuration des événements
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
@@ -1944,9 +1947,6 @@ L'équipe NY AKO</textarea>
             document.getElementById('passwordButton').addEventListener('click', togglePasswordInput);
             document.getElementById('submitPassword').addEventListener('click', validatePassword);
             
-            // Vérifier si l'admin est déjà connecté
-            checkAdminStatus();
-            
             // Charger les données
             loadDataFromGoogleSheets();
         });
@@ -1965,15 +1965,120 @@ L'équipe NY AKO</textarea>
             const savedAdmin = localStorage.getItem('tourneeAdmin');
             if (savedAdmin === 'true') {
                 isAdmin = true;
+                showFicheLinks = true;
+                console.log('🔓 Statut admin restauré depuis le stockage local');
+                
                 enableAdminButtons();
+                updateAdminInterface(); // AJOUT IMPORTANT
             }
         }
 
         // Activer les boutons admin
         function enableAdminButtons() {
-            document.querySelectorAll('.admin-button').forEach(button => {
+            console.log('🔓 Activation des boutons admin...');
+            
+            const adminButtons = document.querySelectorAll('.admin-button');
+            adminButtons.forEach(button => {
                 button.disabled = false;
+                button.style.opacity = '1';
+                button.style.cursor = 'pointer';
             });
+            
+            // Mettre à jour le texte du bouton mot de passe
+            const passwordButton = document.getElementById('passwordButton');
+            if (passwordButton) {
+                passwordButton.innerHTML = '🔐 Accès admin activé';
+                passwordButton.style.background = 'linear-gradient(to bottom, #27ae60, #219a52)';
+                passwordButton.disabled = true;
+            }
+            
+            // Masquer le champ de mot de passe
+            const passwordContainer = document.getElementById('passwordInputContainer');
+            if (passwordContainer) {
+                passwordContainer.style.display = 'none';
+            }
+            
+            console.log('✅ Boutons admin activés');
+        }
+
+        // Mettre à jour l'interface admin
+        function updateAdminInterface() {
+            console.log('🔄 Mise à jour de l\'interface admin...');
+            
+            // Forcer le re-rendu du calendrier pour mettre à jour les options de date
+            renderCalendar();
+            
+            // Mettre à jour les boutons de filtre pour refléter le statut admin
+            const concertButton = document.getElementById('concertFilterButton');
+            if (concertButton) {
+                concertButton.style.display = 'block';
+            }
+            
+            // Afficher un indicateur visuel du statut admin
+            const adminSection = document.getElementById('adminSection');
+            if (adminSection) {
+                adminSection.style.display = 'block';
+                adminSection.innerHTML = `
+                    <h3>🔐 Panneau d'administration - CONNECTÉ</h3>
+                    <div class="admin-panel">
+                        <p style="color: #27ae60; font-weight: bold;">✅ Accès administrateur activé</p>
+                        <div class="admin-controls">
+                            <button class="admin-button" id="groupEmailButton">📧 Envoi mail groupé</button>
+                            <button class="admin-button" id="organizeListsButton">📋 Listes organisées</button>
+                            <button class="admin-button" id="exportDataButton">💾 Exporter les données</button>
+                            <button class="admin-button" id="logoutButton" style="background: linear-gradient(to bottom, #e74c3c, #c0392b);">🚪 Déconnexion</button>
+                        </div>
+                    </div>
+                `;
+                
+                // Réattacher les événements aux nouveaux boutons
+                document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
+                document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
+                document.getElementById('exportDataButton').addEventListener('click', showExportModal);
+                document.getElementById('logoutButton').addEventListener('click', logoutAdmin);
+            }
+            
+            console.log('✅ Interface admin mise à jour');
+        }
+
+        // Déconnexion admin
+        function logoutAdmin() {
+            isAdmin = false;
+            showFicheLinks = false;
+            localStorage.removeItem('tourneeAdmin');
+            
+            // Réinitialiser l'interface admin
+            const adminSection = document.getElementById('adminSection');
+            adminSection.innerHTML = `
+                <h3>🔐 Panneau d'administration</h3>
+                <div class="admin-panel">
+                    <p>Accès aux fonctionnalités avancées</p>
+                    <div class="admin-controls">
+                        <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
+                        <button class="admin-button" id="organizeListsButton" disabled>📋 Listes organisées</button>
+                        <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
+                    </div>
+                </div>
+            `;
+            
+            // Réattacher les événements
+            document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
+            document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
+            document.getElementById('exportDataButton').addEventListener('click', showExportModal);
+            
+            // Re-rendre le calendrier pour mettre à jour les options de date
+            renderCalendar();
+            
+            // Afficher un message
+            const dataInfo = document.getElementById('dataInfo');
+            dataInfo.innerHTML = `
+                <div class="success-message" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                    🔓 Déconnexion réussie - Accès administrateur désactivé
+                </div>
+            `;
+            dataInfo.style.display = 'block';
+            
+            console.log('🚪 Déconnexion admin effectuée');
         }
 
         // Toggle du champ de mot de passe
@@ -1996,6 +2101,7 @@ L'équipe NY AKO</textarea>
                 
                 // Activer les boutons admin
                 enableAdminButtons();
+                updateAdminInterface(); // AJOUT CRITIQUE
                 
                 // Afficher un message de succès
                 const dataInfo = document.getElementById('dataInfo');
@@ -2010,6 +2116,8 @@ L'équipe NY AKO</textarea>
                 if (document.getElementById('journalEntries').children.length > 0) {
                     displayAllJournalEntries();
                 }
+                
+                console.log('🔓 Authentification admin réussie');
             } else {
                 alert('Mot de passe incorrect. Veuillez réessayer.');
             }
