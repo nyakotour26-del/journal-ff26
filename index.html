@@ -23,6 +23,7 @@
             --concert-orange: #ff9800;
             --neutral-border: #e0e0e0;
             --activity-title-bg: #fce4ec;
+            --section-title-color: #87CEEB; /* Bleu ciel pour les titres de section */
         }
         
         * {
@@ -265,7 +266,7 @@
         
         .section-title {
             font-size: 1.5em;
-            color: var(--secondary-color);
+            color: var(--section-title-color); /* Changé en bleu ciel */
             margin-bottom: 20px;
             padding-bottom: 12px;
             border-bottom: 3px solid var(--light-blue);
@@ -279,16 +280,16 @@
             content: '';
             width: 8px;
             height: 25px;
-            background: var(--secondary-color);
+            background: var(--section-title-color); /* Changé en bleu ciel */
             border-radius: 4px;
         }
         
         .subsection-title {
             font-size: 1.2em;
-            color: var(--primary-color);
+            color: var(--section-title-color); /* Changé en bleu ciel */
             margin: 20px 0 15px;
             padding-left: 15px;
-            border-left: 4px solid var(--accent-color);
+            border-left: 4px solid var(--section-title-color); /* Changé en bleu ciel */
             font-weight: 600;
         }
         
@@ -437,6 +438,7 @@
             display: flex;
             gap: 15px;
             margin-bottom: 20px;
+            position: relative;
         }
         
         .search-input {
@@ -734,11 +736,6 @@
             color: var(--concert-orange);
         }
         
-        .activity-title::before {
-            content: '🎵';
-            font-size: 1.3em;
-        }
-        
         .activity-title.activity-type::before {
             content: '📅';
         }
@@ -878,12 +875,12 @@
         }
         
         .activity-stat.concert-stat {
-            cursor: default;
+            cursor: pointer; /* Maintenant cliquable comme les autres */
         }
         
         .activity-stat.concert-stat:hover {
-            transform: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         .activity-stat-value {
@@ -899,24 +896,7 @@
         }
         
         .concert-filter-button {
-            background: linear-gradient(to bottom, #e74c3c, #c0392b);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-left: 10px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .concert-filter-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        .concert-filter-button.active {
-            background: linear-gradient(to bottom, #27ae60, #219a52);
+            display: none; /* CACHÉ comme demandé */
         }
         
         .email-link {
@@ -1386,6 +1366,137 @@
             flex-direction: column;
         }
         
+        /* Styles pour les suggestions de recherche */
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 100;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .search-suggestion {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .search-suggestion:hover {
+            background: #f8f9fa;
+        }
+        
+        .suggestion-text {
+            font-weight: 500;
+        }
+        
+        .suggestion-details {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            text-align: right;
+        }
+        
+        /* Styles pour l'export sélectif */
+        .export-selection {
+            margin-bottom: 20px;
+        }
+        
+        .export-checkbox {
+            margin-right: 10px;
+        }
+        
+        .export-day-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .export-day-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Styles pour la bulle d'information interlocuteur */
+        .interlocutor-bubble {
+            position: fixed;
+            background: white;
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 1001; /* Plus élevé que les autres modales */
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .interlocutor-bubble-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-blue);
+        }
+        
+        .interlocutor-bubble-title {
+            font-size: 1.2em;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        .close-bubble {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--accent-color);
+            padding: 5px;
+        }
+        
+        /* Styles pour les boutons dans la bulle interlocuteur */
+        .bubble-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--neutral-border);
+        }
+        
+        .bubble-button {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .bubble-button.scroll {
+            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
+            color: white;
+        }
+        
+        .bubble-button.info {
+            background: linear-gradient(to bottom, #27ae60, #219a52);
+            color: white;
+        }
+        
+        .bubble-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
         @media (max-width: 768px) {
             .search-form {
                 flex-direction: column;
@@ -1551,6 +1662,16 @@
             .date-option {
                 padding: 12px;
             }
+            
+            /* Styles pour la bulle interlocuteur en mobile */
+            .interlocutor-bubble {
+                max-width: 90vw;
+                padding: 15px;
+            }
+            
+            .bubble-actions {
+                flex-direction: column;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1594,15 +1715,17 @@
         </div>
         
         <section class="search-section">
-            <form class="search-form" id="searchForm">
-                <input type="text" 
-                       class="search-input" 
-                       id="searchInput" 
-                       placeholder="🔍 Rechercher dans le journal...">
+            <form class="search-form" id="searchForm" autocomplete="off">
+                <div style="position: relative; flex: 1;">
+                    <input type="text" 
+                           class="search-input" 
+                           id="searchInput" 
+                           placeholder="🔍 Rechercher dans le journal..."
+                           autocomplete="off">
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
                 <button type="submit" class="search-button">Rechercher</button>
-                <button type="button" class="concert-filter-button" id="concertFilterButton">
-                    🎵 Filtrer les concerts
-                </button>
+                <!-- BOUTON FILTRER CONCERTS CACHÉ -->
             </form>
             
             <div class="password-section">
@@ -1658,6 +1781,10 @@
                     <div class="stat-value" id="totalDistance">0 km</div>
                     <div class="stat-label">Distance totale</div>
                 </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalJours">0</div>
+                    <div class="stat-label">Jours enregistrés</div>
+                </div>
             </div>
             
             <div class="activity-stats" id="activityStats"></div>
@@ -1690,6 +1817,7 @@
                     <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
                     <button class="admin-button" id="organizeListsButton" disabled>📋 Listes organisées</button>
                     <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
+                    <button class="admin-button" id="selectiveExportButton" disabled>📄 Export sélectif</button>
                 </div>
             </div>
         </div>
@@ -1854,9 +1982,60 @@ L'équipe NY AKO</textarea>
         </div>
     </div>
 
+    <!-- Modal pour l'export sélectif -->
+    <div id="selectiveExportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">📄 Export sélectif</h3>
+                <button class="close-modal" id="closeSelectiveExportModal">✕</button>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Sélectionnez les journées à exporter:</label>
+                <div class="export-selection">
+                    <div style="margin-bottom: 10px;">
+                        <input type="checkbox" id="selectAllDays" class="export-checkbox">
+                        <label for="selectAllDays">Sélectionner toutes les journées</label>
+                    </div>
+                    <div class="list-container" id="exportDaysList">
+                        <!-- Liste des journées générée ici -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Format d'export:</label>
+                <select id="selectiveExportFormat" class="form-input">
+                    <option value="pdf">PDF</option>
+                    <option value="excel">Excel</option>
+                </select>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="action-button cancel" id="cancelSelectiveExport">Annuler</button>
+                <button class="action-button primary" id="confirmSelectiveExport">💾 Exporter la sélection</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulle d'information interlocuteur -->
+    <div id="interlocutorBubble" class="interlocutor-bubble" style="display: none;">
+        <div class="interlocutor-bubble-header">
+            <h3 class="interlocutor-bubble-title">Information sur Interlocuteur/Hôte</h3>
+            <button class="close-bubble" id="closeInterlocutorBubble">✕</button>
+        </div>
+        <div id="interlocutorBubbleContent">
+            <!-- Contenu généré dynamiquement -->
+        </div>
+        <div class="bubble-actions">
+            <button class="bubble-button scroll" id="bubbleScrollButton">📌 Défiler</button>
+            <button class="bubble-button info" id="bubbleInfoButton">💬 Info</button>
+        </div>
+    </div>
+
     <script>
         // URL du Google Sheets MIS À JOUR
-        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=1755798110&single=true&output=csv';
+        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=2027996510&single=true&output=csv';
         
         // Variables globales
         let sheetData = [];
@@ -1889,6 +2068,8 @@ L'équipe NY AKO</textarea>
         };
         let selectedExportFormat = null;
         let currentSelectedDate = null;
+        let searchSuggestions = [];
+        let currentInterlocutorForBubble = null;
 
         // Initialisation au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
@@ -1903,12 +2084,12 @@ L'équipe NY AKO</textarea>
             document.getElementById('nextMonth').addEventListener('click', nextMonth);
             document.getElementById('showAllButton').addEventListener('click', showAllData);
             document.getElementById('retryButton').addEventListener('click', loadDataFromGoogleSheets);
-            document.getElementById('concertFilterButton').addEventListener('click', toggleConcertFilter);
             
             // Événements pour l'admin
             document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
             document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
             document.getElementById('exportDataButton').addEventListener('click', showExportModal);
+            document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
             
             // Événements pour les modales
             document.getElementById('closeEmailModal').addEventListener('click', () => hideModal('emailModal'));
@@ -1917,10 +2098,30 @@ L'équipe NY AKO</textarea>
             document.getElementById('cancelLists').addEventListener('click', () => hideModal('listsModal'));
             document.getElementById('closeExportModal').addEventListener('click', () => hideModal('exportModal'));
             document.getElementById('cancelExport').addEventListener('click', () => hideModal('exportModal'));
+            document.getElementById('closeSelectiveExportModal').addEventListener('click', () => hideModal('selectiveExportModal'));
+            document.getElementById('cancelSelectiveExport').addEventListener('click', () => hideModal('selectiveExportModal'));
             
             // Événements pour la modale des options de date
             document.getElementById('closeDateOptions').addEventListener('click', () => hideModal('dateOptionsModal'));
             document.getElementById('cancelDateOptions').addEventListener('click', () => hideModal('dateOptionsModal'));
+            
+            // Événements pour la bulle interlocuteur
+            document.getElementById('closeInterlocutorBubble').addEventListener('click', () => {
+                document.getElementById('interlocutorBubble').style.display = 'none';
+            });
+            
+            document.getElementById('bubbleScrollButton').addEventListener('click', () => {
+                if (currentInterlocutorForBubble) {
+                    scrollToInterlocuteur(currentInterlocutorForBubble);
+                    document.getElementById('interlocutorBubble').style.display = 'none';
+                }
+            });
+            
+            document.getElementById('bubbleInfoButton').addEventListener('click', () => {
+                if (currentInterlocutorForBubble) {
+                    showInterlocutorInfo(currentInterlocutorForBubble);
+                }
+            });
             
             // Événements pour les fonctionnalités
             document.getElementById('sendEmails').addEventListener('click', sendEmails);
@@ -1928,6 +2129,8 @@ L'équipe NY AKO</textarea>
             document.getElementById('listType').addEventListener('change', updateOrganizedList);
             document.getElementById('exportList').addEventListener('click', exportCurrentList);
             document.getElementById('confirmExport').addEventListener('click', exportData);
+            document.getElementById('selectAllDays').addEventListener('change', toggleSelectAllDays);
+            document.getElementById('confirmSelectiveExport').addEventListener('click', exportSelectedDays);
             
             // Événements pour les options d'export
             document.querySelectorAll('.export-option').forEach(option => {
@@ -1946,6 +2149,15 @@ L'équipe NY AKO</textarea>
             // Événements pour le mot de passe
             document.getElementById('passwordButton').addEventListener('click', togglePasswordInput);
             document.getElementById('submitPassword').addEventListener('click', validatePassword);
+            
+            // Événements pour la recherche avec suggestions
+            document.getElementById('searchInput').addEventListener('input', handleSearchInput);
+            document.getElementById('searchInput').addEventListener('focus', showSearchSuggestions);
+            document.getElementById('searchInput').addEventListener('blur', function() {
+                setTimeout(() => {
+                    hideSearchSuggestions();
+                }, 200);
+            });
             
             // Charger les données
             loadDataFromGoogleSheets();
@@ -2008,12 +2220,6 @@ L'équipe NY AKO</textarea>
             // Forcer le re-rendu du calendrier pour mettre à jour les options de date
             renderCalendar();
             
-            // Mettre à jour les boutons de filtre pour refléter le statut admin
-            const concertButton = document.getElementById('concertFilterButton');
-            if (concertButton) {
-                concertButton.style.display = 'block';
-            }
-            
             // Afficher un indicateur visuel du statut admin
             const adminSection = document.getElementById('adminSection');
             if (adminSection) {
@@ -2026,6 +2232,7 @@ L'équipe NY AKO</textarea>
                             <button class="admin-button" id="groupEmailButton">📧 Envoi mail groupé</button>
                             <button class="admin-button" id="organizeListsButton">📋 Listes organisées</button>
                             <button class="admin-button" id="exportDataButton">💾 Exporter les données</button>
+                            <button class="admin-button" id="selectiveExportButton">📄 Export sélectif</button>
                             <button class="admin-button" id="logoutButton" style="background: linear-gradient(to bottom, #e74c3c, #c0392b);">🚪 Déconnexion</button>
                         </div>
                     </div>
@@ -2035,6 +2242,7 @@ L'équipe NY AKO</textarea>
                 document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
                 document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
                 document.getElementById('exportDataButton').addEventListener('click', showExportModal);
+                document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
                 document.getElementById('logoutButton').addEventListener('click', logoutAdmin);
             }
             
@@ -2057,6 +2265,7 @@ L'équipe NY AKO</textarea>
                         <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
                         <button class="admin-button" id="organizeListsButton" disabled>📋 Listes organisées</button>
                         <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
+                        <button class="admin-button" id="selectiveExportButton" disabled>📄 Export sélectif</button>
                     </div>
                 </div>
             `;
@@ -2065,6 +2274,7 @@ L'équipe NY AKO</textarea>
             document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
             document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
             document.getElementById('exportDataButton').addEventListener('click', showExportModal);
+            document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
             
             // Re-rendre le calendrier pour mettre à jour les options de date
             renderCalendar();
@@ -2209,6 +2419,7 @@ L'équipe NY AKO</textarea>
                 renderFilterTags();
                 renderCalendar();
                 renderActivityStats();
+                generateSearchSuggestions();
                 
                 showDataInfo();
                 displayAllJournalEntries();
@@ -2219,43 +2430,284 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // Calculer les comptages d'activités
+        // Générer les suggestions de recherche - VERSION CORRIGÉE
+        function generateSearchSuggestions() {
+            searchSuggestions = [];
+            
+            // Ajouter les lieux avec date et pays
+            allLieux.forEach(lieu => {
+                const occurrences = findOccurrences(lieu, 'lieu');
+                occurrences.forEach(occurrence => {
+                    searchSuggestions.push({
+                        text: lieu,
+                        type: 'lieu',
+                        details: `${occurrence.date} - ${occurrence.pays}`,
+                        rowIndex: occurrence.rowIndex
+                    });
+                });
+            });
+            
+            // Ajouter les interlocuteurs avec date et pays
+            allInterlocuteurs.forEach(interlocuteur => {
+                const occurrences = findOccurrences(interlocuteur, 'nom');
+                occurrences.forEach(occurrence => {
+                    searchSuggestions.push({
+                        text: interlocuteur,
+                        type: 'interlocuteur',
+                        details: `${occurrence.date} - ${occurrence.pays}`,
+                        rowIndex: occurrence.rowIndex
+                    });
+                });
+            });
+            
+            // Ajouter les pays avec date
+            allPays.forEach(pays => {
+                const occurrences = findOccurrences(pays, 'pays');
+                occurrences.forEach(occurrence => {
+                    searchSuggestions.push({
+                        text: pays,
+                        type: 'pays',
+                        details: occurrence.date,
+                        rowIndex: occurrence.rowIndex
+                    });
+                });
+            });
+            
+            // Ajouter les types d'activités (uniquement ceux qui doivent apparaître)
+            const validActivityTypes = [
+                'Rencontre/Invitation', 'Concert', 'Ecole', 
+                'Sortie/visite/Tourisme', 'Eglise/culte', 'Marché', 'Shopping',
+                'Hospice/Hopital', 'Voyage', 'Festival'
+            ];
+            
+            validActivityTypes.forEach(type => {
+                if (activityCounts[type] > 0) {
+                    searchSuggestions.push({
+                        text: type,
+                        type: 'activité',
+                        details: `${activityCounts[type]} occurrence(s)`,
+                        rowIndex: -1
+                    });
+                }
+            });
+            
+            console.log(`🔍 ${searchSuggestions.length} suggestions de recherche générées`);
+        }
+
+        // Trouver les occurrences d'un terme avec date et pays
+        function findOccurrences(term, type) {
+            const occurrences = [];
+            
+            sheetData.forEach((row, rowIndex) => {
+                let found = false;
+                let date = '';
+                let pays = '';
+                
+                // Récupérer la date
+                const dateIndex = findHeaderIndex('Date:');
+                if (dateIndex !== -1) {
+                    date = row[dateIndex] || '';
+                }
+                
+                // Récupérer le pays
+                const paysIndex = findHeaderIndex('Pays:');
+                if (paysIndex !== -1) {
+                    pays = row[paysIndex] || '';
+                }
+                
+                switch(type) {
+                    case 'lieu':
+                        const lieuxColumns = headers
+                            .map((header, index) => 
+                                (header && header.includes('Lieux')) ? index : -1
+                            )
+                            .filter(index => index !== -1);
+                        
+                        found = lieuxColumns.some(colIndex => {
+                            const value = row[colIndex] || '';
+                            return value.includes(term);
+                        });
+                        break;
+                        
+                    case 'nom':
+                        const nomColumns = headers
+                            .map((header, index) => 
+                                (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
+                            )
+                            .filter(index => index !== -1);
+                        
+                        found = nomColumns.some(colIndex => {
+                            const value = row[colIndex] || '';
+                            return value.includes(term);
+                        });
+                        break;
+                        
+                    case 'pays':
+                        const paysColumns = headers
+                            .map((header, index) => 
+                                (header && header.includes('Pays')) ? index : -1
+                            )
+                            .filter(index => index !== -1);
+                        
+                        found = paysColumns.some(colIndex => {
+                            const value = row[colIndex] || '';
+                            return value.includes(term);
+                        });
+                        break;
+                }
+                
+                if (found) {
+                    occurrences.push({
+                        date: date,
+                        pays: pays,
+                        rowIndex: rowIndex
+                    });
+                }
+            });
+            
+            return occurrences;
+        }
+
+        // Gérer la saisie dans le champ de recherche - VERSION AMÉLIORÉE
+        function handleSearchInput(event) {
+            const searchValue = event.target.value.trim();
+            if (searchValue.length > 0) {
+                showSearchSuggestions(searchValue);
+            } else {
+                hideSearchSuggestions();
+            }
+        }
+
+        // Afficher les suggestions de recherche - VERSION AMÉLIORÉE
+        function showSearchSuggestions(filter = '') {
+            const suggestionsContainer = document.getElementById('searchSuggestions');
+            const searchInput = document.getElementById('searchInput');
+            suggestionsContainer.innerHTML = '';
+            
+            const filteredSuggestions = searchSuggestions.filter(suggestion => 
+                normalizeText(suggestion.text).includes(normalizeText(filter))
+            ).slice(0, 10);
+            
+            if (filteredSuggestions.length > 0) {
+                filteredSuggestions.forEach(suggestion => {
+                    const suggestionElement = document.createElement('div');
+                    suggestionElement.className = 'search-suggestion';
+                    suggestionElement.innerHTML = `
+                        <span class="suggestion-text">${suggestion.text}</span>
+                        <span class="suggestion-details">${suggestion.details}</span>
+                    `;
+                    suggestionElement.addEventListener('click', () => {
+                        searchInput.value = suggestion.text;
+                        hideSearchSuggestions();
+                        
+                        // CORRECTION: Effectuer la recherche directement quand on clique sur une suggestion
+                        currentSearchTerm = suggestion.text;
+                        currentSearchType = suggestion.type;
+                        const results = filterDataByType(suggestion.text, suggestion.type);
+                        displayFilteredEntries(results, `${suggestion.type.charAt(0).toUpperCase() + suggestion.type.slice(1)}: ${suggestion.text}`);
+                    });
+                    suggestionsContainer.appendChild(suggestionElement);
+                });
+                suggestionsContainer.style.display = 'block';
+            } else {
+                hideSearchSuggestions();
+            }
+        }
+
+        // Masquer les suggestions de recherche
+        function hideSearchSuggestions() {
+            document.getElementById('searchSuggestions').style.display = 'none';
+        }
+
+        // Normaliser le texte pour la recherche (supprimer les accents)
+        function normalizeText(text) {
+            return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        }
+
+        // Calculer les comptages d'activités - VERSION CORRIGÉE POUR ACTIVITÉS 6 ET 7
         function calculateActivityCounts() {
             // Réinitialiser les compteurs
             Object.keys(activityCounts).forEach(key => {
                 activityCounts[key] = 0;
             });
             
-            // Rechercher les colonnes d'activités
-            const activityColumns = headers
+            // Types d'activités valides (ceux qui doivent apparaître dans les statistiques)
+            const validActivityTypes = [
+                'Rencontre/Invitation', 'Concert', 'Ecole', 
+                'Sortie/visite/Tourisme', 'Eglise/culte', 'Marché', 'Shopping',
+                'Hospice/Hopital', 'Voyage', 'Festival'
+            ];
+            
+            // CORRECTION: Rechercher les 7 sections d'activités (1 à 7 maintenant)
+            for (let i = 1; i <= 7; i++) {
+                const activityHeader = `ACTIVITÉ ${i}`;
+                const activityHeaderAlt = `ACTIVITE ${i}`;
+                const activityHeaderAlt2 = `ACTIVITE${i}`;
+                const activityHeaderAlt3 = `ACTIVITÉ${i}`;
+                
+                const activityIndex = headers.findIndex(header => 
+                    header && (
+                        header.trim().toUpperCase() === activityHeader ||
+                        header.trim().toUpperCase() === activityHeaderAlt ||
+                        header.trim().toUpperCase() === activityHeaderAlt2 ||
+                        header.trim().toUpperCase() === activityHeaderAlt3 ||
+                        header.includes(`ACTIVITÉ ${i}`) ||
+                        header.includes(`ACTIVITE ${i}`) ||
+                        header.includes(`ACTIVITE${i}`) ||
+                        header.includes(`ACTIVITÉ${i}`)
+                    )
+                );
+                
+                if (activityIndex !== -1) {
+                    sheetData.forEach(row => {
+                        const activityType = row[activityIndex] || '';
+                        if (activityType && activityType.trim() !== '') {
+                            // CORRECTION: Créer automatiquement les activités qui n'existent pas encore
+                            validActivityTypes.forEach(type => {
+                                if (activityType.includes(type)) {
+                                    activityCounts[type]++;
+                                }
+                            });
+                            
+                            // CORRECTION: Ajouter automatiquement les nouvelles activités des sections 6 et 7
+                            const normalizedType = activityType.trim();
+                            if (!validActivityTypes.includes(normalizedType) && 
+                                !Object.keys(activityCounts).includes(normalizedType)) {
+                                // Si c'est une nouvelle activité, l'ajouter aux statistiques
+                                activityCounts[normalizedType] = 1;
+                                console.log(`🆕 Nouvelle activité détectée et ajoutée: ${normalizedType}`);
+                            } else if (!validActivityTypes.includes(normalizedType) && 
+                                       Object.keys(activityCounts).includes(normalizedType)) {
+                                // Si l'activité existe déjà dans activityCounts mais pas dans validActivityTypes
+                                activityCounts[normalizedType]++;
+                            }
+                        }
+                    });
+                }
+            }
+            
+            // Compter les concerts séparément
+            const concertColumns = headers
                 .map((header, index) => 
-                    (header && (header.includes('ACTIVITÉ') || header.includes('ACTIVITE') || header.includes('CONCERT'))) ? index : -1
+                    (header && header.includes('CONCERT')) ? index : -1
                 )
                 .filter(index => index !== -1);
             
-            // Compter les activités par type
-            sheetData.forEach(row => {
-                activityColumns.forEach(colIndex => {
-                    const activityType = row[colIndex] || '';
-                    if (activityType && activityType.trim() !== '') {
-                        // Vérifier si le type correspond à l'un de nos types d'activité
-                        Object.keys(activityCounts).forEach(type => {
-                            if (activityType.includes(type)) {
-                                activityCounts[type]++;
-                            }
-                        });
-                        
-                        // Compter les concerts séparément
-                        if ((activityType.toLowerCase().includes('concert') || activityType === 'OUI') && 
-                            (headers[colIndex] && headers[colIndex].includes('CONCERT'))) {
-                            activityCounts['Concert']++;
-                        }
+            concertColumns.forEach(colIndex => {
+                sheetData.forEach(row => {
+                    const concertValue = row[colIndex] || '';
+                    if (concertValue && 
+                        (concertValue.toLowerCase() === 'oui' || 
+                         concertValue.toLowerCase().includes('concert'))) {
+                        activityCounts['Concert']++;
                     }
                 });
             });
+            
+            console.log('📊 Statistiques activités calculées:', activityCounts);
         }
 
-        // Afficher les statistiques d'activités
+        // Afficher les statistiques d'activités - VERSION CORRIGÉE POUR TOUTES LES ACTIVITÉS
         function renderActivityStats() {
             const container = document.getElementById('activityStats');
             container.innerHTML = '';
@@ -2269,17 +2721,12 @@ L'équipe NY AKO</textarea>
                 container.className = 'activity-stats';
             }
             
+            // Afficher TOUTES les activités qui ont au moins une occurrence
             Object.keys(activityCounts).forEach(type => {
                 if (activityCounts[type] > 0) {
                     const statDiv = document.createElement('div');
                     statDiv.className = 'activity-stat';
-                    
-                    // Pour les concerts, on ne veut pas que ce soit cliquable
-                    if (type === 'Concert') {
-                        statDiv.classList.add('concert-stat');
-                    } else {
-                        statDiv.setAttribute('data-activity-type', type);
-                    }
+                    statDiv.setAttribute('data-activity-type', type);
                     
                     const valueDiv = document.createElement('div');
                     valueDiv.className = 'activity-stat-value';
@@ -2292,35 +2739,72 @@ L'équipe NY AKO</textarea>
                     statDiv.appendChild(valueDiv);
                     statDiv.appendChild(labelDiv);
                     
-                    // Ajouter l'événement de clic pour filtrer par type d'activité (sauf pour les concerts)
-                    if (type !== 'Concert') {
-                        statDiv.addEventListener('click', function() {
-                            filterByActivityType(type);
-                        });
-                    }
+                    statDiv.addEventListener('click', function() {
+                        filterByActivityType(type);
+                    });
                     
                     container.appendChild(statDiv);
                 }
             });
         }
 
-        // Filtrer par type d'activité
+        // Filtrer par type d'activité - VERSION CORRIGÉE
         function filterByActivityType(activityType) {
             const results = [];
             
             sheetData.forEach(row => {
-                // Rechercher les colonnes d'activités
-                const activityColumns = headers
-                    .map((header, index) => 
-                        (header && (header.includes('ACTIVITÉ') || header.includes('ACTIVITE') || header.includes('CONCERT'))) ? index : -1
-                    )
-                    .filter(index => index !== -1);
+                let hasActivity = false;
                 
-                // Vérifier si cette ligne a l'activité recherchée
-                const hasActivity = activityColumns.some(colIndex => {
-                    const value = row[colIndex] || '';
-                    return value && value.includes(activityType);
-                });
+                // Vérifier les 7 sections d'activités (1 à 7 maintenant)
+                for (let i = 1; i <= 7; i++) {
+                    const activityHeader = `ACTIVITÉ ${i}`;
+                    const activityHeaderAlt = `ACTIVITE ${i}`;
+                    const activityHeaderAlt2 = `ACTIVITE${i}`;
+                    const activityHeaderAlt3 = `ACTIVITÉ${i}`;
+                    
+                    const activityIndex = headers.findIndex(header => 
+                        header && (
+                            header.trim().toUpperCase() === activityHeader ||
+                            header.trim().toUpperCase() === activityHeaderAlt ||
+                            header.trim().toUpperCase() === activityHeaderAlt2 ||
+                            header.trim().toUpperCase() === activityHeaderAlt3 ||
+                            header.includes(`ACTIVITÉ ${i}`) ||
+                            header.includes(`ACTIVITE ${i}`) ||
+                            header.includes(`ACTIVITE${i}`) ||
+                            header.includes(`ACTIVITÉ${i}`)
+                        )
+                    );
+                    
+                    if (activityIndex !== -1) {
+                        const activityValue = row[activityIndex] || '';
+                        
+                        // Pour les types d'activité normaux
+                        if (activityValue.includes(activityType)) {
+                            hasActivity = true;
+                            break;
+                        }
+                    }
+                }
+                
+                // Vérifier les concerts
+                if (activityType === 'Concert') {
+                    const concertColumns = headers
+                        .map((header, index) => 
+                            (header && header.includes('CONCERT')) ? index : -1
+                        )
+                        .filter(index => index !== -1);
+                    
+                    const hasConcert = concertColumns.some(colIndex => {
+                        const concertValue = row[colIndex] || '';
+                        return concertValue && 
+                               (concertValue.toLowerCase() === 'oui' || 
+                                concertValue.toLowerCase().includes('concert'));
+                    });
+                    
+                    if (hasConcert) {
+                        hasActivity = true;
+                    }
+                }
                 
                 if (hasActivity) {
                     results.push(row);
@@ -2523,8 +3007,9 @@ L'équipe NY AKO</textarea>
                     sheetData.forEach(row => {
                         const value = row[index] || '';
                         if (value.trim()) {
-                            const num = parseFloat(value.replace(',', '.')) || 0;
-                            totalDureeTrajet += num;
+                            // Convertir les formats de durée (1h30, 30min, etc.) en heures décimales
+                            const hours = parseDurationToHours(value);
+                            totalDureeTrajet += hours;
                         }
                     });
                 }
@@ -2551,14 +3036,55 @@ L'équipe NY AKO</textarea>
             });
         }
 
+        // Convertir une durée en format texte (1h30, 30min, etc.) en heures décimales
+        function parseDurationToHours(duration) {
+            if (!duration || typeof duration !== 'string') return 0;
+            
+            let totalHours = 0;
+            
+            // Extraire les heures
+            const hourMatch = duration.match(/(\d+(?:[.,]\d+)?)\s*h/);
+            if (hourMatch) {
+                totalHours += parseFloat(hourMatch[1].replace(',', '.'));
+            }
+            
+            // Extraire les minutes
+            const minuteMatch = duration.match(/(\d+(?:[.,]\d+)?)\s*min/);
+            if (minuteMatch) {
+                totalHours += parseFloat(minuteMatch[1].replace(',', '.')) / 60;
+            }
+            
+            // Si seulement un nombre est donné, supposer que c'est en heures
+            if (totalHours === 0 && !isNaN(parseFloat(duration.replace(',', '.')))) {
+                totalHours = parseFloat(duration.replace(',', '.'));
+            }
+            
+            return totalHours;
+        }
+
+        // Formater les heures décimales en format lisible
+        function formatHours(hours) {
+            const wholeHours = Math.floor(hours);
+            const minutes = Math.round((hours - wholeHours) * 60);
+            
+            if (wholeHours === 0 && minutes > 0) {
+                return `${minutes}min`;
+            } else if (minutes === 0) {
+                return `${wholeHours}h`;
+            } else {
+                return `${wholeHours}h${minutes.toString().padStart(2, '0')}`;
+            }
+        }
+
         // Mise à jour des statistiques
         function updateStats() {
             document.getElementById('totalLieux').textContent = allLieux.length;
             document.getElementById('totalPays').textContent = allPays.length;
             document.getElementById('totalInterlocuteurs').textContent = allInterlocuteurs.length;
             document.getElementById('totalParticipants').textContent = totalParticipants;
-            document.getElementById('totalDureeTrajet').textContent = totalDureeTrajet.toFixed(1) + ' h';
+            document.getElementById('totalDureeTrajet').textContent = formatHours(totalDureeTrajet);
             document.getElementById('totalDistance').textContent = totalDistance.toFixed(0) + ' km';
+            document.getElementById('totalJours').textContent = sheetData.length;
         }
 
         // Rendu des tags de filtre
@@ -2582,16 +3108,65 @@ L'équipe NY AKO</textarea>
                 const tag = document.createElement('div');
                 tag.className = 'tag';
                 tag.textContent = item;
+                tag.setAttribute('data-value', item);
+                tag.setAttribute('data-type', type);
                 
                 tag.addEventListener('click', () => {
                     currentSearchTerm = item;
                     currentSearchType = type;
                     const results = filterDataByType(item, type);
                     displayFilteredEntries(results, `${type.charAt(0).toUpperCase() + type.slice(1)}: ${item}`);
+                    
+                    // Faire défiler vers l'élément correspondant
+                    scrollToElementInEntry(item, type);
                 });
                 
                 container.appendChild(tag);
             });
+        }
+
+        // Faire défiler vers un élément spécifique dans une entrée
+        function scrollToElementInEntry(searchTerm, type) {
+            const entries = document.querySelectorAll('.journal-entry');
+            let found = false;
+            
+            entries.forEach(entry => {
+                if (found) return;
+                
+                let elementsToSearch = [];
+                
+                switch(type) {
+                    case 'lieu':
+                        elementsToSearch = entry.querySelectorAll('.lieux-value, .entry-lieux');
+                        break;
+                    case 'nom':
+                        elementsToSearch = entry.querySelectorAll('.contact-value');
+                        break;
+                    case 'pays':
+                        elementsToSearch = entry.querySelectorAll('.info-value');
+                        break;
+                }
+                
+                for (let element of elementsToSearch) {
+                    if (element.textContent.includes(searchTerm)) {
+                        entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Mettre en surbrillance l'élément
+                        element.style.backgroundColor = '#fff9c4';
+                        element.style.transition = 'background-color 0.3s ease';
+                        setTimeout(() => {
+                            element.style.backgroundColor = '';
+                        }, 3000);
+                        
+                        found = true;
+                        break;
+                    }
+                }
+            });
+            
+            if (!found) {
+                console.log(`Élément "${searchTerm}" non trouvé dans les entrées affichées`);
+            }
         }
 
         // Filtrage des données par type
@@ -2805,13 +3380,23 @@ L'équipe NY AKO</textarea>
                                 if (ficheIndex !== -1) {
                                     const ficheLink = sheetData[rowIndex][ficheIndex];
                                     if (ficheLink && ficheLink.trim() !== '') {
-                                        window.open(ficheLink, '_blank');
+                                        // CORRECTION: Vérifier si le lien est une URL complète
+                                        let finalLink = ficheLink.trim();
+                                        if (!finalLink.startsWith('http://') && !finalLink.startsWith('https://')) {
+                                            finalLink = 'https://' + finalLink;
+                                        }
+                                        window.open(finalLink, '_blank');
                                     } else {
-                                        alert('Aucun lien de fiche disponible pour cette date.');
+                                        // Si pas de lien spécifique, utiliser le formulaire général
+                                        window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
                                     }
                                 } else {
-                                    alert('Colonne "Lien de cette fiche" non trouvée.');
+                                    // Si colonne non trouvée, utiliser le formulaire général
+                                    window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
                                 }
+                            } else {
+                                // Pour les dates sans données, utiliser le formulaire général
+                                window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
                             }
                             hideModal('dateOptionsModal');
                         } else {
@@ -2830,14 +3415,28 @@ L'équipe NY AKO</textarea>
                     isAdmin ? '📝' : '🔒',
                     () => {
                         if (isAdmin) {
-                            // Rediriger vers le formulaire Google
-                            window.open('https://docs.google.com/forms/d/e/1FAIpQLSdFwjo69WNzQlrGSI8GQUTP-M8_wXsEVc6T7JogUzoj1V-JlA/viewform?usp=header', '_blank');
+                            // Rediriger vers le formulaire Google MIS À JOUR
+                            window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
                             hideModal('dateOptionsModal');
                         } else {
                             alert('Cette fonctionnalité est réservée aux administrateurs. Veuillez vous connecter avec le mot de passe.');
                         }
                     },
                     !isAdmin // locked si pas admin
+                ));
+            }
+            
+            // AJOUT: Bouton "Déverrouiller les données" pour les administrateurs
+            if (isAdmin) {
+                optionsList.appendChild(createDateOption(
+                    '🔓 Déverrouiller les données',
+                    'Accéder aux fonctionnalités avancées de modification',
+                    '🔓',
+                    () => {
+                        // Fonctionnalité pour déverrouiller les données
+                        unlockDateData(date);
+                        hideModal('dateOptionsModal');
+                    }
                 ));
             }
             
@@ -2871,6 +3470,13 @@ L'équipe NY AKO</textarea>
             }
             
             return optionDiv;
+        }
+
+        // NOUVELLE FONCTION: Déverrouiller les données d'une date
+        function unlockDateData(date) {
+            // Implémentez ici la logique pour déverrouiller les données
+            // Par exemple, afficher une modale avec plus d'options ou permettre l'édition directe
+            alert(`Fonction de déverrouillage pour ${formatDateForDisplay(date)} - À implémenter`);
         }
 
         // NOUVELLE FONCTION: Afficher les interlocuteurs pour une date (version améliorée)
@@ -2923,6 +3529,9 @@ L'équipe NY AKO</textarea>
                             ${uniqueInterlocuteurs.map(interlocuteur => `
                                 <div class="list-item">
                                     <span>${interlocuteur}</span>
+                                    <div>
+                                        <button class="tag" onclick="showInterlocutorBubble('${interlocuteur}')">💬 Info</button>
+                                    </div>
                                 </div>
                             `).join('')}
                         </div>
@@ -2937,7 +3546,7 @@ L'équipe NY AKO</textarea>
                 tempModal.className = 'modal';
                 tempModal.style.display = 'flex';
                 tempModal.innerHTML = `
-                    <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-content" style="max-width: 600px;">
                         ${modalContent}
                     </div>
                 `;
@@ -2953,6 +3562,170 @@ L'équipe NY AKO</textarea>
             } else {
                 alert('Aucun interlocuteur/hôte trouvé pour cette date.');
             }
+        }
+
+        // NOUVELLE FONCTION: Faire défiler vers un interlocuteur spécifique
+        function scrollToInterlocuteur(interlocuteur) {
+            const entries = document.querySelectorAll('.journal-entry');
+            let found = false;
+            
+            entries.forEach(entry => {
+                if (found) return;
+                
+                const contactValues = entry.querySelectorAll('.contact-value');
+                for (let element of contactValues) {
+                    if (element.textContent.includes(interlocuteur)) {
+                        entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Mettre en surbrillance l'élément
+                        element.style.backgroundColor = '#fff9c4';
+                        element.style.transition = 'background-color 0.3s ease';
+                        setTimeout(() => {
+                            element.style.backgroundColor = '';
+                        }, 3000);
+                        
+                        found = true;
+                        break;
+                    }
+                }
+            });
+            
+            if (!found) {
+                console.log(`Interlocuteur "${interlocuteur}" non trouvé dans les entrées affichées`);
+            }
+        }
+
+        // NOUVELLE FONCTION: Afficher la bulle d'information interlocuteur - VERSION AMÉLIORÉE
+        function showInterlocutorBubble(interlocuteur) {
+            currentInterlocutorForBubble = interlocuteur;
+            
+            // Fermer d'abord toute bulle existante
+            document.getElementById('interlocutorBubble').style.display = 'none';
+            
+            const bubble = document.getElementById('interlocutorBubble');
+            const content = document.getElementById('interlocutorBubbleContent');
+            
+            // Positionner la bulle au centre de l'écran
+            bubble.style.display = 'block';
+            bubble.style.position = 'fixed';
+            bubble.style.top = '50%';
+            bubble.style.left = '50%';
+            bubble.style.transform = 'translate(-50%, -50%)';
+            bubble.style.zIndex = '1001';
+            
+            // Afficher les boutons de choix
+            content.innerHTML = `
+                <h4 style="margin-bottom: 15px; color: var(--primary-color); text-align: center;">${interlocuteur}</h4>
+                <p style="text-align: center; margin-bottom: 20px;">Que souhaitez-vous faire avec cet interlocuteur ?</p>
+            `;
+        }
+
+        // NOUVELLE FONCTION: Afficher les informations détaillées de l'interlocuteur
+        function showInterlocutorInfo(interlocuteur) {
+            const bubble = document.getElementById('interlocutorBubble');
+            const content = document.getElementById('interlocutorBubbleContent');
+            
+            // Trouver toutes les informations sur cet interlocuteur
+            const interlocutorInfo = findInterlocutorInfo(interlocuteur);
+            
+            let html = `<h4 style="margin-bottom: 15px; color: var(--primary-color);">${interlocuteur}</h4>`;
+            
+            if (interlocutorInfo.length > 0) {
+                html += `<div style="max-height: 400px; overflow-y: auto;">`;
+                
+                interlocutorInfo.forEach((info, index) => {
+                    html += `
+                        <div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                            <strong>Date:</strong> ${info.date}<br>
+                            <strong>Lieu:</strong> ${info.lieu}<br>
+                            <strong>Activité:</strong> ${info.activite}<br>
+                            ${info.telephone ? `<strong>Téléphone:</strong> ${info.telephone}<br>` : ''}
+                            ${info.whatsapp ? `<strong>WhatsApp:</strong> ${info.whatsapp}<br>` : ''}
+                            ${info.mail ? `<strong>Mail:</strong> ${info.mail}<br>` : ''}
+                            ${info.reseauxSociaux ? `<strong>fb ou autre contact sur réseaux sociaux de l'hôte:</strong> ${info.reseauxSociaux}<br>` : ''}
+                            ${info.aSavoir ? `<strong>à savoir sur l'interlocuteur:</strong> ${info.aSavoir}<br>` : ''}
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            } else {
+                html += `<p>Aucune information détaillée trouvée pour cet interlocuteur.</p>`;
+            }
+            
+            // AJOUT: Bouton pour déverrouiller les données masquées
+            if (isAdmin) {
+                html += `
+                    <div style="margin-top: 15px; padding: 10px; background: #e8f4f8; border-radius: 5px; text-align: center;">
+                        <button onclick="unlockInterlocutorData('${interlocuteur}')" 
+                                style="background: var(--secondary-color); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">
+                            🔓 Déverrouiller les données
+                        </button>
+                    </div>
+                `;
+            }
+            
+            content.innerHTML = html;
+        }
+
+        // Fonction pour déverrouiller les données
+        function unlockInterlocutorData(interlocuteur) {
+            // Ici vous pouvez implémenter la logique pour déverrouiller les données
+            // Par exemple, afficher plus d'informations ou permettre l'édition
+            alert(`Fonction de déverrouillage pour ${interlocuteur} - À implémenter`);
+        }
+
+        // NOUVELLE FONCTION: Trouver toutes les informations sur un interlocuteur
+        function findInterlocutorInfo(interlocuteur) {
+            const info = [];
+            
+            sheetData.forEach((row, rowIndex) => {
+                // Rechercher les colonnes avec "Interlocuteur ,hôte"
+                const interlocuteurColumns = headers
+                    .map((header, index) => 
+                        (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
+                    )
+                    .filter(index => index !== -1);
+                
+                let found = false;
+                let activiteData = null;
+                
+                // Vérifier si cet interlocuteur est présent dans cette ligne
+                interlocuteurColumns.forEach(colIndex => {
+                    const value = row[colIndex] || '';
+                    if (value.includes(interlocuteur)) {
+                        found = true;
+                        
+                        // Trouver l'activité associée
+                        activiteData = extractActivityData(row, colIndex, 'ACTIVITÉ');
+                    }
+                });
+                
+                if (found && activiteData) {
+                    const dateIndex = findHeaderIndex('Date:');
+                    const date = dateIndex !== -1 ? row[dateIndex] : '';
+                    
+                    const paysIndex = findHeaderIndex('Pays:');
+                    const pays = paysIndex !== -1 ? row[paysIndex] : '';
+                    
+                    const lieuxIndex = findHeaderIndex('Lieux :');
+                    const lieu = lieuxIndex !== -1 ? row[lieuxIndex] : '';
+                    
+                    info.push({
+                        date: date,
+                        pays: pays,
+                        lieu: lieu,
+                        activite: activiteData.type || '',
+                        telephone: activiteData.telephone || '',
+                        whatsapp: activiteData.whatsapp || '',
+                        mail: activiteData.mail || '',
+                        reseauxSociaux: activiteData.reseauxSociaux || '',
+                        aSavoir: activiteData.aSavoir || ''
+                    });
+                }
+            });
+            
+            return info;
         }
 
         // NOUVELLE FONCTION: Afficher les lieux pour une date (version améliorée)
@@ -2993,6 +3766,7 @@ L'équipe NY AKO</textarea>
                             ${uniqueLieux.map(lieu => `
                                 <div class="list-item">
                                     <span>${lieu}</span>
+                                    <button class="tag" onclick="scrollToLieu('${lieu}')">📌 Défiler vers le lieu</button>
                                 </div>
                             `).join('')}
                         </div>
@@ -3022,6 +3796,37 @@ L'équipe NY AKO</textarea>
                 });
             } else {
                 alert('Aucun lieu trouvé pour cette date.');
+            }
+        }
+
+        // NOUVELLE FONCTION: Faire défiler vers un lieu spécifique
+        function scrollToLieu(lieu) {
+            const entries = document.querySelectorAll('.journal-entry');
+            let found = false;
+            
+            entries.forEach(entry => {
+                if (found) return;
+                
+                const lieuElements = entry.querySelectorAll('.lieux-value, .entry-lieux');
+                for (let element of lieuElements) {
+                    if (element.textContent.includes(lieu)) {
+                        entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Mettre en surbrillance l'élément
+                        element.style.backgroundColor = '#fff9c4';
+                        element.style.transition = 'background-color 0.3s ease';
+                        setTimeout(() => {
+                            element.style.backgroundColor = '';
+                        }, 3000);
+                        
+                        found = true;
+                        break;
+                    }
+                }
+            });
+            
+            if (!found) {
+                console.log(`Lieu "${lieu}" non trouvé dans les entrées affichées`);
             }
         }
 
@@ -3096,63 +3901,21 @@ L'équipe NY AKO</textarea>
             displayFilteredEntries(results, `Résultats pour "${searchValue}"`);
         }
 
-        // Recherche dans les données
+        // Recherche dans les données (insensible à la casse et aux accents)
         function searchData(searchValue) {
-            const searchLower = searchValue.toLowerCase();
+            const searchNormalized = normalizeText(searchValue);
             return sheetData.filter(row => 
-                row.some(cell => cell && cell.toLowerCase().includes(searchLower))
+                row.some(cell => {
+                    if (!cell) return false;
+                    return normalizeText(cell).includes(searchNormalized);
+                })
             );
-        }
-
-        // Basculer le filtre des concerts
-        function toggleConcertFilter() {
-            showOnlyConcerts = !showOnlyConcerts;
-            const button = document.getElementById('concertFilterButton');
-            
-            if (showOnlyConcerts) {
-                button.classList.add('active');
-                button.textContent = '🎵 Voir toutes les activités';
-                filterConcertsOnly();
-            } else {
-                button.classList.remove('active');
-                button.textContent = '🎵 Filtrer les concerts';
-                displayAllJournalEntries();
-            }
-        }
-
-        // Filtrer uniquement les concerts
-        function filterConcertsOnly() {
-            const concertRows = [];
-            
-            sheetData.forEach(row => {
-                // Rechercher les colonnes de concert
-                const concertColumns = headers
-                    .map((header, index) => 
-                        (header && header.includes('CONCERT')) ? index : -1
-                    )
-                    .filter(index => index !== -1);
-                
-                // Vérifier si cette ligne a au moins un concert
-                const hasConcert = concertColumns.some(colIndex => {
-                    const value = row[colIndex] || '';
-                    return value && (value.toLowerCase().includes('concert') || value === 'OUI');
-                });
-                
-                if (hasConcert) {
-                    concertRows.push(row);
-                }
-            });
-            
-            displayFilteredEntries(concertRows, 'Concerts uniquement');
         }
 
         // Affichage de tous les messages
         function showAllData() {
             currentSearchTerm = '';
             currentSearchType = '';
-            showOnlyConcerts = false;
-            document.getElementById('concertFilterButton').classList.remove('active');
-            document.getElementById('concertFilterButton').textContent = '🎵 Filtrer les concerts';
             displayAllJournalEntries();
         }
 
@@ -3207,8 +3970,8 @@ L'équipe NY AKO</textarea>
             const dateIndex = 1;
             const dateStr = row[dateIndex] || 'Date non spécifiée';
             
-            // MODIFICATION: Utiliser l'index de ligne réel + 2 (car l'index commence à 0 et la ligne 1 est l'en-tête)
-            const dayNumber = index + 2;
+            // MODIFICATION: Utiliser l'index de ligne réel (ligne 1 = en-tête, ligne 2 = Jour 1)
+            const dayNumber = index + 1;
             
             // Extraire le pays pour cette journée
             const paysIndex = findHeaderIndex('Pays:');
@@ -3219,6 +3982,7 @@ L'équipe NY AKO</textarea>
             
             const entryDiv = document.createElement('div');
             entryDiv.className = 'journal-entry';
+            entryDiv.setAttribute('data-row-index', index);
             
             // En-tête avec titre et date améliorés
             const headerDiv = document.createElement('div');
@@ -3344,7 +4108,7 @@ L'équipe NY AKO</textarea>
             return programmeValues;
         }
 
-        // Création de la section des activités
+        // Création de la section des activités - VERSION AMÉLIORÉE
         function createActivitiesSection(row) {
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'section';
@@ -3355,31 +4119,51 @@ L'équipe NY AKO</textarea>
             title.textContent = 'Activités de la Journée';
             sectionDiv.appendChild(title);
             
-            // Recherche flexible des sections d'activités
+            // Recherche des 7 sections d'activités
             const activitySections = findActivitySectionsInHeaders();
             let hasActivities = false;
+            
+            // Types d'activités valides
+            const validActivityTypes = [
+                'Rencontre/Invitation', 'Concert', 'Ecole', 
+                'Sortie/visite/Tourisme', 'Sortie/visite/tourisme', 'Sortie',
+                'Eglise/culte', 'Eglise', 'culte',
+                'Marché', 'Marche',
+                'Shopping',
+                'Hospice/Hopital', 'Hospice', 'Hopital',
+                'Voyage',
+                'Festival'
+            ];
             
             activitySections.forEach(section => {
                 const activityData = extractActivityData(row, section.index, section.prefix);
                 
                 if (section.type === 'concert') {
-                    // Pour les concerts, vérifier si c'est "OUI"
-                    if (activityData.type && activityData.type.toLowerCase() === 'oui') {
+                    // Pour les concerts, vérifier si c'est "OUI" ou contient "Concert"
+                    if (activityData.type && 
+                        (activityData.type.toLowerCase() === 'oui' || 
+                         activityData.type.toLowerCase().includes('concert'))) {
                         sectionDiv.appendChild(createConcertSection(activityData, section.prefix));
                         hasActivities = true;
                     }
                 } else {
                     // Pour les activités, vérifier si c'est un type valide
-                    const validActivityTypes = [
-                        'Rencontre/Invitation', 'Concert', 'Ecole', 
-                        'Sortie/visite/Tourisme', 'Eglise/culte', 'Marché', 'Shopping',
-                        'Hospice/Hopital', 'Voyage', 'Festival',
-                        'Rencontre' // Ajouté basé sur votre exemple
-                    ];
+                    const normalizedType = activityData.type ? activityData.type.trim() : '';
                     
-                    if (activityData.type && validActivityTypes.includes(activityData.type)) {
-                        sectionDiv.appendChild(createActivitySection(activityData, section.prefix, activityData.type));
-                        hasActivities = true;
+                    if (normalizedType) {
+                        // Vérifier si le type correspond à un type valide (insensible à la casse)
+                        const isActivityValid = validActivityTypes.some(validType => 
+                            normalizedType.toLowerCase().includes(validType.toLowerCase())
+                        );
+                        
+                        // OU si c'est une activité numérotée (ACTIVITÉ 1, etc.) avec des données
+                        const hasActivityData = activityData.heureDebut || activityData.lieux || 
+                                              activityData.interlocuteur || activityData.nbParticipant;
+                        
+                        if (isActivityValid || hasActivityData) {
+                            sectionDiv.appendChild(createActivitySection(activityData, section.prefix, normalizedType));
+                            hasActivities = true;
+                        }
                     }
                 }
             });
@@ -3400,13 +4184,44 @@ L'équipe NY AKO</textarea>
             
             console.log('🔍 Recherche des sections d\'activités dans les en-têtes...');
             
-            // Recherche plus flexible pour les activités
+            // Recherche des 7 sections d'activités (1 à 7 maintenant)
+            for (let i = 1; i <= 7; i++) {
+                const activityHeader = `ACTIVITÉ ${i}`;
+                const activityHeaderAlt = `ACTIVITE ${i}`;
+                const activityHeaderAlt2 = `ACTIVITE${i}`;
+                const activityHeaderAlt3 = `ACTIVITÉ${i}`;
+                
+                const headerIndex = headers.findIndex(header => 
+                    header && (
+                        header.trim().toUpperCase() === activityHeader ||
+                        header.trim().toUpperCase() === activityHeaderAlt ||
+                        header.trim().toUpperCase() === activityHeaderAlt2 ||
+                        header.trim().toUpperCase() === activityHeaderAlt3 ||
+                        header.includes(`ACTIVITÉ ${i}`) ||
+                        header.includes(`ACTIVITE ${i}`) ||
+                        header.includes(`ACTIVITE${i}`) ||
+                        header.includes(`ACTIVITÉ${i}`)
+                    )
+                );
+                
+                if (headerIndex !== -1) {
+                    sections.push({
+                        prefix: `ACTIVITÉ ${i}`,
+                        type: 'activity',
+                        index: headerIndex
+                    });
+                    console.log(`📅 Activité ${i} détectée à l'index ${headerIndex}`);
+                } else {
+                    console.log(`❌ Activité ${i} NON détectée`);
+                }
+            }
+            
+            // Recherche des concerts
             headers.forEach((header, index) => {
                 if (!header) return;
                 
                 const headerUpper = header.toUpperCase().trim();
                 
-                // Détection des concerts
                 if (headerUpper.includes('CONCERT')) {
                     const concertNumber = extractNumber(headerUpper);
                     const prefix = concertNumber ? `CONCERT ${concertNumber}` : 'CONCERT';
@@ -3418,51 +4233,10 @@ L'équipe NY AKO</textarea>
                     });
                     console.log(`🎵 Concert détecté: ${header} -> ${prefix}`);
                 }
-                
-                // Détection des activités
-                else if (headerUpper.includes('ACTIVITÉ') || headerUpper.includes('ACTIVITE')) {
-                    const activityNumber = extractNumber(headerUpper);
-                    const prefix = activityNumber ? `ACTIVITÉ ${activityNumber}` : 'ACTIVITÉ';
-                    
-                    sections.push({
-                        prefix: prefix,
-                        type: 'activity',
-                        index: index
-                    });
-                    console.log(`📅 Activité détectée: ${header} -> ${prefix}`);
-                }
-                
-                // Détection des activités avec numéros (1, 2, 3, etc.)
-                else if (/ACTIVITÉ?\s*\d+|ACTIVITY\s*\d+/i.test(header)) {
-                    const activityNumber = extractNumber(headerUpper);
-                    const prefix = `ACTIVITÉ ${activityNumber || '1'}`;
-                    
-                    sections.push({
-                        prefix: prefix,
-                        type: 'activity',
-                        index: index
-                    });
-                    console.log(`📅 Activité numérotée détectée: ${header} -> ${prefix}`);
-                }
-            });
-            
-            // Trier les sections pour avoir un ordre logique
-            sections.sort((a, b) => {
-                // D'abord les concerts, puis les activités
-                if (a.type !== b.type) {
-                    return a.type === 'concert' ? -1 : 1;
-                }
-                // Ensuite par numéro
-                const numA = extractNumber(a.prefix);
-                const numB = extractNumber(b.prefix);
-                return (numA || 0) - (numB || 0);
             });
             
             console.log(`✅ Sections d'activités trouvées: ${sections.length}`);
-            sections.forEach(section => {
-                console.log(`   - ${section.prefix} (${section.type}) à l'index ${section.index}`);
-            });
-            
+            console.log('📋 Sections:', sections);
             return sections;
         }
 
@@ -3472,62 +4246,72 @@ L'équipe NY AKO</textarea>
             return match ? parseInt(match[0]) : null;
         }
 
-        // Extraction des données d'une section d'activité
+        // Extraction des données d'une section d'activité - VERSION AMÉLIORÉE
         function extractActivityData(row, activityIndex, prefix) {
             const data = {};
             
             // Le type d'activité est dans la colonne de l'activité elle-même
             data.type = row[activityIndex] || '';
             
+            // Si pas de type d'activité, ne pas traiter cette section
+            if (!data.type || data.type.trim() === '') {
+                return data;
+            }
+            
+            console.log(`🔍 Extraction des données pour ${prefix}: "${data.type}"`);
+            
             // Les champs suivis dans l'ordre séquentiel
             const startIndex = activityIndex + 1;
             
-            // Mapping des champs dans l'ordre attendu basé sur votre exemple
+            // Mapping des champs dans l'ordre attendu
             const fieldMapping = [
-                { name: 'heureDebut', patterns: ['Heure début:', 'Heure début'] },
+                { name: 'heureDebut', patterns: ['Heure début:', 'Heure début', 'Heure debut'] },
                 { name: 'heureFin', patterns: ['Heure fin:', 'Heure fin'] },
-                { name: 'lieux', patterns: ['Lieux :', 'Lieux'] },
+                { name: 'lieux', patterns: ['Lieux :', 'Lieux', 'Lieu :', 'Lieu'] },
                 { name: 'trajet', patterns: ['Trajet:', 'Trajet'] },
-                { name: 'dureeTrajet', patterns: ['Durée trajet:', 'Durée trajet'] },
+                { name: 'dureeTrajet', patterns: ['Durée trajet:', 'Durée trajet', 'Duree trajet'] },
                 { name: 'distanceTrajet', patterns: ['Distance trajet:', 'Distance trajet'] },
-                { name: 'details', patterns: ['Détails sur l\'activité:', 'Détails sur l\'activité'] },
+                { name: 'details', patterns: ['Détails sur l\'activité:', 'Détails sur l\'activité', 'Details sur l\'activite'] },
                 { name: 'faits', patterns: ['Faits marquants et Anecdote:', 'Faits marquants et Anecdote'] },
                 { name: 'observations', patterns: ['Observations :', 'Observations'] },
                 { name: 'nbParticipant', patterns: ['Nb participant:', 'Nb participant'] },
-                { name: 'interlocuteur', patterns: ['Interlocuteur ,hôte', 'Interlocuteur'] },
+                { name: 'interlocuteur', patterns: ['Interlocuteur ,hôte', 'Interlocuteur', 'Interlocuteur, hôte'] },
                 { name: 'telephone', patterns: ['Téléphone', 'Telephone'] },
                 { name: 'whatsapp', patterns: ['Whatsapp', 'WhatsApp'] },
                 { name: 'mail', patterns: ['Mail:'] },
-                { name: 'reseauxSociaux', patterns: ['fb ou autre contact sur réseaux sociaux de l\'hôte'] },
-                // MODIFICATION: Amélioration de la détection du champ "À savoir sur l'interlocuteur"
-                { name: 'aSavoir', patterns: [
-                    'À savoir sur l\'interlocuteur', 
-                    'A savoir sur l\'interlocuteur',
-                    'à savoir sur l\'interlocuteur',
-                    'a savoir sur l\'interlocuteur'
-                ] },
-                { name: 'photosLieux', patterns: ['Photos des lieux (extérieur ,intérieur, coulisse)'] },
-                { name: 'repertoire', patterns: ['Répertoire:'] },
-                { name: 'photosGroupe', patterns: ['Photos de groupe,marquante'] }
+                { name: 'reseauxSociaux', patterns: ['fb ou autre contact sur réseaux sociaux de l\'hôte', 'reseaux sociaux'] },
+                { name: 'aSavoir', patterns: ['À savoir sur l\'interlocuteur', 'A savoir sur l\'interlocuteur'] },
+                { name: 'photosLieux', patterns: ['Photos des lieux (extérieur ,intérieur, coulisse)', 'Photos des lieux'] },
+                { name: 'repertoire', patterns: ['Répertoire:', 'Repertoire'] },
+                { name: 'photosGroupe', patterns: ['Photos de groupe,marquante', 'Photos de groupe'] }
             ];
             
             // Parcourir les colonnes suivantes pour trouver les données
             let currentIndex = startIndex;
+            let fieldsFound = 0;
+            
             fieldMapping.forEach(field => {
                 if (currentIndex < headers.length) {
                     // Vérifier si l'en-tête correspond à l'un des patterns
                     const header = headers[currentIndex] || '';
-                    const isMatching = field.patterns.some(pattern => 
-                        header.includes(pattern)
-                    );
+                    const headerUpper = header.toUpperCase();
                     
-                    if (isMatching && row[currentIndex]) {
+                    const isMatching = field.patterns.some(pattern => {
+                        const patternUpper = pattern.toUpperCase();
+                        return headerUpper.includes(patternUpper);
+                    });
+                    
+                    if (isMatching && row[currentIndex] && row[currentIndex].trim() !== '') {
                         data[field.name] = row[currentIndex];
+                        fieldsFound++;
+                        console.log(`   ✅ ${field.name}: "${row[currentIndex]}"`);
                     }
+                    
                     currentIndex++;
                 }
             });
             
+            console.log(`   📊 ${fieldsFound} champs trouvés pour ${prefix}`);
             return data;
         }
 
@@ -3635,7 +4419,7 @@ L'équipe NY AKO</textarea>
                         dureeItem.innerHTML = `
                             <div class="duree-distance-icon">⏱️</div>
                             <div class="duree-distance-label">Durée trajet</div>
-                            <div class="duree-distance-value">${activityData.dureeTrajet} Heures</div>
+                            <div class="duree-distance-value">${formatHours(parseDurationToHours(activityData.dureeTrajet))}</div>
                         `;
                         dureeDistanceGroup.appendChild(dureeItem);
                     }
@@ -3657,7 +4441,7 @@ L'équipe NY AKO</textarea>
                 sectionDiv.appendChild(lieuxInfo);
             }
             
-            // Notes
+            // Notes - MODIFICATION: Conserver le format multiligne
             if (activityData.details || activityData.faits || activityData.observations) {
                 const notesSubtitle = document.createElement('h5');
                 notesSubtitle.className = 'subsection-title';
@@ -3830,7 +4614,7 @@ L'équipe NY AKO</textarea>
                         dureeItem.innerHTML = `
                             <div class="duree-distance-icon">⏱️</div>
                             <div class="duree-distance-label">Durée trajet</div>
-                            <div class="duree-distance-value">${activityData.dureeTrajet} Heures</div>
+                            <div class="duree-distance-value">${formatHours(parseDurationToHours(activityData.dureeTrajet))}</div>
                         `;
                         dureeDistanceGroup.appendChild(dureeItem);
                     }
@@ -3852,7 +4636,7 @@ L'équipe NY AKO</textarea>
                 sectionDiv.appendChild(lieuxInfo);
             }
             
-            // Notes
+            // Notes - MODIFICATION: Conserver le format multiligne
             if (activityData.details || activityData.faits || activityData.observations) {
                 const notesSubtitle = document.createElement('h5');
                 notesSubtitle.className = 'subsection-title';
@@ -4095,7 +4879,8 @@ L'équipe NY AKO</textarea>
             titleDiv.textContent = title;
             
             const contentDiv = document.createElement('div');
-            contentDiv.innerHTML = content;
+            // MODIFICATION: Conserver les sauts de ligne
+            contentDiv.innerHTML = content.replace(/\n/g, '<br>');
             
             noteDiv.appendChild(titleDiv);
             noteDiv.appendChild(contentDiv);
@@ -4567,6 +5352,7 @@ L'équipe NY AKO</textarea>
                     totalParticipants: totalParticipants,
                     totalDureeTrajet: totalDureeTrajet,
                     totalDistance: totalDistance,
+                    totalJours: sheetData.length,
                     activityCounts: activityCounts
                 };
             }
@@ -4630,8 +5416,9 @@ L'équipe NY AKO</textarea>
                             <div class="info-item"><span class="info-label">Pays visités:</span> ${allPays.length}</div>
                             <div class="info-item"><span class="info-label">Interlocuteurs:</span> ${allInterlocuteurs.length}</div>
                             <div class="info-item"><span class="info-label">Participants total:</span> ${totalParticipants}</div>
-                            <div class="info-item"><span class="info-label">Durée trajet total:</span> ${totalDureeTrajet.toFixed(1)}h</div>
+                            <div class="info-item"><span class="info-label">Durée trajet total:</span> ${formatHours(totalDureeTrajet)}</div>
                             <div class="info-item"><span class="info-label">Distance totale:</span> ${totalDistance.toFixed(0)}km</div>
+                            <div class="info-item"><span class="info-label">Jours enregistrés:</span> ${sheetData.length}</div>
                         </div>
                     </div>
                 `;
@@ -4644,7 +5431,7 @@ L'équipe NY AKO</textarea>
                 content += `
                     <div class="entry">
                         <div class="entry-header">
-                            <h2>Jour ${index + 2} - ${dateStr}</h2>
+                            <h2>Jour ${index + 1} - ${dateStr}</h2>
                         </div>
                         <div class="section">
                             <h3>Informations Générales</h3>
@@ -4697,12 +5484,256 @@ L'équipe NY AKO</textarea>
             URL.revokeObjectURL(url);
         }
 
+        // Fonctions pour l'export sélectif
+        function showSelectiveExportModal() {
+            const modal = document.getElementById('selectiveExportModal');
+            const daysList = document.getElementById('exportDaysList');
+            
+            daysList.innerHTML = '';
+            
+            sheetData.forEach((row, index) => {
+                const dateIndex = 1;
+                const dateStr = row[dateIndex] || 'Date non spécifiée';
+                const paysIndex = findHeaderIndex('Pays:');
+                const pays = paysIndex !== -1 ? row[paysIndex] : '';
+                
+                const dayItem = document.createElement('div');
+                dayItem.className = 'export-day-item';
+                dayItem.innerHTML = `
+                    <input type="checkbox" class="export-checkbox day-checkbox" data-index="${index}" checked>
+                    <label>Jour ${index + 1} - ${dateStr}${pays ? ` (${pays})` : ''}</label>
+                `;
+                daysList.appendChild(dayItem);
+            });
+            
+            showModal('selectiveExportModal');
+        }
+
+        function toggleSelectAllDays() {
+            const selectAll = document.getElementById('selectAllDays').checked;
+            const dayCheckboxes = document.querySelectorAll('.day-checkbox');
+            
+            dayCheckboxes.forEach(checkbox => {
+                checkbox.checked = selectAll;
+            });
+        }
+
+        function exportSelectedDays() {
+            const selectedDays = [];
+            const dayCheckboxes = document.querySelectorAll('.day-checkbox:checked');
+            const format = document.getElementById('selectiveExportFormat').value;
+            
+            if (dayCheckboxes.length === 0) {
+                alert('Veuillez sélectionner au moins une journée à exporter');
+                return;
+            }
+            
+            dayCheckboxes.forEach(checkbox => {
+                const index = parseInt(checkbox.getAttribute('data-index'));
+                selectedDays.push(sheetData[index]);
+            });
+            
+            if (format === 'pdf') {
+                exportSelectedDaysToPDF(selectedDays);
+            } else if (format === 'excel') {
+                exportSelectedDaysToExcel(selectedDays);
+            }
+            
+            hideModal('selectiveExportModal');
+        }
+
+        function exportSelectedDaysToPDF(selectedDays) {
+            const printWindow = window.open('', '_blank');
+            let content = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Tournée Europe 2026 - Export sélectif</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+                        .entry { margin-bottom: 30px; border: 1px solid #ddd; padding: 15px; page-break-inside: avoid; }
+                        .entry-header { background: #3498db; color: white; padding: 10px; margin: -15px -15px 15px -15px; }
+                        .section { margin-bottom: 20px; }
+                        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+                        .info-item { margin-bottom: 10px; }
+                        .info-label { font-weight: bold; color: #2c3e50; }
+                        .activity-section { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
+                        @media print { 
+                            body { margin: 0; }
+                            .entry { page-break-inside: avoid; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>📓 Journal de Bord - Tournée Europe 2026</h1>
+                    <p>Export sélectif généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+                    <p><strong>${selectedDays.length} journée(s) exportée(s)</strong></p>
+            `;
+            
+            selectedDays.forEach((row, index) => {
+                const dateIndex = 1;
+                const dateStr = row[dateIndex] || 'Date non spécifiée';
+                const originalIndex = sheetData.indexOf(row);
+                
+                // Récupérer les informations générales
+                const paysIndex = findHeaderIndex('Pays:');
+                const pays = paysIndex !== -1 ? row[paysIndex] : '';
+                
+                content += `
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h2>Jour ${originalIndex + 1} - ${dateStr}${pays ? ` - ${pays}` : ''}</h2>
+                        </div>
+                        <div class="section">
+                            <h3>Informations Générales</h3>
+                            <div class="info-grid">
+                `;
+                
+                // Date
+                const dateIndexCol = findHeaderIndex('Date:');
+                if (dateIndexCol !== -1 && row[dateIndexCol]) {
+                    content += `<div class="info-item"><span class="info-label">Date:</span> ${row[dateIndexCol]}</div>`;
+                }
+                
+                // Pays
+                if (pays) {
+                    content += `<div class="info-item"><span class="info-label">Pays:</span> ${pays}</div>`;
+                }
+                
+                // Au Programme
+                const programmeValues = extractProgrammeValues(row);
+                if (programmeValues.length > 0) {
+                    content += `<div class="info-item" style="grid-column: 1 / -1;"><span class="info-label">Au Programme:</span><br>`;
+                    programmeValues.forEach(item => {
+                        content += `<div style="margin: 5px 0; padding: 5px; background: white; border-radius: 3px;">${item}</div>`;
+                    });
+                    content += `</div>`;
+                }
+                
+                content += `
+                            </div>
+                        </div>
+                `;
+                
+                // Activités
+                const activitySections = findActivitySectionsInHeaders();
+                let hasActivities = false;
+                let activitiesContent = '';
+                
+                activitySections.forEach(section => {
+                    const activityData = extractActivityData(row, section.index, section.prefix);
+                    
+                    if (section.type === 'concert') {
+                        if (activityData.type && activityData.type.toLowerCase() === 'oui') {
+                            hasActivities = true;
+                            activitiesContent += `
+                                <div class="activity-section">
+                                    <h4>${section.prefix} à ${activityData.lieux || 'Lieu non spécifié'}</h4>
+                                    ${activityData.heureDebut || activityData.heureFin ? `
+                                        <p><strong>Heures:</strong> ${activityData.heureDebut || ''} - ${activityData.heureFin || ''}</p>
+                                    ` : ''}
+                                    ${activityData.nbParticipant ? `<p><strong>Participants:</strong> ${activityData.nbParticipant}</p>` : ''}
+                                    ${activityData.details ? `<p><strong>Détails:</strong> ${activityData.details}</p>` : ''}
+                                </div>
+                            `;
+                        }
+                    } else {
+                        // Inclure toutes les activités 1-7
+                        if (activityData.type && activityData.type.trim() !== '') {
+                            hasActivities = true;
+                            let activityTitle = activityData.type;
+                            if (activityData.interlocuteur) {
+                                activityTitle += ` - ${activityData.interlocuteur}`;
+                            }
+                            if (activityData.lieux) {
+                                activityTitle += ` à ${activityData.lieux}`;
+                            }
+                            
+                            activitiesContent += `
+                                <div class="activity-section">
+                                    <h4>${activityTitle}</h4>
+                                    ${activityData.heureDebut || activityData.heureFin ? `
+                                        <p><strong>Heures:</strong> ${activityData.heureDebut || ''} - ${activityData.heureFin || ''}</p>
+                                    ` : ''}
+                                    ${activityData.nbParticipant ? `<p><strong>Participants:</strong> ${activityData.nbParticipant}</p>` : ''}
+                                    ${activityData.details ? `<p><strong>Détails:</strong> ${activityData.details}</p>` : ''}
+                                </div>
+                            `;
+                        }
+                    }
+                });
+                
+                if (hasActivities) {
+                    content += `
+                        <div class="section">
+                            <h3>Activités de la Journée</h3>
+                            ${activitiesContent}
+                        </div>
+                    `;
+                }
+                
+                // Bilan de la journée
+                const resumeIndex = findHeaderIndex('RESUME');
+                const noteIndex = findHeaderIndex('Note de la journée:');
+                
+                if ((resumeIndex !== -1 && row[resumeIndex]) || (noteIndex !== -1 && row[noteIndex])) {
+                    content += `
+                        <div class="section">
+                            <h3>Bilan de la Journée</h3>
+                    `;
+                    
+                    if (resumeIndex !== -1 && row[resumeIndex]) {
+                        content += `<p><strong>RESUME:</strong> ${row[resumeIndex]}</p>`;
+                    }
+                    
+                    if (noteIndex !== -1 && row[noteIndex]) {
+                        content += `<p><strong>Note de la journée:</strong> ${row[noteIndex]}</p>`;
+                    }
+                    
+                    content += `</div>`;
+                }
+                
+                content += `</div>`;
+            });
+            
+            content += `
+                </body>
+                </html>
+            `;
+            
+            printWindow.document.write(content);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function exportSelectedDaysToExcel(selectedDays) {
+            let csvContent = '';
+            
+            // En-têtes
+            csvContent += headers.map(header => `"${header}"`).join(',') + '\n';
+            
+            // Données des journées sélectionnées
+            selectedDays.forEach(row => {
+                const rowData = headers.map((header, index) => {
+                    const value = row[index] || '';
+                    // Échapper les guillemets et les retours à la ligne
+                    return `"${value.replace(/"/g, '""').replace(/\n/g, ' ')}"`;
+                });
+                csvContent += rowData.join(',') + '\n';
+            });
+            
+            const filename = `tournee_europe_2026_${selectedDays.length}_jours.csv`;
+            downloadFile(csvContent, filename, 'text/csv');
+            alert(`${selectedDays.length} journée(s) exportée(s) en format Excel`);
+        }
+
         // Affichage des informations de données
         function showDataInfo() {
             document.getElementById('dataInfo').innerHTML = `
                 <div class="success-message">
                     ✅ Journal chargé avec succès : ${sheetData.length} journée${sheetData.length > 1 ? 's' : ''}
-                    <br><small>${headers.length} colonnes détectées • Durée totale des trajets: ${totalDureeTrajet.toFixed(1)}h • Distance totale: ${totalDistance.toFixed(0)}km</small>
+                    <br><small>${headers.length} colonnes détectées • Durée totale des trajets: ${formatHours(totalDureeTrajet)} • Distance totale: ${totalDistance.toFixed(0)}km</small>
                     <br><small>Cliquez sur un lieu, un interlocuteur ou un pays pour filtrer les entrées</small>
                 </div>
             `;
@@ -4727,6 +5758,13 @@ L'équipe NY AKO</textarea>
                 displayAllJournalEntries();
             }
         });
+
+        // Exposer les fonctions globales pour les boutons
+        window.scrollToInterlocuteur = scrollToInterlocuteur;
+        window.showInterlocutorBubble = showInterlocutorBubble;
+        window.scrollToLieu = scrollToLieu;
+        window.unlockInterlocutorData = unlockInterlocutorData;
+        window.showInterlocutorInfo = showInterlocutorInfo;
     </script> 
 </body>
 </html>
