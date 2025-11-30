@@ -986,6 +986,10 @@
             border-bottom: none;
         }
         
+        .recipient-item:hover {
+            background: #f8f9fa;
+        }
+        
         .form-group {
             margin-bottom: 20px;
         }
@@ -2662,24 +2666,19 @@ L'équipe NY AKO</textarea>
                     sheetData.forEach(row => {
                         const activityType = row[activityIndex] || '';
                         if (activityType && activityType.trim() !== '') {
-                            // CORRECTION: Créer automatiquement les activités qui n'existent pas encore
-                            validActivityTypes.forEach(type => {
-                                if (activityType.includes(type)) {
-                                    activityCounts[type]++;
-                                }
-                            });
-                            
-                            // CORRECTION: Ajouter automatiquement les nouvelles activités des sections 6 et 7
+                            // CORRECTION: Normaliser la casse pour éviter les doublons
                             const normalizedType = activityType.trim();
-                            if (!validActivityTypes.includes(normalizedType) && 
-                                !Object.keys(activityCounts).includes(normalizedType)) {
+                            
+                            // CORRECTION: Gérer les variantes de casse pour "Sortie/visite/Tourisme"
+                            if (normalizedType.toLowerCase() === 'sortie/visite/tourisme' || 
+                                normalizedType.toLowerCase() === 'sortie/visite/tourisme') {
+                                activityCounts['Sortie/visite/Tourisme']++;
+                            } else if (validActivityTypes.includes(normalizedType)) {
+                                activityCounts[normalizedType]++;
+                            } else {
                                 // Si c'est une nouvelle activité, l'ajouter aux statistiques
                                 activityCounts[normalizedType] = 1;
                                 console.log(`🆕 Nouvelle activité détectée et ajoutée: ${normalizedType}`);
-                            } else if (!validActivityTypes.includes(normalizedType) && 
-                                       Object.keys(activityCounts).includes(normalizedType)) {
-                                // Si l'activité existe déjà dans activityCounts mais pas dans validActivityTypes
-                                activityCounts[normalizedType]++;
                             }
                         }
                     });
@@ -2778,8 +2777,12 @@ L'équipe NY AKO</textarea>
                     if (activityIndex !== -1) {
                         const activityValue = row[activityIndex] || '';
                         
+                        // CORRECTION: Normaliser la casse pour la comparaison
+                        const normalizedValue = activityValue.trim();
+                        const normalizedType = activityType.trim();
+                        
                         // Pour les types d'activité normaux
-                        if (activityValue.includes(activityType)) {
+                        if (normalizedValue.toLowerCase() === normalizedType.toLowerCase()) {
                             hasActivity = true;
                             break;
                         }
@@ -3625,7 +3628,10 @@ L'équipe NY AKO</textarea>
             const bubble = document.getElementById('interlocutorBubble');
             const content = document.getElementById('interlocutorBubbleContent');
             
-            // Trouver toutes les informations sur cet interlocuteur
+            // Fermer la bulle actuelle
+            bubble.style.display = 'none';
+            
+            // RECHERCHE AMÉLIORÉE: Trouver l'activité où se trouve cet interlocuteur
             const interlocutorInfo = findInterlocutorInfo(interlocuteur);
             
             let html = `<h4 style="margin-bottom: 15px; color: var(--primary-color);">${interlocuteur}</h4>`;
@@ -3666,6 +3672,9 @@ L'équipe NY AKO</textarea>
             }
             
             content.innerHTML = html;
+            
+            // Réafficher la bulle avec le nouveau contenu
+            bubble.style.display = 'block';
         }
 
         // Fonction pour déverrouiller les données
