@@ -4734,29 +4734,57 @@ L'équipe NY AKO</textarea>
         }
 
         function findInterlocuteurForEmail(row, emailColIndex) {
-            // Rechercher dans les 5 colonnes avant l'email
-            for (let i = 1; i <= 5 && emailColIndex - i >= 0; i++) {
+            // Rechercher spécifiquement l'interlocuteur "Interlocuteur ,hôte" juste avant l'email dans la même ligne
+            console.log(`🔍 Recherche interlocuteur pour email à la colonne ${emailColIndex}`);
+            
+            // Rechercher dans les 10 colonnes avant l'email
+            for (let i = 1; i <= 10 && emailColIndex - i >= 0; i++) {
                 const prevIndex = emailColIndex - i;
                 const header = headers[prevIndex] || '';
                 const value = row[prevIndex] || '';
                 
-                if (!header || !value) continue;
+                console.log(`   Vérification colonne ${prevIndex}: "${header}" = "${value}"`);
                 
-                // Vérifier si cette colonne est un interlocuteur
-                if (header.trim() === "Interlocuteur ,hôte" || 
-                    header.includes("Interlocuteur") || 
-                    header.includes("hôte")) {
-                    return value.trim();
+                if (!header || !value || value.trim() === '') continue;
+                
+                // Vérifier si c'est exactement le header "Interlocuteur ,hôte"
+                if (header.trim() === "Interlocuteur ,hôte") {
+                    console.log(`   ✅ Trouvé "Interlocuteur ,hôte" à l'index ${prevIndex}: "${value}"`);
+                    
+                    // Nettoyer et retourner la valeur
+                    const cleanValue = value.trim()
+                        .split(/[,;]/)[0]  // Prendre seulement le premier nom si plusieurs
+                        .replace(/\s+/g, ' ')  // Normaliser les espaces
+                        .trim();
+                    
+                    if (cleanValue.length > 1 && 
+                        !cleanValue.includes('http') && 
+                        !cleanValue.includes('@') &&
+                        !cleanValue.includes('www.') &&
+                        !cleanValue.match(/\d{10,}/)) {
+                        console.log(`   🔍 Interlocuteur nettoyé: "${cleanValue}"`);
+                        return cleanValue;
+                    }
                 }
-                
-                // Vérifier si la valeur pourrait être un nom
-                if (value.trim() && value.length > 2 && 
-                    !value.includes('http') && !value.includes('@') &&
-                    !value.includes('www.') && !value.match(/\d{10,}/)) {
-                    // Vérifier l'en-tête précédent aussi
-                    const prevHeader = headers[prevIndex - 1] || '';
-                    if (prevHeader.includes("Interlocuteur") || prevHeader.includes("hôte")) {
-                        return value.trim();
+            }
+            
+            console.log(`   ❌ Aucun "Interlocuteur ,hôte" trouvé avant l'email`);
+            
+            // Si pas trouvé, chercher dans toute la ligne pour un header contenant "Interlocuteur"
+            for (let i = 0; i < headers.length; i++) {
+                const header = headers[i] || '';
+                if (header.includes("Interlocuteur")) {
+                    const value = row[i] || '';
+                    if (value && value.trim() !== '') {
+                        const cleanValue = value.trim()
+                            .split(/[,;]/)[0]
+                            .replace(/\s+/g, ' ')
+                            .trim();
+                        
+                        if (cleanValue.length > 1) {
+                            console.log(`   🔍 Interlocuteur alternatif: "${cleanValue}"`);
+                            return cleanValue;
+                        }
                     }
                 }
             }
@@ -4764,64 +4792,84 @@ L'équipe NY AKO</textarea>
             return 'Interlocuteur non spécifié';
         }
 
+        function extractAllEmailsWithInterlocuteurs() {
+            const emailsWithInterlocuteurs = [];
+            const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/;
+            
+            console.log('📧 Extraction de tous les emails avec interlocuteurs...');
+            
+            sheetData.forEach((row, rowIndex) => {
+                // Chercher toutes les colonnes email
+                headers.forEach((header, colIndex) => {
+                    if (!header) return;
+                    
+                    const headerLower = header.toLowerCase();
+                    if (headerLower.includes('mail') || headerLower.includes('email')) {
+                        const emailValue = row[colIndex] || '';
+                        if (emailValue && emailValue.trim() !== '') {
+                            // Extraire les emails du texte
+                            const emails = emailValue.match(emailPattern);
+                            if (emails) {
+                                emails.forEach(email => {
+                                    // Trouver l'interlocuteur correspondant en utilisant la fonction améliorée
+                                    const interlocuteur = findInterlocuteurForEmail(row, colIndex);
+                                    
+                                    emailsWithInterlocuteurs.push({
+                                        email: email,
+                                        interlocuteur: interlocuteur,
+                                        date: row[1] || 'Date inconnue',
+                                        rowIndex: rowIndex,
+                                        emailColumn: header
+                                    });
+                                    
+                                    console.log(`   📧 Email trouvé: ${email} - Interlocuteur: ${interlocuteur}`);
+                                });
+                            }
+                        }
+                    }
+                });
+            });
+            
+            // Supprimer les doublons (même email)
+            const uniqueEmails = [];
+            const emailSet = new Set();
+            
+            emailsWithInterlocuteurs.forEach(item => {
+                const emailLower = item.email.toLowerCase();
+                if (!emailSet.has(emailLower)) {
+                    emailSet.add(emailLower);
+                    uniqueEmails.push(item);
+                }
+            });
+            
+            console.log(`✅ ${uniqueEmails.length} emails uniques trouvés avec interlocuteurs`);
+            return uniqueEmails.sort((a, b) => a.interlocuteur.localeCompare(b.interlocuteur));
+        }
+
         function showEmailModal() {
             const modal = document.getElementById('emailModal');
             const recipientsContainer = document.getElementById('emailRecipients');
             const recipientCount = document.getElementById('recipientCount');
             
-            const interlocuteursAvecEmail = [];
-            const emailsDejaVus = new Set();
-            
-            // Parcourir chaque ligne de données
-            sheetData.forEach(row => {
-                // Chercher les colonnes email
-                const emailColumns = headers
-                    .map((header, index) => {
-                        if (!header) return -1;
-                        const headerLower = header.toLowerCase();
-                        if (headerLower.includes('mail') || headerLower.includes('email')) {
-                            return index;
-                        }
-                        return -1;
-                    })
-                    .filter(index => index !== -1);
-                
-                emailColumns.forEach(emailCol => {
-                    const email = row[emailCol] || '';
-                    if (!email || email.trim() === '') return;
-                    
-                    // Utiliser la fonction améliorée pour trouver l'interlocuteur
-                    const interlocuteurTrouve = findInterlocuteurForEmail(row, emailCol);
-                    
-                    const emailClean = email.trim().toLowerCase();
-                    if (!emailsDejaVus.has(emailClean)) {
-                        emailsDejaVus.add(emailClean);
-                        interlocuteursAvecEmail.push({
-                            nom: interlocuteurTrouve,
-                            email: email
-                        });
-                    }
-                });
-            });
-            
-            // Trier par nom
-            interlocuteursAvecEmail.sort((a, b) => a.nom.localeCompare(b.nom));
+            // Utiliser la fonction améliorée pour extraire les emails avec leurs interlocuteurs
+            const emailsWithInterlocuteurs = extractAllEmailsWithInterlocuteurs();
             
             recipientsContainer.innerHTML = '';
-            interlocuteursAvecEmail.forEach((interlocuteur, index) => {
+            emailsWithInterlocuteurs.forEach((item, index) => {
                 const recipientDiv = document.createElement('div');
                 recipientDiv.className = 'recipient-item';
                 recipientDiv.innerHTML = `
                     <input type="checkbox" class="recipient-checkbox" data-index="${index}" checked style="margin-right: 10px;">
                     <div>
-                        <strong>${interlocuteur.nom}</strong><br>
-                        <small style="color: #666;">${interlocuteur.email}</small>
+                        <strong>${item.interlocuteur}</strong><br>
+                        <small style="color: #666;">${item.email}</small><br>
+                        <small style="color: #999; font-size: 0.8em;">Date: ${item.date}</small>
                     </div>
                 `;
                 recipientsContainer.appendChild(recipientDiv);
             });
             
-            recipientCount.textContent = interlocuteursAvecEmail.length;
+            recipientCount.textContent = emailsWithInterlocuteurs.length;
             showModal('emailModal');
         }
 
