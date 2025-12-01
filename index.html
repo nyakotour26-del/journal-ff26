@@ -23,7 +23,7 @@
             --concert-orange: #ff9800;
             --neutral-border: #e0e0e0;
             --activity-title-bg: #fce4ec;
-            --section-title-color: #87CEEB; /* Bleu ciel pour les titres de section */
+            --section-title-color: #87CEEB;
         }
         
         * {
@@ -84,7 +84,6 @@
             color: var(--dark-blue);
         }
         
-        /* Styles pour la modale des options de date */
         .date-options-modal {
             display: none;
             position: fixed;
@@ -204,7 +203,6 @@
             font-size: 1.2em;
         }
         
-        /* Le reste des styles reste inchangé */
         .journal-entry {
             background-color: white;
             border-radius: var(--border-radius);
@@ -266,7 +264,7 @@
         
         .section-title {
             font-size: 1.5em;
-            color: var(--section-title-color); /* Changé en bleu ciel */
+            color: var(--section-title-color);
             margin-bottom: 20px;
             padding-bottom: 12px;
             border-bottom: 3px solid var(--light-blue);
@@ -280,16 +278,16 @@
             content: '';
             width: 8px;
             height: 25px;
-            background: var(--section-title-color); /* Changé en bleu ciel */
+            background: var(--section-title-color);
             border-radius: 4px;
         }
         
         .subsection-title {
             font-size: 1.2em;
-            color: var(--section-title-color); /* Changé en bleu ciel */
+            color: var(--section-title-color);
             margin: 20px 0 15px;
             padding-left: 15px;
-            border-left: 4px solid var(--section-title-color); /* Changé en bleu ciel */
+            border-left: 4px solid var(--section-title-color);
             font-weight: 600;
         }
         
@@ -528,7 +526,6 @@
             box-shadow: var(--box-shadow);
             margin-bottom: 20px;
             border: 2px solid var(--neutral-border);
-            /* NOUVEAU: permettre le défilement horizontal en mobile */
             overflow-x: auto;
         }
         
@@ -562,7 +559,6 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 8px;
-            /* NOUVEAU: largeur minimale pour assurer le défilement */
             min-width: 600px;
         }
         
@@ -875,7 +871,7 @@
         }
         
         .activity-stat.concert-stat {
-            cursor: pointer; /* Maintenant cliquable comme les autres */
+            cursor: pointer;
         }
         
         .activity-stat.concert-stat:hover {
@@ -896,7 +892,7 @@
         }
         
         .concert-filter-button {
-            display: none; /* CACHÉ comme demandé */
+            display: none;
         }
         
         .email-link {
@@ -916,7 +912,6 @@
             width: 200px;
         }
         
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -1104,7 +1099,6 @@
             margin-bottom: 10px;
         }
         
-        /* Nouveaux styles pour l'affichage des informations interlocuteur */
         .contact-info {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             padding: 20px;
@@ -1192,7 +1186,6 @@
             font-size: 0.9em;
         }
         
-        /* NOUVEAUX STYLES POUR LES HEURES ET TRAJET - SIMILAIRES À "INFORMATION SUR INTERLOCUTEUR" */
         .heure-group {
             display: flex;
             gap: 15px;
@@ -1237,7 +1230,6 @@
             color: var(--primary-color);
         }
         
-        /* Nouveaux styles pour les lieux */
         .lieux-info {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -1282,7 +1274,6 @@
             color: var(--primary-color);
         }
         
-        /* NOUVEAUX STYLES POUR DURÉE ET DISTANCE - MÊME PRÉSENTATION QUE LIEUX ET TRAJET */
         .duree-distance-presentation {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1320,7 +1311,6 @@
             color: var(--primary-color);
         }
         
-        /* Bouton mot de passe */
         .password-section {
             margin-top: 15px;
             padding: 15px;
@@ -1357,7 +1347,6 @@
             border: 1px solid #ddd;
         }
         
-        /* NOUVEAUX STYLES POUR LES FICHES EN VUE MOBILE */
         .info-grid-mobile {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1370,7 +1359,6 @@
             flex-direction: column;
         }
         
-        /* Styles pour les suggestions de recherche */
         .search-suggestions {
             position: absolute;
             top: 100%;
@@ -1409,7 +1397,6 @@
             text-align: right;
         }
         
-        /* Styles pour l'export sélectif */
         .export-selection {
             margin-bottom: 20px;
         }
@@ -1429,7 +1416,6 @@
             border-bottom: none;
         }
         
-        /* Styles pour la bulle d'information interlocuteur */
         .interlocutor-bubble {
             position: fixed;
             background: white;
@@ -1437,7 +1423,7 @@
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            z-index: 1001; /* Plus élevé que les autres modales */
+            z-index: 1001;
             max-width: 400px;
             max-height: 80vh;
             overflow-y: auto;
@@ -1467,7 +1453,6 @@
             padding: 5px;
         }
         
-        /* Styles pour les boutons dans la bulle interlocuteur */
         .bubble-actions {
             display: flex;
             gap: 10px;
@@ -1499,6 +1484,33 @@
         .bubble-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .fiche-access-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(to bottom, #27ae60, #219a52);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin: 15px 0;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .fiche-access-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+        
+        .fiche-access-button::before {
+            content: '📄';
+            font-size: 1.1em;
         }
         
         @media (max-width: 768px) {
@@ -1578,7 +1590,6 @@
                 max-height: 50px;
             }
             
-            /* Styles spécifiques pour les fiches en mobile */
             .info-grid-mobile {
                 grid-template-columns: 1fr;
             }
@@ -1611,7 +1622,6 @@
                 padding: 12px;
             }
             
-            /* Améliorations pour mobile */
             .activity-stats-mobile {
                 grid-template-columns: 1fr 1fr;
                 gap: 8px;
@@ -1657,7 +1667,6 @@
                 font-size: 1em;
             }
             
-            /* Styles pour la modale des options de date en mobile */
             .date-options-content {
                 padding: 20px;
                 width: 95%;
@@ -1667,7 +1676,6 @@
                 padding: 12px;
             }
             
-            /* Styles pour la bulle interlocuteur en mobile */
             .interlocutor-bubble {
                 max-width: 90vw;
                 padding: 15px;
@@ -1729,7 +1737,6 @@
                     <div class="search-suggestions" id="searchSuggestions"></div>
                 </div>
                 <button type="submit" class="search-button">Rechercher</button>
-                <!-- BOUTON FILTRER CONCERTS CACHÉ -->
             </form>
             
             <div class="password-section">
@@ -1837,7 +1844,6 @@
         <div id="journalEntries"></div>
     </div>
 
-    <!-- Modal pour les options de date -->
     <div id="dateOptionsModal" class="date-options-modal">
         <div class="date-options-content">
             <div class="date-options-header">
@@ -1846,7 +1852,6 @@
             </div>
             
             <div class="date-options-list" id="dateOptionsList">
-                <!-- Les options seront générées dynamiquement ici -->
             </div>
             
             <div class="modal-actions">
@@ -1855,7 +1860,6 @@
         </div>
     </div>
 
-    <!-- Modal pour l'envoi d'emails groupés -->
     <div id="emailModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1866,7 +1870,6 @@
             <div class="form-group">
                 <label class="form-label">Destinataires avec email:</label>
                 <div id="emailRecipients" class="email-recipients">
-                    <!-- Liste des destinataires générée ici -->
                 </div>
                 <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
                     <span id="recipientCount">0</span> destinataire(s) sélectionné(s)
@@ -1897,7 +1900,6 @@ L'équipe NY AKO</textarea>
         </div>
     </div>
 
-    <!-- Modal pour les listes organisées -->
     <div id="listsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1917,7 +1919,6 @@ L'équipe NY AKO</textarea>
             </div>
             
             <div class="list-container" id="organizedList">
-                <!-- Liste organisée générée ici -->
             </div>
             
             <div class="modal-actions">
@@ -1927,7 +1928,6 @@ L'équipe NY AKO</textarea>
         </div>
     </div>
 
-    <!-- Modal pour l'export de données -->
     <div id="exportModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1986,7 +1986,6 @@ L'équipe NY AKO</textarea>
         </div>
     </div>
 
-    <!-- Modal pour l'export sélectif -->
     <div id="selectiveExportModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -2002,7 +2001,6 @@ L'équipe NY AKO</textarea>
                         <label for="selectAllDays">Sélectionner toutes les journées</label>
                     </div>
                     <div class="list-container" id="exportDaysList">
-                        <!-- Liste des journées générée ici -->
                     </div>
                 </div>
             </div>
@@ -2022,30 +2020,25 @@ L'équipe NY AKO</textarea>
         </div>
     </div>
 
-    <!-- Bulle d'information interlocuteur -->
     <div id="interlocutorBubble" class="interlocutor-bubble" style="display: none;">
         <div class="interlocutor-bubble-header">
             <h3 class="interlocutor-bubble-title">Information sur Interlocuteur/Hôte</h3>
             <button class="close-bubble" id="closeInterlocutorBubble">✕</button>
         </div>
         <div id="interlocutorBubbleContent">
-            <!-- Contenu généré dynamiquement -->
         </div>
         <div class="bubble-actions">
             <button class="bubble-button scroll" id="bubbleScrollButton">📌 Défiler</button>
-            <button class="bubble-button info" id="bubbleInfoButton">💬 Info</button>
         </div>
     </div>
 
     <script>
-        // URL du Google Sheets MIS À JOUR
         const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXIJyclDLf2asT-FMnmaeWMSPtQHxpAC1wiGJ_xzXbl2StziwiUw9ElW9XyK5yemQ-PHaWlRQbtdHb/pub?gid=2027996510&single=true&output=csv';
         
-        // Variables globales
         let sheetData = [];
         let headers = [];
         let datesWithData = [];
-        let currentDate = new Date();
+        let currentDate = new Date(2026, 3, 1); // Avril 2026
         let selectedDate = null;
         let allLieux = [];
         let allInterlocuteurs = [];
@@ -2075,27 +2068,22 @@ L'équipe NY AKO</textarea>
         let searchSuggestions = [];
         let currentInterlocutorForBubble = null;
 
-        // Initialisation au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Démarrage du Journal de Bord...');
             
-            // Vérifier si l'admin est déjà connecté (DOIT ÊTRE AVANT le chargement des données)
             checkAdminStatus();
             
-            // Configuration des événements
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
             document.getElementById('nextMonth').addEventListener('click', nextMonth);
             document.getElementById('showAllButton').addEventListener('click', showAllData);
             document.getElementById('retryButton').addEventListener('click', loadDataFromGoogleSheets);
             
-            // Événements pour l'admin
             document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
             document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
             document.getElementById('exportDataButton').addEventListener('click', showExportModal);
             document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
             
-            // Événements pour les modales
             document.getElementById('closeEmailModal').addEventListener('click', () => hideModal('emailModal'));
             document.getElementById('cancelEmail').addEventListener('click', () => hideModal('emailModal'));
             document.getElementById('closeListsModal').addEventListener('click', () => hideModal('listsModal'));
@@ -2105,11 +2093,9 @@ L'équipe NY AKO</textarea>
             document.getElementById('closeSelectiveExportModal').addEventListener('click', () => hideModal('selectiveExportModal'));
             document.getElementById('cancelSelectiveExport').addEventListener('click', () => hideModal('selectiveExportModal'));
             
-            // Événements pour la modale des options de date
             document.getElementById('closeDateOptions').addEventListener('click', () => hideModal('dateOptionsModal'));
             document.getElementById('cancelDateOptions').addEventListener('click', () => hideModal('dateOptionsModal'));
             
-            // Événements pour la bulle interlocuteur
             document.getElementById('closeInterlocutorBubble').addEventListener('click', () => {
                 document.getElementById('interlocutorBubble').style.display = 'none';
             });
@@ -2121,13 +2107,6 @@ L'équipe NY AKO</textarea>
                 }
             });
             
-            document.getElementById('bubbleInfoButton').addEventListener('click', () => {
-                if (currentInterlocutorForBubble) {
-                    showInterlocutorInfo(currentInterlocutorForBubble);
-                }
-            });
-            
-            // Événements pour les fonctionnalités
             document.getElementById('sendEmails').addEventListener('click', sendEmails);
             document.getElementById('copyEmails').addEventListener('click', copyEmailAddresses);
             document.getElementById('listType').addEventListener('change', updateOrganizedList);
@@ -2136,7 +2115,6 @@ L'équipe NY AKO</textarea>
             document.getElementById('selectAllDays').addEventListener('change', toggleSelectAllDays);
             document.getElementById('confirmSelectiveExport').addEventListener('click', exportSelectedDays);
             
-            // Événements pour les options d'export
             document.querySelectorAll('.export-option').forEach(option => {
                 option.addEventListener('click', function() {
                     document.querySelectorAll('.export-option').forEach(opt => {
@@ -2150,11 +2128,9 @@ L'équipe NY AKO</textarea>
                 });
             });
             
-            // Événements pour le mot de passe
             document.getElementById('passwordButton').addEventListener('click', togglePasswordInput);
             document.getElementById('submitPassword').addEventListener('click', validatePassword);
             
-            // Événements pour la recherche avec suggestions
             document.getElementById('searchInput').addEventListener('input', handleSearchInput);
             document.getElementById('searchInput').addEventListener('focus', showSearchSuggestions);
             document.getElementById('searchInput').addEventListener('blur', function() {
@@ -2163,11 +2139,9 @@ L'équipe NY AKO</textarea>
                 }, 200);
             });
             
-            // Charger les données
             loadDataFromGoogleSheets();
         });
 
-        // Fonctions pour les modales
         function showModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
         }
@@ -2176,7 +2150,6 @@ L'équipe NY AKO</textarea>
             document.getElementById(modalId).style.display = 'none';
         }
 
-        // Vérifier le statut admin
         function checkAdminStatus() {
             const savedAdmin = localStorage.getItem('tourneeAdmin');
             if (savedAdmin === 'true') {
@@ -2185,11 +2158,10 @@ L'équipe NY AKO</textarea>
                 console.log('🔓 Statut admin restauré depuis le stockage local');
                 
                 enableAdminButtons();
-                updateAdminInterface(); // AJOUT IMPORTANT
+                updateAdminInterface();
             }
         }
 
-        // Activer les boutons admin
         function enableAdminButtons() {
             console.log('🔓 Activation des boutons admin...');
             
@@ -2200,7 +2172,6 @@ L'équipe NY AKO</textarea>
                 button.style.cursor = 'pointer';
             });
             
-            // Mettre à jour le texte du bouton mot de passe
             const passwordButton = document.getElementById('passwordButton');
             if (passwordButton) {
                 passwordButton.innerHTML = '🔐 Accès admin activé';
@@ -2208,7 +2179,6 @@ L'équipe NY AKO</textarea>
                 passwordButton.disabled = true;
             }
             
-            // Masquer le champ de mot de passe
             const passwordContainer = document.getElementById('passwordInputContainer');
             if (passwordContainer) {
                 passwordContainer.style.display = 'none';
@@ -2217,14 +2187,11 @@ L'équipe NY AKO</textarea>
             console.log('✅ Boutons admin activés');
         }
 
-        // Mettre à jour l'interface admin
         function updateAdminInterface() {
             console.log('🔄 Mise à jour de l\'interface admin...');
             
-            // Forcer le re-rendu du calendrier pour mettre à jour les options de date
             renderCalendar();
             
-            // Afficher un indicateur visuel du statut admin
             const adminSection = document.getElementById('adminSection');
             if (adminSection) {
                 adminSection.style.display = 'block';
@@ -2242,7 +2209,6 @@ L'équipe NY AKO</textarea>
                     </div>
                 `;
                 
-                // Réattacher les événements aux nouveaux boutons
                 document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
                 document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
                 document.getElementById('exportDataButton').addEventListener('click', showExportModal);
@@ -2253,13 +2219,11 @@ L'équipe NY AKO</textarea>
             console.log('✅ Interface admin mise à jour');
         }
 
-        // Déconnexion admin
         function logoutAdmin() {
             isAdmin = false;
             showFicheLinks = false;
             localStorage.removeItem('tourneeAdmin');
             
-            // Réinitialiser l'interface admin
             const adminSection = document.getElementById('adminSection');
             adminSection.innerHTML = `
                 <h3>🔐 Panneau d'administration</h3>
@@ -2274,16 +2238,13 @@ L'équipe NY AKO</textarea>
                 </div>
             `;
             
-            // Réattacher les événements
             document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
             document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
             document.getElementById('exportDataButton').addEventListener('click', showExportModal);
             document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
             
-            // Re-rendre le calendrier pour mettre à jour les options de date
             renderCalendar();
             
-            // Afficher un message
             const dataInfo = document.getElementById('dataInfo');
             dataInfo.innerHTML = `
                 <div class="success-message" style="background: linear-gradient(135deg, #3498db, #2980b9);">
@@ -2295,13 +2256,11 @@ L'équipe NY AKO</textarea>
             console.log('🚪 Déconnexion admin effectuée');
         }
 
-        // Toggle du champ de mot de passe
         function togglePasswordInput() {
             const passwordContainer = document.getElementById('passwordInputContainer');
             passwordContainer.style.display = passwordContainer.style.display === 'none' ? 'block' : 'none';
         }
 
-        // Validation du mot de passe
         function validatePassword() {
             const password = document.getElementById('passwordInput').value;
             if (password === 'admin') {
@@ -2310,14 +2269,11 @@ L'équipe NY AKO</textarea>
                 document.getElementById('passwordInputContainer').style.display = 'none';
                 document.getElementById('passwordInput').value = '';
                 
-                // Enregistrer le statut admin
                 localStorage.setItem('tourneeAdmin', 'true');
                 
-                // Activer les boutons admin
                 enableAdminButtons();
-                updateAdminInterface(); // AJOUT CRITIQUE
+                updateAdminInterface();
                 
-                // Afficher un message de succès
                 const dataInfo = document.getElementById('dataInfo');
                 dataInfo.innerHTML = `
                     <div class="success-message">
@@ -2326,7 +2282,6 @@ L'équipe NY AKO</textarea>
                 `;
                 dataInfo.style.display = 'block';
                 
-                // Si des résultats sont déjà affichés, les mettre à jour
                 if (document.getElementById('journalEntries').children.length > 0) {
                     displayAllJournalEntries();
                 }
@@ -2337,17 +2292,14 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // Chargement des données depuis Google Sheets
         async function loadDataFromGoogleSheets() {
             console.log('📥 Chargement des données depuis Google Sheets...');
             document.getElementById('loadingIndicator').style.display = 'block';
             document.getElementById('retryButton').style.display = 'none';
             
             try {
-                // Essayer plusieurs méthodes de récupération
                 let csvText = '';
                 
-                // Méthode 1: Essayer directement
                 try {
                     const response = await fetch(GOOGLE_SHEETS_URL);
                     if (response.ok) {
@@ -2357,7 +2309,6 @@ L'équipe NY AKO</textarea>
                 } catch (directError) {
                     console.log('❌ Échec méthode directe, essai avec proxy...');
                     
-                    // Méthode 2: Utiliser un proxy CORS
                     const proxyUrl = 'https://api.allorigins.win/raw?url=';
                     const timestamp = new Date().getTime();
                     const url = `${proxyUrl}${encodeURIComponent(GOOGLE_SHEETS_URL)}&t=${timestamp}`;
@@ -2376,6 +2327,10 @@ L'équipe NY AKO</textarea>
                 
                 processCSVData(csvText);
                 
+                // Réinitialiser le calendrier à avril 2026
+                currentDate = new Date(2026, 3, 1);
+                renderCalendar();
+                
             } catch (error) {
                 console.error('❌ Erreur de chargement:', error);
                 showError('Impossible de charger les données. Vérifiez que le Google Sheet est bien publié et accessible.');
@@ -2385,7 +2340,6 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // Traitement des données CSV
         function processCSVData(csvText) {
             try {
                 if (!csvText || csvText.trim().length === 0) {
@@ -2412,7 +2366,6 @@ L'équipe NY AKO</textarea>
                     throw new Error('Aucune entrée de journal trouvée dans le fichier');
                 }
                 
-                // Traitement des données
                 extractDatesWithData();
                 extractAllLieux();
                 extractAllInterlocuteurs();
@@ -2434,11 +2387,9 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // Générer les suggestions de recherche - VERSION CORRIGÉE
         function generateSearchSuggestions() {
             searchSuggestions = [];
             
-            // Ajouter les lieux avec date et pays
             allLieux.forEach(lieu => {
                 const occurrences = findOccurrences(lieu, 'lieu');
                 occurrences.forEach(occurrence => {
@@ -2451,7 +2402,6 @@ L'équipe NY AKO</textarea>
                 });
             });
             
-            // Ajouter les interlocuteurs avec date et pays
             allInterlocuteurs.forEach(interlocuteur => {
                 const occurrences = findOccurrences(interlocuteur, 'nom');
                 occurrences.forEach(occurrence => {
@@ -2464,7 +2414,6 @@ L'équipe NY AKO</textarea>
                 });
             });
             
-            // Ajouter les pays avec date
             allPays.forEach(pays => {
                 const occurrences = findOccurrences(pays, 'pays');
                 occurrences.forEach(occurrence => {
@@ -2477,7 +2426,6 @@ L'équipe NY AKO</textarea>
                 });
             });
             
-            // Ajouter les types d'activités (uniquement ceux qui doivent apparaître)
             const validActivityTypes = [
                 'Rencontre/Invitation', 'Concert', 'Ecole', 
                 'Sortie/visite/Tourisme', 'Eglise/culte', 'Marché', 'Shopping',
@@ -2498,7 +2446,6 @@ L'équipe NY AKO</textarea>
             console.log(`🔍 ${searchSuggestions.length} suggestions de recherche générées`);
         }
 
-        // Trouver les occurrences d'un terme avec date et pays
         function findOccurrences(term, type) {
             const occurrences = [];
             
@@ -2507,13 +2454,11 @@ L'équipe NY AKO</textarea>
                 let date = '';
                 let pays = '';
                 
-                // Récupérer la date
                 const dateIndex = findHeaderIndex('Date:');
                 if (dateIndex !== -1) {
                     date = row[dateIndex] || '';
                 }
                 
-                // Récupérer le pays
                 const paysIndex = findHeaderIndex('Pays:');
                 if (paysIndex !== -1) {
                     pays = row[paysIndex] || '';
@@ -2572,7 +2517,6 @@ L'équipe NY AKO</textarea>
             return occurrences;
         }
 
-        // Gérer la saisie dans le champ de recherche - VERSION AMÉLIORÉE
         function handleSearchInput(event) {
             const searchValue = event.target.value.trim();
             if (searchValue.length > 0) {
@@ -2582,7 +2526,6 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // Afficher les suggestions de recherche - VERSION AMÉLIORÉE
         function showSearchSuggestions(filter = '') {
             const suggestionsContainer = document.getElementById('searchSuggestions');
             const searchInput = document.getElementById('searchInput');
@@ -2604,11 +2547,15 @@ L'équipe NY AKO</textarea>
                         searchInput.value = suggestion.text;
                         hideSearchSuggestions();
                         
-                        // CORRECTION: Effectuer la recherche directement quand on clique sur une suggestion
                         currentSearchTerm = suggestion.text;
                         currentSearchType = suggestion.type;
                         const results = filterDataByType(suggestion.text, suggestion.type);
                         displayFilteredEntries(results, `${suggestion.type.charAt(0).toUpperCase() + suggestion.type.slice(1)}: ${suggestion.text}`);
+                        
+                        // Ajouter automatiquement le bouton fiche si admin ET si on a un rowIndex valide
+                        if (isAdmin && suggestion.rowIndex !== -1 && suggestion.rowIndex !== undefined) {
+                            addFicheAccessButton(suggestion.rowIndex);
+                        }
                     });
                     suggestionsContainer.appendChild(suggestionElement);
                 });
@@ -2618,31 +2565,60 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // Masquer les suggestions de recherche
+        function addFicheAccessButton(rowIndex) {
+            setTimeout(() => {
+                const ficheIndex = findHeaderIndex('Lien de cette fiche:');
+                if (ficheIndex !== -1) {
+                    const ficheLink = sheetData[rowIndex][ficheIndex];
+                    if (ficheLink && ficheLink.trim() !== '') {
+                        const resultsHeader = document.querySelector('#journalEntries > div:first-child');
+                        if (resultsHeader) {
+                            // Vérifier si le bouton existe déjà
+                            if (!document.querySelector('.fiche-access-button')) {
+                                const ficheButton = document.createElement('button');
+                                ficheButton.className = 'fiche-access-button';
+                                ficheButton.style.margin = '10px 0';
+                                ficheButton.innerHTML = '📄 Accéder à la fiche complète';
+                                ficheButton.onclick = () => {
+                                    let finalLink = ficheLink.trim();
+                                    if (!finalLink.startsWith('http://') && !finalLink.startsWith('https://')) {
+                                        finalLink = 'https://' + finalLink;
+                                    }
+                                    window.open(finalLink, '_blank');
+                                };
+                                
+                                resultsHeader.parentNode.insertBefore(ficheButton, resultsHeader.nextSibling);
+                            }
+                        }
+                    }
+                }
+            }, 100);
+        }
+
         function hideSearchSuggestions() {
             document.getElementById('searchSuggestions').style.display = 'none';
         }
 
-        // Normaliser le texte pour la recherche (supprimer les accents)
         function normalizeText(text) {
             return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         }
 
-        // Calculer les comptages d'activités - VERSION CORRIGÉE POUR ACTIVITÉS 6 ET 7
         function calculateActivityCounts() {
-            // Réinitialiser les compteurs
             Object.keys(activityCounts).forEach(key => {
                 activityCounts[key] = 0;
             });
             
-            // Types d'activités valides (ceux qui doivent apparaître dans les statistiques)
             const validActivityTypes = [
                 'Rencontre/Invitation', 'Concert', 'Ecole', 
-                'Sortie/visite/Tourisme', 'Eglise/culte', 'Marché', 'Shopping',
-                'Hospice/Hopital', 'Voyage', 'Festival'
+                'Sortie/visite/Tourisme', 'Sortie/visite/tourisme', 'Sortie',
+                'Eglise/culte', 'Eglise', 'culte',
+                'Marché', 'Marche',
+                'Shopping',
+                'Hospice/Hopital', 'Hospice', 'Hopital',
+                'Voyage',
+                'Festival'
             ];
             
-            // CORRECTION: Rechercher les 7 sections d'activités (1 à 7 maintenant)
             for (let i = 1; i <= 7; i++) {
                 const activityHeader = `ACTIVITÉ ${i}`;
                 const activityHeaderAlt = `ACTIVITE ${i}`;
@@ -2666,17 +2642,14 @@ L'équipe NY AKO</textarea>
                     sheetData.forEach(row => {
                         const activityType = row[activityIndex] || '';
                         if (activityType && activityType.trim() !== '') {
-                            // CORRECTION: Normaliser la casse pour éviter les doublons
                             const normalizedType = activityType.trim();
                             
-                            // CORRECTION: Gérer les variantes de casse pour "Sortie/visite/Tourisme"
                             if (normalizedType.toLowerCase() === 'sortie/visite/tourisme' || 
                                 normalizedType.toLowerCase() === 'sortie/visite/tourisme') {
                                 activityCounts['Sortie/visite/Tourisme']++;
                             } else if (validActivityTypes.includes(normalizedType)) {
                                 activityCounts[normalizedType]++;
                             } else {
-                                // Si c'est une nouvelle activité, l'ajouter aux statistiques
                                 activityCounts[normalizedType] = 1;
                                 console.log(`🆕 Nouvelle activité détectée et ajoutée: ${normalizedType}`);
                             }
@@ -2685,7 +2658,6 @@ L'équipe NY AKO</textarea>
                 }
             }
             
-            // Compter les concerts séparément
             const concertColumns = headers
                 .map((header, index) => 
                     (header && header.includes('CONCERT')) ? index : -1
@@ -2706,12 +2678,10 @@ L'équipe NY AKO</textarea>
             console.log('📊 Statistiques activités calculées:', activityCounts);
         }
 
-        // Afficher les statistiques d'activités - VERSION CORRIGÉE POUR TOUTES LES ACTIVITÉS
         function renderActivityStats() {
             const container = document.getElementById('activityStats');
             container.innerHTML = '';
             
-            // Vérifier si on est sur mobile
             const isMobile = window.innerWidth <= 768;
             
             if (isMobile) {
@@ -2720,7 +2690,6 @@ L'équipe NY AKO</textarea>
                 container.className = 'activity-stats';
             }
             
-            // Afficher TOUTES les activités qui ont au moins une occurrence
             Object.keys(activityCounts).forEach(type => {
                 if (activityCounts[type] > 0) {
                     const statDiv = document.createElement('div');
@@ -2747,14 +2716,12 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Filtrer par type d'activité - VERSION CORRIGÉE
         function filterByActivityType(activityType) {
             const results = [];
             
             sheetData.forEach(row => {
                 let hasActivity = false;
                 
-                // Vérifier les 7 sections d'activités (1 à 7 maintenant)
                 for (let i = 1; i <= 7; i++) {
                     const activityHeader = `ACTIVITÉ ${i}`;
                     const activityHeaderAlt = `ACTIVITE ${i}`;
@@ -2777,11 +2744,9 @@ L'équipe NY AKO</textarea>
                     if (activityIndex !== -1) {
                         const activityValue = row[activityIndex] || '';
                         
-                        // CORRECTION: Normaliser la casse pour la comparaison
                         const normalizedValue = activityValue.trim();
                         const normalizedType = activityType.trim();
                         
-                        // Pour les types d'activité normaux
                         if (normalizedValue.toLowerCase() === normalizedType.toLowerCase()) {
                             hasActivity = true;
                             break;
@@ -2789,7 +2754,6 @@ L'équipe NY AKO</textarea>
                     }
                 }
                 
-                // Vérifier les concerts
                 if (activityType === 'Concert') {
                     const concertColumns = headers
                         .map((header, index) => 
@@ -2817,7 +2781,6 @@ L'équipe NY AKO</textarea>
             displayFilteredEntries(results, `Activité: ${activityType}`);
         }
 
-        // Parser CSV amélioré
         function parseCSV(csvText) {
             const lines = [];
             let currentLine = [];
@@ -2858,19 +2821,16 @@ L'équipe NY AKO</textarea>
             return lines;
         }
 
-        // Extraction des dates avec données (colonne B)
         function extractDatesWithData() {
             datesWithData = [];
-            const dateColumnIndex = 1; // Colonne B
+            const dateColumnIndex = 1;
             
             sheetData.forEach((row, index) => {
                 const dateStr = row[dateColumnIndex] || '';
                 if (dateStr && dateStr.trim() !== '') {
                     const date = parseDate(dateStr);
                     if (date) {
-                        // Extraire les lieux pour cette date
                         const lieux = extractLieuxForDate(row);
-                        // Extraire les pays pour cette date
                         const pays = extractPaysForDate(row);
                         
                         datesWithData.push({
@@ -2887,11 +2847,9 @@ L'équipe NY AKO</textarea>
             datesWithData.sort((a, b) => a.date - b.date);
         }
 
-        // Extraction des lieux pour une date donnée
         function extractLieuxForDate(row) {
             const lieux = [];
             
-            // Rechercher les colonnes de lieux
             const lieuxColumns = headers
                 .map((header, index) => 
                     (header && header.includes('Lieux')) ? index : -1
@@ -2905,14 +2863,12 @@ L'équipe NY AKO</textarea>
                 }
             });
             
-            return [...new Set(lieux)]; // Supprimer les doublons
+            return [...new Set(lieux)];
         }
 
-        // Extraction des pays pour une date donnée
         function extractPaysForDate(row) {
             const pays = [];
             
-            // Rechercher les colonnes de pays
             const paysColumns = headers
                 .map((header, index) => 
                     (header && header.includes('Pays')) ? index : -1
@@ -2926,10 +2882,9 @@ L'équipe NY AKO</textarea>
                 }
             });
             
-            return [...new Set(pays)]; // Supprimer les doublons
+            return [...new Set(pays)];
         }
 
-        // Extraction de tous les lieux
         function extractAllLieux() {
             const allLieuxSet = new Set();
             
@@ -2945,11 +2900,9 @@ L'équipe NY AKO</textarea>
             allLieux = Array.from(allLieuxSet).sort();
         }
 
-        // Extraction de tous les interlocuteurs/hôtes (noms seulement)
         function extractAllInterlocuteurs() {
             const allInterlocuteursSet = new Set();
             
-            // Trouver TOUTES les colonnes avec "Interlocuteur ,hôte"
             const interlocuteurColumns = headers
                 .map((header, index) => 
                     (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
@@ -2962,10 +2915,8 @@ L'équipe NY AKO</textarea>
                 sheetData.forEach(row => {
                     const value = row[colIndex] || '';
                     if (value.trim()) {
-                        // Séparer par virgules et points-virgules
                         value.split(/[,;]/).forEach(nom => {
                             const trimmed = nom.trim();
-                            // Exclure les URLs, emails et valeurs vides
                             if (trimmed && 
                                 !trimmed.includes('http') && 
                                 !trimmed.includes('@') && 
@@ -2983,7 +2934,6 @@ L'équipe NY AKO</textarea>
             console.log(`✅ Interlocuteurs uniques trouvés: ${allInterlocuteurs.length}`);
         }
 
-        // Extraction de tous les pays
         function extractAllPays() {
             const allPaysSet = new Set();
             
@@ -2999,7 +2949,6 @@ L'équipe NY AKO</textarea>
             allPays = Array.from(allPaysSet).sort();
         }
 
-        // Calcul des totaux pour les statistiques
         function calculateTotals() {
             totalDureeTrajet = 0;
             totalDistance = 0;
@@ -3010,7 +2959,6 @@ L'équipe NY AKO</textarea>
                     sheetData.forEach(row => {
                         const value = row[index] || '';
                         if (value.trim()) {
-                            // Convertir les formats de durée (1h30, 30min, etc.) en heures décimales
                             const hours = parseDurationToHours(value);
                             totalDureeTrajet += hours;
                         }
@@ -3039,25 +2987,21 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Convertir une durée en format texte (1h30, 30min, etc.) en heures décimales
         function parseDurationToHours(duration) {
             if (!duration || typeof duration !== 'string') return 0;
             
             let totalHours = 0;
             
-            // Extraire les heures
             const hourMatch = duration.match(/(\d+(?:[.,]\d+)?)\s*h/);
             if (hourMatch) {
                 totalHours += parseFloat(hourMatch[1].replace(',', '.'));
             }
             
-            // Extraire les minutes
             const minuteMatch = duration.match(/(\d+(?:[.,]\d+)?)\s*min/);
             if (minuteMatch) {
                 totalHours += parseFloat(minuteMatch[1].replace(',', '.')) / 60;
             }
             
-            // Si seulement un nombre est donné, supposer que c'est en heures
             if (totalHours === 0 && !isNaN(parseFloat(duration.replace(',', '.')))) {
                 totalHours = parseFloat(duration.replace(',', '.'));
             }
@@ -3065,7 +3009,6 @@ L'équipe NY AKO</textarea>
             return totalHours;
         }
 
-        // Formater les heures décimales en format lisible
         function formatHours(hours) {
             const wholeHours = Math.floor(hours);
             const minutes = Math.round((hours - wholeHours) * 60);
@@ -3079,7 +3022,6 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // Mise à jour des statistiques
         function updateStats() {
             document.getElementById('totalLieux').textContent = allLieux.length;
             document.getElementById('totalPays').textContent = allPays.length;
@@ -3090,14 +3032,12 @@ L'équipe NY AKO</textarea>
             document.getElementById('totalJours').textContent = sheetData.length;
         }
 
-        // Rendu des tags de filtre
         function renderFilterTags() {
             renderTags('lieuxTags', allLieux, 'lieu');
             renderTags('nomsTags', allInterlocuteurs, 'nom');
             renderTags('paysTags', allPays, 'pays');
         }
 
-        // Rendu des tags pour un type donné
         function renderTags(containerId, items, type) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
@@ -3120,7 +3060,6 @@ L'équipe NY AKO</textarea>
                     const results = filterDataByType(item, type);
                     displayFilteredEntries(results, `${type.charAt(0).toUpperCase() + type.slice(1)}: ${item}`);
                     
-                    // Faire défiler vers l'élément correspondant
                     scrollToElementInEntry(item, type);
                 });
                 
@@ -3128,7 +3067,6 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Faire défiler vers un élément spécifique dans une entrée
         function scrollToElementInEntry(searchTerm, type) {
             const entries = document.querySelectorAll('.journal-entry');
             let found = false;
@@ -3154,7 +3092,6 @@ L'équipe NY AKO</textarea>
                     if (element.textContent.includes(searchTerm)) {
                         entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         
-                        // Mettre en surbrillance l'élément
                         element.style.backgroundColor = '#fff9c4';
                         element.style.transition = 'background-color 0.3s ease';
                         setTimeout(() => {
@@ -3172,7 +3109,6 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // Filtrage des données par type
         function filterDataByType(value, type) {
             let columnIndices = [];
             
@@ -3206,7 +3142,6 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Rendu du calendrier avec lieux et pays
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
             const monthElement = document.getElementById('currentMonth');
@@ -3259,12 +3194,10 @@ L'équipe NY AKO</textarea>
                     const lieuxDiv = document.createElement('div');
                     lieuxDiv.className = 'calendar-day-lieux';
                     
-                    // Afficher tous les lieux
                     lieuxDiv.textContent = dayData.lieux.join(', ');
                     
                     day.appendChild(lieuxDiv);
                     
-                    // Afficher les pays sous les lieux
                     if (dayData.pays && dayData.pays.length > 0) {
                         const paysDiv = document.createElement('div');
                         paysDiv.className = 'calendar-day-pays';
@@ -3280,7 +3213,6 @@ L'équipe NY AKO</textarea>
                     day.classList.add('selected');
                 }
                 
-                // MODIFICATION: Nouvel événement de clic pour afficher les options de date
                 day.addEventListener('click', () => {
                     showDateOptions(new Date(currentDate.getFullYear(), currentDate.getMonth(), i));
                 });
@@ -3289,7 +3221,6 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // NOUVELLE FONCTION: Afficher les options pour une date sélectionnée
         function showDateOptions(date) {
             currentSelectedDate = date;
             const dateStr = formatDateForDisplay(date);
@@ -3301,37 +3232,28 @@ L'équipe NY AKO</textarea>
             
             const hasData = !!dayData;
             
-            // Mettre à jour le titre de la modale
             document.getElementById('dateOptionsTitle').textContent = `Options pour le ${dateStr}`;
             
-            // Générer les options en fonction de si la date a des données ou non
             const optionsList = document.getElementById('dateOptionsList');
             optionsList.innerHTML = '';
             
             if (hasData) {
-                // La date a des données - afficher les options pour les données existantes
-                
-                // MODIFICATION: "Voir les données du jour" redirige vers les données correspondantes
                 optionsList.appendChild(createDateOption(
                     'Voir les données du jour',
                     'Accéder aux données correspondantes de cette journée',
                     '📄',
                     () => {
-                        // Récupérer l'index de la ligne pour cette date
                         const rowIndex = dayData.rowIndex;
                         if (rowIndex !== undefined && rowIndex >= 0) {
-                            // Trouver l'élément correspondant dans le journal et le faire défiler
                             const journalEntries = document.getElementById('journalEntries');
                             const entryElements = journalEntries.querySelectorAll('.journal-entry');
                             
                             if (entryElements.length > rowIndex) {
-                                // Faire défiler jusqu'à l'entrée correspondante
                                 entryElements[rowIndex].scrollIntoView({ 
                                     behavior: 'smooth', 
                                     block: 'center' 
                                 });
                                 
-                                // Ajouter un effet visuel pour mettre en évidence l'entrée
                                 entryElements[rowIndex].style.boxShadow = '0 0 0 3px var(--accent-color)';
                                 setTimeout(() => {
                                     entryElements[rowIndex].style.boxShadow = '';
@@ -3342,31 +3264,26 @@ L'équipe NY AKO</textarea>
                     }
                 ));
                 
-                // MODIFICATION: Amélioration de l'affichage des interlocuteurs
                 optionsList.appendChild(createDateOption(
                     'Voir les Interlocuteurs/Hôtes',
                     'Afficher la liste des interlocuteurs pour cette date',
                     '👤',
                     () => {
-                        // Afficher les interlocuteurs pour cette date dans une modale améliorée
                         showInterlocuteursForDate(dayData);
                         hideModal('dateOptionsModal');
                     }
                 ));
                 
-                // MODIFICATION: Amélioration de l'affichage des lieux
                 optionsList.appendChild(createDateOption(
                     'Voir les Lieux',
                     'Afficher la liste des lieux visités cette date',
                     '📍',
                     () => {
-                        // Afficher les lieux pour cette date dans une modale améliorée
                         showLieuxForDate(dayData);
                         hideModal('dateOptionsModal');
                     }
                 ));
                 
-                // MODIFICATION: L'option "Modifier les données du jour" est TOUJOURS affichée
                 optionsList.appendChild(createDateOption(
                     'Modifier les données du jour',
                     isAdmin ? 
@@ -3375,30 +3292,24 @@ L'équipe NY AKO</textarea>
                     isAdmin ? '✏️' : '🔒',
                     () => {
                         if (isAdmin) {
-                            // Récupérer l'index de la ligne pour cette date
                             const rowIndex = dayData.rowIndex;
                             if (rowIndex !== undefined && rowIndex >= 0) {
-                                // Trouver le lien de la fiche pour cette date
                                 const ficheIndex = findHeaderIndex('Lien de cette fiche:');
                                 if (ficheIndex !== -1) {
                                     const ficheLink = sheetData[rowIndex][ficheIndex];
                                     if (ficheLink && ficheLink.trim() !== '') {
-                                        // CORRECTION: Vérifier si le lien est une URL complète
                                         let finalLink = ficheLink.trim();
                                         if (!finalLink.startsWith('http://') && !finalLink.startsWith('https://')) {
                                             finalLink = 'https://' + finalLink;
                                         }
                                         window.open(finalLink, '_blank');
                                     } else {
-                                        // Si pas de lien spécifique, utiliser le formulaire général
                                         window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
                                     }
                                 } else {
-                                    // Si colonne non trouvée, utiliser le formulaire général
                                     window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
                                 }
                             } else {
-                                // Pour les dates sans données, utiliser le formulaire général
                                 window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
                             }
                             hideModal('dateOptionsModal');
@@ -3406,10 +3317,9 @@ L'équipe NY AKO</textarea>
                             alert('Cette fonctionnalité est réservée aux administrateurs. Veuillez vous connecter avec le mot de passe.');
                         }
                     },
-                    !isAdmin // locked si pas admin
+                    !isAdmin
                 ));
             } else {
-                // La date est vierge - MODIFICATION: Toujours afficher l'option mais verrouillée si pas admin
                 optionsList.appendChild(createDateOption(
                     'Écrire le journal du jour',
                     isAdmin ? 
@@ -3418,36 +3328,54 @@ L'équipe NY AKO</textarea>
                     isAdmin ? '📝' : '🔒',
                     () => {
                         if (isAdmin) {
-                            // Rediriger vers le formulaire Google MIS À JOUR
                             window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
                             hideModal('dateOptionsModal');
                         } else {
                             alert('Cette fonctionnalité est réservée aux administrateurs. Veuillez vous connecter avec le mot de passe.');
                         }
                     },
-                    !isAdmin // locked si pas admin
+                    !isAdmin
                 ));
             }
             
-            // AJOUT: Bouton "Déverrouiller les données" pour les administrateurs
-            if (isAdmin) {
-                optionsList.appendChild(createDateOption(
-                    '🔓 Déverrouiller les données',
-                    'Accéder aux fonctionnalités avancées de modification',
-                    '🔓',
-                    () => {
-                        // Fonctionnalité pour déverrouiller les données
+            optionsList.appendChild(createDateOption(
+                '🔓 Déverrouiller les données',
+                isAdmin ? 
+                    'Accéder aux fonctionnalités avancées de modification' : 
+                    'Entrer le code admin pour déverrouiller les fonctionnalités',
+                '🔓',
+                () => {
+                    if (isAdmin) {
                         unlockDateData(date);
                         hideModal('dateOptionsModal');
+                    } else {
+                        showPasswordModalForDate(date);
                     }
-                ));
-            }
+                },
+                false
+            ));
             
-            // Afficher la modale
             showModal('dateOptionsModal');
         }
 
-        // NOUVELLE FONCTION: Créer une option de date
+        function showPasswordModalForDate(date) {
+            const password = prompt('Veuillez entrer le code admin pour déverrouiller les fonctionnalités:');
+            if (password === 'admin') {
+                isAdmin = true;
+                showFicheLinks = true;
+                localStorage.setItem('tourneeAdmin', 'true');
+                
+                enableAdminButtons();
+                updateAdminInterface();
+                
+                showDateOptions(date);
+                
+                alert('✅ Accès administrateur activé! Vous pouvez maintenant modifier les données.');
+            } else if (password !== null) {
+                alert('❌ Code incorrect. Veuillez réessayer.');
+            }
+        }
+
         function createDateOption(title, description, icon, onClick, locked = false) {
             const optionDiv = document.createElement('div');
             optionDiv.className = 'date-option';
@@ -3475,14 +3403,10 @@ L'équipe NY AKO</textarea>
             return optionDiv;
         }
 
-        // NOUVELLE FONCTION: Déverrouiller les données d'une date
         function unlockDateData(date) {
-            // Implémentez ici la logique pour déverrouiller les données
-            // Par exemple, afficher une modale avec plus d'options ou permettre l'édition directe
             alert(`Fonction de déverrouillage pour ${formatDateForDisplay(date)} - À implémenter`);
         }
 
-        // NOUVELLE FONCTION: Afficher les interlocuteurs pour une date (version améliorée)
         function showInterlocuteursForDate(dayData) {
             const rowIndex = dayData.rowIndex;
             if (rowIndex === undefined || rowIndex < 0) return;
@@ -3490,7 +3414,6 @@ L'équipe NY AKO</textarea>
             const row = sheetData[rowIndex];
             const interlocuteurs = [];
             
-            // Rechercher les colonnes avec "Interlocuteur ,hôte"
             const interlocuteurColumns = headers
                 .map((header, index) => 
                     (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
@@ -3500,10 +3423,8 @@ L'équipe NY AKO</textarea>
             interlocuteurColumns.forEach(colIndex => {
                 const value = row[colIndex] || '';
                 if (value.trim()) {
-                    // Séparer par virgules et points-virgules
                     value.split(/[,;]/).forEach(nom => {
                         const trimmed = nom.trim();
-                        // Exclure les URLs, emails et valeurs vides
                         if (trimmed && 
                             !trimmed.includes('http') && 
                             !trimmed.includes('@') && 
@@ -3516,11 +3437,9 @@ L'équipe NY AKO</textarea>
                 }
             });
             
-            // MODIFICATION: Afficher dans une modale améliorée plutôt qu'une alerte
             const uniqueInterlocuteurs = [...new Set(interlocuteurs)];
             
             if (uniqueInterlocuteurs.length > 0) {
-                // Créer une modale personnalisée pour afficher les interlocuteurs
                 const modalContent = `
                     <div class="modal-header">
                         <h3 class="modal-title">👤 Interlocuteurs/Hôtes</h3>
@@ -3544,7 +3463,6 @@ L'équipe NY AKO</textarea>
                     </div>
                 `;
                 
-                // Créer une modale temporaire
                 const tempModal = document.createElement('div');
                 tempModal.className = 'modal';
                 tempModal.style.display = 'flex';
@@ -3555,7 +3473,6 @@ L'équipe NY AKO</textarea>
                 `;
                 document.body.appendChild(tempModal);
                 
-                // Fermer la modale en cliquant à l'extérieur
                 tempModal.addEventListener('click', function(e) {
                     if (e.target === tempModal) {
                         tempModal.style.display = 'none';
@@ -3567,7 +3484,6 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // NOUVELLE FONCTION: Faire défiler vers un interlocuteur spécifique
         function scrollToInterlocuteur(interlocuteur) {
             const entries = document.querySelectorAll('.journal-entry');
             let found = false;
@@ -3580,7 +3496,6 @@ L'équipe NY AKO</textarea>
                     if (element.textContent.includes(interlocuteur)) {
                         entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         
-                        // Mettre en surbrillance l'élément
                         element.style.backgroundColor = '#fff9c4';
                         element.style.transition = 'background-color 0.3s ease';
                         setTimeout(() => {
@@ -3598,146 +3513,140 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // NOUVELLE FONCTION: Afficher la bulle d'information interlocuteur - VERSION AMÉLIORÉE
         function showInterlocutorBubble(interlocuteur) {
             currentInterlocutorForBubble = interlocuteur;
             
-            // Fermer d'abord toute bulle existante
             document.getElementById('interlocutorBubble').style.display = 'none';
             
             const bubble = document.getElementById('interlocutorBubble');
             const content = document.getElementById('interlocutorBubbleContent');
             
-            // Positionner la bulle au centre de l'écran
+            // Afficher directement les informations complètes
+            const interlocutorDetails = findCompleteInterlocutorInfo(interlocuteur);
+            
+            let html = `<h4 style="margin-bottom: 15px; color: var(--primary-color); text-align: center;">${interlocuteur}</h4>`;
+            
+            if (interlocutorDetails.length > 0) {
+                html += `<div style="max-height: 400px; overflow-y: auto; padding: 10px;">`;
+                
+                interlocutorDetails.forEach((detail, index) => {
+                    html += `
+                        <div style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid var(--secondary-color);">
+                            <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
+                                <span style="font-size: 0.9em;">📅</span>
+                                <span style="font-weight: 500;">${detail.date}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 8px;">
+                                <span style="font-size: 0.9em;">📍</span>
+                                <span>${detail.lieu}</span>
+                            </div>
+                    `;
+                    
+                    if (detail.telephone) {
+                        html += `
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 0.9em;">
+                                <span style="color: #3498db; font-size: 0.9em;">📞</span>
+                                <span><strong>Téléphone:</strong> ${detail.telephone}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    if (detail.whatsapp) {
+                        html += `
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 0.9em;">
+                                <span style="color: #25D366; font-size: 0.9em;">💬</span>
+                                <span><strong>WhatsApp:</strong> ${detail.whatsapp}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    if (detail.mail) {
+                        html += `
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 0.9em;">
+                                <span style="color: #e74c3c; font-size: 0.9em;">📧</span>
+                                <span><strong>Mail:</strong> ${detail.mail}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    if (detail.reseauxSociaux) {
+                        html += `
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 0.9em;">
+                                <span style="color: #4267B2; font-size: 0.9em;">👥</span>
+                                <span><strong>Réseaux sociaux:</strong> ${detail.reseauxSociaux}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    if (detail.aSavoir) {
+                        html += `
+                            <div style="margin-top: 8px; padding: 8px; background: #fff9c4; border-radius: 4px; font-size: 0.85em;">
+                                <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 3px;">
+                                    <span style="color: #e67e22;">💡</span>
+                                    <strong>À savoir:</strong>
+                                </div>
+                                <div style="padding-left: 20px;">${detail.aSavoir}</div>
+                            </div>
+                        `;
+                    }
+                    
+                    html += `</div>`;
+                });
+                
+                html += `</div>`;
+            } else {
+                html += `<p style="text-align: center; color: #7f8c8d;">Aucune information trouvée pour cet interlocuteur.</p>`;
+            }
+            
+            content.innerHTML = html;
+            
             bubble.style.display = 'block';
             bubble.style.position = 'fixed';
             bubble.style.top = '50%';
             bubble.style.left = '50%';
             bubble.style.transform = 'translate(-50%, -50%)';
             bubble.style.zIndex = '1001';
-            
-            // Afficher les boutons de choix
-            content.innerHTML = `
-                <h4 style="margin-bottom: 15px; color: var(--primary-color); text-align: center;">${interlocuteur}</h4>
-                <p style="text-align: center; margin-bottom: 20px;">Que souhaitez-vous faire avec cet interlocuteur ?</p>
-            `;
         }
 
-        // NOUVELLE FONCTION: Afficher les informations détaillées de l'interlocuteur
-        function showInterlocutorInfo(interlocuteur) {
-            const bubble = document.getElementById('interlocutorBubble');
-            const content = document.getElementById('interlocutorBubbleContent');
-            
-            // Fermer la bulle actuelle
-            bubble.style.display = 'none';
-            
-            // RECHERCHE AMÉLIORÉE: Trouver l'activité où se trouve cet interlocuteur
-            const interlocutorInfo = findInterlocutorInfo(interlocuteur);
-            
-            let html = `<h4 style="margin-bottom: 15px; color: var(--primary-color);">${interlocuteur}</h4>`;
-            
-            if (interlocutorInfo.length > 0) {
-                html += `<div style="max-height: 400px; overflow-y: auto;">`;
-                
-                interlocutorInfo.forEach((info, index) => {
-                    html += `
-                        <div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                            <strong>Date:</strong> ${info.date}<br>
-                            <strong>Lieu:</strong> ${info.lieu}<br>
-                            <strong>Activité:</strong> ${info.activite}<br>
-                            ${info.telephone ? `<strong>Téléphone:</strong> ${info.telephone}<br>` : ''}
-                            ${info.whatsapp ? `<strong>WhatsApp:</strong> ${info.whatsapp}<br>` : ''}
-                            ${info.mail ? `<strong>Mail:</strong> ${info.mail}<br>` : ''}
-                            ${info.reseauxSociaux ? `<strong>fb ou autre contact sur réseaux sociaux de l'hôte:</strong> ${info.reseauxSociaux}<br>` : ''}
-                            ${info.aSavoir ? `<strong>à savoir sur l'interlocuteur:</strong> ${info.aSavoir}<br>` : ''}
-                        </div>
-                    `;
-                });
-                
-                html += `</div>`;
-            } else {
-                html += `<p>Aucune information détaillée trouvée pour cet interlocuteur.</p>`;
-            }
-            
-            // AJOUT: Bouton pour déverrouiller les données masquées
-            if (isAdmin) {
-                html += `
-                    <div style="margin-top: 15px; padding: 10px; background: #e8f4f8; border-radius: 5px; text-align: center;">
-                        <button onclick="unlockInterlocutorData('${interlocuteur}')" 
-                                style="background: var(--secondary-color); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">
-                            🔓 Déverrouiller les données
-                        </button>
-                    </div>
-                `;
-            }
-            
-            content.innerHTML = html;
-            
-            // Réafficher la bulle avec le nouveau contenu
-            bubble.style.display = 'block';
-        }
-
-        // Fonction pour déverrouiller les données
-        function unlockInterlocutorData(interlocuteur) {
-            // Ici vous pouvez implémenter la logique pour déverrouiller les données
-            // Par exemple, afficher plus d'informations ou permettre l'édition
-            alert(`Fonction de déverrouillage pour ${interlocuteur} - À implémenter`);
-        }
-
-        // NOUVELLE FONCTION: Trouver toutes les informations sur un interlocuteur
-        function findInterlocutorInfo(interlocuteur) {
+        function findCompleteInterlocutorInfo(interlocuteur) {
             const info = [];
             
             sheetData.forEach((row, rowIndex) => {
-                // Rechercher les colonnes avec "Interlocuteur ,hôte"
                 const interlocuteurColumns = headers
                     .map((header, index) => 
                         (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
                     )
                     .filter(index => index !== -1);
                 
-                let found = false;
-                let activiteData = null;
-                
-                // Vérifier si cet interlocuteur est présent dans cette ligne
                 interlocuteurColumns.forEach(colIndex => {
                     const value = row[colIndex] || '';
                     if (value.includes(interlocuteur)) {
-                        found = true;
+                        const activityData = extractActivityData(row, colIndex, 'ACTIVITÉ');
                         
-                        // Trouver l'activité associée
-                        activiteData = extractActivityData(row, colIndex, 'ACTIVITÉ');
+                        if (activityData) {
+                            const dateIndex = findHeaderIndex('Date:');
+                            const date = dateIndex !== -1 ? row[dateIndex] : '';
+                            
+                            const lieuxIndex = findHeaderIndex('Lieux :');
+                            const lieu = lieuxIndex !== -1 ? row[lieuxIndex] : '';
+                            
+                            info.push({
+                                date: date,
+                                lieu: lieu,
+                                telephone: activityData.telephone || '',
+                                whatsapp: activityData.whatsapp || '',
+                                mail: activityData.mail || '',
+                                reseauxSociaux: activityData.reseauxSociaux || '',
+                                aSavoir: activityData.aSavoir || ''
+                            });
+                        }
                     }
                 });
-                
-                if (found && activiteData) {
-                    const dateIndex = findHeaderIndex('Date:');
-                    const date = dateIndex !== -1 ? row[dateIndex] : '';
-                    
-                    const paysIndex = findHeaderIndex('Pays:');
-                    const pays = paysIndex !== -1 ? row[paysIndex] : '';
-                    
-                    const lieuxIndex = findHeaderIndex('Lieux :');
-                    const lieu = lieuxIndex !== -1 ? row[lieuxIndex] : '';
-                    
-                    info.push({
-                        date: date,
-                        pays: pays,
-                        lieu: lieu,
-                        activite: activiteData.type || '',
-                        telephone: activiteData.telephone || '',
-                        whatsapp: activiteData.whatsapp || '',
-                        mail: activiteData.mail || '',
-                        reseauxSociaux: activiteData.reseauxSociaux || '',
-                        aSavoir: activiteData.aSavoir || ''
-                    });
-                }
             });
             
             return info;
         }
 
-        // NOUVELLE FONCTION: Afficher les lieux pour une date (version améliorée)
         function showLieuxForDate(dayData) {
             const rowIndex = dayData.rowIndex;
             if (rowIndex === undefined || rowIndex < 0) return;
@@ -3745,7 +3654,6 @@ L'équipe NY AKO</textarea>
             const row = sheetData[rowIndex];
             const lieux = [];
             
-            // Rechercher les colonnes avec "Lieux"
             const lieuxColumns = headers
                 .map((header, index) => 
                     (header && header.includes('Lieux')) ? index : -1
@@ -3759,11 +3667,9 @@ L'équipe NY AKO</textarea>
                 }
             });
             
-            // MODIFICATION: Afficher dans une modale améliorée plutôt qu'une alerte
             const uniqueLieux = [...new Set(lieux)];
             
             if (uniqueLieux.length > 0) {
-                // Créer une modale personnalisée pour afficher les lieux
                 const modalContent = `
                     <div class="modal-header">
                         <h3 class="modal-title">📍 Lieux visités</h3>
@@ -3785,7 +3691,6 @@ L'équipe NY AKO</textarea>
                     </div>
                 `;
                 
-                // Créer une modale temporaire
                 const tempModal = document.createElement('div');
                 tempModal.className = 'modal';
                 tempModal.style.display = 'flex';
@@ -3796,7 +3701,6 @@ L'équipe NY AKO</textarea>
                 `;
                 document.body.appendChild(tempModal);
                 
-                // Fermer la modale en cliquant à l'extérieur
                 tempModal.addEventListener('click', function(e) {
                     if (e.target === tempModal) {
                         tempModal.style.display = 'none';
@@ -3808,7 +3712,6 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // NOUVELLE FONCTION: Faire défiler vers un lieu spécifique
         function scrollToLieu(lieu) {
             const entries = document.querySelectorAll('.journal-entry');
             let found = false;
@@ -3821,7 +3724,6 @@ L'équipe NY AKO</textarea>
                     if (element.textContent.includes(lieu)) {
                         entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         
-                        // Mettre en surbrillance l'élément
                         element.style.backgroundColor = '#fff9c4';
                         element.style.transition = 'background-color 0.3s ease';
                         setTimeout(() => {
@@ -3839,7 +3741,6 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        // Sélection d'une date (ancienne fonction, maintenant remplacée par showDateOptions)
         function selectDate(date) {
             selectedDate = date;
             const matchingRows = findEntriesByDate(date);
@@ -3847,7 +3748,6 @@ L'équipe NY AKO</textarea>
             renderCalendar();
         }
 
-        // Recherche des entrées par date
         function findEntriesByDate(date) {
             const dateColumnIndex = 1;
             
@@ -3861,7 +3761,6 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Parse une date
         function parseDate(dateStr) {
             const formats = [
                 /(\d{2})\/(\d{2})\/(\d{4})/,
@@ -3884,7 +3783,6 @@ L'équipe NY AKO</textarea>
             return isNaN(nativeDate.getTime()) ? null : nativeDate;
         }
 
-        // Formatage d'une date pour l'affichage
         function formatDateForDisplay(date) {
             return date.toLocaleDateString('fr-FR', {
                 weekday: 'long',
@@ -3894,7 +3792,6 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Gestion de la recherche
         function handleSearch(event) {
             event.preventDefault();
             const searchValue = document.getElementById('searchInput').value.trim();
@@ -3910,7 +3807,6 @@ L'équipe NY AKO</textarea>
             displayFilteredEntries(results, `Résultats pour "${searchValue}"`);
         }
 
-        // Recherche dans les données (insensible à la casse et aux accents)
         function searchData(searchValue) {
             const searchNormalized = normalizeText(searchValue);
             return sheetData.filter(row => 
@@ -3921,14 +3817,12 @@ L'équipe NY AKO</textarea>
             );
         }
 
-        // Affichage de tous les messages
         function showAllData() {
             currentSearchTerm = '';
             currentSearchType = '';
             displayAllJournalEntries();
         }
 
-        // Affichage de toutes les entrées de journal
         function displayAllJournalEntries() {
             const container = document.getElementById('journalEntries');
             container.innerHTML = '';
@@ -3943,7 +3837,6 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Affichage des entrées filtrées
         function displayFilteredEntries(results, title) {
             const container = document.getElementById('journalEntries');
             container.innerHTML = '';
@@ -3974,30 +3867,24 @@ L'équipe NY AKO</textarea>
             container.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Génération d'une entrée de journal selon la nouvelle structure
         function generateJournalEntry(row, index) {
             const dateIndex = 1;
             const dateStr = row[dateIndex] || 'Date non spécifiée';
             
-            // MODIFICATION: Utiliser l'index de ligne réel (ligne 1 = en-tête, ligne 2 = Jour 1)
             const dayNumber = index + 1;
             
-            // Extraire le pays pour cette journée
             const paysIndex = findHeaderIndex('Pays:');
             const pays = paysIndex !== -1 ? row[paysIndex] : '';
             
-            // MODIFICATION: Extraire tous les lieux de la journée
             const lieux = extractLieuxForDate(row);
             
             const entryDiv = document.createElement('div');
             entryDiv.className = 'journal-entry';
             entryDiv.setAttribute('data-row-index', index);
             
-            // En-tête avec titre et date améliorés
             const headerDiv = document.createElement('div');
             headerDiv.className = 'entry-header';
             
-            // MODIFICATION: Nouvel ordre et style du titre - ligne 1: date formatée et pays, ligne 2: lieux
             let title = formatDateForDisplay(parseDate(dateStr) || new Date());
             if (pays) {
                 title += ` - ${pays}`;
@@ -4013,16 +3900,12 @@ L'équipe NY AKO</textarea>
             const contentDiv = document.createElement('div');
             contentDiv.className = 'entry-content';
             
-            // 1. Données générales de la journée
             contentDiv.appendChild(createGeneralInfoSection(row));
             
-            // 2. Données par catégories (Concerts et Activités)
             contentDiv.appendChild(createActivitiesSection(row));
             
-            // 3. Données générales de fin de journée
             contentDiv.appendChild(createEndOfDaySection(row));
             
-            // 4. Section admin (si connecté) ou liens de fiches (si mot de passe validé)
             if (isAdmin || showFicheLinks) {
                 contentDiv.appendChild(createAdminSection(row));
             }
@@ -4032,34 +3915,28 @@ L'équipe NY AKO</textarea>
             return entryDiv;
         }
 
-        // Création de la section d'informations générales
         function createGeneralInfoSection(row) {
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'section';
             
-            // Titre de section
             const title = document.createElement('h3');
             title.className = 'section-title';
             title.textContent = 'Informations Générales';
             sectionDiv.appendChild(title);
             
-            // Grille d'informations adaptée mobile
             const infoGrid = document.createElement('div');
-            infoGrid.className = 'info-grid-mobile'; // Nouvelle classe pour mobile
+            infoGrid.className = 'info-grid-mobile';
             
-            // Date
             const dateIndex = findHeaderIndex('Date:');
             if (dateIndex !== -1 && row[dateIndex]) {
                 infoGrid.appendChild(createInfoItem('Date:', row[dateIndex]));
             }
             
-            // Pays
             const paysIndex = findHeaderIndex('Pays:');
             if (paysIndex !== -1 && row[paysIndex]) {
                 infoGrid.appendChild(createInfoItem('Pays:', row[paysIndex]));
             }
             
-            // MODIFICATION: Au Programme formaté en liste multiligne
             const programmeValues = extractProgrammeValues(row);
             if (programmeValues.length > 0) {
                 const programmeDiv = document.createElement('div');
@@ -4089,11 +3966,9 @@ L'équipe NY AKO</textarea>
             return sectionDiv;
         }
 
-        // MODIFICATION: Fonction pour extraire les valeurs "Au Programme" formatées
         function extractProgrammeValues(row) {
             const programmeValues = [];
             
-            // Rechercher toutes les colonnes "Au Programme"
             const programmeIndices = headers
                 .map((header, index) => 
                     (header && header.includes('Au Programme')) ? index : -1
@@ -4103,12 +3978,10 @@ L'équipe NY AKO</textarea>
             programmeIndices.forEach(index => {
                 const value = row[index] || '';
                 if (value.trim() !== '') {
-                    // Extraire le numéro du programme (ex: [1-], [2-], etc.)
                     const header = headers[index] || '';
                     const numMatch = header.match(/\[(\d+)-?\]/);
                     const num = numMatch ? numMatch[1] : '';
                     
-                    // Formater la valeur
                     const formattedValue = num ? `${num}- ${value}` : value;
                     programmeValues.push(formattedValue);
                 }
@@ -4117,22 +3990,18 @@ L'équipe NY AKO</textarea>
             return programmeValues;
         }
 
-        // Création de la section des activités - VERSION AMÉLIORÉE
         function createActivitiesSection(row) {
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'section';
             
-            // Titre de section
             const title = document.createElement('h3');
             title.className = 'section-title';
             title.textContent = 'Activités de la Journée';
             sectionDiv.appendChild(title);
             
-            // Recherche des 7 sections d'activités
             const activitySections = findActivitySectionsInHeaders();
             let hasActivities = false;
             
-            // Types d'activités valides
             const validActivityTypes = [
                 'Rencontre/Invitation', 'Concert', 'Ecole', 
                 'Sortie/visite/Tourisme', 'Sortie/visite/tourisme', 'Sortie',
@@ -4148,7 +4017,6 @@ L'équipe NY AKO</textarea>
                 const activityData = extractActivityData(row, section.index, section.prefix);
                 
                 if (section.type === 'concert') {
-                    // Pour les concerts, vérifier si c'est "OUI" ou contient "Concert"
                     if (activityData.type && 
                         (activityData.type.toLowerCase() === 'oui' || 
                          activityData.type.toLowerCase().includes('concert'))) {
@@ -4156,16 +4024,13 @@ L'équipe NY AKO</textarea>
                         hasActivities = true;
                     }
                 } else {
-                    // Pour les activités, vérifier si c'est un type valide
                     const normalizedType = activityData.type ? activityData.type.trim() : '';
                     
                     if (normalizedType) {
-                        // Vérifier si le type correspond à un type valide (insensible à la casse)
                         const isActivityValid = validActivityTypes.some(validType => 
                             normalizedType.toLowerCase().includes(validType.toLowerCase())
                         );
                         
-                        // OU si c'est une activité numérotée (ACTIVITÉ 1, etc.) avec des données
                         const hasActivityData = activityData.heureDebut || activityData.lieux || 
                                               activityData.interlocuteur || activityData.nbParticipant;
                         
@@ -4187,13 +4052,11 @@ L'équipe NY AKO</textarea>
             return sectionDiv;
         }
 
-        // RECHERCHE AMÉLIORÉE DES SECTIONS D'ACTIVITÉS
         function findActivitySectionsInHeaders() {
             const sections = [];
             
             console.log('🔍 Recherche des sections d\'activités dans les en-têtes...');
             
-            // Recherche des 7 sections d'activités (1 à 7 maintenant)
             for (let i = 1; i <= 7; i++) {
                 const activityHeader = `ACTIVITÉ ${i}`;
                 const activityHeaderAlt = `ACTIVITE ${i}`;
@@ -4225,7 +4088,6 @@ L'équipe NY AKO</textarea>
                 }
             }
             
-            // Recherche des concerts
             headers.forEach((header, index) => {
                 if (!header) return;
                 
@@ -4249,30 +4111,24 @@ L'équipe NY AKO</textarea>
             return sections;
         }
 
-        // Fonction utilitaire pour extraire les numéros des en-têtes
         function extractNumber(text) {
             const match = text.match(/\d+/);
             return match ? parseInt(match[0]) : null;
         }
 
-        // Extraction des données d'une section d'activité - VERSION AMÉLIORÉE
         function extractActivityData(row, activityIndex, prefix) {
             const data = {};
             
-            // Le type d'activité est dans la colonne de l'activité elle-même
             data.type = row[activityIndex] || '';
             
-            // Si pas de type d'activité, ne pas traiter cette section
             if (!data.type || data.type.trim() === '') {
                 return data;
             }
             
             console.log(`🔍 Extraction des données pour ${prefix}: "${data.type}"`);
             
-            // Les champs suivis dans l'ordre séquentiel
             const startIndex = activityIndex + 1;
             
-            // Mapping des champs dans l'ordre attendu
             const fieldMapping = [
                 { name: 'heureDebut', patterns: ['Heure début:', 'Heure début', 'Heure debut'] },
                 { name: 'heureFin', patterns: ['Heure fin:', 'Heure fin'] },
@@ -4295,13 +4151,11 @@ L'équipe NY AKO</textarea>
                 { name: 'photosGroupe', patterns: ['Photos de groupe,marquante', 'Photos de groupe'] }
             ];
             
-            // Parcourir les colonnes suivantes pour trouver les données
             let currentIndex = startIndex;
             let fieldsFound = 0;
             
             fieldMapping.forEach(field => {
                 if (currentIndex < headers.length) {
-                    // Vérifier si l'en-tête correspond à l'un des patterns
                     const header = headers[currentIndex] || '';
                     const headerUpper = header.toUpperCase();
                     
@@ -4324,16 +4178,13 @@ L'équipe NY AKO</textarea>
             return data;
         }
 
-        // Création d'une section de concert
         function createConcertSection(activityData, concertPrefix) {
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'activity-section concert-section';
             
-            // Titre de l'activité
             const activityTitle = document.createElement('h4');
             activityTitle.className = 'activity-title concert-title';
             
-            // Construire le titre selon le format demandé
             let title = `${concertPrefix}`;
             if (activityData.lieux) {
                 title += ` à ${activityData.lieux}`;
@@ -4344,11 +4195,9 @@ L'équipe NY AKO</textarea>
             activityTitle.textContent = title;
             sectionDiv.appendChild(activityTitle);
             
-            // Heures début et fin côte à côte avec emojis
             if (activityData.heureDebut || activityData.heureFin) {
                 const heureGroup = document.createElement('div');
                 
-                // Vérifier si on est sur mobile pour utiliser la classe mobile
                 const isMobile = window.innerWidth <= 768;
                 heureGroup.className = isMobile ? 'heure-group-mobile' : 'heure-group';
                 
@@ -4377,17 +4226,14 @@ L'équipe NY AKO</textarea>
                 sectionDiv.appendChild(heureGroup);
             }
             
-            // Concernant les lieux
             if (activityData.lieux || activityData.trajet || activityData.dureeTrajet || activityData.distanceTrajet) {
                 const lieuSubtitle = document.createElement('h5');
                 lieuSubtitle.className = 'subsection-title';
                 lieuSubtitle.textContent = 'Concernant les lieux:';
                 sectionDiv.appendChild(lieuSubtitle);
                 
-                // Informations sur les lieux en grille 2x2 pour mobile
                 const lieuxInfo = document.createElement('div');
                 
-                // Vérifier si on est sur mobile pour utiliser la classe mobile
                 const isMobile = window.innerWidth <= 768;
                 if (isMobile) {
                     lieuxInfo.className = 'lieux-trajet-group';
@@ -4417,7 +4263,6 @@ L'équipe NY AKO</textarea>
                     lieuxInfo.appendChild(trajetItem);
                 }
                 
-                // MODIFICATION: Nouvelle présentation pour durée et distance
                 if (activityData.dureeTrajet || activityData.distanceTrajet) {
                     const dureeDistanceGroup = document.createElement('div');
                     dureeDistanceGroup.className = 'duree-distance-presentation';
@@ -4450,30 +4295,25 @@ L'équipe NY AKO</textarea>
                 sectionDiv.appendChild(lieuxInfo);
             }
             
-            // Notes - MODIFICATION: Conserver le format multiligne
             if (activityData.details || activityData.faits || activityData.observations) {
                 const notesSubtitle = document.createElement('h5');
                 notesSubtitle.className = 'subsection-title';
                 notesSubtitle.textContent = 'Notes';
                 sectionDiv.appendChild(notesSubtitle);
                 
-                // Détails sur l'activité
                 if (activityData.details) {
                     sectionDiv.appendChild(createNoteBox('Détails sur l\'activité:', activityData.details));
                 }
                 
-                // Faits marquants et Anecdote
                 if (activityData.faits) {
                     sectionDiv.appendChild(createNoteBox('Faits marquants et Anecdote:', activityData.faits));
                 }
                 
-                // Observations
                 if (activityData.observations) {
                     sectionDiv.appendChild(createNoteBox('Observations:', activityData.observations));
                 }
             }
             
-            // Nombre de participants
             if (activityData.nbParticipant) {
                 const participantsDiv = document.createElement('div');
                 participantsDiv.className = 'highlight-value';
@@ -4481,13 +4321,11 @@ L'équipe NY AKO</textarea>
                 sectionDiv.appendChild(participantsDiv);
             }
             
-            // Informations sur l'Organisateur/Hôte
             if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || 
                 activityData.mail || activityData.reseauxSociaux || activityData.aSavoir) {
                 sectionDiv.appendChild(createContactInfoSection(activityData));
             }
             
-            // Liens de photos
             if (activityData.photosLieux || activityData.repertoire || activityData.photosGroupe) {
                 const photosDiv = document.createElement('div');
                 photosDiv.className = 'photos-section';
@@ -4518,16 +4356,13 @@ L'équipe NY AKO</textarea>
             return sectionDiv;
         }
 
-        // Création d'une section d'activité
         function createActivitySection(activityData, activityPrefix, activityType) {
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'activity-section';
             
-            // Titre de l'activité
             const activityTitle = document.createElement('h4');
             activityTitle.className = 'activity-title activity-type';
             
-            // Construire le titre selon le format demandé - "Type - Interlocuteur à Lieu"
             let title = activityType;
             if (activityData.interlocuteur) {
                 title += ` - ${activityData.interlocuteur}`;
@@ -4539,11 +4374,9 @@ L'équipe NY AKO</textarea>
             activityTitle.textContent = title;
             sectionDiv.appendChild(activityTitle);
             
-            // Heures début et fin côte à côte avec emojis
             if (activityData.heureDebut || activityData.heureFin) {
                 const heureGroup = document.createElement('div');
                 
-                // Vérifier si on est sur mobile pour utiliser la classe mobile
                 const isMobile = window.innerWidth <= 768;
                 heureGroup.className = isMobile ? 'heure-group-mobile' : 'heure-group';
                 
@@ -4572,17 +4405,14 @@ L'équipe NY AKO</textarea>
                 sectionDiv.appendChild(heureGroup);
             }
             
-            // Concernant les lieux
             if (activityData.lieux || activityData.trajet || activityData.dureeTrajet || activityData.distanceTrajet) {
                 const lieuSubtitle = document.createElement('h5');
                 lieuSubtitle.className = 'subsection-title';
                 lieuSubtitle.textContent = 'Concernant les lieux:';
                 sectionDiv.appendChild(lieuSubtitle);
                 
-                // Informations sur les lieux en grille 2x2 pour mobile
                 const lieuxInfo = document.createElement('div');
                 
-                // Vérifier si on est sur mobile pour utiliser la classe mobile
                 const isMobile = window.innerWidth <= 768;
                 if (isMobile) {
                     lieuxInfo.className = 'lieux-trajet-group';
@@ -4612,7 +4442,6 @@ L'équipe NY AKO</textarea>
                     lieuxInfo.appendChild(trajetItem);
                 }
                 
-                // MODIFICATION: Nouvelle présentation pour durée et distance
                 if (activityData.dureeTrajet || activityData.distanceTrajet) {
                     const dureeDistanceGroup = document.createElement('div');
                     dureeDistanceGroup.className = 'duree-distance-presentation';
@@ -4645,30 +4474,25 @@ L'équipe NY AKO</textarea>
                 sectionDiv.appendChild(lieuxInfo);
             }
             
-            // Notes - MODIFICATION: Conserver le format multiligne
             if (activityData.details || activityData.faits || activityData.observations) {
                 const notesSubtitle = document.createElement('h5');
                 notesSubtitle.className = 'subsection-title';
                 notesSubtitle.textContent = 'Notes';
                 sectionDiv.appendChild(notesSubtitle);
                 
-                // Détails sur l'activité
                 if (activityData.details) {
                     sectionDiv.appendChild(createNoteBox('Détails sur l\'activité:', activityData.details));
                 }
                 
-                // Faits marquants et Anecdote
                 if (activityData.faits) {
                     sectionDiv.appendChild(createNoteBox('Faits marquants et Anecdote:', activityData.faits));
                 }
                 
-                // Observations
                 if (activityData.observations) {
                     sectionDiv.appendChild(createNoteBox('Observations:', activityData.observations));
                 }
             }
             
-            // Nombre de participants
             if (activityData.nbParticipant) {
                 const participantsDiv = document.createElement('div');
                 participantsDiv.className = 'highlight-value';
@@ -4676,13 +4500,11 @@ L'équipe NY AKO</textarea>
                 sectionDiv.appendChild(participantsDiv);
             }
             
-            // Informations sur l'Organisateur/Hôte
             if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || 
                 activityData.mail || activityData.reseauxSociaux || activityData.aSavoir) {
                 sectionDiv.appendChild(createContactInfoSection(activityData));
             }
             
-            // Liens de photos
             if (activityData.photosLieux || activityData.repertoire || activityData.photosGroupe) {
                 const photosDiv = document.createElement('div');
                 photosDiv.className = 'photos-section';
@@ -4713,12 +4535,10 @@ L'équipe NY AKO</textarea>
             return sectionDiv;
         }
 
-        // Création de la section d'informations de contact
         function createContactInfoSection(activityData) {
             const contactDiv = document.createElement('div');
             contactDiv.className = 'contact-info';
             
-            // En-tête
             const contactHeader = document.createElement('div');
             contactHeader.className = 'contact-header';
             contactHeader.innerHTML = `
@@ -4727,11 +4547,9 @@ L'équipe NY AKO</textarea>
             `;
             contactDiv.appendChild(contactHeader);
             
-            // Détails des contacts
             const contactDetails = document.createElement('div');
             contactDetails.className = 'contact-details';
             
-            // Nom de l'interlocuteur/hôte
             if (activityData.interlocuteur) {
                 const contactItem = document.createElement('div');
                 contactItem.className = 'contact-item';
@@ -4742,7 +4560,6 @@ L'équipe NY AKO</textarea>
                 contactDetails.appendChild(contactItem);
             }
             
-            // Téléphone
             if (activityData.telephone) {
                 const contactItem = document.createElement('div');
                 contactItem.className = 'contact-item';
@@ -4753,7 +4570,6 @@ L'équipe NY AKO</textarea>
                 contactDetails.appendChild(contactItem);
             }
             
-            // WhatsApp
             if (activityData.whatsapp) {
                 const contactItem = document.createElement('div');
                 contactItem.className = 'contact-item';
@@ -4764,7 +4580,6 @@ L'équipe NY AKO</textarea>
                 contactDetails.appendChild(contactItem);
             }
             
-            // Email
             if (activityData.mail) {
                 const contactItem = document.createElement('div');
                 contactItem.className = 'contact-item';
@@ -4775,7 +4590,6 @@ L'équipe NY AKO</textarea>
                 contactDetails.appendChild(contactItem);
             }
             
-            // Réseaux sociaux
             if (activityData.reseauxSociaux) {
                 const contactItem = document.createElement('div');
                 contactItem.className = 'contact-item';
@@ -4786,7 +4600,6 @@ L'équipe NY AKO</textarea>
                 contactDetails.appendChild(contactItem);
             }
             
-            // MODIFICATION: "À savoir sur l'interlocuteur" intégré dans la section contact
             if (activityData.aSavoir) {
                 const contactItem = document.createElement('div');
                 contactItem.className = 'contact-item';
@@ -4803,30 +4616,25 @@ L'équipe NY AKO</textarea>
             return contactDiv;
         }
 
-        // Création de la section de fin de journée
         function createEndOfDaySection(row) {
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'section';
             
-            // Titre de section
             const title = document.createElement('h3');
             title.className = 'section-title';
             title.textContent = 'Bilan de la Journée';
             sectionDiv.appendChild(title);
             
-            // Notes
             const notesSubtitle = document.createElement('h5');
             notesSubtitle.className = 'subsection-title';
             notesSubtitle.textContent = 'Notes';
             sectionDiv.appendChild(notesSubtitle);
             
-            // RESUME
             const resumeIndex = findHeaderIndex('RESUME');
             if (resumeIndex !== -1 && row[resumeIndex]) {
                 sectionDiv.appendChild(createNoteBox('RESUME', row[resumeIndex]));
             }
             
-            // Note de la journée
             const noteIndex = findHeaderIndex('Note de la journée:');
             if (noteIndex !== -1 && row[noteIndex]) {
                 sectionDiv.appendChild(createNoteBox('Note de la journée:', row[noteIndex]));
@@ -4835,18 +4643,15 @@ L'équipe NY AKO</textarea>
             return sectionDiv;
         }
 
-        // Création de la section admin
         function createAdminSection(row) {
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'section';
             
-            // Titre de section
             const title = document.createElement('h3');
             title.className = 'section-title';
             title.textContent = '🔐 Informations Administrateur';
             sectionDiv.appendChild(title);
             
-            // Lien de fiche
             const ficheIndex = findHeaderIndex('Lien de cette fiche:');
             if (ficheIndex !== -1 && row[ficheIndex]) {
                 sectionDiv.appendChild(createInfoItem('Lien de cette fiche:', row[ficheIndex]));
@@ -4855,7 +4660,6 @@ L'équipe NY AKO</textarea>
             return sectionDiv;
         }
 
-        // Fonctions utilitaires pour créer des éléments d'interface
         function createInfoItem(label, value) {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'info-item';
@@ -4867,7 +4671,6 @@ L'équipe NY AKO</textarea>
             const valueDiv = document.createElement('div');
             valueDiv.className = 'info-value';
             
-            // Convertir les URLs en liens
             const urlRegex = /(https?:\/\/[^\s]+)/g;
             valueDiv.innerHTML = value.replace(urlRegex, function(url) {
                 return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
@@ -4888,7 +4691,6 @@ L'équipe NY AKO</textarea>
             titleDiv.textContent = title;
             
             const contentDiv = document.createElement('div');
-            // MODIFICATION: Conserver les sauts de ligne
             contentDiv.innerHTML = content.replace(/\n/g, '<br>');
             
             noteDiv.appendChild(titleDiv);
@@ -4908,7 +4710,6 @@ L'équipe NY AKO</textarea>
             return button;
         }
 
-        // Formater les emails pour les rendre cliquables
         function formatEmail(emailText) {
             const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
             return emailText.replace(emailRegex, function(email) {
@@ -4916,7 +4717,6 @@ L'équipe NY AKO</textarea>
             });
         }
 
-        // Fonctions utilitaires pour trouver des en-têtes
         function findHeaderIndex(headerText) {
             return headers.findIndex(header => 
                 header && header.trim() === headerText
@@ -4933,60 +4733,79 @@ L'équipe NY AKO</textarea>
             return indices;
         }
 
-        // Navigation dans le calendrier
-        function prevMonth() {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
+        function findInterlocuteurForEmail(row, emailColIndex) {
+            // Rechercher dans les 5 colonnes avant l'email
+            for (let i = 1; i <= 5 && emailColIndex - i >= 0; i++) {
+                const prevIndex = emailColIndex - i;
+                const header = headers[prevIndex] || '';
+                const value = row[prevIndex] || '';
+                
+                if (!header || !value) continue;
+                
+                // Vérifier si cette colonne est un interlocuteur
+                if (header.trim() === "Interlocuteur ,hôte" || 
+                    header.includes("Interlocuteur") || 
+                    header.includes("hôte")) {
+                    return value.trim();
+                }
+                
+                // Vérifier si la valeur pourrait être un nom
+                if (value.trim() && value.length > 2 && 
+                    !value.includes('http') && !value.includes('@') &&
+                    !value.includes('www.') && !value.match(/\d{10,}/)) {
+                    // Vérifier l'en-tête précédent aussi
+                    const prevHeader = headers[prevIndex - 1] || '';
+                    if (prevHeader.includes("Interlocuteur") || prevHeader.includes("hôte")) {
+                        return value.trim();
+                    }
+                }
+            }
+            
+            return 'Interlocuteur non spécifié';
         }
 
-        function nextMonth() {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
-        }
-
-        // Fonctions pour l'envoi d'emails groupés
         function showEmailModal() {
             const modal = document.getElementById('emailModal');
             const recipientsContainer = document.getElementById('emailRecipients');
             const recipientCount = document.getElementById('recipientCount');
             
-            // Récupérer tous les interlocuteurs avec email
             const interlocuteursAvecEmail = [];
             const emailsDejaVus = new Set();
             
+            // Parcourir chaque ligne de données
             sheetData.forEach(row => {
-                // Rechercher les colonnes email
+                // Chercher les colonnes email
                 const emailColumns = headers
-                    .map((header, index) => 
-                        (header && (header.includes('Mail') || header.includes('Email'))) ? index : -1
-                    )
-                    .filter(index => index !== -1);
-                
-                // Rechercher les colonnes nom
-                const nomColumns = headers
-                    .map((header, index) => 
-                        (header && header.includes('Interlocuteur')) ? index : -1
-                    )
+                    .map((header, index) => {
+                        if (!header) return -1;
+                        const headerLower = header.toLowerCase();
+                        if (headerLower.includes('mail') || headerLower.includes('email')) {
+                            return index;
+                        }
+                        return -1;
+                    })
                     .filter(index => index !== -1);
                 
                 emailColumns.forEach(emailCol => {
-                    nomColumns.forEach(nomCol => {
-                        const email = row[emailCol] || '';
-                        const nom = row[nomCol] || '';
-                        
-                        if (email && email.trim() && nom && nom.trim()) {
-                            const emailClean = email.trim().toLowerCase();
-                            if (!emailsDejaVus.has(emailClean)) {
-                                emailsDejaVus.add(emailClean);
-                                interlocuteursAvecEmail.push({
-                                    nom: nom,
-                                    email: email
-                                });
-                            }
-                        }
-                    });
+                    const email = row[emailCol] || '';
+                    if (!email || email.trim() === '') return;
+                    
+                    // Utiliser la fonction améliorée pour trouver l'interlocuteur
+                    const interlocuteurTrouve = findInterlocuteurForEmail(row, emailCol);
+                    
+                    const emailClean = email.trim().toLowerCase();
+                    if (!emailsDejaVus.has(emailClean)) {
+                        emailsDejaVus.add(emailClean);
+                        interlocuteursAvecEmail.push({
+                            nom: interlocuteurTrouve,
+                            email: email
+                        });
+                    }
                 });
             });
+            
+            // Trier par nom
+            interlocuteursAvecEmail.sort((a, b) => a.nom.localeCompare(b.nom));
             
             recipientsContainer.innerHTML = '';
             interlocuteursAvecEmail.forEach((interlocuteur, index) => {
@@ -5027,7 +4846,6 @@ L'équipe NY AKO</textarea>
                 alert(`${emails.length} adresse(s) email copiée(s) dans le presse-papier`);
             }).catch(err => {
                 console.error('Erreur lors de la copie:', err);
-                // Fallback pour les navigateurs qui ne supportent pas clipboard API
                 const textArea = document.createElement('textarea');
                 textArea.value = emailString;
                 document.body.appendChild(textArea);
@@ -5048,7 +4866,6 @@ L'équipe NY AKO</textarea>
                 return;
             }
             
-            // Récupérer les emails sélectionnés
             const emails = [];
             checkboxes.forEach(checkbox => {
                 const recipientDiv = checkbox.closest('.recipient-item');
@@ -5057,14 +4874,11 @@ L'équipe NY AKO</textarea>
                 emails.push({ nom, email });
             });
             
-            // Préparer le corps de l'email
             const emailBody = message;
             
-            // Ouvrir le client email par défaut
             const encodedBody = encodeURIComponent(emailBody);
             const encodedSubject = encodeURIComponent(subject);
             
-            // Pour Gmail (ou autre client email)
             const emailRecipients = emails.map(e => e.email).join(',');
             
             const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailRecipients}&su=${encodedSubject}&body=${encodedBody}`;
@@ -5073,11 +4887,9 @@ L'équipe NY AKO</textarea>
             
             alert(`${emails.length} email(s) préparé(s) pour envoi. Vérifiez les destinataires avant d'envoyer.`);
             
-            // Fermer la modale
             hideModal('emailModal');
         }
 
-        // Fonctions pour les listes organisées
         function showListsModal() {
             showModal('listsModal');
             updateOrganizedList();
@@ -5125,7 +4937,6 @@ L'équipe NY AKO</textarea>
                             </div>
                         `;
                     } else if (typeof item === 'object') {
-                        // Pour les objets (comme dans getActivitiesByType)
                         html += `
                             <div class="list-item">
                                 <span>${item.type}</span>
@@ -5135,7 +4946,6 @@ L'équipe NY AKO</textarea>
                     }
                 });
             } else if (typeof listData === 'object') {
-                // Pour les objets complexes (comme dans getConcertsList)
                 Object.keys(listData).forEach(key => {
                     html += `
                         <div class="list-item">
@@ -5153,7 +4963,6 @@ L'équipe NY AKO</textarea>
             const concerts = {};
             
             sheetData.forEach(row => {
-                // Rechercher les colonnes de concert
                 const concertColumns = headers
                     .map((header, index) => 
                         (header && header.includes('CONCERT')) ? index : -1
@@ -5255,7 +5064,6 @@ L'équipe NY AKO</textarea>
             alert(`Liste exportée: ${filename}`);
         }
 
-        // Fonctions pour l'export de données
         function showExportModal() {
             showModal('exportModal');
             selectedExportFormat = null;
@@ -5288,7 +5096,6 @@ L'équipe NY AKO</textarea>
                     mimeType = 'application/json';
                     break;
                 case 'pdf':
-                    // Pour PDF, on ouvre une nouvelle fenêtre avec le contenu formaté pour impression
                     exportToPDF(includeContacts, includePhotos, includeStats);
                     return;
                 case 'excel':
@@ -5308,7 +5115,6 @@ L'équipe NY AKO</textarea>
         function exportToCSV(includeContacts, includePhotos) {
             let csvContent = '';
             
-            // En-têtes
             const headersToExport = headers.filter((header, index) => {
                 if (!includeContacts && (
                     header.includes('Mail') || 
@@ -5329,12 +5135,10 @@ L'équipe NY AKO</textarea>
             
             csvContent += headersToExport.map(header => `"${header}"`).join(',') + '\n';
             
-            // Données
             sheetData.forEach(row => {
                 const rowData = headersToExport.map(header => {
                     const index = headers.indexOf(header);
                     const value = row[index] || '';
-                    // Échapper les guillemets et les retours à la ligne
                     return `"${value.replace(/"/g, '""').replace(/\n/g, ' ')}"`;
                 });
                 csvContent += rowData.join(',') + '\n';
@@ -5392,7 +5196,6 @@ L'équipe NY AKO</textarea>
         }
 
         function exportToPDF(includeContacts, includePhotos, includeStats) {
-            // Créer une nouvelle fenêtre avec le contenu formaté pour impression
             const printWindow = window.open('', '_blank');
             let content = `
                 <!DOCTYPE html>
@@ -5447,13 +5250,11 @@ L'équipe NY AKO</textarea>
                             <div class="info-grid">
                 `;
                 
-                // Date
                 const dateIndexCol = findHeaderIndex('Date:');
                 if (dateIndexCol !== -1 && row[dateIndexCol]) {
                     content += `<div class="info-item"><span class="info-label">Date:</span> ${row[dateIndexCol]}</div>`;
                 }
                 
-                // Pays
                 const paysIndex = findHeaderIndex('Pays:');
                 if (paysIndex !== -1 && row[paysIndex]) {
                     content += `<div class="info-item"><span class="info-label">Pays:</span> ${row[paysIndex]}</div>`;
@@ -5477,7 +5278,6 @@ L'équipe NY AKO</textarea>
         }
 
         function exportToExcel(includeContacts, includePhotos) {
-            // Pour Excel, on utilise le format CSV qui est compatible
             return exportToCSV(includeContacts, includePhotos);
         }
 
@@ -5493,7 +5293,6 @@ L'équipe NY AKO</textarea>
             URL.revokeObjectURL(url);
         }
 
-        // Fonctions pour l'export sélectif
         function showSelectiveExportModal() {
             const modal = document.getElementById('selectiveExportModal');
             const daysList = document.getElementById('exportDaysList');
@@ -5585,7 +5384,6 @@ L'équipe NY AKO</textarea>
                 const dateStr = row[dateIndex] || 'Date non spécifiée';
                 const originalIndex = sheetData.indexOf(row);
                 
-                // Récupérer les informations générales
                 const paysIndex = findHeaderIndex('Pays:');
                 const pays = paysIndex !== -1 ? row[paysIndex] : '';
                 
@@ -5599,18 +5397,15 @@ L'équipe NY AKO</textarea>
                             <div class="info-grid">
                 `;
                 
-                // Date
                 const dateIndexCol = findHeaderIndex('Date:');
                 if (dateIndexCol !== -1 && row[dateIndexCol]) {
                     content += `<div class="info-item"><span class="info-label">Date:</span> ${row[dateIndexCol]}</div>`;
                 }
                 
-                // Pays
                 if (pays) {
                     content += `<div class="info-item"><span class="info-label">Pays:</span> ${pays}</div>`;
                 }
                 
-                // Au Programme
                 const programmeValues = extractProgrammeValues(row);
                 if (programmeValues.length > 0) {
                     content += `<div class="info-item" style="grid-column: 1 / -1;"><span class="info-label">Au Programme:</span><br>`;
@@ -5625,7 +5420,6 @@ L'équipe NY AKO</textarea>
                         </div>
                 `;
                 
-                // Activités
                 const activitySections = findActivitySectionsInHeaders();
                 let hasActivities = false;
                 let activitiesContent = '';
@@ -5648,7 +5442,6 @@ L'équipe NY AKO</textarea>
                             `;
                         }
                     } else {
-                        // Inclure toutes les activités 1-7
                         if (activityData.type && activityData.type.trim() !== '') {
                             hasActivities = true;
                             let activityTitle = activityData.type;
@@ -5682,7 +5475,6 @@ L'équipe NY AKO</textarea>
                     `;
                 }
                 
-                // Bilan de la journée
                 const resumeIndex = findHeaderIndex('RESUME');
                 const noteIndex = findHeaderIndex('Note de la journée:');
                 
@@ -5719,14 +5511,11 @@ L'équipe NY AKO</textarea>
         function exportSelectedDaysToExcel(selectedDays) {
             let csvContent = '';
             
-            // En-têtes
             csvContent += headers.map(header => `"${header}"`).join(',') + '\n';
             
-            // Données des journées sélectionnées
             selectedDays.forEach(row => {
                 const rowData = headers.map((header, index) => {
                     const value = row[index] || '';
-                    // Échapper les guillemets et les retours à la ligne
                     return `"${value.replace(/"/g, '""').replace(/\n/g, ' ')}"`;
                 });
                 csvContent += rowData.join(',') + '\n';
@@ -5737,7 +5526,6 @@ L'équipe NY AKO</textarea>
             alert(`${selectedDays.length} journée(s) exportée(s) en format Excel`);
         }
 
-        // Affichage des informations de données
         function showDataInfo() {
             document.getElementById('dataInfo').innerHTML = `
                 <div class="success-message">
@@ -5748,7 +5536,6 @@ L'équipe NY AKO</textarea>
             `;
         }
 
-        // Affichage des erreurs
         function showError(message) {
             document.getElementById('dataInfo').innerHTML = `
                 <div class="error-message">
@@ -5758,22 +5545,17 @@ L'équipe NY AKO</textarea>
             `;
         }
 
-        // Ajouter un écouteur d'événement pour redimensionnement de la fenêtre
         window.addEventListener('resize', function() {
             renderActivityStats();
             
-            // Re-rendre les entrées si elles sont déjà affichées
             if (document.getElementById('journalEntries').children.length > 0) {
                 displayAllJournalEntries();
             }
         });
 
-        // Exposer les fonctions globales pour les boutons
         window.scrollToInterlocuteur = scrollToInterlocuteur;
         window.showInterlocutorBubble = showInterlocutorBubble;
         window.scrollToLieu = scrollToLieu;
-        window.unlockInterlocutorData = unlockInterlocutorData;
-        window.showInterlocutorInfo = showInterlocutorInfo;
     </script> 
 </body>
 </html>
