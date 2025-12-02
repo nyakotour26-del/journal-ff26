@@ -42,7 +42,7 @@
         }
         
         .page-header {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
             color: var(--primary-color);
             padding: 10px 0;
             text-align: left;
@@ -51,6 +51,8 @@
             z-index: 100;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             border-bottom: 3px solid var(--secondary-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
         
         .header-content {
@@ -81,7 +83,7 @@
             opacity: 1;
         }
         
-        .page-title {
+        .page-title-with-bg {
             font-size: 1.8em;
             margin-bottom: 0;
             font-weight: 700;
@@ -90,6 +92,14 @@
             align-items: center;
             gap: 8px;
             line-height: 1.2;
+            background-image: url('https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
         }
         
         .title-images {
@@ -110,6 +120,46 @@
             letter-spacing: 0.5px;
             margin-top: 3px;
             font-style: italic;
+        }
+        
+        /* Style pour les boutons d'action rapide */
+        .header-action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-left: 15px;
+        }
+        
+        .header-action-button {
+            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8em;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        
+        .header-action-button.calendar {
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+        }
+        
+        .header-action-button.list {
+            background: linear-gradient(to bottom, #9b59b6, #8e44ad);
+        }
+        
+        .header-action-icon {
+            font-size: 1.1em;
         }
         
         .container {
@@ -224,6 +274,14 @@
             font-size: 1.2em;
             color: var(--primary-color);
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .date-options-title::before {
+            content: '📅';
+            font-size: 1.1em;
         }
         
         .close-date-options {
@@ -735,19 +793,22 @@
             margin-bottom: 2px;
         }
         
+        /* Styles pour les textes du calendrier */
         .calendar-day-lieux {
             font-size: 0.6em;
             line-height: 1.1;
             overflow: hidden;
             text-overflow: ellipsis;
             max-height: 40px;
+            color: var(--secondary-color); /* Bleu pour les lieux */
+            font-weight: 600;
         }
         
         .calendar-day-pays {
             font-size: 0.5em;
-            color: var(--accent-color);
+            color: var(--accent-color); /* Rouge pour les pays */
             margin-top: 1px;
-            font-weight: 600;
+            font-weight: 700;
         }
         
         .stats-section {
@@ -1821,11 +1882,19 @@
                 margin-left: 0;
             }
             
-            .page-title {
+            .page-title-with-bg {
                 flex-direction: column;
                 gap: 5px;
                 font-size: 1.5em;
                 line-height: 1.1;
+                padding: 8px 12px;
+            }
+            
+            .header-action-buttons {
+                margin-left: 0;
+                margin-top: 8px;
+                justify-content: center;
+                width: 100%;
             }
             
             .page-subtitle {
@@ -1873,8 +1942,18 @@
                 grid-template-columns: 1fr;
             }
             
-            .page-title {
+            .page-title-with-bg {
                 font-size: 1.3em;
+            }
+            
+            .header-action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .header-action-button {
+                width: 100%;
+                justify-content: center;
             }
             
             .activity-title {
@@ -1927,6 +2006,10 @@
             .calendar-day-lieux {
                 font-size: 0.5em;
                 max-height: 35px;
+            }
+            
+            .calendar-day-pays {
+                font-size: 0.45em;
             }
             
             .info-grid-mobile {
@@ -2062,8 +2145,9 @@
                 font-size: 0.65em;
             }
             
-            .page-title {
+            .page-title-with-bg {
                 font-size: 1.1em;
+                padding: 6px 10px;
             }
             
             .header-icons {
@@ -2074,6 +2158,11 @@
             .page-subtitle {
                 font-size: 0.75em;
             }
+            
+            .header-action-button {
+                padding: 6px 10px;
+                font-size: 0.75em;
+            }
         }
     </style>
 </head>
@@ -2082,15 +2171,24 @@
     
     <div class="page-header">
         <div class="header-content">
-            <div>
-                <h1 class="page-title">
+            <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                <h1 class="page-title-with-bg">
                     <div class="title-images">
                         <span>📓</span>
                         <span>Journal de Bord - Tournée Europe 2026</span>
                         <span>📓</span>
                     </div>
                 </h1>
-                <p class="page-subtitle">NY AKO - Suivi détaillé des activités quotidiennes</p>
+                <div class="header-action-buttons">
+                    <button class="header-action-button calendar" id="scrollToCalendarButton">
+                        <span class="header-action-icon">📅</span>
+                        Calendrier
+                    </button>
+                    <button class="header-action-button list" id="showAllButtonHeader">
+                        <span class="header-action-icon">📋</span>
+                        Toutes les fiches
+                    </button>
+                </div>
             </div>
             <div class="header-icons">
                 <span class="header-icon">📒</span>
@@ -2501,6 +2599,10 @@ L'équipe NY AKO</textarea>
                 this.style.display = 'none';
             });
             
+            // Boutons d'action rapide dans le header
+            document.getElementById('scrollToCalendarButton').addEventListener('click', scrollToCalendar);
+            document.getElementById('showAllButtonHeader').addEventListener('click', showAllDataFromHeader);
+            
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
             document.getElementById('nextMonth').addEventListener('click', nextMonth);
@@ -2597,6 +2699,28 @@ L'équipe NY AKO</textarea>
             
             loadDataFromGoogleSheets();
         });
+
+        function scrollToCalendar() {
+            const calendarSection = document.querySelector('.calendar-section');
+            if (calendarSection) {
+                calendarSection.scrollIntoView({ behavior: 'smooth' });
+                
+                // Animation pour mettre en valeur le calendrier
+                calendarSection.style.boxShadow = '0 0 0 3px var(--secondary-color)';
+                setTimeout(() => {
+                    calendarSection.style.boxShadow = '';
+                }, 2000);
+            }
+        }
+
+        function showAllDataFromHeader() {
+            currentSearchTerm = '';
+            currentSearchType = '';
+            displayAllJournalEntries();
+            
+            // Scroller vers le haut
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         function showUnlockPanel() {
             document.getElementById('unlockPanel').style.display = 'block';
@@ -3710,18 +3834,21 @@ L'équipe NY AKO</textarea>
                 if (dayData) {
                     day.classList.add('has-data');
                     
-                    const lieuxDiv = document.createElement('div');
-                    lieuxDiv.className = 'calendar-day-lieux';
+                    // Afficher le lieu en bleu
+                    if (dayData.lieux.length > 0) {
+                        const lieuxDiv = document.createElement('div');
+                        lieuxDiv.className = 'calendar-day-lieux';
+                        lieuxDiv.textContent = dayData.lieux[0];
+                        day.appendChild(lieuxDiv);
+                    }
                     
-                    // Afficher date + lieu + pays dans la bulle
-                    const displayText = [];
-                    if (dayData.dateStr) displayText.push(dayData.dateStr);
-                    if (dayData.lieux.length > 0) displayText.push(dayData.lieux[0]);
-                    if (dayData.pays.length > 0) displayText.push(dayData.pays[0]);
-                    
-                    lieuxDiv.textContent = displayText.join(' • ');
-                    
-                    day.appendChild(lieuxDiv);
+                    // Afficher le pays en rouge
+                    if (dayData.pays.length > 0) {
+                        const paysDiv = document.createElement('div');
+                        paysDiv.className = 'calendar-day-pays';
+                        paysDiv.textContent = dayData.pays[0];
+                        day.appendChild(paysDiv);
+                    }
                 }
                 
                 if (selectedDate && 
@@ -3750,7 +3877,16 @@ L'équipe NY AKO</textarea>
             
             const hasData = !!dayData;
             
-            document.getElementById('dateOptionsTitle').textContent = `Options pour le ${dateStr}`;
+            // Créer le titre avec date/lieu/pays
+            let title = `📅 ${dateStr}`;
+            if (dayData && dayData.lieux.length > 0) {
+                title += ` - <span style="color: var(--secondary-color);">${dayData.lieux[0]}</span>`;
+            }
+            if (dayData && dayData.pays.length > 0) {
+                title += ` - <span style="color: var(--accent-color);">${dayData.pays[0]}</span>`;
+            }
+            
+            document.getElementById('dateOptionsTitle').innerHTML = title;
             
             const optionsList = document.getElementById('dateOptionsList');
             optionsList.innerHTML = '';
