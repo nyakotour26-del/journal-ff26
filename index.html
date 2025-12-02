@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Journal de Bord - Tournée Europe 2026</title>
     <style>
-        /* Tous les styles précédents restent inchangés */
         :root {
             --primary-color: #2c3e50;
             --secondary-color: #3498db;
@@ -24,6 +23,7 @@
             --neutral-border: #e0e0e0;
             --activity-title-bg: #fce4ec;
             --section-title-color: #87CEEB;
+            --sidebar-width: 45%;
         }
         
         * {
@@ -36,13 +36,111 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
-            background: linear-gradient(135deg, #e8f4f8 0%, #d1e7f5 100%);
-            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f4f8 100%);
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: var(--primary-color);
+            padding: 15px 0;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-bottom: 3px solid var(--secondary-color);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 1.5em;
+            margin-left: 20px;
+        }
+        
+        .header-icon {
+            transition: transform 0.3s ease;
+            opacity: 0.8;
+        }
+        
+        .header-icon:hover {
+            transform: scale(1.2) rotate(5deg);
+            opacity: 1;
+        }
+        
+        .page-title {
+            font-size: 2em;
+            margin-bottom: 0;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .page-subtitle {
+            font-size: 0.9em;
+            opacity: 0.8;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            margin-top: 5px;
         }
         
         .container {
-            max-width: 1200px;
+            display: flex;
+            gap: 0;
+            max-width: 1400px;
             margin: 0 auto;
+            min-height: calc(100vh - 100px);
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            flex-shrink: 0;
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+            border-right: 2px solid var(--neutral-border);
+            padding: 20px;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.05);
+        }
+        
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            overflow-y: auto;
+            max-height: calc(100vh - 100px);
+        }
+        
+        .mobile-back-button {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: var(--secondary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            font-weight: 500;
         }
         
         .special-frame {
@@ -69,21 +167,6 @@
             z-index: -1;
         }
         
-        header {
-            text-align: center;
-            padding: 30px 20px;
-            color: var(--text-color);
-            position: relative;
-            background: rgba(255,255,255,0.8);
-            border-radius: 10px;
-        }
-        
-        h1 {
-            margin-bottom: 10px;
-            font-size: 2.5em;
-            color: var(--dark-blue);
-        }
-        
         .date-options-modal {
             display: none;
             position: fixed;
@@ -99,32 +182,34 @@
         
         .date-options-content {
             background: white;
-            padding: 30px;
+            padding: 20px;
             border-radius: 10px;
             width: 90%;
             max-width: 500px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-height: 80vh;
+            overflow-y: auto;
         }
         
         .date-options-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 2px solid var(--light-blue);
         }
         
         .date-options-title {
-            font-size: 1.5em;
+            font-size: 1.2em;
             color: var(--primary-color);
-            font-weight: 700;
+            font-weight: 600;
         }
         
         .close-date-options {
             background: none;
             border: none;
-            font-size: 1.5em;
+            font-size: 1.2em;
             cursor: pointer;
             color: var(--accent-color);
             padding: 5px;
@@ -133,15 +218,15 @@
         .date-options-list {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
         
         .date-option {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 15px;
+            padding: 12px;
             border: 2px solid var(--neutral-border);
             border-radius: 8px;
             cursor: pointer;
@@ -155,8 +240,8 @@
         }
         
         .date-option-icon {
-            font-size: 1.5em;
-            width: 30px;
+            font-size: 1.2em;
+            width: 25px;
             text-align: center;
         }
         
@@ -166,12 +251,13 @@
         
         .date-option-title {
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             color: var(--primary-color);
+            font-size: 0.9em;
         }
         
         .date-option-description {
-            font-size: 0.9em;
+            font-size: 0.8em;
             color: #7f8c8d;
         }
         
@@ -200,61 +286,61 @@
         
         .lock-icon {
             color: var(--accent-color);
-            font-size: 1.2em;
+            font-size: 1em;
         }
         
         .journal-entry {
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             overflow: hidden;
             border: 2px solid var(--neutral-border);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
         .journal-entry:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
         }
         
         .entry-header {
             background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
             color: white;
-            padding: 15px 20px;
+            padding: 12px 15px;
         }
         
         .entry-title-large {
-            font-size: 2em;
+            font-size: 1.6em;
             margin-bottom: 5px;
-            font-weight: 700;
+            font-weight: 600;
         }
         
         .entry-lieux {
-            font-size: 1.2em;
+            font-size: 1em;
             opacity: 0.9;
             margin-bottom: 5px;
             font-weight: 500;
         }
         
         .jour-number {
-            font-size: 1.1em;
+            font-size: 0.9em;
             opacity: 0.8;
-            margin-top: 5px;
+            margin-top: 3px;
             font-weight: 500;
             background: rgba(255,255,255,0.2);
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 15px;
             display: inline-block;
         }
         
         .entry-content {
-            padding: 25px;
+            padding: 20px;
         }
         
         .section {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
             border-bottom: 2px dashed #e0e0e0;
         }
         
@@ -263,39 +349,39 @@
         }
         
         .section-title {
-            font-size: 1.5em;
+            font-size: 1.3em;
             color: var(--section-title-color);
-            margin-bottom: 20px;
-            padding-bottom: 12px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 3px solid var(--light-blue);
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         
         .section-title::before {
             content: '';
-            width: 8px;
-            height: 25px;
+            width: 6px;
+            height: 20px;
             background: var(--section-title-color);
-            border-radius: 4px;
+            border-radius: 3px;
         }
         
         .subsection-title {
-            font-size: 1.2em;
+            font-size: 1.1em;
             color: var(--section-title-color);
-            margin: 20px 0 15px;
-            padding-left: 15px;
-            border-left: 4px solid var(--section-title-color);
+            margin: 15px 0 10px;
+            padding-left: 12px;
+            border-left: 3px solid var(--section-title-color);
             font-weight: 600;
         }
         
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
         }
         
         .info-item {
@@ -306,34 +392,35 @@
         .info-label {
             font-weight: 600;
             color: var(--primary-color);
-            margin-bottom: 8px;
-            font-size: 0.95em;
+            margin-bottom: 6px;
+            font-size: 0.85em;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         
         .info-value {
-            padding: 12px;
+            padding: 10px;
             background-color: #f8f9fa;
             border-radius: 6px;
-            border-left: 4px solid var(--secondary-color);
-            font-size: 1.05em;
+            border-left: 3px solid var(--secondary-color);
+            font-size: 0.95em;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
         .programme-list {
             background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid var(--secondary-color);
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--secondary-color);
         }
         
         .programme-item {
-            margin-bottom: 8px;
-            padding: 8px 12px;
+            margin-bottom: 6px;
+            padding: 6px 10px;
             background: white;
-            border-radius: 6px;
+            border-radius: 5px;
             border-left: 3px solid var(--accent-color);
+            font-size: 0.9em;
         }
         
         .programme-item:last-child {
@@ -342,8 +429,8 @@
         
         .inline-group {
             display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 15px;
         }
         
         .inline-item {
@@ -353,96 +440,96 @@
         .note-box {
             background-color: var(--note-bg);
             border: 2px solid var(--note-border);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.08);
             transition: transform 0.2s ease;
         }
         
         .note-box:hover {
-            transform: translateX(5px);
+            transform: translateX(3px);
         }
         
         .note-title {
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             color: var(--primary-color);
-            font-size: 1.1em;
+            font-size: 1em;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .note-title::before {
             content: '📝';
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
         
         .highlight-value {
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: 700;
             color: var(--accent-color);
-            padding: 12px;
+            padding: 10px;
             background: #f8f9fa;
-            border-radius: 8px;
+            border-radius: 6px;
             text-align: left;
             border: 1px solid #e9ecef;
-            margin: 15px 0;
+            margin: 12px 0;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
         }
         
         .photo-button {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
-            padding: 10px 18px;
-            border-radius: 25px;
+            padding: 8px 15px;
+            border-radius: 20px;
             text-decoration: none;
-            margin: 8px;
-            font-size: 0.95em;
+            margin: 6px;
+            font-size: 0.85em;
             transition: all 0.3s ease;
             font-weight: 500;
         }
         
         .photo-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         .photo-button::before {
             content: '📸';
-            font-size: 1.1em;
+            font-size: 1em;
         }
         
         .search-section {
             background-color: white;
-            padding: 25px;
+            padding: 20px;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border: 2px solid var(--neutral-border);
         }
         
         .search-form {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 15px;
             position: relative;
         }
         
         .search-input {
             flex: 1;
-            padding: 15px;
-            font-size: 16px;
+            padding: 12px;
+            font-size: 14px;
             border: 2px solid #e0e0e0;
             border-radius: var(--border-radius);
             transition: border-color 0.3s ease;
@@ -458,11 +545,12 @@
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
             border: none;
-            padding: 15px 25px;
+            padding: 12px 20px;
             border-radius: var(--border-radius);
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            font-size: 0.9em;
         }
         
         .search-button:hover {
@@ -472,43 +560,44 @@
         
         .filters-section {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
         }
         
         .filter-group {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 15px;
             border-radius: var(--border-radius);
             border: 2px solid #e9ecef;
             transition: transform 0.2s ease;
         }
         
         .filter-group:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
         
         .filter-group h3 {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: var(--secondary-color);
             font-weight: 600;
+            font-size: 0.95em;
         }
         
         .filter-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            max-height: 120px;
+            gap: 8px;
+            max-height: 100px;
             overflow-y: auto;
         }
         
         .tag {
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
@@ -516,15 +605,15 @@
         
         .tag:hover {
             transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         
         .calendar-section {
             background: white;
-            padding: 25px;
+            padding: 15px;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border: 2px solid var(--neutral-border);
             overflow-x: auto;
         }
@@ -533,22 +622,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .calendar-nav {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
         
         .calendar-nav button {
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
+            padding: 6px 10px;
+            border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.8em;
         }
         
         .calendar-nav button:hover {
@@ -558,32 +648,34 @@
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            min-width: 600px;
+            gap: 6px;
+            min-width: 500px;
         }
         
         .calendar-day-header {
             text-align: center;
             font-weight: bold;
-            padding: 12px;
+            padding: 8px;
             background-color: var(--light-color);
-            border-radius: 6px;
+            border-radius: 5px;
             font-weight: 600;
+            font-size: 0.8em;
         }
         
         .calendar-day {
             text-align: center;
-            padding: 15px;
+            padding: 8px;
             cursor: pointer;
-            border-radius: 6px;
+            border-radius: 5px;
             border: 2px solid #f0f0f0;
             transition: all 0.3s ease;
             font-weight: 500;
             position: relative;
-            min-height: 100px;
+            min-height: 70px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
+            font-size: 0.85em;
         }
         
         .calendar-day.has-data {
@@ -595,40 +687,40 @@
         .calendar-day.selected {
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
         
         .calendar-day-number {
-            font-size: 1.2em;
+            font-size: 1em;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
         
         .calendar-day-lieux {
-            font-size: 0.7em;
-            line-height: 1.2;
+            font-size: 0.65em;
+            line-height: 1.1;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-height: 60px;
+            max-height: 50px;
         }
         
         .calendar-day-pays {
-            font-size: 0.6em;
+            font-size: 0.55em;
             color: var(--accent-color);
-            margin-top: 3px;
+            margin-top: 2px;
             font-weight: 600;
         }
         
         .stats-section {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
         }
         
         .stat-card {
             background: white;
-            padding: 20px 15px;
+            padding: 15px;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             text-align: center;
@@ -637,11 +729,11 @@
         }
         
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
         }
         
         .stat-value {
-            font-size: 2.2em;
+            font-size: 1.8em;
             font-weight: 800;
             color: var(--secondary-color);
             margin-bottom: 5px;
@@ -649,24 +741,24 @@
         
         .stat-label {
             color: #7f8c8d;
-            font-size: 0.8em;
+            font-size: 0.75em;
             font-weight: 500;
             line-height: 1.2;
         }
         
         .loading {
             text-align: center;
-            padding: 50px;
+            padding: 40px;
         }
         
         .spinner {
-            border: 5px solid rgba(0, 0, 0, 0.1);
+            border: 4px solid rgba(0, 0, 0, 0.1);
             border-left-color: var(--secondary-color);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 25px;
+            margin: 0 auto 20px;
         }
         
         @keyframes spin {
@@ -676,9 +768,9 @@
         .error-message {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 12px 0;
             text-align: center;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
@@ -686,43 +778,43 @@
         .success-message {
             background: linear-gradient(135deg, #27ae60, #219a52);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 12px 0;
             text-align: center;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .activity-section {
             background: var(--activity-bg);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border-left: 6px solid var(--secondary-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--secondary-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
             transition: transform 0.3s ease;
         }
         
         .activity-section:hover {
-            transform: translateX(5px);
+            transform: translateX(3px);
         }
         
         .concert-section {
             background: var(--concert-bg);
-            border-left: 6px solid var(--concert-orange);
+            border-left: 5px solid var(--concert-orange);
         }
         
         .activity-title {
-            font-size: 1.4em;
+            font-size: 1.2em;
             color: var(--primary-color);
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 6px;
             border-bottom: 2px solid rgba(0,0,0,0.1);
-            font-weight: 700;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             text-align: center;
             justify-content: center;
             background-color: var(--activity-title-bg);
@@ -730,17 +822,19 @@
         
         .activity-title.concert-title {
             color: var(--concert-orange);
+            font-size: 1.1em;
         }
         
         .activity-title.activity-type::before {
             content: '📅';
+            font-size: 0.9em;
         }
         
         .no-data {
             text-align: center;
             color: #7f8c8d;
             font-style: italic;
-            padding: 30px;
+            padding: 25px;
             background: #f8f9fa;
             border-radius: 8px;
             border: 2px dashed #dee2e6;
@@ -751,69 +845,70 @@
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
             border-radius: 5px;
-            padding: 15px;
+            padding: 12px;
             margin: 10px 0;
             font-family: monospace;
-            font-size: 0.9em;
-            max-height: 200px;
+            font-size: 0.8em;
+            max-height: 180px;
             overflow-y: auto;
         }
         
         .photos-section {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
             border: 2px dashed #dee2e6;
         }
         
         .photos-title {
-            font-size: 1.1em;
+            font-size: 1em;
             color: var(--primary-color);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .photos-title::before {
             content: '🖼️';
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
         
         .admin-section {
             background: linear-gradient(135deg, #2c3e50, #34495e);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
             border: 2px solid var(--neutral-border);
         }
         
         .admin-panel {
             background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 10px;
         }
         
         .admin-controls {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
-            margin-top: 15px;
+            margin-top: 12px;
         }
         
         .admin-button {
             background: linear-gradient(to bottom, #3498db, #2980b9);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
+            padding: 8px 12px;
+            border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
+            font-size: 0.85em;
         }
         
         .admin-button:hover {
@@ -831,43 +926,53 @@
         .stats-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 15px;
         }
         
         .stats-row .stat-card {
             flex: 1;
             min-width: auto;
+            padding: 12px;
+        }
+        
+        .stats-row .stat-value {
+            font-size: 1.5em;
         }
         
         .activity-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+            margin-bottom: 15px;
         }
         
         .activity-stats-mobile {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 8px;
+            margin-top: 12px;
         }
         
         .activity-stat {
             background: white;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 10px;
+            border-radius: 6px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             text-align: center;
-            border-left: 4px solid var(--secondary-color);
+            border-left: 3px solid var(--secondary-color);
             cursor: pointer;
             transition: all 0.3s ease;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         
         .activity-stat:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
         }
         
         .activity-stat.concert-stat {
@@ -875,12 +980,12 @@
         }
         
         .activity-stat.concert-stat:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
         }
         
         .activity-stat-value {
-            font-size: 1.8em;
+            font-size: 1.3em;
             font-weight: 700;
             color: var(--primary-color);
             margin-bottom: 5px;
@@ -888,7 +993,8 @@
         
         .activity-stat-label {
             color: #7f8c8d;
-            font-size: 0.9em;
+            font-size: 0.75em;
+            line-height: 1.2;
         }
         
         .concert-filter-button {
@@ -905,11 +1011,12 @@
         }
         
         .password-input {
-            padding: 10px;
+            padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            margin-right: 10px;
-            width: 200px;
+            margin-right: 8px;
+            width: 180px;
+            font-size: 0.9em;
         }
         
         .modal {
@@ -927,11 +1034,11 @@
         
         .modal-content {
             background: white;
-            padding: 30px;
+            padding: 20px;
             border-radius: 10px;
             width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
+            max-width: 700px;
+            max-height: 80vh;
             overflow-y: auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
@@ -940,38 +1047,38 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 2px solid var(--light-blue);
         }
         
         .modal-title {
-            font-size: 1.5em;
+            font-size: 1.3em;
             color: var(--primary-color);
-            font-weight: 700;
+            font-weight: 600;
         }
         
         .close-modal {
             background: none;
             border: none;
-            font-size: 1.5em;
+            font-size: 1.3em;
             cursor: pointer;
             color: var(--accent-color);
             padding: 5px;
         }
         
         .email-recipients {
-            max-height: 200px;
+            max-height: 180px;
             overflow-y: auto;
             border: 1px solid #ddd;
-            padding: 15px;
+            padding: 12px;
             border-radius: 5px;
             background: #f9f9fa;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .recipient-item {
-            padding: 10px;
+            padding: 8px;
             border-bottom: 1px solid #eee;
             display: flex;
             align-items: center;
@@ -986,45 +1093,47 @@
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .form-label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 600;
             color: var(--primary-color);
+            font-size: 0.9em;
         }
         
         .form-input, .form-textarea {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-family: inherit;
-            font-size: 14px;
+            font-size: 13px;
         }
         
         .form-textarea {
-            height: 150px;
+            height: 120px;
             resize: vertical;
         }
         
         .modal-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             justify-content: flex-end;
             flex-wrap: wrap;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         
         .action-button {
-            padding: 12px 20px;
+            padding: 10px 15px;
             border: none;
-            border-radius: 6px;
+            border-radius: 5px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            font-size: 0.9em;
         }
         
         .action-button.primary {
@@ -1044,23 +1153,24 @@
         
         .action-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         
         .list-container {
-            max-height: 400px;
+            max-height: 350px;
             overflow-y: auto;
             border: 1px solid #ddd;
             border-radius: 5px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .list-item {
-            padding: 12px 15px;
+            padding: 10px 12px;
             border-bottom: 1px solid #eee;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 0.9em;
         }
         
         .list-item:last-child {
@@ -1073,15 +1183,15 @@
         
         .export-options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
         }
         
         .export-option {
             background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 15px;
+            border-radius: 6px;
             text-align: center;
             border: 2px solid #e9ecef;
             cursor: pointer;
@@ -1089,58 +1199,59 @@
         }
         
         .export-option:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             border-color: var(--secondary-color);
         }
         
         .export-icon {
-            font-size: 2em;
-            margin-bottom: 10px;
+            font-size: 1.8em;
+            margin-bottom: 8px;
         }
         
         .contact-info {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 12px;
             border: 2px solid var(--neutral-border);
         }
         
         .contact-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 2px solid var(--neutral-border);
         }
         
         .contact-header h4 {
             margin: 0;
             color: var(--primary-color);
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
         
         .contact-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
         }
         
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px;
+            gap: 8px;
+            padding: 8px;
             background: white;
-            border-radius: 6px;
+            border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            font-size: 0.9em;
         }
         
         .contact-icon {
-            font-size: 1.2em;
-            width: 24px;
+            font-size: 1.1em;
+            width: 20px;
             text-align: center;
         }
         
@@ -1160,22 +1271,22 @@
         
         .trajet-info {
             display: flex;
-            gap: 15px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 12px;
         }
         
         .trajet-item {
             flex: 1;
             background: white;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 6px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             text-align: center;
-            border-left: 4px solid var(--secondary-color);
+            border-left: 3px solid var(--secondary-color);
         }
         
         .trajet-value {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: 700;
             color: var(--primary-color);
             margin-bottom: 5px;
@@ -1183,49 +1294,49 @@
         
         .trajet-label {
             color: #7f8c8d;
-            font-size: 0.9em;
+            font-size: 0.85em;
         }
         
         .heure-group {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 15px;
         }
         
         .heure-group-mobile {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
         
         .heure-item {
             flex: 1;
             background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 6px;
             text-align: center;
             border: 1px solid #e9ecef;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 80px;
+            min-height: 70px;
         }
         
         .heure-icon {
-            font-size: 1.5em;
-            margin-bottom: 8px;
+            font-size: 1.3em;
+            margin-bottom: 6px;
         }
         
         .heure-label {
-            font-size: 0.9em;
+            font-size: 0.85em;
             color: #7f8c8d;
             margin-bottom: 5px;
         }
         
         .heure-value {
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: 700;
             color: var(--primary-color);
         }
@@ -1233,43 +1344,43 @@
         .lieux-info {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 12px;
         }
         
         .lieux-trajet-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 8px;
+            margin-top: 12px;
         }
         
         .lieux-item {
             background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 6px;
             text-align: center;
             border: 1px solid #e9ecef;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 80px;
+            min-height: 70px;
         }
         
         .lieux-icon {
-            font-size: 1.5em;
-            margin-bottom: 8px;
+            font-size: 1.3em;
+            margin-bottom: 6px;
         }
         
         .lieux-label {
-            font-size: 0.9em;
+            font-size: 0.85em;
             color: #7f8c8d;
             margin-bottom: 5px;
         }
         
         .lieux-value {
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: 700;
             color: var(--primary-color);
         }
@@ -1277,45 +1388,45 @@
         .duree-distance-presentation {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 8px;
+            margin-top: 12px;
         }
         
         .duree-distance-item {
             background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 6px;
             text-align: center;
             border: 1px solid #e9ecef;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 80px;
+            min-height: 70px;
         }
         
         .duree-distance-icon {
-            font-size: 1.5em;
-            margin-bottom: 8px;
+            font-size: 1.3em;
+            margin-bottom: 6px;
         }
         
         .duree-distance-label {
-            font-size: 0.9em;
+            font-size: 0.85em;
             color: #7f8c8d;
             margin-bottom: 5px;
         }
         
         .duree-distance-value {
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: 700;
             color: var(--primary-color);
         }
         
         .password-section {
-            margin-top: 15px;
-            padding: 15px;
+            margin-top: 12px;
+            padding: 12px;
             background: #f8f9fa;
-            border-radius: 8px;
+            border-radius: 6px;
             border: 2px solid #e9ecef;
         }
         
@@ -1323,35 +1434,36 @@
             background: linear-gradient(to bottom, #8e44ad, #7d3c98);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
+            padding: 8px 12px;
+            border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            font-size: 0.85em;
         }
         
         .password-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         
         .password-input-container {
             display: none;
-            margin-top: 10px;
-            padding: 15px;
+            margin-top: 8px;
+            padding: 12px;
             background: white;
-            border-radius: 6px;
+            border-radius: 5px;
             border: 1px solid #ddd;
         }
         
         .info-grid-mobile {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 15px;
         }
         
         .info-item-mobile {
@@ -1366,21 +1478,22 @@
             right: 0;
             background: white;
             border: 1px solid #ddd;
-            border-radius: 0 0 8px 8px;
+            border-radius: 0 0 6px 6px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             z-index: 100;
-            max-height: 200px;
+            max-height: 180px;
             overflow-y: auto;
             display: none;
         }
         
         .search-suggestion {
-            padding: 12px 15px;
+            padding: 10px 12px;
             cursor: pointer;
             border-bottom: 1px solid #eee;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 0.9em;
         }
         
         .search-suggestion:hover {
@@ -1392,24 +1505,25 @@
         }
         
         .suggestion-details {
-            font-size: 0.8em;
+            font-size: 0.75em;
             color: #7f8c8d;
             text-align: right;
         }
         
         .export-selection {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .export-checkbox {
-            margin-right: 10px;
+            margin-right: 8px;
         }
         
         .export-day-item {
             display: flex;
             align-items: center;
-            padding: 10px;
+            padding: 8px;
             border-bottom: 1px solid #eee;
+            font-size: 0.9em;
         }
         
         .export-day-item:last-child {
@@ -1420,12 +1534,12 @@
             position: fixed;
             background: white;
             border: 2px solid var(--secondary-color);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
             z-index: 1001;
-            max-width: 400px;
-            max-height: 80vh;
+            max-width: 350px;
+            max-height: 70vh;
             overflow-y: auto;
         }
         
@@ -1433,21 +1547,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 2px solid var(--light-blue);
         }
         
         .interlocutor-bubble-title {
-            font-size: 1.2em;
+            font-size: 1.1em;
             color: var(--primary-color);
-            font-weight: 700;
+            font-weight: 600;
         }
         
         .close-bubble {
             background: none;
             border: none;
-            font-size: 1.5em;
+            font-size: 1.3em;
             cursor: pointer;
             color: var(--accent-color);
             padding: 5px;
@@ -1455,20 +1569,21 @@
         
         .bubble-actions {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            padding-top: 15px;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
             border-top: 1px solid var(--neutral-border);
         }
         
         .bubble-button {
             flex: 1;
-            padding: 8px 12px;
+            padding: 6px 10px;
             border: none;
-            border-radius: 6px;
+            border-radius: 5px;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.3s ease;
+            font-size: 0.85em;
         }
         
         .bubble-button.scroll {
@@ -1483,20 +1598,20 @@
         
         .bubble-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         
         .fiche-access-button {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             background: linear-gradient(to bottom, #27ae60, #219a52);
             color: white;
-            padding: 10px 18px;
-            border-radius: 25px;
+            padding: 8px 15px;
+            border-radius: 20px;
             text-decoration: none;
-            margin: 15px 0;
-            font-size: 0.95em;
+            margin: 12px 0;
+            font-size: 0.85em;
             transition: all 0.3s ease;
             font-weight: 500;
             border: none;
@@ -1504,13 +1619,199 @@
         }
         
         .fiche-access-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
         
         .fiche-access-button::before {
             content: '📄';
-            font-size: 1.1em;
+            font-size: 1em;
+        }
+        
+        .contact-phone-link, .contact-whatsapp-link, .contact-email-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        
+        .contact-phone-link:hover, .contact-whatsapp-link:hover, .contact-email-link:hover {
+            text-decoration: underline;
+        }
+        
+        .export-book-button {
+            background: linear-gradient(to bottom, #9b59b6, #8e44ad);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 12px;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+        
+        .export-book-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        
+        .lists-admin-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 2px solid var(--neutral-border);
+        }
+        
+        .unlock-button {
+            background: linear-gradient(to bottom, #f39c12, #e67e22);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            width: 100%;
+            justify-content: center;
+            font-size: 0.85em;
+        }
+        
+        .unlock-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .scroll-to-fiche-button {
+            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+        }
+        
+        .scroll-to-fiche-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+        
+        /* Styles pour les listes organisées avec boutons */
+        .list-button-container {
+            margin-top: 5px;
+        }
+        
+        .list-button {
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            margin: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .list-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+        
+        /* Styles pour la liste des pays à droite */
+        .pays-list-container {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: var(--border-radius);
+            padding: 10px 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 2px solid var(--neutral-border);
+            max-height: 120px;
+            overflow-y: auto;
+            min-width: 200px;
+            z-index: 10;
+        }
+        
+        .pays-list-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .pays-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .pays-tag {
+            background: linear-gradient(to bottom, #27ae60, #219a52);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .pays-tag:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+                margin-bottom: 15px;
+                padding: 15px;
+            }
+            
+            .mobile-back-button {
+                display: block;
+            }
+            
+            .header-icons {
+                position: static;
+                transform: none;
+                justify-content: center;
+                margin-top: 10px;
+                margin-left: 0;
+            }
+            
+            .page-title {
+                flex-direction: column;
+                gap: 8px;
+                font-size: 1.8em;
+            }
+            
+            .pays-list-container {
+                position: static;
+                margin-top: 10px;
+                max-height: 100px;
+                min-width: auto;
+            }
         }
         
         @media (max-width: 768px) {
@@ -1534,12 +1835,12 @@
                 grid-template-columns: 1fr;
             }
             
-            h1 {
-                font-size: 2em;
+            .page-title {
+                font-size: 1.6em;
             }
             
             .activity-title {
-                font-size: 1.2em;
+                font-size: 1.1em;
             }
             
             .stats-row {
@@ -1551,7 +1852,7 @@
             }
             
             .modal-content {
-                padding: 20px;
+                padding: 15px;
                 width: 95%;
             }
             
@@ -1577,17 +1878,17 @@
             
             .lieux-info {
                 grid-template-columns: 1fr;
-                gap: 10px;
+                gap: 8px;
             }
             
             .calendar-day {
-                min-height: 80px;
-                padding: 10px;
+                min-height: 70px;
+                padding: 6px;
             }
             
             .calendar-day-lieux {
-                font-size: 0.6em;
-                max-height: 50px;
+                font-size: 0.55em;
+                max-height: 45px;
             }
             
             .info-grid-mobile {
@@ -1596,93 +1897,97 @@
             
             .lieux-info {
                 grid-template-columns: 1fr 1fr;
-                gap: 10px;
+                gap: 8px;
             }
             
             .lieux-item {
-                min-height: 70px;
-                padding: 12px;
+                min-height: 60px;
+                padding: 10px;
             }
             
             .lieux-icon {
-                font-size: 1.3em;
+                font-size: 1.1em;
             }
             
             .lieux-value {
-                font-size: 1em;
+                font-size: 0.9em;
             }
             
             .heure-group {
                 flex-direction: row;
-                gap: 10px;
+                gap: 8px;
             }
             
             .heure-item {
-                min-height: 70px;
-                padding: 12px;
+                min-height: 60px;
+                padding: 10px;
             }
             
             .activity-stats-mobile {
                 grid-template-columns: 1fr 1fr;
-                gap: 8px;
+                gap: 6px;
             }
             
             .activity-stat {
-                padding: 12px 8px;
+                padding: 10px 6px;
             }
             
             .activity-stat-value {
-                font-size: 1.5em;
+                font-size: 1.2em;
             }
             
             .activity-stat-label {
-                font-size: 0.8em;
+                font-size: 0.75em;
             }
             
             .heure-group-mobile {
                 grid-template-columns: 1fr 1fr;
-                gap: 8px;
+                gap: 6px;
             }
             
             .lieux-trajet-group {
                 grid-template-columns: 1fr 1fr;
-                gap: 8px;
+                gap: 6px;
             }
             
             .duree-distance-presentation {
                 grid-template-columns: 1fr 1fr;
-                gap: 8px;
+                gap: 6px;
             }
             
             .duree-distance-item {
-                min-height: 70px;
-                padding: 12px;
+                min-height: 60px;
+                padding: 10px;
             }
             
             .entry-title-large {
-                font-size: 1.6em;
+                font-size: 1.4em;
             }
             
             .entry-lieux {
-                font-size: 1em;
+                font-size: 0.9em;
             }
             
             .date-options-content {
-                padding: 20px;
+                padding: 15px;
                 width: 95%;
             }
             
             .date-option {
-                padding: 12px;
+                padding: 10px;
             }
             
             .interlocutor-bubble {
                 max-width: 90vw;
-                padding: 15px;
+                padding: 12px;
             }
             
             .bubble-actions {
                 flex-direction: column;
+            }
+            
+            .pays-list-container {
+                padding: 8px 12px;
             }
         }
         
@@ -1704,144 +2009,191 @@
             }
             
             .activity-stat {
-                padding: 10px 5px;
+                padding: 8px 4px;
             }
             
             .activity-stat-value {
-                font-size: 1.3em;
+                font-size: 1.1em;
             }
             
             .activity-stat-label {
                 font-size: 0.7em;
             }
+            
+            .page-title {
+                font-size: 1.4em;
+            }
+            
+            .header-icons {
+                font-size: 1.2em;
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="special-frame">
-            <header>
-                <h1>📓 Journal de Bord - Tournée Europe 2026</h1>
-                <p>NY AKO - Suivi détaillé des activités quotidiennes</p>
-            </header>
+    <a href="#" class="mobile-back-button" id="mobileBackButton" style="display: none;">⬅ Retour à l'accueil</a>
+    
+    <div class="page-header">
+        <div class="header-content">
+            <div>
+                <h1 class="page-title">
+                    <span>📓 Journal de Bord - Tournée Europe 2026</span>
+                </h1>
+                <p class="page-subtitle">NY AKO - Suivi détaillé des activités quotidiennes</p>
+            </div>
+            <div class="header-icons">
+                <span class="header-icon">📒</span>
+                <span class="header-icon">📖</span>
+                <span class="header-icon">✏️</span>
+                <span class="header-icon">📅</span>
+                <span class="header-icon">🗂️</span>
+            </div>
+            
+            <!-- Liste des pays visités à droite -->
+            <div class="pays-list-container" id="paysListContainer">
+                <div class="pays-list-title">🌍 Pays visités</div>
+                <div class="pays-list" id="paysList"></div>
+            </div>
         </div>
-        
-        <section class="search-section">
-            <form class="search-form" id="searchForm" autocomplete="off">
-                <div style="position: relative; flex: 1;">
-                    <input type="text" 
-                           class="search-input" 
-                           id="searchInput" 
-                           placeholder="🔍 Rechercher dans le journal..."
-                           autocomplete="off">
-                    <div class="search-suggestions" id="searchSuggestions"></div>
-                </div>
-                <button type="submit" class="search-button">Rechercher</button>
-            </form>
-            
-            <div class="password-section">
-                <button class="password-button" id="passwordButton">
-                    🔓 Accès aux liens de fiches
-                </button>
-                <div class="password-input-container" id="passwordInputContainer">
-                    <label for="passwordInput">Mot de passe:</label>
-                    <input type="password" id="passwordInput" class="form-input" placeholder="Entrez le mot de passe...">
-                    <button class="search-button" id="submitPassword" style="margin-top: 10px;">Valider</button>
-                </div>
-            </div>
-            
-            <div class="filters-section">
-                <div class="filter-group">
-                    <h3>📍 Lieux</h3>
-                    <div class="filter-tags" id="lieuxTags"></div>
-                </div>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <section class="search-section">
+                <form class="search-form" id="searchForm" autocomplete="off">
+                    <div style="position: relative; flex: 1;">
+                        <input type="text" 
+                               class="search-input" 
+                               id="searchInput" 
+                               placeholder="🔍 Rechercher dans le journal..."
+                               autocomplete="off">
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+                    <button type="submit" class="search-button">Rechercher</button>
+                </form>
                 
-                <div class="filter-group">
-                    <h3>👤 Interlocuteurs/Hôtes</h3>
-                    <div class="filter-tags" id="nomsTags"></div>
-                </div>
-                
-                <div class="filter-group">
-                    <h3>🌍 Pays</h3>
-                    <div class="filter-tags" id="paysTags"></div>
-                </div>
-            </div>
-            
-            <div class="stats-row">
-                <div class="stat-card">
-                    <div class="stat-value" id="totalLieux">0</div>
-                    <div class="stat-label">Lieux visités</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalPays">0</div>
-                    <div class="stat-label">Pays visités</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalInterlocuteurs">0</div>
-                    <div class="stat-label">Interlocuteurs</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalParticipants">0</div>
-                    <div class="stat-label">Participants total</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalDureeTrajet">0 h</div>
-                    <div class="stat-label">Durée trajet total</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalDistance">0 km</div>
-                    <div class="stat-label">Distance totale</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalJours">0</div>
-                    <div class="stat-label">Jours enregistrés</div>
-                </div>
-            </div>
-            
-            <div class="activity-stats" id="activityStats"></div>
-            
-            <div class="calendar-section">
-                <div class="calendar-header">
-                    <h3>📅 Calendrier des journées</h3>
-                    <div class="calendar-nav">
-                        <button id="prevMonth">◀</button>
-                        <span id="currentMonth">Mois en cours</span>
-                        <button id="nextMonth">▶</button>
+                <div class="password-section">
+                    <button class="password-button" id="passwordButton">
+                        🔓 Accès aux liens de fiches
+                    </button>
+                    <div class="password-input-container" id="passwordInputContainer">
+                        <label for="passwordInput" style="font-size: 0.85em;">Mot de passe:</label>
+                        <input type="password" id="passwordInput" class="form-input" placeholder="Entrez le mot de passe...">
+                        <button class="search-button" id="submitPassword" style="margin-top: 8px;">Valider</button>
                     </div>
                 </div>
-                <div class="calendar-grid" id="calendarGrid"></div>
+                
+                <div class="filters-section">
+                    <div class="filter-group">
+                        <h3>📍 Lieux</h3>
+                        <div class="filter-tags" id="lieuxTags"></div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h3>👤 Interlocuteurs/Hôtes</h3>
+                        <div class="filter-tags" id="nomsTags"></div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h3>🌍 Pays</h3>
+                        <div class="filter-tags" id="paysTags"></div>
+                    </div>
+                </div>
+                
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalLieux">0</div>
+                        <div class="stat-label">Lieux visités</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalPays">0</div>
+                        <div class="stat-label">Pays visités</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalInterlocuteurs">0</div>
+                        <div class="stat-label">Interlocuteurs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalParticipants">0</div>
+                        <div class="stat-label">Participants total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalDureeTrajet">0 h</div>
+                        <div class="stat-label">Durée trajet total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalDistance">0 km</div>
+                        <div class="stat-label">Distance totale</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalJours">0</div>
+                        <div class="stat-label">Jours enregistrés</div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 15px; margin-bottom: 8px; color: var(--primary-color); font-size: 0.95em;">📊 Activités par type</h3>
+                <div class="activity-stats" id="activityStats"></div>
+                
+                <div class="calendar-section">
+                    <div class="calendar-header">
+                        <h3 style="font-size: 0.95em;">📅 Calendrier des journées</h3>
+                        <div class="calendar-nav">
+                            <button id="prevMonth">◀</button>
+                            <span id="currentMonth" style="font-size: 0.9em;">Mois en cours</span>
+                            <button id="nextMonth">▶</button>
+                        </div>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                </div>
+                
+                <button id="showAllButton" class="search-button" style="width: 100%; margin-top: 8px; font-size: 0.9em;">
+                    📋 Afficher toutes les journées
+                </button>
+                <button id="retryButton" class="search-button" style="background: linear-gradient(135deg, #f39c12, #e67e22); width: 100%; margin-top: 8px; display: none; font-size: 0.9em;">
+                    🔄 Réessayer le chargement
+                </button>
+                
+                <button class="export-book-button" id="exportBookButton">
+                    📚 Exporter tout en livre PDF
+                </button>
+            </section>
+            
+            <div class="lists-admin-section">
+                <h3 style="font-size: 0.95em;">📋 Listes organisées</h3>
+                <p style="font-size: 0.85em;">Accès aux listes triées et exportables</p>
+                <div class="admin-controls">
+                    <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
+                </div>
             </div>
             
-            <button id="showAllButton" class="search-button" style="width: 100%; margin-top: 10px;">
-                📋 Afficher toutes les journées
-            </button>
-            <button id="retryButton" class="search-button" style="background: linear-gradient(135deg, #f39c12, #e67e22); width: 100%; margin-top: 10px; display: none;">
-                🔄 Réessayer le chargement
-            </button>
-        </section>
-        
-        <div class="admin-section" id="adminSection">
-            <h3>🔐 Panneau d'administration</h3>
-            <div class="admin-panel">
-                <p>Accès aux fonctionnalités avancées</p>
-                <div class="admin-controls">
-                    <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
-                    <button class="admin-button" id="organizeListsButton" disabled>📋 Listes organisées</button>
-                    <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
-                    <button class="admin-button" id="selectiveExportButton" disabled>📄 Export sélectif</button>
+            <div class="admin-section" id="adminSection">
+                <h3 style="font-size: 0.95em;">🔐 Panneau d'administration</h3>
+                <div class="admin-panel">
+                    <p style="font-size: 0.85em;">Accès aux fonctionnalités avancées</p>
+                    <div class="admin-controls">
+                        <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
+                        <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
+                        <button class="admin-button" id="selectiveExportButton" disabled>📄 Export sélectif</button>
+                    </div>
+                    <button class="unlock-button" id="unlockAdminButton">
+                        🔓 Déverrouiller le panneau admin
+                    </button>
                 </div>
             </div>
         </div>
         
-        <div class="loading" id="loadingIndicator">
-            <div class="spinner"></div>
-            <p>Chargement des données depuis Google Sheets...</p>
-        </div>
+        <div class="main-content" id="mainContent">
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+                <p>Chargement des données depuis Google Sheets...</p>
+            </div>
 
-        <div id="dataInfo"></div>
-        <div id="debugInfo"></div>
-        
-        <div id="journalEntries"></div>
+            <div id="dataInfo"></div>
+            <div id="debugInfo"></div>
+            
+            <div id="journalEntries"></div>
+        </div>
     </div>
 
     <div id="dateOptionsModal" class="date-options-modal">
@@ -1871,7 +2223,7 @@
                 <label class="form-label">Destinataires avec email:</label>
                 <div id="emailRecipients" class="email-recipients">
                 </div>
-                <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                <div style="margin-top: 8px; font-size: 0.85em; color: #666;">
                     <span id="recipientCount">0</span> destinataire(s) sélectionné(s)
                 </div>
             </div>
@@ -1923,7 +2275,8 @@ L'équipe NY AKO</textarea>
             
             <div class="modal-actions">
                 <button class="action-button cancel" id="cancelLists">Fermer</button>
-                <button class="action-button secondary" id="exportList">📄 Exporter cette liste</button>
+                <button class="action-button secondary" id="exportListPDF">📄 Exporter en PDF</button>
+                <button class="action-button secondary" id="exportListExcel">📊 Exporter en Excel</button>
             </div>
         </div>
     </div>
@@ -1963,7 +2316,7 @@ L'équipe NY AKO</textarea>
             
             <div class="form-group">
                 <label class="form-label">Options d'export:</label>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <div style="display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.9em;">
                     <label style="display: flex; align-items: center; gap: 5px;">
                         <input type="checkbox" id="includeContacts" checked>
                         Inclure les contacts
@@ -1975,6 +2328,10 @@ L'équipe NY AKO</textarea>
                     <label style="display: flex; align-items: center; gap: 5px;">
                         <input type="checkbox" id="includeStats" checked>
                         Inclure les statistiques
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 5px;">
+                        <input type="checkbox" id="includeActivityDetails" checked>
+                        Inclure détails activités
                     </label>
                 </div>
             </div>
@@ -1996,9 +2353,9 @@ L'équipe NY AKO</textarea>
             <div class="form-group">
                 <label class="form-label">Sélectionnez les journées à exporter:</label>
                 <div class="export-selection">
-                    <div style="margin-bottom: 10px;">
+                    <div style="margin-bottom: 8px;">
                         <input type="checkbox" id="selectAllDays" class="export-checkbox">
-                        <label for="selectAllDays">Sélectionner toutes les journées</label>
+                        <label for="selectAllDays" style="font-size: 0.9em;">Sélectionner toutes les journées</label>
                     </div>
                     <div class="list-container" id="exportDaysList">
                     </div>
@@ -2073,16 +2430,25 @@ L'équipe NY AKO</textarea>
             
             checkAdminStatus();
             
+            // Gestion du bouton retour mobile
+            document.getElementById('mobileBackButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth' });
+                this.style.display = 'none';
+            });
+            
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
             document.getElementById('nextMonth').addEventListener('click', nextMonth);
             document.getElementById('showAllButton').addEventListener('click', showAllData);
             document.getElementById('retryButton').addEventListener('click', loadDataFromGoogleSheets);
+            document.getElementById('unlockAdminButton').addEventListener('click', unlockAdminPanel);
             
             document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
-            document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
+            document.getElementById('publicListsButton').addEventListener('click', showListsModal);
             document.getElementById('exportDataButton').addEventListener('click', showExportModal);
             document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
+            document.getElementById('exportBookButton').addEventListener('click', exportToBookPDF);
             
             document.getElementById('closeEmailModal').addEventListener('click', () => hideModal('emailModal'));
             document.getElementById('cancelEmail').addEventListener('click', () => hideModal('emailModal'));
@@ -2110,7 +2476,8 @@ L'équipe NY AKO</textarea>
             document.getElementById('sendEmails').addEventListener('click', sendEmails);
             document.getElementById('copyEmails').addEventListener('click', copyEmailAddresses);
             document.getElementById('listType').addEventListener('change', updateOrganizedList);
-            document.getElementById('exportList').addEventListener('click', exportCurrentList);
+            document.getElementById('exportListPDF').addEventListener('click', () => exportCurrentList('pdf'));
+            document.getElementById('exportListExcel').addEventListener('click', () => exportCurrentList('excel'));
             document.getElementById('confirmExport').addEventListener('click', exportData);
             document.getElementById('selectAllDays').addEventListener('change', toggleSelectAllDays);
             document.getElementById('confirmSelectiveExport').addEventListener('click', exportSelectedDays);
@@ -2139,6 +2506,14 @@ L'équipe NY AKO</textarea>
                 }, 200);
             });
             
+            // Afficher le bouton retour en mobile lors du défilement
+            window.addEventListener('scroll', function() {
+                const backButton = document.getElementById('mobileBackButton');
+                if (window.innerWidth <= 1024 && window.scrollY > 100) {
+                    backButton.style.display = 'block';
+                }
+            });
+            
             loadDataFromGoogleSheets();
         });
 
@@ -2159,6 +2534,30 @@ L'équipe NY AKO</textarea>
                 
                 enableAdminButtons();
                 updateAdminInterface();
+            }
+        }
+
+        function unlockAdminPanel() {
+            const password = prompt('Veuillez entrer le mot de passe administrateur:');
+            if (password === 'admin') {
+                isAdmin = true;
+                showFicheLinks = true;
+                localStorage.setItem('tourneeAdmin', 'true');
+                
+                enableAdminButtons();
+                updateAdminInterface();
+                
+                const dataInfo = document.getElementById('dataInfo');
+                dataInfo.innerHTML = `
+                    <div class="success-message">
+                        ✅ Panneau d'administration déverrouillé
+                    </div>
+                `;
+                dataInfo.style.display = 'block';
+                
+                console.log('🔓 Panneau admin déverrouillé');
+            } else if (password !== null) {
+                alert('Mot de passe incorrect. Veuillez réessayer.');
             }
         }
 
@@ -2184,6 +2583,11 @@ L'équipe NY AKO</textarea>
                 passwordContainer.style.display = 'none';
             }
             
+            const unlockButton = document.getElementById('unlockAdminButton');
+            if (unlockButton) {
+                unlockButton.style.display = 'none';
+            }
+            
             console.log('✅ Boutons admin activés');
         }
 
@@ -2194,14 +2598,12 @@ L'équipe NY AKO</textarea>
             
             const adminSection = document.getElementById('adminSection');
             if (adminSection) {
-                adminSection.style.display = 'block';
                 adminSection.innerHTML = `
                     <h3>🔐 Panneau d'administration - CONNECTÉ</h3>
                     <div class="admin-panel">
-                        <p style="color: #27ae60; font-weight: bold;">✅ Accès administrateur activé</p>
+                        <p style="color: #27ae60; font-weight: bold; font-size: 0.85em;">✅ Accès administrateur activé</p>
                         <div class="admin-controls">
                             <button class="admin-button" id="groupEmailButton">📧 Envoi mail groupé</button>
-                            <button class="admin-button" id="organizeListsButton">📋 Listes organisées</button>
                             <button class="admin-button" id="exportDataButton">💾 Exporter les données</button>
                             <button class="admin-button" id="selectiveExportButton">📄 Export sélectif</button>
                             <button class="admin-button" id="logoutButton" style="background: linear-gradient(to bottom, #e74c3c, #c0392b);">🚪 Déconnexion</button>
@@ -2210,7 +2612,6 @@ L'équipe NY AKO</textarea>
                 `;
                 
                 document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
-                document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
                 document.getElementById('exportDataButton').addEventListener('click', showExportModal);
                 document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
                 document.getElementById('logoutButton').addEventListener('click', logoutAdmin);
@@ -2228,18 +2629,20 @@ L'équipe NY AKO</textarea>
             adminSection.innerHTML = `
                 <h3>🔐 Panneau d'administration</h3>
                 <div class="admin-panel">
-                    <p>Accès aux fonctionnalités avancées</p>
+                    <p style="font-size: 0.85em;">Accès aux fonctionnalités avancées</p>
                     <div class="admin-controls">
                         <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
-                        <button class="admin-button" id="organizeListsButton" disabled>📋 Listes organisées</button>
                         <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
                         <button class="admin-button" id="selectiveExportButton" disabled>📄 Export sélectif</button>
                     </div>
+                    <button class="unlock-button" id="unlockAdminButton">
+                        🔓 Déverrouiller le panneau admin
+                    </button>
                 </div>
             `;
             
+            document.getElementById('unlockAdminButton').addEventListener('click', unlockAdminPanel);
             document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
-            document.getElementById('organizeListsButton').addEventListener('click', showListsModal);
             document.getElementById('exportDataButton').addEventListener('click', showExportModal);
             document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
             
@@ -2377,6 +2780,7 @@ L'équipe NY AKO</textarea>
                 renderCalendar();
                 renderActivityStats();
                 generateSearchSuggestions();
+                updatePaysList();
                 
                 showDataInfo();
                 displayAllJournalEntries();
@@ -2385,6 +2789,37 @@ L'équipe NY AKO</textarea>
                 console.error('❌ Erreur de traitement:', error);
                 showError('Erreur lors du traitement des données: ' + error.message);
             }
+        }
+
+        function updatePaysList() {
+            const paysListContainer = document.getElementById('paysList');
+            paysListContainer.innerHTML = '';
+            
+            if (allPays.length === 0) {
+                paysListContainer.innerHTML = '<div style="color: #7f8c8d; font-style: italic; font-size: 0.85em;">Aucun pays trouvé</div>';
+                return;
+            }
+            
+            allPays.forEach(pays => {
+                const paysTag = document.createElement('div');
+                paysTag.className = 'pays-tag';
+                paysTag.textContent = pays;
+                paysTag.setAttribute('data-value', pays);
+                
+                paysTag.addEventListener('click', () => {
+                    currentSearchTerm = pays;
+                    currentSearchType = 'pays';
+                    const results = filterDataByType(pays, 'pays');
+                    displayFilteredEntries(results, `Pays: ${pays}`);
+                    
+                    // Afficher le bouton retour en mobile
+                    if (window.innerWidth <= 1024) {
+                        document.getElementById('mobileBackButton').style.display = 'block';
+                    }
+                });
+                
+                paysListContainer.appendChild(paysTag);
+            });
         }
 
         function generateSearchSuggestions() {
@@ -2556,6 +2991,11 @@ L'équipe NY AKO</textarea>
                         if (isAdmin && suggestion.rowIndex !== -1 && suggestion.rowIndex !== undefined) {
                             addFicheAccessButton(suggestion.rowIndex);
                         }
+                        
+                        // Afficher le bouton retour en mobile
+                        if (window.innerWidth <= 1024) {
+                            document.getElementById('mobileBackButton').style.display = 'block';
+                        }
                     });
                     suggestionsContainer.appendChild(suggestionElement);
                 });
@@ -2577,7 +3017,7 @@ L'équipe NY AKO</textarea>
                             if (!document.querySelector('.fiche-access-button')) {
                                 const ficheButton = document.createElement('button');
                                 ficheButton.className = 'fiche-access-button';
-                                ficheButton.style.margin = '10px 0';
+                                ficheButton.style.margin = '8px 0';
                                 ficheButton.innerHTML = '📄 Accéder à la fiche complète';
                                 ficheButton.onclick = () => {
                                     let finalLink = ficheLink.trim();
@@ -3043,7 +3483,7 @@ L'équipe NY AKO</textarea>
             container.innerHTML = '';
             
             if (items.length === 0) {
-                container.innerHTML = '<div style="color: #7f8c8d; font-style: italic;">Aucun ' + type + ' trouvé</div>';
+                container.innerHTML = '<div style="color: #7f8c8d; font-style: italic; font-size: 0.85em;">Aucun ' + type + ' trouvé</div>';
                 return;
             }
             
@@ -3061,6 +3501,16 @@ L'équipe NY AKO</textarea>
                     displayFilteredEntries(results, `${type.charAt(0).toUpperCase() + type.slice(1)}: ${item}`);
                     
                     scrollToElementInEntry(item, type);
+                    
+                    // Afficher la bulle d'info pour les interlocuteurs
+                    if (type === 'nom') {
+                        showInterlocutorBubble(item);
+                    }
+                    
+                    // Afficher le bouton retour en mobile
+                    if (window.innerWidth <= 1024) {
+                        document.getElementById('mobileBackButton').style.display = 'block';
+                    }
                 });
                 
                 container.appendChild(tag);
@@ -3258,6 +3708,11 @@ L'équipe NY AKO</textarea>
                                 setTimeout(() => {
                                     entryElements[rowIndex].style.boxShadow = '';
                                 }, 3000);
+                                
+                                // Afficher le bouton retour en mobile
+                                if (window.innerWidth <= 1024) {
+                                    document.getElementById('mobileBackButton').style.display = 'block';
+                                }
                             }
                         }
                         hideModal('dateOptionsModal');
@@ -3524,55 +3979,80 @@ L'équipe NY AKO</textarea>
             // Afficher directement les informations complètes
             const interlocutorDetails = findCompleteInterlocutorInfo(interlocuteur);
             
-            let html = `<h4 style="margin-bottom: 15px; color: var(--primary-color); text-align: center;">${interlocuteur}</h4>`;
+            let html = `<h4 style="margin-bottom: 12px; color: var(--primary-color); text-align: center; font-size: 1.1em;">${interlocuteur}</h4>`;
             
             if (interlocutorDetails.length > 0) {
-                html += `<div style="max-height: 400px; overflow-y: auto; padding: 10px;">`;
+                html += `<div style="max-height: 350px; overflow-y: auto; padding: 8px;">`;
                 
                 interlocutorDetails.forEach((detail, index) => {
                     html += `
-                        <div style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid var(--secondary-color);">
+                        <div style="margin-bottom: 12px; padding: 12px; background: #f8f9fa; border-radius: 6px; border-left: 4px solid var(--secondary-color); font-size: 0.9em;">
                             <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
-                                <span style="font-size: 0.9em;">📅</span>
+                                <span style="font-size: 0.85em;">📅</span>
                                 <span style="font-weight: 500;">${detail.date}</span>
                             </div>
                             <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 8px;">
-                                <span style="font-size: 0.9em;">📍</span>
-                                <span>${detail.lieu}</span>
+                                <span style="font-size: 0.85em;">📍</span>
+                                <span><strong>Lieux :</strong> ${detail.lieu}</span>
                             </div>
                     `;
                     
+                    // Ajouter les informations spécifiques demandées avec liens cliquables
                     if (detail.telephone) {
+                        const telNumbers = detail.telephone.split(/[,;]/).map(tel => tel.trim()).filter(tel => tel);
                         html += `
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 0.9em;">
-                                <span style="color: #3498db; font-size: 0.9em;">📞</span>
-                                <span><strong>Téléphone:</strong> ${detail.telephone}</span>
+                            <div style="margin-bottom: 5px; font-size: 0.85em;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+                                    <span style="color: #3498db; font-size: 0.85em;">📞</span>
+                                    <strong>Téléphone:</strong>
+                                </div>
+                                <div style="padding-left: 20px;">
+                                    ${telNumbers.map(tel => `
+                                        <a href="tel:${tel}" class="contact-phone-link">${tel}</a>
+                                    `).join('<br>')}
+                                </div>
                             </div>
                         `;
                     }
                     
                     if (detail.whatsapp) {
+                        const whatsappNumbers = detail.whatsapp.split(/[,;]/).map(num => num.trim()).filter(num => num);
                         html += `
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 0.9em;">
-                                <span style="color: #25D366; font-size: 0.9em;">💬</span>
-                                <span><strong>WhatsApp:</strong> ${detail.whatsapp}</span>
+                            <div style="margin-bottom: 5px; font-size: 0.85em;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+                                    <span style="color: #25D366; font-size: 0.85em;">💬</span>
+                                    <strong>WhatsApp:</strong>
+                                </div>
+                                <div style="padding-left: 20px;">
+                                    ${whatsappNumbers.map(num => `
+                                        <a href="https://wa.me/${num.replace(/[^\d+]/g, '')}" class="contact-whatsapp-link" target="_blank">${num}</a>
+                                    `).join('<br>')}
+                                </div>
                             </div>
                         `;
                     }
                     
                     if (detail.mail) {
+                        const emails = detail.mail.split(/[,;]/).map(email => email.trim()).filter(email => email);
                         html += `
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 0.9em;">
-                                <span style="color: #e74c3c; font-size: 0.9em;">📧</span>
-                                <span><strong>Mail:</strong> ${detail.mail}</span>
+                            <div style="margin-bottom: 5px; font-size: 0.85em;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
+                                    <span style="color: #e74c3c; font-size: 0.85em;">📧</span>
+                                    <strong>Mail:</strong>
+                                </div>
+                                <div style="padding-left: 20px;">
+                                    ${emails.map(email => `
+                                        <a href="mailto:${email}" class="contact-email-link">${email}</a>
+                                    `).join('<br>')}
+                                </div>
                             </div>
                         `;
                     }
                     
                     if (detail.reseauxSociaux) {
                         html += `
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 0.9em;">
-                                <span style="color: #4267B2; font-size: 0.9em;">👥</span>
+                            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px; font-size: 0.85em;">
+                                <span style="color: #4267B2; font-size: 0.85em;">👥</span>
                                 <span><strong>Réseaux sociaux:</strong> ${detail.reseauxSociaux}</span>
                             </div>
                         `;
@@ -3580,7 +4060,7 @@ L'équipe NY AKO</textarea>
                     
                     if (detail.aSavoir) {
                         html += `
-                            <div style="margin-top: 8px; padding: 8px; background: #fff9c4; border-radius: 4px; font-size: 0.85em;">
+                            <div style="margin-top: 8px; padding: 6px; background: #fff9c4; border-radius: 4px; font-size: 0.8em;">
                                 <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 3px;">
                                     <span style="color: #e67e22;">💡</span>
                                     <strong>À savoir:</strong>
@@ -3595,7 +4075,7 @@ L'équipe NY AKO</textarea>
                 
                 html += `</div>`;
             } else {
-                html += `<p style="text-align: center; color: #7f8c8d;">Aucune information trouvée pour cet interlocuteur.</p>`;
+                html += `<p style="text-align: center; color: #7f8c8d; font-size: 0.9em;">Aucune information trouvée pour cet interlocuteur.</p>`;
             }
             
             content.innerHTML = html;
@@ -3621,23 +4101,27 @@ L'équipe NY AKO</textarea>
                 interlocuteurColumns.forEach(colIndex => {
                     const value = row[colIndex] || '';
                     if (value.includes(interlocuteur)) {
-                        const activityData = extractActivityData(row, colIndex, 'ACTIVITÉ');
+                        // Rechercher les données associées à cet interlocuteur dans la même ligne
+                        const telephone = findAssociatedData(row, colIndex, ['Téléphone', 'Telephone']);
+                        const whatsapp = findAssociatedData(row, colIndex, ['Whatsapp', 'WhatsApp']);
+                        const mail = findAssociatedData(row, colIndex, ['Mail:']);
+                        const reseauxSociaux = findAssociatedData(row, colIndex, ['fb ou autre contact sur réseaux sociaux de l\'hôte', 'reseaux sociaux']);
+                        const aSavoir = findAssociatedData(row, colIndex, ['À savoir sur l\'interlocuteur', 'A savoir sur l\'interlocuteur']);
+                        const lieu = findAssociatedData(row, colIndex, ['Lieux :', 'Lieux']);
                         
-                        if (activityData) {
-                            const dateIndex = findHeaderIndex('Date:');
-                            const date = dateIndex !== -1 ? row[dateIndex] : '';
-                            
-                            const lieuxIndex = findHeaderIndex('Lieux :');
-                            const lieu = lieuxIndex !== -1 ? row[lieuxIndex] : '';
-                            
+                        const dateIndex = findHeaderIndex('Date:');
+                        const date = dateIndex !== -1 ? row[dateIndex] : '';
+                        
+                        // Vérifier si l'une des données recherchées existe
+                        if (telephone || whatsapp || mail || reseauxSociaux || aSavoir || lieu) {
                             info.push({
                                 date: date,
-                                lieu: lieu,
-                                telephone: activityData.telephone || '',
-                                whatsapp: activityData.whatsapp || '',
-                                mail: activityData.mail || '',
-                                reseauxSociaux: activityData.reseauxSociaux || '',
-                                aSavoir: activityData.aSavoir || ''
+                                lieu: lieu || 'Non spécifié',
+                                telephone: telephone || '',
+                                whatsapp: whatsapp || '',
+                                mail: mail || '',
+                                reseauxSociaux: reseauxSociaux || '',
+                                aSavoir: aSavoir || ''
                             });
                         }
                     }
@@ -3645,6 +4129,25 @@ L'équipe NY AKO</textarea>
             });
             
             return info;
+        }
+
+        function findAssociatedData(row, interlocuteurColIndex, searchTerms) {
+            // Rechercher dans les 20 colonnes autour de l'interlocuteur
+            const searchRange = 20;
+            const startIndex = Math.max(0, interlocuteurColIndex - searchRange);
+            const endIndex = Math.min(headers.length - 1, interlocuteurColIndex + searchRange);
+            
+            for (let i = startIndex; i <= endIndex; i++) {
+                const header = headers[i] || '';
+                if (searchTerms.some(term => header.includes(term))) {
+                    const value = row[i] || '';
+                    if (value && value.trim() !== '') {
+                        return value.trim();
+                    }
+                }
+            }
+            
+            return '';
         }
 
         function showLieuxForDate(dayData) {
@@ -3835,6 +4338,11 @@ L'équipe NY AKO</textarea>
             sheetData.forEach((row, index) => {
                 container.appendChild(generateJournalEntry(row, index));
             });
+            
+            // Masquer le bouton retour en mobile
+            if (window.innerWidth <= 1024) {
+                document.getElementById('mobileBackButton').style.display = 'none';
+            }
         }
 
         function displayFilteredEntries(results, title) {
@@ -3853,11 +4361,11 @@ L'équipe NY AKO</textarea>
             
             const header = document.createElement('div');
             header.style.background = 'linear-gradient(135deg, #e8f4fc, #d1e7f5)';
-            header.style.padding = '15px 20px';
-            header.style.borderRadius = '10px';
-            header.style.marginBottom = '25px';
+            header.style.padding = '12px 15px';
+            header.style.borderRadius = '8px';
+            header.style.marginBottom = '20px';
             header.style.border = '2px solid var(--neutral-border)';
-            header.innerHTML = `<strong style="font-size: 1.1em;">${results.length} journée(s) trouvée(s)</strong> pour : "${title}"`;
+            header.innerHTML = `<strong style="font-size: 1em;">${results.length} journée(s) trouvée(s)</strong> pour : "${title}"`;
             container.appendChild(header);
             
             results.forEach((row, index) => {
@@ -3865,6 +4373,11 @@ L'équipe NY AKO</textarea>
             });
             
             container.scrollIntoView({ behavior: 'smooth' });
+            
+            // Afficher le bouton retour en mobile
+            if (window.innerWidth <= 1024) {
+                document.getElementById('mobileBackButton').style.display = 'block';
+            }
         }
 
         function generateJournalEntry(row, index) {
@@ -4563,9 +5076,12 @@ L'équipe NY AKO</textarea>
             if (activityData.telephone) {
                 const contactItem = document.createElement('div');
                 contactItem.className = 'contact-item';
+                const telNumbers = activityData.telephone.split(/[,;]/).map(tel => tel.trim()).filter(tel => tel);
                 contactItem.innerHTML = `
                     <span class="contact-icon">🔢</span>
-                    <span class="contact-value">${activityData.telephone}</span>
+                    <span class="contact-value">
+                        ${telNumbers.map(tel => `<a href="tel:${tel}" class="contact-phone-link">${tel}</a>`).join('<br>')}
+                    </span>
                 `;
                 contactDetails.appendChild(contactItem);
             }
@@ -4573,9 +5089,12 @@ L'équipe NY AKO</textarea>
             if (activityData.whatsapp) {
                 const contactItem = document.createElement('div');
                 contactItem.className = 'contact-item';
+                const whatsappNumbers = activityData.whatsapp.split(/[,;]/).map(num => num.trim()).filter(num => num);
                 contactItem.innerHTML = `
                     <span class="contact-icon">💬</span>
-                    <span class="contact-value">${activityData.whatsapp}</span>
+                    <span class="contact-value">
+                        ${whatsappNumbers.map(num => `<a href="https://wa.me/${num.replace(/[^\d+]/g, '')}" class="contact-whatsapp-link" target="_blank">${num}</a>`).join('<br>')}
+                    </span>
                 `;
                 contactDetails.appendChild(contactItem);
             }
@@ -4583,9 +5102,12 @@ L'équipe NY AKO</textarea>
             if (activityData.mail) {
                 const contactItem = document.createElement('div');
                 contactItem.className = 'contact-item';
+                const emails = activityData.mail.split(/[,;]/).map(email => email.trim()).filter(email => email);
                 contactItem.innerHTML = `
                     <span class="contact-icon">📧</span>
-                    <span class="contact-value">${formatEmail(activityData.mail)}</span>
+                    <span class="contact-value">
+                        ${emails.map(email => `<a href="mailto:${email}" class="contact-email-link">${email}</a>`).join('<br>')}
+                    </span>
                 `;
                 contactDetails.appendChild(contactItem);
             }
@@ -4710,27 +5232,10 @@ L'équipe NY AKO</textarea>
             return button;
         }
 
-        function formatEmail(emailText) {
-            const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
-            return emailText.replace(emailRegex, function(email) {
-                return `<a href="mailto:${email}" class="email-link">${email}</a>`;
-            });
-        }
-
         function findHeaderIndex(headerText) {
             return headers.findIndex(header => 
                 header && header.trim() === headerText
             );
-        }
-
-        function findAllHeaderIndices(headerText) {
-            const indices = [];
-            headers.forEach((header, index) => {
-                if (header && header.includes(headerText)) {
-                    indices.push(index);
-                }
-            });
-            return indices;
         }
 
         function findInterlocuteurForEmail(row, emailColIndex) {
@@ -4863,7 +5368,7 @@ L'équipe NY AKO</textarea>
                     <div>
                         <strong>${item.interlocuteur}</strong><br>
                         <small style="color: #666;">${item.email}</small><br>
-                        <small style="color: #999; font-size: 0.8em;">Date: ${item.date}</small>
+                        <small style="color: #999; font-size: 0.75em;">Date: ${item.date}</small>
                     </div>
                 `;
                 recipientsContainer.appendChild(recipientDiv);
@@ -4973,7 +5478,7 @@ L'équipe NY AKO</textarea>
                     break;
             }
             
-            let html = `<h4 style="margin-bottom: 15px; color: var(--primary-color);">${listTitle} (${listData.length})</h4>`;
+            let html = `<h4 style="margin-bottom: 12px; color: var(--primary-color);">${listTitle} (${Array.isArray(listData) ? listData.length : Object.keys(listData).length})</h4>`;
             
             if (Array.isArray(listData)) {
                 listData.forEach((item, index) => {
@@ -4982,6 +5487,7 @@ L'équipe NY AKO</textarea>
                             <div class="list-item">
                                 <span>${item}</span>
                                 <span class="tag">${getItemCount(item, listType)}</span>
+                                ${listType === 'concerts' ? createScrollToFicheButton(item) : ''}
                             </div>
                         `;
                     } else if (typeof item === 'object') {
@@ -4989,28 +5495,135 @@ L'équipe NY AKO</textarea>
                             <div class="list-item">
                                 <span>${item.type}</span>
                                 <span class="tag">${item.count}</span>
+                                <div class="list-button-container">
+                                    ${createScrollToFicheButton(item.type)}
+                                </div>
                             </div>
                         `;
                     }
                 });
             } else if (typeof listData === 'object') {
                 Object.keys(listData).forEach(key => {
+                    const item = listData[key];
                     html += `
                         <div class="list-item">
                             <span>${key}</span>
-                            <span class="tag">${listData[key]}</span>
+                            <span class="tag">${item.count}</span>
+                            <div class="list-button-container">
+                                ${listType === 'concerts' ? createScrollToFicheButton(key) : ''}
+                            </div>
                         </div>
                     `;
                 });
             }
             
             listContainer.innerHTML = html;
+            
+            // Ajouter les écouteurs d'événements aux boutons
+            document.querySelectorAll('.scroll-to-fiche-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const elementText = this.getAttribute('data-element');
+                    const listType = document.getElementById('listType').value;
+                    
+                    if (listType === 'concerts') {
+                        scrollToConcert(elementText);
+                    } else if (listType === 'activites') {
+                        filterByActivityType(elementText);
+                    } else if (listType === 'interlocuteurs') {
+                        currentSearchTerm = elementText;
+                        currentSearchType = 'nom';
+                        const results = filterDataByType(elementText, 'nom');
+                        displayFilteredEntries(results, `Interlocuteur: ${elementText}`);
+                    } else if (listType === 'lieux') {
+                        currentSearchTerm = elementText;
+                        currentSearchType = 'lieu';
+                        const results = filterDataByType(elementText, 'lieu');
+                        displayFilteredEntries(results, `Lieu: ${elementText}`);
+                    } else if (listType === 'pays') {
+                        currentSearchTerm = elementText;
+                        currentSearchType = 'pays';
+                        const results = filterDataByType(elementText, 'pays');
+                        displayFilteredEntries(results, `Pays: ${elementText}`);
+                    }
+                });
+            });
+        }
+        
+        function createScrollToFicheButton(elementText) {
+            return `<button class="list-button scroll-to-fiche-button" data-element="${elementText}">📌 Défiler</button>`;
+        }
+
+        function scrollToConcert(concertLieu) {
+            const entries = document.querySelectorAll('.journal-entry');
+            let found = false;
+            
+            entries.forEach(entry => {
+                if (found) return;
+                
+                const concertSections = entry.querySelectorAll('.concert-section .activity-title');
+                for (let titleElement of concertSections) {
+                    if (titleElement.textContent.includes(concertLieu)) {
+                        entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        titleElement.style.backgroundColor = '#fff9c4';
+                        titleElement.style.transition = 'background-color 0.3s ease';
+                        setTimeout(() => {
+                            titleElement.style.backgroundColor = '';
+                        }, 3000);
+                        
+                        found = true;
+                        break;
+                    }
+                }
+            });
+            
+            if (!found) {
+                console.log(`Concert "${concertLieu}" non trouvé dans les entrées affichées`);
+            }
         }
 
         function getConcertsList() {
-            const concerts = {};
+            const concerts = [];
             
-            sheetData.forEach(row => {
+            sheetData.forEach((row, rowIndex) => {
+                for (let i = 1; i <= 7; i++) {
+                    const activityHeader = `ACTIVITÉ ${i}`;
+                    const activityHeaderAlt = `ACTIVITE ${i}`;
+                    
+                    const activityIndex = headers.findIndex(header => 
+                        header && (
+                            header.trim().toUpperCase() === activityHeader ||
+                            header.trim().toUpperCase() === activityHeaderAlt ||
+                            header.includes(`ACTIVITÉ ${i}`) ||
+                            header.includes(`ACTIVITE ${i}`)
+                        )
+                    );
+                    
+                    if (activityIndex !== -1) {
+                        const activityType = row[activityIndex] || '';
+                        
+                        if (activityType && activityType.trim().toLowerCase().includes('concert')) {
+                            // Trouver le lieu correspondant
+                            const lieuIndex = findHeaderIndex('Lieux :');
+                            if (lieuIndex !== -1) {
+                                const lieu = row[lieuIndex] || '';
+                                if (lieu.trim() !== '') {
+                                    const dateIndex = findHeaderIndex('Date:');
+                                    const date = dateIndex !== -1 ? row[dateIndex] : '';
+                                    
+                                    concerts.push({
+                                        date: date,
+                                        lieu: lieu,
+                                        type: activityType,
+                                        rowIndex: rowIndex
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // Vérifier aussi les colonnes CONCERT
                 const concertColumns = headers
                     .map((header, index) => 
                         (header && header.includes('CONCERT')) ? index : -1
@@ -5018,19 +5631,44 @@ L'équipe NY AKO</textarea>
                     .filter(index => index !== -1);
                 
                 concertColumns.forEach(colIndex => {
-                    const concertType = headers[colIndex] || '';
                     const concertValue = row[colIndex] || '';
-                    
-                    if (concertValue && (concertValue.toLowerCase().includes('concert') || concertValue === 'OUI')) {
-                        if (!concerts[concertType]) {
-                            concerts[concertType] = 0;
+                    if (concertValue && concertValue.toLowerCase() === 'oui') {
+                        const lieuIndex = findHeaderIndex('Lieux :');
+                        if (lieuIndex !== -1) {
+                            const lieu = row[lieuIndex] || '';
+                            if (lieu.trim() !== '') {
+                                const dateIndex = findHeaderIndex('Date:');
+                                const date = dateIndex !== -1 ? row[dateIndex] : '';
+                                
+                                concerts.push({
+                                    date: date,
+                                    lieu: lieu,
+                                    type: 'Concert',
+                                    rowIndex: rowIndex
+                                });
+                            }
                         }
-                        concerts[concertType]++;
                     }
                 });
             });
             
-            return concerts;
+            // Grouper par lieu
+            const concertsByLieu = {};
+            concerts.forEach(concert => {
+                if (!concertsByLieu[concert.lieu]) {
+                    concertsByLieu[concert.lieu] = {
+                        lieu: concert.lieu,
+                        count: 0,
+                        dates: []
+                    };
+                }
+                concertsByLieu[concert.lieu].count++;
+                if (!concertsByLieu[concert.lieu].dates.includes(concert.date)) {
+                    concertsByLieu[concert.lieu].dates.push(concert.date);
+                }
+            });
+            
+            return concertsByLieu;
         }
 
         function getActivitiesByType() {
@@ -5078,38 +5716,130 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        function exportCurrentList() {
+        function exportCurrentList(format) {
             const listType = document.getElementById('listType').value;
             let dataToExport = '';
             let filename = '';
+            let mimeType = '';
             
             switch(listType) {
                 case 'interlocuteurs':
-                    dataToExport = allInterlocuteurs.join('\n');
-                    filename = 'interlocuteurs_tournee_2026.txt';
+                    if (format === 'pdf') {
+                        exportListToPDF(allInterlocuteurs, 'Liste des Interlocuteurs/Hôtes', 'interlocuteurs');
+                    } else {
+                        dataToExport = allInterlocuteurs.join('\n');
+                        filename = 'interlocuteurs_tournee_2026.txt';
+                        mimeType = 'text/plain';
+                    }
                     break;
                 case 'concerts':
                     const concerts = getConcertsList();
-                    dataToExport = Object.keys(concerts).map(key => `${key}: ${concerts[key]}`).join('\n');
-                    filename = 'concerts_tournee_2026.txt';
+                    if (format === 'pdf') {
+                        exportListToPDF(concerts, 'Liste des Concerts', 'concerts');
+                    } else {
+                        dataToExport = Object.keys(concerts).map(key => `${key}: ${concerts[key].count} concert(s) - Dates: ${concerts[key].dates.join(', ')}`).join('\n');
+                        filename = 'concerts_tournee_2026.txt';
+                        mimeType = 'text/plain';
+                    }
                     break;
                 case 'activites':
                     const activities = getActivitiesByType();
-                    dataToExport = activities.map(a => `${a.type}: ${a.count}`).join('\n');
-                    filename = 'activites_tournee_2026.txt';
+                    if (format === 'pdf') {
+                        exportListToPDF(activities, 'Liste des Activités par type', 'activites');
+                    } else {
+                        dataToExport = activities.map(a => `${a.type}: ${a.count}`).join('\n');
+                        filename = 'activites_tournee_2026.txt';
+                        mimeType = 'text/plain';
+                    }
                     break;
                 case 'pays':
-                    dataToExport = allPays.join('\n');
-                    filename = 'pays_tournee_2026.txt';
+                    if (format === 'pdf') {
+                        exportListToPDF(allPays, 'Liste des Pays visités', 'pays');
+                    } else {
+                        dataToExport = allPays.join('\n');
+                        filename = 'pays_tournee_2026.txt';
+                        mimeType = 'text/plain';
+                    }
                     break;
                 case 'lieux':
-                    dataToExport = allLieux.join('\n');
-                    filename = 'lieux_tournee_2026.txt';
+                    if (format === 'pdf') {
+                        exportListToPDF(allLieux, 'Liste des Lieux visités', 'lieux');
+                    } else {
+                        dataToExport = allLieux.join('\n');
+                        filename = 'lieux_tournee_2026.txt';
+                        mimeType = 'text/plain';
+                    }
                     break;
             }
             
-            downloadFile(dataToExport, filename, 'text/plain');
-            alert(`Liste exportée: ${filename}`);
+            if (dataToExport && format !== 'pdf') {
+                downloadFile(dataToExport, filename, mimeType);
+                alert(`Liste exportée: ${filename}`);
+            }
+        }
+
+        function exportListToPDF(data, title, type) {
+            const printWindow = window.open('', '_blank');
+            let content = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>${title} - Tournée Europe 2026</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+                        .list-item { margin: 10px 0; padding: 10px; border-bottom: 1px solid #eee; }
+                        .list-count { float: right; background: #3498db; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8em; }
+                        @media print { body { margin: 0; } }
+                    </style>
+                </head>
+                <body>
+                    <h1>${title}</h1>
+                    <p>Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+                    <div style="margin-top: 20px;">
+            `;
+            
+            if (Array.isArray(data)) {
+                data.forEach((item, index) => {
+                    if (typeof item === 'string') {
+                        const count = getItemCount(item, type.slice(0, -1));
+                        content += `
+                            <div class="list-item">
+                                ${item}
+                                <span class="list-count">${count}</span>
+                            </div>
+                        `;
+                    } else if (typeof item === 'object') {
+                        content += `
+                            <div class="list-item">
+                                ${item.type}
+                                <span class="list-count">${item.count}</span>
+                            </div>
+                        `;
+                    }
+                });
+            } else if (typeof data === 'object') {
+                Object.keys(data).forEach(key => {
+                    const item = data[key];
+                    content += `
+                        <div class="list-item">
+                            <strong>${key}</strong><br>
+                            <small>${item.count} occurrence(s)</small>
+                            ${item.dates ? `<br><small>Dates: ${item.dates.join(', ')}</small>` : ''}
+                        </div>
+                    `;
+                });
+            }
+            
+            content += `
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            printWindow.document.write(content);
+            printWindow.document.close();
+            printWindow.print();
         }
 
         function showExportModal() {
@@ -5127,6 +5857,7 @@ L'équipe NY AKO</textarea>
             const includeContacts = document.getElementById('includeContacts').checked;
             const includePhotos = document.getElementById('includePhotos').checked;
             const includeStats = document.getElementById('includeStats').checked;
+            const includeActivityDetails = document.getElementById('includeActivityDetails').checked;
             
             let dataToExport;
             let filename;
@@ -5134,20 +5865,20 @@ L'équipe NY AKO</textarea>
             
             switch(selectedExportFormat) {
                 case 'csv':
-                    dataToExport = exportToCSV(includeContacts, includePhotos);
+                    dataToExport = exportToCSV(includeContacts, includePhotos, includeActivityDetails);
                     filename = 'tournee_europe_2026.csv';
                     mimeType = 'text/csv';
                     break;
                 case 'json':
-                    dataToExport = exportToJSON(includeContacts, includePhotos, includeStats);
+                    dataToExport = exportToJSON(includeContacts, includePhotos, includeStats, includeActivityDetails);
                     filename = 'tournee_europe_2026.json';
                     mimeType = 'application/json';
                     break;
                 case 'pdf':
-                    exportToPDF(includeContacts, includePhotos, includeStats);
+                    exportToPDF(includeContacts, includePhotos, includeStats, includeActivityDetails);
                     return;
                 case 'excel':
-                    dataToExport = exportToExcel(includeContacts, includePhotos);
+                    dataToExport = exportToExcel(includeContacts, includePhotos, includeActivityDetails);
                     filename = 'tournee_europe_2026.xlsx';
                     mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
                     break;
@@ -5160,7 +5891,7 @@ L'équipe NY AKO</textarea>
             }
         }
 
-        function exportToCSV(includeContacts, includePhotos) {
+        function exportToCSV(includeContacts, includePhotos, includeActivityDetails) {
             let csvContent = '';
             
             const headersToExport = headers.filter((header, index) => {
@@ -5178,14 +5909,22 @@ L'équipe NY AKO</textarea>
                 )) {
                     return false;
                 }
+                if (!includeActivityDetails && (
+                    header.includes('Heure début') ||
+                    header.includes('Heure fin') ||
+                    header.includes('Détails sur l\'activité') ||
+                    header.includes('Faits marquants') ||
+                    header.includes('Observations')
+                )) {
+                    return false;
+                }
                 return true;
             });
             
             csvContent += headersToExport.map(header => `"${header}"`).join(',') + '\n';
             
             sheetData.forEach(row => {
-                const rowData = headersToExport.map(header => {
-                    const index = headers.indexOf(header);
+                const rowData = headersToExport.map((header, index) => {
                     const value = row[index] || '';
                     return `"${value.replace(/"/g, '""').replace(/\n/g, ' ')}"`;
                 });
@@ -5195,7 +5934,7 @@ L'équipe NY AKO</textarea>
             return csvContent;
         }
 
-        function exportToJSON(includeContacts, includePhotos, includeStats) {
+        function exportToJSON(includeContacts, includePhotos, includeStats, includeActivityDetails) {
             const exportData = {
                 metadata: {
                     exportDate: new Date().toISOString(),
@@ -5235,6 +5974,15 @@ L'équipe NY AKO</textarea>
                     )) {
                         return;
                     }
+                    if (!includeActivityDetails && (
+                        header.includes('Heure début') ||
+                        header.includes('Heure fin') ||
+                        header.includes('Détails sur l\'activité') ||
+                        header.includes('Faits marquants') ||
+                        header.includes('Observations')
+                    )) {
+                        return;
+                    }
                     entry[header] = row[colIndex] || '';
                 });
                 exportData.data.push(entry);
@@ -5243,28 +5991,33 @@ L'équipe NY AKO</textarea>
             return JSON.stringify(exportData, null, 2);
         }
 
-        function exportToPDF(includeContacts, includePhotos, includeStats) {
+        function exportToPDF(includeContacts, includePhotos, includeStats, includeActivityDetails) {
             const printWindow = window.open('', '_blank');
             let content = `
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>Tournée Europe 2026 - Rapport</title>
+                    <title>Tournée Europe 2026 - Rapport complet</title>
                     <style>
                         body { font-family: Arial, sans-serif; margin: 20px; }
                         h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-                        .entry { margin-bottom: 30px; border: 1px solid #ddd; padding: 15px; }
+                        .entry { margin-bottom: 30px; border: 1px solid #ddd; padding: 15px; page-break-inside: avoid; }
                         .entry-header { background: #3498db; color: white; padding: 10px; margin: -15px -15px 15px -15px; }
                         .section { margin-bottom: 20px; }
                         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
                         .info-item { margin-bottom: 10px; }
                         .info-label { font-weight: bold; color: #2c3e50; }
-                        @media print { body { margin: 0; } }
+                        .activity-details { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
+                        .activity-title { color: #e67e22; margin-bottom: 10px; }
+                        @media print { 
+                            body { margin: 0; }
+                            .entry { page-break-inside: avoid; }
+                        }
                     </style>
                 </head>
                 <body>
                     <h1>📓 Journal de Bord - Tournée Europe 2026</h1>
-                    <p>Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+                    <p>Export complet généré le ${new Date().toLocaleDateString('fr-FR')}</p>
             `;
             
             if (includeStats) {
@@ -5311,8 +6064,37 @@ L'équipe NY AKO</textarea>
                 content += `
                             </div>
                         </div>
-                    </div>
                 `;
+                
+                // Ajouter les détails d'activités si demandé
+                if (includeActivityDetails) {
+                    const activitySections = findActivitySectionsInHeaders();
+                    let hasActivities = false;
+                    let activitiesContent = '';
+                    
+                    activitySections.forEach(section => {
+                        const activityData = extractActivityData(row, section.index, section.prefix);
+                        
+                        if (section.type === 'concert' && activityData.type && activityData.type.toLowerCase() === 'oui') {
+                            hasActivities = true;
+                            activitiesContent += createActivityPDFContent(activityData, section.prefix);
+                        } else if (activityData.type && activityData.type.trim() !== '') {
+                            hasActivities = true;
+                            activitiesContent += createActivityPDFContent(activityData, section.prefix);
+                        }
+                    });
+                    
+                    if (hasActivities) {
+                        content += `
+                            <div class="section">
+                                <h3>Activités détaillées</h3>
+                                ${activitiesContent}
+                            </div>
+                        `;
+                    }
+                }
+                
+                content += `</div>`;
             });
             
             content += `
@@ -5325,8 +6107,56 @@ L'équipe NY AKO</textarea>
             printWindow.print();
         }
 
-        function exportToExcel(includeContacts, includePhotos) {
-            return exportToCSV(includeContacts, includePhotos);
+        function createActivityPDFContent(activityData, prefix) {
+            let content = `<div class="activity-details">`;
+            content += `<h4 class="activity-title">${prefix}: ${activityData.type || 'Activité'}</h4>`;
+            
+            if (activityData.heureDebut || activityData.heureFin) {
+                content += `<p><strong>Horaires:</strong> ${activityData.heureDebut || ''} - ${activityData.heureFin || ''}</p>`;
+            }
+            
+            if (activityData.lieux) {
+                content += `<p><strong>Lieux:</strong> ${activityData.lieux}</p>`;
+            }
+            
+            if (activityData.trajet) {
+                content += `<p><strong>Trajet:</strong> ${activityData.trajet}</p>`;
+            }
+            
+            if (activityData.dureeTrajet) {
+                content += `<p><strong>Durée trajet:</strong> ${formatHours(parseDurationToHours(activityData.dureeTrajet))}</p>`;
+            }
+            
+            if (activityData.distanceTrajet) {
+                content += `<p><strong>Distance trajet:</strong> ${activityData.distanceTrajet} Km</p>`;
+            }
+            
+            if (activityData.details) {
+                content += `<p><strong>Détails:</strong> ${activityData.details}</p>`;
+            }
+            
+            if (activityData.faits) {
+                content += `<p><strong>Faits marquants:</strong> ${activityData.faits}</p>`;
+            }
+            
+            if (activityData.observations) {
+                content += `<p><strong>Observations:</strong> ${activityData.observations}</p>`;
+            }
+            
+            if (activityData.nbParticipant) {
+                content += `<p><strong>Nombre de participants:</strong> ${activityData.nbParticipant}</p>`;
+            }
+            
+            if (activityData.interlocuteur) {
+                content += `<p><strong>Interlocuteur:</strong> ${activityData.interlocuteur}</p>`;
+            }
+            
+            content += `</div>`;
+            return content;
+        }
+
+        function exportToExcel(includeContacts, includePhotos, includeActivityDetails) {
+            return exportToCSV(includeContacts, includePhotos, includeActivityDetails);
         }
 
         function downloadFile(content, filename, mimeType) {
@@ -5414,7 +6244,7 @@ L'équipe NY AKO</textarea>
                         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
                         .info-item { margin-bottom: 10px; }
                         .info-label { font-weight: bold; color: #2c3e50; }
-                        .activity-section { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
+                        .activity-details { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
                         @media print { 
                             body { margin: 0; }
                             .entry { page-break-inside: avoid; }
@@ -5468,6 +6298,7 @@ L'équipe NY AKO</textarea>
                         </div>
                 `;
                 
+                // Ajouter les détails d'activités
                 const activitySections = findActivitySectionsInHeaders();
                 let hasActivities = false;
                 let activitiesContent = '';
@@ -5475,49 +6306,19 @@ L'équipe NY AKO</textarea>
                 activitySections.forEach(section => {
                     const activityData = extractActivityData(row, section.index, section.prefix);
                     
-                    if (section.type === 'concert') {
-                        if (activityData.type && activityData.type.toLowerCase() === 'oui') {
-                            hasActivities = true;
-                            activitiesContent += `
-                                <div class="activity-section">
-                                    <h4>${section.prefix} à ${activityData.lieux || 'Lieu non spécifié'}</h4>
-                                    ${activityData.heureDebut || activityData.heureFin ? `
-                                        <p><strong>Heures:</strong> ${activityData.heureDebut || ''} - ${activityData.heureFin || ''}</p>
-                                    ` : ''}
-                                    ${activityData.nbParticipant ? `<p><strong>Participants:</strong> ${activityData.nbParticipant}</p>` : ''}
-                                    ${activityData.details ? `<p><strong>Détails:</strong> ${activityData.details}</p>` : ''}
-                                </div>
-                            `;
-                        }
-                    } else {
-                        if (activityData.type && activityData.type.trim() !== '') {
-                            hasActivities = true;
-                            let activityTitle = activityData.type;
-                            if (activityData.interlocuteur) {
-                                activityTitle += ` - ${activityData.interlocuteur}`;
-                            }
-                            if (activityData.lieux) {
-                                activityTitle += ` à ${activityData.lieux}`;
-                            }
-                            
-                            activitiesContent += `
-                                <div class="activity-section">
-                                    <h4>${activityTitle}</h4>
-                                    ${activityData.heureDebut || activityData.heureFin ? `
-                                        <p><strong>Heures:</strong> ${activityData.heureDebut || ''} - ${activityData.heureFin || ''}</p>
-                                    ` : ''}
-                                    ${activityData.nbParticipant ? `<p><strong>Participants:</strong> ${activityData.nbParticipant}</p>` : ''}
-                                    ${activityData.details ? `<p><strong>Détails:</strong> ${activityData.details}</p>` : ''}
-                                </div>
-                            `;
-                        }
+                    if (section.type === 'concert' && activityData.type && activityData.type.toLowerCase() === 'oui') {
+                        hasActivities = true;
+                        activitiesContent += createActivityPDFContent(activityData, section.prefix);
+                    } else if (activityData.type && activityData.type.trim() !== '') {
+                        hasActivities = true;
+                        activitiesContent += createActivityPDFContent(activityData, section.prefix);
                     }
                 });
                 
                 if (hasActivities) {
                     content += `
                         <div class="section">
-                            <h3>Activités de la Journée</h3>
+                            <h3>Activités détaillées</h3>
                             ${activitiesContent}
                         </div>
                     `;
@@ -5574,6 +6375,284 @@ L'équipe NY AKO</textarea>
             alert(`${selectedDays.length} journée(s) exportée(s) en format Excel`);
         }
 
+        function exportToBookPDF() {
+            const printWindow = window.open('', '_blank');
+            let content = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Livre - Tournée Europe 2026</title>
+                    <style>
+                        body { font-family: 'Georgia', serif; margin: 40px; line-height: 1.6; }
+                        h1 { text-align: center; color: #2c3e50; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 3px solid #3498db; }
+                        h2 { color: #2c3e50; margin-top: 40px; padding-bottom: 10px; border-bottom: 2px solid #3498db; }
+                        h3 { color: #3498db; margin-top: 30px; }
+                        .chapter { page-break-before: always; margin-top: 60px; }
+                        .entry { margin-bottom: 40px; padding: 25px; border: 1px solid #ddd; border-radius: 10px; background: #f9f9f9; page-break-inside: avoid; }
+                        .entry-header { background: #3498db; color: white; padding: 20px; margin: -25px -25px 25px -25px; border-radius: 10px 10px 0 0; }
+                        .section { margin-bottom: 25px; }
+                        .activity-details { background: white; padding: 20px; margin: 15px 0; border-radius: 8px; border-left: 5px solid #3498db; }
+                        .activity-title { color: #e67e22; font-size: 1.2em; }
+                        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 30px 0; }
+                        .stat-item { text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px; }
+                        .stat-value { font-size: 2em; font-weight: bold; color: #3498db; }
+                        .stat-label { color: #7f8c8d; font-size: 0.9em; }
+                        .intro { font-size: 1.1em; line-height: 1.8; text-align: justify; margin-bottom: 40px; }
+                        .page-break { page-break-before: always; }
+                        @media print { 
+                            body { margin: 20mm; }
+                            .chapter { margin-top: 40px; }
+                            .entry { page-break-inside: avoid; }
+                        }
+                        .table-of-contents { margin: 40px 0; padding: 20px; background: #f8f9fa; border-radius: 10px; }
+                        .toc-item { margin: 10px 0; padding: 10px; border-bottom: 1px solid #ddd; }
+                        .toc-number { float: left; width: 40px; font-weight: bold; }
+                        .toc-title { margin-left: 50px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>📚 Livre de la Tournée Europe 2026</h1>
+                    <div class="intro">
+                        <p>Ce livre retrace l'ensemble de la tournée européenne de NY AKO en 2026. 
+                        Il compile toutes les activités, rencontres, concerts et expériences vécues 
+                        durant cette aventure musicale à travers l'Europe.</p>
+                        <p>Chaque journée est détaillée avec ses activités, ses interlocuteurs, 
+                        ses lieux visités et les moments marquants qui ont ponctué cette tournée.</p>
+                    </div>
+                    
+                    <div class="table-of-contents">
+                        <h2>📑 Table des matières</h2>
+                        ${sheetData.map((row, index) => {
+                            const dateIndex = 1;
+                            const dateStr = row[dateIndex] || 'Date non spécifiée';
+                            const paysIndex = findHeaderIndex('Pays:');
+                            const pays = paysIndex !== -1 ? row[paysIndex] : '';
+                            return `
+                                <div class="toc-item">
+                                    <div class="toc-number">${index + 1}</div>
+                                    <div class="toc-title">Jour ${index + 1} - ${dateStr}${pays ? ` (${pays})` : ''}</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                    
+                    <div class="chapter">
+                        <h2>📊 Statistiques de la tournée</h2>
+                        <div class="stat-grid">
+                            <div class="stat-item">
+                                <div class="stat-value">${allLieux.length}</div>
+                                <div class="stat-label">Lieux visités</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${allPays.length}</div>
+                                <div class="stat-label">Pays visités</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${allInterlocuteurs.length}</div>
+                                <div class="stat-label">Interlocuteurs</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${totalParticipants}</div>
+                                <div class="stat-label">Participants total</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${formatHours(totalDureeTrajet)}</div>
+                                <div class="stat-label">Durée trajet total</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${totalDistance.toFixed(0)}km</div>
+                                <div class="stat-label">Distance totale</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chapter page-break">
+                        <h2>📅 Journal détaillé de la tournée</h2>
+            `;
+            
+            sheetData.forEach((row, index) => {
+                const dateIndex = 1;
+                const dateStr = row[dateIndex] || 'Date non spécifiée';
+                const paysIndex = findHeaderIndex('Pays:');
+                const pays = paysIndex !== -1 ? row[paysIndex] : '';
+                
+                content += `
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h2>Chapitre ${index + 1} - ${dateStr}${pays ? ` - ${pays}` : ''}</h2>
+                            <p style="opacity: 0.9; margin-top: 10px;">Jour ${index + 1} de la tournée</p>
+                        </div>
+                        
+                        <div class="section">
+                            <h3>🌍 Contexte de la journée</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                `;
+                
+                const dateIndexCol = findHeaderIndex('Date:');
+                if (dateIndexCol !== -1 && row[dateIndexCol]) {
+                    content += `<div><strong>Date:</strong> ${row[dateIndexCol]}</div>`;
+                }
+                
+                if (pays) {
+                    content += `<div><strong>Pays:</strong> ${pays}</div>`;
+                }
+                
+                const programmeValues = extractProgrammeValues(row);
+                if (programmeValues.length > 0) {
+                    content += `
+                        <div style="grid-column: 1 / -1;">
+                            <strong>Au programme:</strong>
+                            <ul style="margin: 10px 0 0 20px;">
+                                ${programmeValues.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                content += `
+                            </div>
+                        </div>
+                `;
+                
+                // Ajouter les activités
+                const activitySections = findActivitySectionsInHeaders();
+                let hasActivities = false;
+                let activitiesContent = '';
+                
+                activitySections.forEach(section => {
+                    const activityData = extractActivityData(row, section.index, section.prefix);
+                    
+                    if ((section.type === 'concert' && activityData.type && activityData.type.toLowerCase() === 'oui') || 
+                        (activityData.type && activityData.type.trim() !== '')) {
+                        hasActivities = true;
+                        activitiesContent += createBookActivityContent(activityData, section.prefix);
+                    }
+                });
+                
+                if (hasActivities) {
+                    content += `
+                        <div class="section">
+                            <h3>🎭 Activités de la journée</h3>
+                            ${activitiesContent}
+                        </div>
+                    `;
+                }
+                
+                const resumeIndex = findHeaderIndex('RESUME');
+                const noteIndex = findHeaderIndex('Note de la journée:');
+                
+                if ((resumeIndex !== -1 && row[resumeIndex]) || (noteIndex !== -1 && row[noteIndex])) {
+                    content += `
+                        <div class="section">
+                            <h3>📝 Bilan et réflexions</h3>
+                            <div style="background: #fff9c4; padding: 20px; border-radius: 8px; border-left: 5px solid #ffd54f;">
+                    `;
+                    
+                    if (resumeIndex !== -1 && row[resumeIndex]) {
+                        content += `<p><strong>Résumé de la journée:</strong> ${row[resumeIndex]}</p>`;
+                    }
+                    
+                    if (noteIndex !== -1 && row[noteIndex]) {
+                        content += `<p><strong>Notes personnelles:</strong> ${row[noteIndex]}</p>`;
+                    }
+                    
+                    content += `</div></div>`;
+                }
+                
+                content += `</div>`;
+                
+                // Ajouter un saut de page tous les 3 jours
+                if ((index + 1) % 3 === 0 && index !== sheetData.length - 1) {
+                    content += `<div class="page-break"></div>`;
+                }
+            });
+            
+            content += `
+                    </div>
+                    
+                    <div class="chapter page-break">
+                        <h2>🔚 Conclusion</h2>
+                        <div style="text-align: center; padding: 40px; background: #f8f9fa; border-radius: 10px; margin-top: 30px;">
+                            <p style="font-size: 1.2em; font-style: italic;">
+                                "Cette tournée européenne 2026 a été une aventure riche en rencontres, 
+                                en découvertes musicales et en partages culturels. Chaque journée 
+                                a apporté son lot d'émotions, d'apprentissages et de souvenirs 
+                                qui resteront gravés dans la mémoire de tous les participants."
+                            </p>
+                            <p style="margin-top: 30px; font-weight: bold;">
+                                NY AKO - Tournée Europe 2026
+                            </p>
+                            <p style="margin-top: 20px; color: #7f8c8d;">
+                                Document généré le ${new Date().toLocaleDateString('fr-FR', { 
+                                    year: 'numeric', 
+                                    month: 'long', 
+                                    day: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })}
+                            </p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            printWindow.document.write(content);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function createBookActivityContent(activityData, prefix) {
+            let content = `<div class="activity-details">`;
+            content += `<h4 class="activity-title">${prefix}: ${activityData.type || 'Activité'}</h4>`;
+            
+            if (activityData.heureDebut || activityData.heureFin) {
+                content += `<p><strong>🕐 Horaires:</strong> ${activityData.heureDebut || ''} - ${activityData.heureFin || ''}</p>`;
+            }
+            
+            if (activityData.lieux) {
+                content += `<p><strong>📍 Lieux:</strong> ${activityData.lieux}</p>`;
+            }
+            
+            if (activityData.trajet) {
+                content += `<p><strong>🛣️ Trajet:</strong> ${activityData.trajet}</p>`;
+            }
+            
+            if (activityData.dureeTrajet || activityData.distanceTrajet) {
+                content += `<p><strong>📏 Déplacement:</strong> `;
+                if (activityData.dureeTrajet) {
+                    content += `${formatHours(parseDurationToHours(activityData.dureeTrajet))}`;
+                }
+                if (activityData.distanceTrajet) {
+                    content += ` • ${activityData.distanceTrajet} Km`;
+                }
+                content += `</p>`;
+            }
+            
+            if (activityData.details) {
+                content += `<p><strong>📋 Détails:</strong> ${activityData.details}</p>`;
+            }
+            
+            if (activityData.faits) {
+                content += `<p><strong>🌟 Faits marquants:</strong> ${activityData.faits}</p>`;
+            }
+            
+            if (activityData.observations) {
+                content += `<p><strong>👁️ Observations:</strong> ${activityData.observations}</p>`;
+            }
+            
+            if (activityData.nbParticipant) {
+                content += `<p><strong>👥 Nombre de participants:</strong> ${activityData.nbParticipant} personne(s)</p>`;
+            }
+            
+            if (activityData.interlocuteur) {
+                content += `<p><strong>🤝 Interlocuteur:</strong> ${activityData.interlocuteur}</p>`;
+            }
+            
+            content += `</div>`;
+            return content;
+        }
+
         function showDataInfo() {
             document.getElementById('dataInfo').innerHTML = `
                 <div class="success-message">
@@ -5593,17 +6672,33 @@ L'équipe NY AKO</textarea>
             `;
         }
 
+        function prevMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        }
+
         window.addEventListener('resize', function() {
             renderActivityStats();
             
             if (document.getElementById('journalEntries').children.length > 0) {
                 displayAllJournalEntries();
             }
+            
+            // Masquer le bouton retour en desktop
+            if (window.innerWidth > 1024) {
+                document.getElementById('mobileBackButton').style.display = 'none';
+            }
         });
 
         window.scrollToInterlocuteur = scrollToInterlocuteur;
         window.showInterlocutorBubble = showInterlocutorBubble;
         window.scrollToLieu = scrollToLieu;
+        window.scrollToConcert = scrollToConcert;
     </script> 
 </body>
 </html>
