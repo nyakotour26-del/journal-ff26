@@ -45,26 +45,25 @@
         .page-header {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
             color: var(--primary-color);
-            padding: 10px 0;
+            padding: 5px 0;
             text-align: left;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            border-bottom: 3px solid var(--secondary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-bottom: 2px solid var(--secondary-color);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            background-image: url('https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
             background-size: cover;
             background-position: center;
             background-blend-mode: overlay;
-            background-color: rgba(255, 255, 255, 0.85);
+            background-color: rgba(255, 255, 255, 0.9);
         }
         
         .header-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 15px;
             position: relative;
             display: flex;
             justify-content: space-between;
@@ -74,9 +73,9 @@
         
         .header-icons {
             display: flex;
-            gap: 10px;
-            font-size: 1.3em;
-            margin-left: 10px;
+            gap: 8px;
+            font-size: 1.1em;
+            margin-left: 8px;
             flex-wrap: wrap;
         }
         
@@ -84,35 +83,30 @@
             transition: transform 0.3s ease;
             opacity: 0.8;
             background: rgba(255, 255, 255, 0.7);
-            padding: 5px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 4px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         .header-icon:hover {
-            transform: scale(1.2) rotate(5deg);
+            transform: scale(1.1);
             opacity: 1;
         }
         
         .page-title-with-bg {
-            font-size: 2.5em;
+            font-size: 1.8em;
             margin-bottom: 0;
-            font-weight: 800;
+            font-weight: 700;
             letter-spacing: 0.5px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            line-height: 1.2;
-            background-image: url('https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            background-blend-mode: overlay;
+            gap: 10px;
+            line-height: 1.1;
             background-color: rgba(255, 255, 255, 0.9);
-            padding: 15px 20px;
-            border-radius: 12px;
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
             color: var(--orange-color);
-            -webkit-text-stroke: 0.5px #ffffff;
             position: relative;
         }
         
@@ -124,61 +118,60 @@
             right: 0;
             bottom: 0;
             background: linear-gradient(45deg, rgba(255, 152, 0, 0.1), rgba(255, 152, 0, 0.05));
-            border-radius: 12px;
+            border-radius: 8px;
             z-index: -1;
         }
         
         .title-images {
             display: flex;
-            gap: 10px;
+            gap: 6px;
             align-items: center;
             flex-wrap: wrap;
         }
         
         .title-images span {
-            font-size: 1.2em;
+            font-size: 1em;
             opacity: 0.9;
             background: rgba(255, 255, 255, 0.7);
-            padding: 5px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 4px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         .page-subtitle {
-            font-size: 0.85em;
+            font-size: 0.7em;
             opacity: 0.8;
             font-weight: 400;
             letter-spacing: 0.5px;
-            margin-top: 3px;
+            margin-top: 2px;
             font-style: italic;
         }
         
-        /* Style pour les boutons d'action rapide */
         .header-action-buttons {
             display: flex;
-            gap: 8px;
-            margin-left: 15px;
+            gap: 6px;
+            margin-left: 10px;
         }
         
         .header-action-button {
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 20px;
+            padding: 6px 10px;
+            border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 0.8em;
+            gap: 4px;
+            font-size: 0.7em;
             font-weight: 500;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         .header-action-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
         }
         
         .header-action-button.calendar {
@@ -190,20 +183,19 @@
         }
         
         .header-action-icon {
-            font-size: 1.1em;
+            font-size: 0.9em;
         }
         
-        /* Boutons miniatures en mode mobile */
         .mobile-mini-buttons {
             display: none;
-            gap: 8px;
-            margin-left: 15px;
+            gap: 6px;
+            margin-left: 10px;
             align-items: center;
         }
         
         .mini-button {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
@@ -213,13 +205,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2em;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 1em;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         .mini-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transform: scale(1.05);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
         }
         
         .container {
@@ -227,60 +219,60 @@
             gap: 0;
             max-width: 1400px;
             margin: 0 auto;
-            min-height: calc(100vh - 80px);
+            min-height: calc(100vh - 50px);
         }
         
         .sidebar {
             width: var(--sidebar-width);
             flex-shrink: 0;
             position: sticky;
-            top: 80px;
-            height: calc(100vh - 80px);
+            top: 50px;
+            height: calc(100vh - 50px);
             overflow-y: auto;
             background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
-            border-right: 2px solid var(--neutral-border);
-            padding: 15px;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.05);
+            border-right: 1px solid var(--neutral-border);
+            padding: 10px;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.03);
         }
         
         .main-content {
             flex: 1;
             min-width: 0;
-            padding: 20px;
+            padding: 15px;
             background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
             overflow-y: auto;
-            max-height: calc(100vh - 80px);
+            max-height: calc(100vh - 50px);
         }
         
         .mobile-back-button {
             display: none;
             position: fixed;
-            top: 15px;
-            right: 15px;
+            top: 10px;
+            right: 10px;
             background: var(--secondary-color);
             color: white;
-            padding: 8px;
+            padding: 6px;
             border-radius: 50%;
             text-decoration: none;
             z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
             font-weight: 500;
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2em;
+            font-size: 1em;
         }
         
         .special-frame {
             position: relative;
-            padding: 12px;
-            margin-bottom: 25px;
+            padding: 10px;
+            margin-bottom: 15px;
             background: linear-gradient(135deg, var(--light-blue), var(--secondary-color));
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border: 8px solid transparent;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            border: 6px solid transparent;
             background-clip: padding-box;
             overflow: hidden;
         }
@@ -288,12 +280,12 @@
         .special-frame::before {
             content: '';
             position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
             background: linear-gradient(45deg, var(--secondary-color), var(--light-blue), var(--secondary-color));
-            border-radius: 20px;
+            border-radius: 15px;
             z-index: -1;
         }
         
@@ -312,11 +304,11 @@
         
         .date-options-content {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            width: 95%;
+            max-width: 400px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             max-height: 80vh;
             overflow-y: auto;
         }
@@ -325,61 +317,61 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-blue);
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--light-blue);
         }
         
         .date-options-title {
-            font-size: 1.2em;
+            font-size: 1em;
             color: var(--primary-color);
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .date-options-title::before {
             content: '📅';
-            font-size: 1.1em;
+            font-size: 0.9em;
         }
         
         .close-date-options {
             background: none;
             border: none;
-            font-size: 1.2em;
+            font-size: 1em;
             cursor: pointer;
             color: var(--accent-color);
-            padding: 5px;
+            padding: 4px;
         }
         
         .date-options-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 10px;
         }
         
         .date-option {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px;
-            border: 2px solid var(--neutral-border);
-            border-radius: 8px;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid var(--neutral-border);
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .date-option:hover {
             background: #f8f9fa;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
         }
         
         .date-option-icon {
-            font-size: 1.2em;
-            width: 25px;
+            font-size: 1em;
+            width: 20px;
             text-align: center;
         }
         
@@ -389,18 +381,18 @@
         
         .date-option-title {
             font-weight: 600;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
             color: var(--primary-color);
-            font-size: 0.9em;
+            font-size: 0.8em;
         }
         
         .date-option-description {
-            font-size: 0.8em;
+            font-size: 0.7em;
             color: #7f8c8d;
         }
         
         .date-option.admin-only {
-            border-left: 4px solid var(--accent-color);
+            border-left: 3px solid var(--accent-color);
         }
         
         .date-option.admin-only .date-option-title {
@@ -424,66 +416,66 @@
         
         .lock-icon {
             color: var(--accent-color);
-            font-size: 1em;
+            font-size: 0.9em;
         }
         
         .journal-entry {
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             overflow: hidden;
-            border: 2px solid var(--neutral-border);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--neutral-border);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         
         .journal-entry:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
         }
         
         .entry-header {
             background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
             color: white;
-            padding: 12px 15px;
+            padding: 10px 12px;
         }
         
         .entry-title-large {
-            font-size: 1.6em;
-            margin-bottom: 5px;
+            font-size: 1.3em;
+            margin-bottom: 4px;
             font-weight: 600;
             color: white;
         }
         
         .entry-lieux {
-            font-size: 1em;
+            font-size: 0.9em;
             opacity: 0.9;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             font-weight: 500;
             background: rgba(255,255,255,0.2);
-            padding: 8px;
-            border-radius: 6px;
+            padding: 6px;
+            border-radius: 4px;
         }
         
         .jour-number {
-            font-size: 0.9em;
+            font-size: 0.8em;
             opacity: 0.9;
-            margin-top: 3px;
+            margin-top: 2px;
             font-weight: 500;
             background: rgba(255,255,255,0.2);
-            padding: 3px 8px;
-            border-radius: 12px;
+            padding: 2px 6px;
+            border-radius: 10px;
             display: inline-block;
         }
         
         .entry-content {
-            padding: 15px;
+            padding: 12px;
         }
         
         .section {
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px dashed #e0e0e0;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #e0e0e0;
         }
         
         .section:last-child {
@@ -491,39 +483,39 @@
         }
         
         .section-title {
-            font-size: 1.3em;
+            font-size: 1.1em;
             color: var(--section-title-color);
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 3px solid var(--light-blue);
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--light-blue);
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
         
         .section-title::before {
             content: '';
-            width: 5px;
-            height: 18px;
+            width: 4px;
+            height: 15px;
             background: var(--section-title-color);
-            border-radius: 3px;
+            border-radius: 2px;
         }
         
         .subsection-title {
-            font-size: 1.1em;
+            font-size: 1em;
             color: var(--section-title-color);
-            margin: 12px 0 8px;
-            padding-left: 10px;
-            border-left: 3px solid var(--section-title-color);
+            margin: 10px 0 6px;
+            padding-left: 8px;
+            border-left: 2px solid var(--section-title-color);
             font-weight: 600;
         }
         
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 12px;
-            margin-bottom: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
         }
         
         .info-item {
@@ -534,35 +526,35 @@
         .info-label {
             font-weight: 600;
             color: var(--primary-color);
-            margin-bottom: 5px;
-            font-size: 0.8em;
+            margin-bottom: 4px;
+            font-size: 0.7em;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         
         .info-value {
-            padding: 8px;
+            padding: 6px;
             background-color: #f8f9fa;
-            border-radius: 6px;
-            border-left: 3px solid var(--secondary-color);
-            font-size: 1em;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 5px;
+            border-left: 2px solid var(--secondary-color);
+            font-size: 0.9em;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
         .programme-list {
             background-color: #f8f9fa;
-            padding: 10px;
-            border-radius: 6px;
-            border-left: 3px solid var(--secondary-color);
+            padding: 8px;
+            border-radius: 5px;
+            border-left: 2px solid var(--secondary-color);
         }
         
         .programme-item {
-            margin-bottom: 5px;
-            padding: 5px 8px;
+            margin-bottom: 4px;
+            padding: 4px 6px;
             background: white;
-            border-radius: 4px;
-            border-left: 3px solid var(--accent-color);
-            font-size: 0.85em;
+            border-radius: 3px;
+            border-left: 2px solid var(--accent-color);
+            font-size: 0.8em;
         }
         
         .programme-item:last-child {
@@ -571,8 +563,8 @@
         
         .inline-group {
             display: flex;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
         
         .inline-item {
@@ -581,149 +573,149 @@
         
         .note-box {
             background-color: var(--note-bg);
-            border: 2px solid var(--note-border);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--note-border);
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
             transition: transform 0.2s ease;
         }
         
         .note-box:hover {
-            transform: translateX(3px);
+            transform: translateX(2px);
         }
         
         .note-title {
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: var(--primary-color);
-            font-size: 1em;
+            font-size: 0.9em;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
         
         .note-title::before {
             content: '📝';
-            font-size: 1em;
+            font-size: 0.9em;
         }
         
         .highlight-value {
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: 700;
             color: var(--accent-color);
-            padding: 8px;
+            padding: 6px;
             background: #f8f9fa;
-            border-radius: 6px;
+            border-radius: 5px;
             text-align: left;
             border: 1px solid #e9ecef;
-            margin: 10px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin: 8px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 8px;
         }
         
         .photo-button {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
-            padding: 6px 12px;
-            border-radius: 15px;
+            padding: 5px 10px;
+            border-radius: 12px;
             text-decoration: none;
-            margin: 5px;
-            font-size: 0.8em;
-            transition: all 0.3s ease;
+            margin: 4px;
+            font-size: 0.7em;
+            transition: all 0.2s ease;
             font-weight: 500;
         }
         
         .photo-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
         .photo-button::before {
             content: '📸';
-            font-size: 0.9em;
+            font-size: 0.8em;
         }
         
         .search-section {
             background-color: white;
-            padding: 15px;
+            padding: 12px;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            margin-bottom: 15px;
-            border: 2px solid var(--neutral-border);
+            margin-bottom: 12px;
+            border: 1px solid var(--neutral-border);
         }
         
         .search-form {
             display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
+            gap: 8px;
+            margin-bottom: 10px;
             position: relative;
         }
         
         .search-input {
             flex: 1;
-            padding: 10px;
-            font-size: 13px;
-            border: 2px solid #e0e0e0;
+            padding: 8px;
+            font-size: 12px;
+            border: 1px solid #e0e0e0;
             border-radius: var(--border-radius);
-            transition: border-color 0.3s ease;
+            transition: border-color 0.2s ease;
         }
         
         .search-input:focus {
             outline: none;
             border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
         }
         
         .search-button {
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: var(--border-radius);
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.85em;
+            transition: all 0.2s ease;
+            font-size: 0.8em;
         }
         
         .search-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
         }
         
         .filters-section {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            margin-bottom: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
         }
         
         .filter-group {
             background: #f8f9fa;
-            padding: 12px;
+            padding: 10px;
             border-radius: var(--border-radius);
-            border: 2px solid #e9ecef;
+            border: 1px solid #e9ecef;
             transition: transform 0.2s ease;
         }
         
         .filter-group:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
         
         .filter-group h3 {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: var(--secondary-color);
             font-weight: 600;
-            font-size: 0.9em;
+            font-size: 0.8em;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -731,8 +723,8 @@
         }
         
         .filter-group h3 .toggle-icon {
-            font-size: 0.8em;
-            transition: transform 0.3s ease;
+            font-size: 0.7em;
+            transition: transform 0.2s ease;
         }
         
         .filter-group.collapsed h3 .toggle-icon {
@@ -742,10 +734,10 @@
         .filter-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            max-height: 150px;
+            gap: 5px;
+            max-height: 120px;
             overflow-y: auto;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.2s ease;
         }
         
         .filter-group.collapsed .filter-tags {
@@ -756,26 +748,26 @@
         .tag {
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
-            padding: 5px 10px;
-            border-radius: 12px;
-            font-size: 0.75em;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 0.7em;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             font-weight: 500;
         }
         
         .tag:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: scale(1.03);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         
         .calendar-section {
             background: white;
-            padding: 12px;
+            padding: 10px;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            margin-bottom: 12px;
-            border: 2px solid var(--neutral-border);
+            margin-bottom: 10px;
+            border: 1px solid var(--neutral-border);
             overflow-x: auto;
         }
         
@@ -783,60 +775,60 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .calendar-nav {
             display: flex;
-            gap: 6px;
+            gap: 5px;
         }
         
         .calendar-nav button {
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
             border: none;
-            padding: 5px 8px;
-            border-radius: 4px;
+            padding: 4px 6px;
+            border-radius: 3px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.75em;
+            transition: all 0.2s ease;
+            font-size: 0.7em;
         }
         
         .calendar-nav button:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
         
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            min-width: 450px;
+            gap: 4px;
+            min-width: 350px;
         }
         
         .calendar-day-header {
             text-align: center;
             font-weight: bold;
-            padding: 6px;
+            padding: 5px;
             background-color: var(--light-color);
-            border-radius: 4px;
+            border-radius: 3px;
             font-weight: 600;
-            font-size: 0.75em;
+            font-size: 0.7em;
         }
         
         .calendar-day {
             text-align: center;
-            padding: 6px;
+            padding: 4px;
             cursor: pointer;
-            border-radius: 4px;
-            border: 2px solid #f0f0f0;
-            transition: all 0.3s ease;
+            border-radius: 3px;
+            border: 1px solid #f0f0f0;
+            transition: all 0.2s ease;
             font-weight: 500;
             position: relative;
-            min-height: 80px;
+            min-height: 60px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            font-size: 0.8em;
+            font-size: 0.75em;
         }
         
         .calendar-day.has-data {
@@ -848,94 +840,93 @@
         .calendar-day.selected {
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
         
         .calendar-day-number {
-            font-size: 0.9em;
+            font-size: 0.8em;
             font-weight: bold;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
         
-        /* Styles pour les textes du calendrier */
         .calendar-day-lieux {
-            font-size: 0.65em;
-            line-height: 1.1;
+            font-size: 0.6em;
+            line-height: 1;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-height: 50px;
-            color: var(--secondary-color);
+            max-height: 35px;
+            color: #333;
             font-weight: 600;
-            margin-top: 3px;
+            margin-top: 2px;
         }
         
         .calendar-day-pays {
-            font-size: 0.55em;
+            font-size: 0.5em;
             color: var(--accent-color);
             margin-top: 1px;
             font-weight: 700;
         }
         
         .calendar-all-lieux {
-            font-size: 0.6em;
-            line-height: 1.1;
+            font-size: 0.55em;
+            line-height: 1;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-height: 40px;
+            max-height: 30px;
             color: #27ae60;
             font-weight: 600;
-            margin-top: 2px;
+            margin-top: 1px;
             font-style: italic;
         }
         
         .stats-section {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
-            margin-bottom: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            margin-bottom: 10px;
         }
         
         .stat-card {
             background: white;
-            padding: 10px;
+            padding: 8px;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             text-align: center;
-            border: 2px solid var(--neutral-border);
-            transition: transform 0.3s ease;
+            border: 1px solid var(--neutral-border);
+            transition: transform 0.2s ease;
         }
         
         .stat-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
         
         .stat-value {
-            font-size: 1.5em;
+            font-size: 1.2em;
             font-weight: 800;
             color: var(--secondary-color);
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
         
         .stat-label {
             color: #7f8c8d;
-            font-size: 0.7em;
+            font-size: 0.65em;
             font-weight: 500;
             line-height: 1.1;
         }
         
         .loading {
             text-align: center;
-            padding: 30px;
+            padding: 20px;
         }
         
         .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
+            border: 3px solid rgba(0, 0, 0, 0.1);
             border-left-color: var(--secondary-color);
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
+            margin: 0 auto 10px;
         }
         
         @keyframes spin {
@@ -945,53 +936,53 @@
         .error-message {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
-            padding: 12px;
-            border-radius: 6px;
-            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 8px 0;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         
         .success-message {
             background: linear-gradient(135deg, #27ae60, #219a52);
             color: white;
-            padding: 12px;
-            border-radius: 6px;
-            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 8px 0;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         
         .activity-section {
             background: var(--activity-bg);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--secondary-color);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-            transition: transform 0.3s ease;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--secondary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
         }
         
         .activity-section:hover {
-            transform: translateX(3px);
+            transform: translateX(2px);
         }
         
         .concert-section {
             background: var(--concert-bg);
-            border-left: 4px solid var(--concert-orange);
+            border-left: 3px solid var(--concert-orange);
         }
         
         .activity-title {
-            font-size: 1.2em;
+            font-size: 1em;
             color: var(--primary-color);
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 6px;
-            border-bottom: 2px solid rgba(0,0,0,0.1);
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 5px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             text-align: center;
             justify-content: center;
             background-color: var(--activity-title-bg);
@@ -999,22 +990,22 @@
         
         .activity-title.concert-title {
             color: var(--concert-orange);
-            font-size: 1.1em;
+            font-size: 0.95em;
         }
         
         .activity-title.activity-type::before {
             content: '📅';
-            font-size: 0.8em;
+            font-size: 0.7em;
         }
         
         .no-data {
             text-align: center;
             color: #7f8c8d;
             font-style: italic;
-            padding: 20px;
+            padding: 15px;
             background: #f8f9fa;
-            border-radius: 6px;
-            border: 2px dashed #dee2e6;
+            border-radius: 5px;
+            border: 1px dashed #dee2e6;
         }
         
         .debug-info {
@@ -1022,75 +1013,75 @@
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
             border-radius: 5px;
-            padding: 10px;
-            margin: 8px 0;
+            padding: 8px;
+            margin: 6px 0;
             font-family: monospace;
-            font-size: 0.75em;
-            max-height: 150px;
+            font-size: 0.7em;
+            max-height: 120px;
             overflow-y: auto;
         }
         
         .photos-section {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 10px;
-            border: 2px dashed #dee2e6;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 8px;
+            border: 1px dashed #dee2e6;
         }
         
         .photos-title {
-            font-size: 0.9em;
+            font-size: 0.8em;
             color: var(--primary-color);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
         
         .photos-title::before {
             content: '🖼️';
-            font-size: 1em;
+            font-size: 0.9em;
         }
         
         .admin-section {
             background: linear-gradient(135deg, #2c3e50, #34495e);
             color: white;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            border: 2px solid var(--neutral-border);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid var(--neutral-border);
         }
         
         .admin-panel {
             background: rgba(255,255,255,0.1);
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 8px;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 6px;
         }
         
         .admin-controls {
             display: flex;
-            gap: 6px;
+            gap: 5px;
             flex-wrap: wrap;
-            margin-top: 10px;
+            margin-top: 8px;
         }
         
         .admin-button {
             background: linear-gradient(to bottom, #3498db, #2980b9);
             color: white;
             border: none;
-            padding: 6px 10px;
-            border-radius: 4px;
+            padding: 5px 8px;
+            border-radius: 3px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             font-weight: 500;
-            font-size: 0.8em;
+            font-size: 0.7em;
         }
         
         .admin-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
         
         .admin-button:disabled {
@@ -1103,53 +1094,53 @@
         .stats-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 10px;
         }
         
         .stats-row .stat-card {
             flex: 1;
             min-width: auto;
-            padding: 8px;
+            padding: 6px;
         }
         
         .stats-row .stat-value {
-            font-size: 1.3em;
+            font-size: 1.1em;
         }
         
         .activity-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            margin-top: 12px;
-            margin-bottom: 12px;
+            gap: 5px;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
         
         .activity-stats-mobile {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-top: 10px;
+            gap: 5px;
+            margin-top: 8px;
         }
         
         .activity-stat {
             background: white;
-            padding: 8px;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 6px;
+            border-radius: 5px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
             text-align: center;
-            border-left: 3px solid var(--secondary-color);
+            border-left: 2px solid var(--secondary-color);
             cursor: pointer;
-            transition: all 0.3s ease;
-            min-height: 50px;
+            transition: all 0.2s ease;
+            min-height: 40px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
         
         .activity-stat:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
         .activity-stat.concert-stat {
@@ -1157,20 +1148,20 @@
         }
         
         .activity-stat.concert-stat:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
         .activity-stat-value {
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
         
         .activity-stat-label {
             color: #7f8c8d;
-            font-size: 0.7em;
+            font-size: 0.65em;
             line-height: 1.1;
         }
         
@@ -1188,12 +1179,12 @@
         }
         
         .password-input {
-            padding: 6px;
+            padding: 5px;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-right: 6px;
-            width: 160px;
-            font-size: 0.85em;
+            border-radius: 3px;
+            margin-right: 5px;
+            width: 140px;
+            font-size: 0.8em;
         }
         
         .password-input:focus {
@@ -1216,26 +1207,26 @@
         
         .modal-content {
             background: white;
-            padding: 15px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 600px;
+            padding: 12px;
+            border-radius: 6px;
+            width: 95%;
+            max-width: 500px;
             max-height: 80vh;
             overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
         
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--light-blue);
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--light-blue);
         }
         
         .modal-title {
-            font-size: 1.2em;
+            font-size: 1em;
             color: var(--primary-color);
             font-weight: 600;
         }
@@ -1243,24 +1234,24 @@
         .close-modal {
             background: none;
             border: none;
-            font-size: 1.2em;
+            font-size: 1em;
             cursor: pointer;
             color: var(--accent-color);
-            padding: 5px;
+            padding: 4px;
         }
         
         .email-recipients {
-            max-height: 150px;
+            max-height: 120px;
             overflow-y: auto;
             border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 4px;
+            padding: 8px;
+            border-radius: 3px;
             background: #f9f9fa;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .recipient-item {
-            padding: 6px;
+            padding: 5px;
             border-bottom: 1px solid #eee;
             display: flex;
             align-items: center;
@@ -1275,47 +1266,47 @@
         }
         
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .form-label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             font-weight: 600;
             color: var(--primary-color);
-            font-size: 0.85em;
+            font-size: 0.8em;
         }
         
         .form-input, .form-textarea {
             width: 100%;
-            padding: 8px;
+            padding: 6px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 3px;
             font-family: inherit;
-            font-size: 12px;
+            font-size: 11px;
         }
         
         .form-textarea {
-            height: 100px;
+            height: 80px;
             resize: vertical;
         }
         
         .modal-actions {
             display: flex;
-            gap: 6px;
+            gap: 5px;
             justify-content: flex-end;
             flex-wrap: wrap;
-            margin-top: 12px;
+            margin-top: 10px;
         }
         
         .action-button {
-            padding: 8px 12px;
+            padding: 6px 10px;
             border: none;
-            border-radius: 4px;
+            border-radius: 3px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.85em;
+            transition: all 0.2s ease;
+            font-size: 0.8em;
         }
         
         .action-button.primary {
@@ -1334,25 +1325,25 @@
         }
         
         .action-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         
         .list-container {
-            max-height: 300px;
+            max-height: 250px;
             overflow-y: auto;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 12px;
+            border-radius: 3px;
+            margin-bottom: 10px;
         }
         
         .list-item {
-            padding: 8px 10px;
+            padding: 6px 8px;
             border-bottom: 1px solid #eee;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85em;
+            font-size: 0.8em;
         }
         
         .list-item:last-child {
@@ -1365,75 +1356,75 @@
         
         .export-options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 8px;
-            margin-bottom: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 6px;
+            margin-bottom: 10px;
         }
         
         .export-option {
             background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
+            padding: 10px;
+            border-radius: 5px;
             text-align: center;
-            border: 2px solid #e9ecef;
+            border: 1px solid #e9ecef;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .export-option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border-color: var(--secondary-color);
         }
         
         .export-icon {
-            font-size: 1.5em;
-            margin-bottom: 6px;
+            font-size: 1.3em;
+            margin-bottom: 4px;
         }
         
         .contact-info {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 10px;
-            border: 2px solid var(--neutral-border);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 8px;
+            border: 1px solid var(--neutral-border);
         }
         
         .contact-header {
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 10px;
-            padding-bottom: 6px;
-            border-bottom: 2px solid var(--neutral-border);
+            gap: 5px;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--neutral-border);
         }
         
         .contact-header h4 {
             margin: 0;
             color: var(--primary-color);
-            font-size: 1em;
+            font-size: 0.9em;
         }
         
         .contact-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 8px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 6px;
         }
         
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px;
+            gap: 5px;
+            padding: 5px;
             background: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            font-size: 0.85em;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            font-size: 0.8em;
         }
         
         .contact-icon {
-            font-size: 1em;
-            width: 18px;
+            font-size: 0.9em;
+            width: 16px;
             text-align: center;
         }
         
@@ -1453,72 +1444,72 @@
         
         .trajet-info {
             display: flex;
-            gap: 8px;
-            margin-top: 10px;
+            gap: 6px;
+            margin-top: 8px;
         }
         
         .trajet-item {
             flex: 1;
             background: white;
-            padding: 8px;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 6px;
+            border-radius: 5px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
             text-align: center;
-            border-left: 3px solid var(--secondary-color);
+            border-left: 2px solid var(--secondary-color);
         }
         
         .trajet-value {
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
         
         .trajet-label {
             color: #7f8c8d;
-            font-size: 0.8em;
+            font-size: 0.75em;
         }
         
         .heure-group {
             display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 10px;
         }
         
         .heure-group-mobile {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 10px;
+            gap: 5px;
+            margin-bottom: 8px;
         }
         
         .heure-item {
             flex: 1;
             background: #f8f9fa;
-            padding: 8px;
-            border-radius: 6px;
+            padding: 6px;
+            border-radius: 5px;
             text-align: center;
             border: 1px solid #e9ecef;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 60px;
+            min-height: 50px;
         }
         
         .heure-icon {
-            font-size: 1.1em;
-            margin-bottom: 4px;
-        }
-        
-        .heure-label {
-            font-size: 0.8em;
-            color: #7f8c8d;
+            font-size: 1em;
             margin-bottom: 3px;
         }
         
+        .heure-label {
+            font-size: 0.75em;
+            color: #7f8c8d;
+            margin-bottom: 2px;
+        }
+        
         .heure-value {
-            font-size: 1em;
+            font-size: 0.9em;
             font-weight: 700;
             color: var(--primary-color);
         }
@@ -1526,43 +1517,43 @@
         .lieux-info {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-top: 10px;
+            gap: 6px;
+            margin-top: 8px;
         }
         
         .lieux-trajet-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-top: 10px;
+            gap: 5px;
+            margin-top: 8px;
         }
         
         .lieux-item {
             background: #f8f9fa;
-            padding: 8px;
-            border-radius: 6px;
+            padding: 6px;
+            border-radius: 5px;
             text-align: center;
             border: 1px solid #e9ecef;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 60px;
+            min-height: 50px;
         }
         
         .lieux-icon {
-            font-size: 1.1em;
-            margin-bottom: 4px;
-        }
-        
-        .lieux-label {
-            font-size: 0.8em;
-            color: #7f8c8d;
+            font-size: 1em;
             margin-bottom: 3px;
         }
         
+        .lieux-label {
+            font-size: 0.75em;
+            color: #7f8c8d;
+            margin-bottom: 2px;
+        }
+        
         .lieux-value {
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: 700;
             color: var(--primary-color);
         }
@@ -1570,74 +1561,74 @@
         .duree-distance-presentation {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-top: 10px;
+            gap: 5px;
+            margin-top: 8px;
         }
         
         .duree-distance-item {
             background: #f8f9fa;
-            padding: 8px;
-            border-radius: 6px;
+            padding: 6px;
+            border-radius: 5px;
             text-align: center;
             border: 1px solid #e9ecef;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 60px;
+            min-height: 50px;
         }
         
         .duree-distance-icon {
-            font-size: 1.1em;
-            margin-bottom: 4px;
-        }
-        
-        .duree-distance-label {
-            font-size: 0.8em;
-            color: #7f8c8d;
+            font-size: 1em;
             margin-bottom: 3px;
         }
         
+        .duree-distance-label {
+            font-size: 0.75em;
+            color: #7f8c8d;
+            margin-bottom: 2px;
+        }
+        
         .duree-distance-value {
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: 700;
             color: var(--primary-color);
         }
         
         .password-section {
-            margin-top: 10px;
-            padding: 10px;
+            margin-top: 8px;
+            padding: 8px;
             background: #f8f9fa;
-            border-radius: 6px;
-            border: 2px solid #e9ecef;
+            border-radius: 5px;
+            border: 1px solid #e9ecef;
         }
         
         .password-button {
             background: linear-gradient(to bottom, #8e44ad, #7d3c98);
             color: white;
             border: none;
-            padding: 6px 10px;
-            border-radius: 4px;
+            padding: 5px 8px;
+            border-radius: 3px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 0.8em;
+            gap: 4px;
+            font-size: 0.75em;
         }
         
         .password-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         
         .password-input-container {
             display: none;
-            margin-top: 6px;
-            padding: 10px;
+            margin-top: 5px;
+            padding: 8px;
             background: white;
-            border-radius: 4px;
+            border-radius: 3px;
             border: 1px solid #ddd;
         }
         
@@ -1648,21 +1639,21 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             z-index: 1001;
-            max-width: 300px;
+            max-width: 250px;
             width: 90%;
         }
         
         .unlock-panel input[type="password"] {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
             letter-spacing: 3px;
             text-align: center;
         }
@@ -1675,8 +1666,8 @@
         .info-grid-mobile {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 10px;
         }
         
         .search-suggestions {
@@ -1686,22 +1677,22 @@
             right: 0;
             background: white;
             border: 1px solid #ddd;
-            border-radius: 0 0 6px 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             z-index: 100;
-            max-height: 150px;
+            max-height: 120px;
             overflow-y: auto;
             display: none;
         }
         
         .search-suggestion {
-            padding: 8px 10px;
+            padding: 6px 8px;
             cursor: pointer;
             border-bottom: 1px solid #eee;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85em;
+            font-size: 0.8em;
         }
         
         .search-suggestion:hover {
@@ -1713,25 +1704,25 @@
         }
         
         .suggestion-details {
-            font-size: 0.7em;
+            font-size: 0.65em;
             color: #7f8c8d;
             text-align: right;
         }
         
         .export-selection {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .export-checkbox {
-            margin-right: 6px;
+            margin-right: 5px;
         }
         
         .export-day-item {
             display: flex;
             align-items: center;
-            padding: 6px;
+            padding: 5px;
             border-bottom: 1px solid #eee;
-            font-size: 0.85em;
+            font-size: 0.8em;
         }
         
         .export-day-item:last-child {
@@ -1741,13 +1732,13 @@
         .interlocutor-bubble {
             position: fixed;
             background: white;
-            border: 2px solid var(--secondary-color);
-            border-radius: 8px;
-            padding: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 1px solid var(--secondary-color);
+            border-radius: 6px;
+            padding: 10px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
             z-index: 1001;
-            max-width: 300px;
-            max-height: 70vh;
+            max-width: 250px;
+            max-height: 60vh;
             overflow-y: auto;
         }
         
@@ -1755,13 +1746,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
-            padding-bottom: 6px;
-            border-bottom: 2px solid var(--light-blue);
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--light-blue);
         }
         
         .interlocutor-bubble-title {
-            font-size: 1em;
+            font-size: 0.9em;
             color: var(--primary-color);
             font-weight: 600;
         }
@@ -1769,29 +1760,29 @@
         .close-bubble {
             background: none;
             border: none;
-            font-size: 1.2em;
+            font-size: 1em;
             cursor: pointer;
             color: var(--accent-color);
-            padding: 5px;
+            padding: 4px;
         }
         
         .bubble-actions {
             display: flex;
-            gap: 6px;
-            margin-top: 10px;
-            padding-top: 10px;
+            gap: 5px;
+            margin-top: 8px;
+            padding-top: 8px;
             border-top: 1px solid var(--neutral-border);
         }
         
         .bubble-button {
             flex: 1;
-            padding: 5px 8px;
+            padding: 4px 6px;
             border: none;
-            border-radius: 4px;
+            border-radius: 3px;
             cursor: pointer;
             font-weight: 500;
-            transition: all 0.3s ease;
-            font-size: 0.8em;
+            transition: all 0.2s ease;
+            font-size: 0.75em;
         }
         
         .bubble-button.scroll {
@@ -1805,42 +1796,42 @@
         }
         
         .bubble-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         
         .fiche-access-button {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
             background: linear-gradient(to bottom, #27ae60, #219a52);
             color: white;
-            padding: 6px 12px;
-            border-radius: 15px;
+            padding: 5px 10px;
+            border-radius: 12px;
             text-decoration: none;
-            margin: 8px 0;
-            font-size: 0.8em;
-            transition: all 0.3s ease;
+            margin: 6px 0;
+            font-size: 0.75em;
+            transition: all 0.2s ease;
             font-weight: 500;
             border: none;
             cursor: pointer;
         }
         
         .fiche-access-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .fiche-access-button::before {
             content: '📄';
-            font-size: 0.9em;
+            font-size: 0.85em;
         }
         
         .contact-phone-link, .contact-whatsapp-link, .contact-email-link {
             color: var(--primary-color);
             text-decoration: none;
             cursor: pointer;
-            font-size: 0.85em;
+            font-size: 0.8em;
         }
         
         .contact-phone-link:hover, .contact-whatsapp-link:hover, .contact-email-link:hover {
@@ -1851,114 +1842,113 @@
             background: linear-gradient(to bottom, #9b59b6, #8e44ad);
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
+            padding: 6px 10px;
+            border-radius: 3px;
             cursor: pointer;
             font-weight: 600;
-            margin-top: 10px;
+            margin-top: 8px;
             width: 100%;
-            transition: all 0.3s ease;
-            font-size: 0.85em;
+            transition: all 0.2s ease;
+            font-size: 0.8em;
         }
         
         .export-book-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
         .lists-admin-section {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 12px;
-            border: 2px solid var(--neutral-border);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid var(--neutral-border);
         }
         
         .unlock-button {
             background: linear-gradient(to bottom, #f39c12, #e67e22);
             color: white;
             border: none;
-            padding: 6px 10px;
-            border-radius: 4px;
+            padding: 5px 8px;
+            border-radius: 3px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 5px;
-            margin-top: 6px;
+            gap: 4px;
+            margin-top: 5px;
             width: 100%;
             justify-content: center;
-            font-size: 0.8em;
+            font-size: 0.75em;
         }
         
         .unlock-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         
         .scroll-to-fiche-button {
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
             border: none;
-            padding: 3px 6px;
-            border-radius: 3px;
+            padding: 2px 5px;
+            border-radius: 2px;
             cursor: pointer;
-            font-size: 0.75em;
-            transition: all 0.3s ease;
+            font-size: 0.7em;
+            transition: all 0.2s ease;
         }
         
         .scroll-to-fiche-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .list-button-container {
-            margin-top: 3px;
+            margin-top: 2px;
         }
         
         .list-button {
             background: linear-gradient(to bottom, #3498db, #2980b9);
             color: white;
             border: none;
-            padding: 3px 6px;
-            border-radius: 3px;
+            padding: 2px 5px;
+            border-radius: 2px;
             cursor: pointer;
-            font-size: 0.75em;
+            font-size: 0.7em;
             margin: 1px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .list-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        /* Bouton admin cadenas dans le header */
         .admin-lock-button {
             position: absolute;
-            right: 20px;
+            right: 15px;
             top: 50%;
             transform: translateY(-50%);
             background: linear-gradient(to bottom, #f39c12, #e67e22);
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 20px;
+            padding: 6px 10px;
+            border-radius: 15px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 0.8em;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            gap: 4px;
+            font-size: 0.75em;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             z-index: 101;
         }
         
         .admin-lock-button:hover {
-            transform: translateY(-50%) scale(1.05);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transform: translateY(-50%) scale(1.03);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         
         @media (max-width: 1024px) {
@@ -1970,8 +1960,8 @@
                 width: 100%;
                 position: static;
                 height: auto;
-                margin-bottom: 10px;
-                padding: 10px;
+                margin-bottom: 8px;
+                padding: 8px;
             }
             
             .mobile-back-button {
@@ -1982,16 +1972,16 @@
                 position: static;
                 transform: none;
                 justify-content: center;
-                margin-top: 8px;
+                margin-top: 6px;
                 margin-left: 0;
             }
             
             .page-title-with-bg {
                 flex-direction: column;
-                gap: 5px;
-                font-size: 2em;
-                line-height: 1.1;
-                padding: 10px 15px;
+                gap: 4px;
+                font-size: 1.5em;
+                line-height: 1;
+                padding: 8px 12px;
                 text-align: center;
             }
             
@@ -2003,37 +1993,37 @@
                 display: flex;
                 width: 100%;
                 justify-content: center;
-                margin-top: 10px;
+                margin-top: 8px;
             }
             
             .page-subtitle {
-                font-size: 0.8em;
+                font-size: 0.7em;
                 margin-top: 2px;
                 text-align: center;
             }
             
             .main-content {
-                padding: 15px;
+                padding: 12px;
                 max-height: none;
             }
             
             .entry-title-large {
-                font-size: 1.3em;
+                font-size: 1.1em;
             }
             
             .entry-lieux {
-                font-size: 0.9em;
+                font-size: 0.85em;
             }
             
             .activity-title {
-                font-size: 1.1em;
-                padding: 8px;
+                font-size: 0.95em;
+                padding: 6px;
             }
             
             .admin-lock-button {
                 position: static;
                 transform: none;
-                margin-top: 10px;
+                margin-top: 8px;
                 width: 100%;
                 justify-content: center;
             }
@@ -2061,7 +2051,7 @@
             }
             
             .page-title-with-bg {
-                font-size: 1.6em;
+                font-size: 1.3em;
             }
             
             .header-action-buttons {
@@ -2075,7 +2065,7 @@
             }
             
             .activity-title {
-                font-size: 1em;
+                font-size: 0.9em;
             }
             
             .stats-row {
@@ -2087,8 +2077,8 @@
             }
             
             .modal-content {
-                padding: 12px;
-                width: 95%;
+                padding: 10px;
+                width: 98%;
             }
             
             .modal-actions {
@@ -2113,26 +2103,26 @@
             
             .lieux-info {
                 grid-template-columns: 1fr;
-                gap: 6px;
+                gap: 5px;
             }
             
             .calendar-day {
-                min-height: 70px;
-                padding: 4px;
+                min-height: 50px;
+                padding: 3px;
             }
             
             .calendar-day-lieux {
-                font-size: 0.6em;
-                max-height: 40px;
+                font-size: 0.55em;
+                max-height: 30px;
             }
             
             .calendar-all-lieux {
-                font-size: 0.55em;
-                max-height: 35px;
+                font-size: 0.5em;
+                max-height: 25px;
             }
             
             .calendar-day-pays {
-                font-size: 0.5em;
+                font-size: 0.45em;
             }
             
             .info-grid-mobile {
@@ -2141,89 +2131,89 @@
             
             .lieux-info {
                 grid-template-columns: 1fr 1fr;
-                gap: 6px;
+                gap: 5px;
             }
             
             .lieux-item {
-                min-height: 50px;
-                padding: 6px;
+                min-height: 40px;
+                padding: 5px;
             }
             
             .lieux-icon {
-                font-size: 1em;
+                font-size: 0.9em;
             }
             
             .lieux-value {
-                font-size: 0.85em;
+                font-size: 0.8em;
             }
             
             .heure-group {
                 flex-direction: row;
-                gap: 6px;
+                gap: 5px;
             }
             
             .heure-item {
-                min-height: 50px;
-                padding: 6px;
+                min-height: 40px;
+                padding: 5px;
             }
             
             .activity-stats-mobile {
                 grid-template-columns: 1fr 1fr;
-                gap: 5px;
+                gap: 4px;
             }
             
             .activity-stat {
-                padding: 6px 4px;
+                padding: 5px 3px;
             }
             
             .activity-stat-value {
-                font-size: 1em;
+                font-size: 0.95em;
             }
             
             .activity-stat-label {
-                font-size: 0.7em;
+                font-size: 0.65em;
             }
             
             .heure-group-mobile {
                 grid-template-columns: 1fr 1fr;
-                gap: 5px;
+                gap: 4px;
             }
             
             .lieux-trajet-group {
                 grid-template-columns: 1fr 1fr;
-                gap: 5px;
+                gap: 4px;
             }
             
             .duree-distance-presentation {
                 grid-template-columns: 1fr 1fr;
-                gap: 5px;
+                gap: 4px;
             }
             
             .duree-distance-item {
-                min-height: 50px;
-                padding: 6px;
+                min-height: 40px;
+                padding: 5px;
             }
             
             .entry-title-large {
-                font-size: 1.2em;
+                font-size: 1em;
             }
             
             .entry-lieux {
-                font-size: 0.85em;
+                font-size: 0.8em;
             }
             
             .date-options-content {
-                padding: 12px;
-                width: 95%;
+                padding: 10px;
+                width: 98%;
             }
             
             .date-option {
-                padding: 8px;
+                padding: 6px;
             }
             
             .interlocutor-bubble {
-                max-width: 90vw;
-                padding: 10px;
+                max-width: 85vw;
+                padding: 8px;
             }
             
             .bubble-actions {
@@ -2231,16 +2221,16 @@
             }
             
             .mobile-back-button {
-                top: 10px;
-                right: 10px;
-                width: 35px;
-                height: 35px;
-                font-size: 1em;
+                top: 8px;
+                right: 8px;
+                width: 30px;
+                height: 30px;
+                font-size: 0.9em;
             }
             
             .admin-lock-button {
-                padding: 6px 10px;
-                font-size: 0.75em;
+                padding: 5px 8px;
+                font-size: 0.7em;
             }
         }
         
@@ -2262,35 +2252,35 @@
             }
             
             .activity-stat {
-                padding: 6px 3px;
+                padding: 4px 2px;
             }
             
             .activity-stat-value {
-                font-size: 0.95em;
+                font-size: 0.9em;
             }
             
             .activity-stat-label {
-                font-size: 0.65em;
+                font-size: 0.6em;
             }
             
             .page-title-with-bg {
-                font-size: 1.4em;
-                padding: 8px 12px;
+                font-size: 1.2em;
+                padding: 6px 10px;
             }
             
             .header-icons {
-                font-size: 1em;
-                gap: 8px;
+                font-size: 0.9em;
+                gap: 6px;
             }
             
             .page-subtitle {
-                font-size: 0.75em;
+                font-size: 0.65em;
             }
             
             .mini-button {
-                width: 35px;
-                height: 35px;
-                font-size: 1em;
+                width: 30px;
+                height: 30px;
+                font-size: 0.9em;
             }
         }
     </style>
@@ -2300,16 +2290,13 @@
     
     <div class="page-header">
         <div class="header-content">
-            <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; flex: 1;">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex: 1;">
                 <h1 class="page-title-with-bg">
                     <div class="title-images">
                         <span>📓</span>
-                        <span>📖</span>
                         <span>Journal de Bord</span>
-                        <span>✏️</span>
-                        <span>📅</span>
                     </div>
-                    <div style="font-size: 0.7em; margin-top: 5px; color: var(--orange-color);">
+                    <div style="font-size: 0.6em; margin-top: 3px; color: var(--orange-color);">
                         Tournée Europe 2026
                     </div>
                 </h1>
@@ -2335,11 +2322,8 @@
                 <span class="header-icon">🗂️</span>
                 <span class="header-icon">📒</span>
                 <span class="header-icon">📇</span>
-                <span class="header-icon">🗒️</span>
-                <span class="header-icon">✒️</span>
             </div>
             
-            <!-- Bouton admin cadenas toujours visible -->
             <button class="admin-lock-button" id="headerAdminLockButton">
                 <span>🔓</span>
                 <span>Déverrouiller Admin</span>
@@ -2355,7 +2339,7 @@
                         <input type="text" 
                                class="search-input" 
                                id="searchInput" 
-                               placeholder="🔍 Rechercher dans le journal..."
+                               placeholder="🔍 Rechercher..."
                                autocomplete="off">
                         <div class="search-suggestions" id="searchSuggestions"></div>
                     </div>
@@ -2367,9 +2351,9 @@
                         🔓 Accès aux liens de fiches
                     </button>
                     <div class="password-input-container" id="passwordInputContainer">
-                        <label for="passwordInput" style="font-size: 0.8em;">Mot de passe:</label>
+                        <label for="passwordInput" style="font-size: 0.75em;">Mot de passe:</label>
                         <input type="password" id="passwordInput" class="form-input" placeholder="Entrez le mot de passe...">
-                        <button class="search-button" id="submitPassword" style="margin-top: 6px;">Valider</button>
+                        <button class="search-button" id="submitPassword" style="margin-top: 5px;">Valider</button>
                     </div>
                 </div>
                 
@@ -2430,41 +2414,41 @@
                     </div>
                 </div>
                 
-                <h3 style="margin-top: 12px; margin-bottom: 6px; color: var(--primary-color); font-size: 0.9em;">📊 Activités par type</h3>
+                <h3 style="margin-top: 10px; margin-bottom: 5px; color: var(--primary-color); font-size: 0.85em;">📊 Activités par type</h3>
                 <div class="activity-stats" id="activityStats"></div>
                 
                 <div class="calendar-section">
                     <div class="calendar-header">
-                        <h3 style="font-size: 0.9em;">📅 Calendrier des journées</h3>
+                        <h3 style="font-size: 0.85em;">📅 Calendrier des journées</h3>
                         <div class="calendar-nav">
                             <button id="prevMonth">◀</button>
-                            <span id="currentMonth" style="font-size: 0.85em;">Mois en cours</span>
+                            <span id="currentMonth" style="font-size: 0.8em;">Mois en cours</span>
                             <button id="nextMonth">▶</button>
                         </div>
                     </div>
                     <div class="calendar-grid" id="calendarGrid"></div>
                 </div>
                 
-                <button id="showAllButton" class="search-button" style="width: 100%; margin-top: 6px; font-size: 0.85em;">
+                <button id="showAllButton" class="search-button" style="width: 100%; margin-top: 5px; font-size: 0.8em;">
                     📋 Afficher toutes les journées
                 </button>
-                <button id="retryButton" class="search-button" style="background: linear-gradient(135deg, #f39c12, #e67e22); width: 100%; margin-top: 6px; display: none; font-size: 0.85em;">
+                <button id="retryButton" class="search-button" style="background: linear-gradient(135deg, #f39c12, #e67e22); width: 100%; margin-top: 5px; display: none; font-size: 0.8em;">
                     🔄 Réessayer le chargement
                 </button>
             </section>
             
             <div class="lists-admin-section">
-                <h3 style="font-size: 0.9em;">📋 Listes organisées</h3>
-                <p style="font-size: 0.8em;">Accès aux listes triées et exportables</p>
+                <h3 style="font-size: 0.85em;">📋 Listes organisées</h3>
+                <p style="font-size: 0.75em;">Accès aux listes triées et exportables</p>
                 <div class="admin-controls">
                     <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
                 </div>
             </div>
             
             <div class="admin-section" id="adminSection">
-                <h3 style="font-size: 0.9em;">🔐 Panneau d'administration</h3>
+                <h3 style="font-size: 0.85em;">🔐 Panneau d'administration</h3>
                 <div class="admin-panel">
-                    <p style="font-size: 0.8em;">Accès aux fonctionnalités avancées</p>
+                    <p style="font-size: 0.75em;">Accès aux fonctionnalités avancées</p>
                     <div class="admin-controls">
                         <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
                         <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
@@ -2518,7 +2502,7 @@
                 <label class="form-label">Destinataires avec email:</label>
                 <div id="emailRecipients" class="email-recipients">
                 </div>
-                <div style="margin-top: 6px; font-size: 0.8em; color: #666;">
+                <div style="margin-top: 5px; font-size: 0.75em; color: #666;">
                     <span id="recipientCount">0</span> destinataire(s) sélectionné(s)
                 </div>
             </div>
@@ -2611,20 +2595,20 @@ L'équipe NY AKO</textarea>
             
             <div class="form-group">
                 <label class="form-label">Options d'export:</label>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85em;">
-                    <label style="display: flex; align-items: center; gap: 4px;">
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; font-size: 0.8em;">
+                    <label style="display: flex; align-items: center; gap: 3px;">
                         <input type="checkbox" id="includeContacts" checked>
                         Inclure les contacts
                     </label>
-                    <label style="display: flex; align-items: center; gap: 4px;">
+                    <label style="display: flex; align-items: center; gap: 3px;">
                         <input type="checkbox" id="includePhotos" checked>
                         Inclure les liens photos
                     </label>
-                    <label style="display: flex; align-items: center; gap: 4px;">
+                    <label style="display: flex; align-items: center; gap: 3px;">
                         <input type="checkbox" id="includeStats" checked>
                         Inclure les statistiques
                     </label>
-                    <label style="display: flex; align-items: center; gap: 4px;">
+                    <label style="display: flex; align-items: center; gap: 3px;">
                         <input type="checkbox" id="includeActivityDetails" checked>
                         Inclure détails activités
                     </label>
@@ -2648,9 +2632,9 @@ L'équipe NY AKO</textarea>
             <div class="form-group">
                 <label class="form-label">Sélectionnez les journées à exporter:</label>
                 <div class="export-selection">
-                    <div style="margin-bottom: 6px;">
+                    <div style="margin-bottom: 5px;">
                         <input type="checkbox" id="selectAllDays" class="export-checkbox">
-                        <label for="selectAllDays" style="font-size: 0.85em;">Sélectionner toutes les journées</label>
+                        <label for="selectAllDays" style="font-size: 0.8em;">Sélectionner toutes les journées</label>
                     </div>
                     <div class="list-container" id="exportDaysList">
                     </div>
@@ -2685,9 +2669,9 @@ L'équipe NY AKO</textarea>
     </div>
 
     <div id="unlockPanel" class="unlock-panel" style="display: none;">
-        <h3 style="text-align: center; margin-bottom: 15px;">🔐 Déverrouiller le panneau</h3>
+        <h3 style="text-align: center; margin-bottom: 10px;">🔐 Déverrouiller le panneau</h3>
         <input type="password" id="unlockPasswordInput" placeholder="Entrez le code admin" maxlength="4">
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <div style="display: flex; gap: 8px; margin-top: 10px;">
             <button class="action-button cancel" id="cancelUnlock">Annuler</button>
             <button class="action-button primary" id="confirmUnlock">Valider</button>
         </div>
@@ -2699,7 +2683,7 @@ L'équipe NY AKO</textarea>
         let sheetData = [];
         let headers = [];
         let datesWithData = [];
-        let currentDate = new Date(2026, 3, 1); // Avril 2026
+        let currentDate = new Date(2026, 3, 1);
         let selectedDate = null;
         let allLieux = [];
         let allInterlocuteurs = [];
@@ -2728,29 +2712,26 @@ L'équipe NY AKO</textarea>
         let currentSelectedDate = null;
         let searchSuggestions = [];
         let currentInterlocutorForBubble = null;
+        let originalSheetData = [];
 
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Démarrage du Journal de Bord...');
             
             checkAdminStatus();
             
-            // Gestion du bouton retour mobile
             document.getElementById('mobileBackButton').addEventListener('click', function(e) {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 this.style.display = 'none';
             });
             
-            // Boutons d'action rapide dans le header
             document.getElementById('scrollToCalendarButton').addEventListener('click', scrollToCalendar);
             document.getElementById('showAllButtonHeader').addEventListener('click', showAllDataFromHeader);
             
-            // Boutons miniatures pour mobile
             document.getElementById('miniCalendarButton').addEventListener('click', scrollToCalendar);
             document.getElementById('miniListButton').addEventListener('click', showAllDataFromHeader);
             document.getElementById('miniAdminButton').addEventListener('click', showUnlockPanel);
             
-            // Bouton admin cadenas dans le header
             document.getElementById('headerAdminLockButton').addEventListener('click', showUnlockPanel);
             
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
@@ -2822,14 +2803,12 @@ L'équipe NY AKO</textarea>
                 }, 200);
             });
             
-            // Gestion du déverrouillage admin
             document.getElementById('cancelUnlock').addEventListener('click', () => {
                 document.getElementById('unlockPanel').style.display = 'none';
             });
             
             document.getElementById('confirmUnlock').addEventListener('click', unlockAdminWithCode);
             
-            // Masquer les lettres du mot de passe dans l'input
             document.getElementById('unlockPasswordInput').addEventListener('input', function(e) {
                 this.value = this.value.replace(/[^0-9]/g, '');
                 if (this.value.length > 4) {
@@ -2837,7 +2816,6 @@ L'équipe NY AKO</textarea>
                 }
             });
             
-            // Afficher le bouton retour en mobile lors du défilement
             window.addEventListener('scroll', function() {
                 const backButton = document.getElementById('mobileBackButton');
                 if (window.innerWidth <= 1024 && window.scrollY > 100) {
@@ -2854,20 +2832,18 @@ L'équipe NY AKO</textarea>
             const calendarSection = document.querySelector('.calendar-section');
             if (calendarSection) {
                 calendarSection.scrollIntoView({ behavior: 'smooth' });
-                
-                // Animation pour mettre en valeur le calendrier
-                calendarSection.style.boxShadow = '0 0 0 3px var(--secondary-color)';
+                calendarSection.style.boxShadow = '0 0 0 2px var(--secondary-color)';
                 setTimeout(() => {
                     calendarSection.style.boxShadow = '';
-                }, 2000);
+                }, 1500);
             }
         }
 
         function showAllDataFromHeader() {
             currentSearchTerm = '';
             currentSearchType = '';
+            sheetData = [...originalSheetData];
             displayAllJournalEntries();
-            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -2883,12 +2859,9 @@ L'équipe NY AKO</textarea>
                 isAdmin = true;
                 showFicheLinks = true;
                 localStorage.setItem('tourneeAdmin', 'true');
-                
                 enableAdminButtons();
                 updateAdminInterface();
-                
                 document.getElementById('unlockPanel').style.display = 'none';
-                
                 const dataInfo = document.getElementById('dataInfo');
                 dataInfo.innerHTML = `
                     <div class="success-message">
@@ -2896,7 +2869,6 @@ L'équipe NY AKO</textarea>
                     </div>
                 `;
                 dataInfo.style.display = 'block';
-                
                 console.log('🔓 Panneau admin déverrouillé avec code');
             } else {
                 alert('Code incorrect. Veuillez réessayer.');
@@ -2924,7 +2896,6 @@ L'équipe NY AKO</textarea>
                 isAdmin = true;
                 showFicheLinks = true;
                 console.log('🔓 Statut admin restauré depuis le stockage local');
-                
                 enableAdminButtons();
                 updateAdminInterface();
                 updateHeaderAdminButton();
@@ -2988,7 +2959,7 @@ L'équipe NY AKO</textarea>
                 adminSection.innerHTML = `
                     <h3>🔐 Panneau d'administration - CONNECTÉ</h3>
                     <div class="admin-panel">
-                        <p style="color: #27ae60; font-weight: bold; font-size: 0.8em;">✅ Accès administrateur activé</p>
+                        <p style="color: #27ae60; font-weight: bold; font-size: 0.75em;">✅ Accès administrateur activé</p>
                         <div class="admin-controls">
                             <button class="admin-button" id="groupEmailButton">📧 Envoi mail groupé</button>
                             <button class="admin-button" id="exportDataButton">💾 Exporter les données</button>
@@ -3018,7 +2989,7 @@ L'équipe NY AKO</textarea>
             adminSection.innerHTML = `
                 <h3>🔐 Panneau d'administration</h3>
                 <div class="admin-panel">
-                    <p style="font-size: 0.8em;">Accès aux fonctionnalités avancées</p>
+                    <p style="font-size: 0.75em;">Accès aux fonctionnalités avancées</p>
                     <div class="admin-controls">
                         <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
                         <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
@@ -3063,13 +3034,10 @@ L'équipe NY AKO</textarea>
                 showFicheLinks = true;
                 document.getElementById('passwordInputContainer').style.display = 'none';
                 document.getElementById('passwordInput').value = '';
-                
                 localStorage.setItem('tourneeAdmin', 'true');
-                
                 enableAdminButtons();
                 updateAdminInterface();
                 updateHeaderAdminButton();
-                
                 const dataInfo = document.getElementById('dataInfo');
                 dataInfo.innerHTML = `
                     <div class="success-message">
@@ -3077,11 +3045,9 @@ L'équipe NY AKO</textarea>
                     </div>
                 `;
                 dataInfo.style.display = 'block';
-                
                 if (document.getElementById('journalEntries').children.length > 0) {
                     displayAllJournalEntries();
                 }
-                
                 console.log('🔓 Authentification admin réussie');
             } else {
                 alert('Mot de passe incorrect. Veuillez réessayer.');
@@ -3122,8 +3088,6 @@ L'équipe NY AKO</textarea>
                 }
                 
                 processCSVData(csvText);
-                
-                // Réinitialiser le calendrier à avril 2026
                 currentDate = new Date(2026, 3, 1);
                 renderCalendar();
                 
@@ -3154,6 +3118,7 @@ L'équipe NY AKO</textarea>
                 sheetData = lines.slice(1).filter(row => 
                     row && row.some(cell => cell && cell.trim() !== '')
                 );
+                originalSheetData = [...sheetData];
                 
                 console.log('✅ Données chargées:', sheetData.length, 'entrées');
                 console.log('📋 En-têtes:', headers);
@@ -3329,7 +3294,7 @@ L'équipe NY AKO</textarea>
             
             const filteredSuggestions = searchSuggestions.filter(suggestion => 
                 normalizeText(suggestion.text).includes(normalizeText(filter))
-            ).slice(0, 10);
+            ).slice(0, 8);
             
             if (filteredSuggestions.length > 0) {
                 filteredSuggestions.forEach(suggestion => {
@@ -3342,18 +3307,15 @@ L'équipe NY AKO</textarea>
                     suggestionElement.addEventListener('click', () => {
                         searchInput.value = suggestion.text;
                         hideSearchSuggestions();
-                        
                         currentSearchTerm = suggestion.text;
                         currentSearchType = suggestion.type;
                         const results = filterDataByType(suggestion.text, suggestion.type);
                         displayFilteredEntries(results, `${suggestion.type.charAt(0).toUpperCase() + suggestion.type.slice(1)}: ${suggestion.text}`);
                         
-                        // Ajouter automatiquement le bouton fiche si admin ET si on a un rowIndex valide
                         if (isAdmin && suggestion.rowIndex !== -1 && suggestion.rowIndex !== undefined) {
                             addFicheAccessButton(suggestion.rowIndex);
                         }
                         
-                        // Afficher le bouton retour en mobile
                         if (window.innerWidth <= 1024) {
                             document.getElementById('mobileBackButton').style.display = 'flex';
                         }
@@ -3374,11 +3336,10 @@ L'équipe NY AKO</textarea>
                     if (ficheLink && ficheLink.trim() !== '') {
                         const resultsHeader = document.querySelector('#journalEntries > div:first-child');
                         if (resultsHeader) {
-                            // Vérifier si le bouton existe déjà
                             if (!document.querySelector('.fiche-access-button')) {
                                 const ficheButton = document.createElement('button');
                                 ficheButton.className = 'fiche-access-button';
-                                ficheButton.style.margin = '6px 0';
+                                ficheButton.style.margin = '5px 0';
                                 ficheButton.innerHTML = '📄 Accéder à la fiche complète';
                                 ficheButton.onclick = () => {
                                     let finalLink = ficheLink.trim();
@@ -3387,7 +3348,6 @@ L'équipe NY AKO</textarea>
                                     }
                                     window.open(finalLink, '_blank');
                                 };
-                                
                                 resultsHeader.parentNode.insertBefore(ficheButton, resultsHeader.nextSibling);
                             }
                         }
@@ -3672,7 +3632,6 @@ L'équipe NY AKO</textarea>
         function extractAllLieuxForDate(row) {
             const allLieuxForDay = [];
             
-            // Récupérer tous les lieux de toutes les activités
             for (let i = 1; i <= 7; i++) {
                 const activityHeader = `ACTIVITÉ ${i}`;
                 const activityIndex = headers.findIndex(header => 
@@ -3680,7 +3639,6 @@ L'équipe NY AKO</textarea>
                 );
                 
                 if (activityIndex !== -1) {
-                    // Trouver le lieu associé à cette activité
                     for (let j = activityIndex + 1; j < Math.min(activityIndex + 10, headers.length); j++) {
                         const header = headers[j] || '';
                         if (header.includes('Lieux')) {
@@ -3694,7 +3652,6 @@ L'équipe NY AKO</textarea>
                 }
             }
             
-            // Récupérer les lieux principaux
             const lieuxColumns = headers
                 .map((header, index) => 
                     (header && header.includes('Lieux')) ? index : -1
@@ -3888,7 +3845,7 @@ L'équipe NY AKO</textarea>
             container.innerHTML = '';
             
             if (items.length === 0) {
-                container.innerHTML = '<div style="color: #7f8c8d; font-style: italic; font-size: 0.8em;">Aucun ' + type + ' trouvé</div>';
+                container.innerHTML = '<div style="color: #7f8c8d; font-style: italic; font-size: 0.75em;">Aucun ' + type + ' trouvé</div>';
                 return;
             }
             
@@ -3907,12 +3864,10 @@ L'équipe NY AKO</textarea>
                     
                     scrollToElementInEntry(item, type);
                     
-                    // Afficher la bulle d'info pour les interlocuteurs
                     if (type === 'nom') {
                         showInterlocutorBubble(item);
                     }
                     
-                    // Afficher le bouton retour en mobile
                     if (window.innerWidth <= 1024) {
                         document.getElementById('mobileBackButton').style.display = 'flex';
                     }
@@ -3946,13 +3901,11 @@ L'équipe NY AKO</textarea>
                 for (let element of elementsToSearch) {
                     if (element.textContent.includes(searchTerm)) {
                         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
                         element.style.backgroundColor = '#fff9c4';
                         element.style.transition = 'background-color 0.3s ease';
                         setTimeout(() => {
                             element.style.backgroundColor = '';
                         }, 3000);
-                        
                         found = true;
                         break;
                     }
@@ -4046,7 +3999,6 @@ L'équipe NY AKO</textarea>
                 if (dayData) {
                     day.classList.add('has-data');
                     
-                    // Afficher le lieu principal en bleu
                     if (dayData.lieux.length > 0) {
                         const lieuxDiv = document.createElement('div');
                         lieuxDiv.className = 'calendar-day-lieux';
@@ -4054,7 +4006,6 @@ L'équipe NY AKO</textarea>
                         day.appendChild(lieuxDiv);
                     }
                     
-                    // Afficher TOUS les lieux du jour en vert
                     if (dayData.allLieux && dayData.allLieux.length > 0) {
                         const allLieuxDiv = document.createElement('div');
                         allLieuxDiv.className = 'calendar-all-lieux';
@@ -4062,7 +4013,6 @@ L'équipe NY AKO</textarea>
                         day.appendChild(allLieuxDiv);
                     }
                     
-                    // Afficher le pays en rouge
                     if (dayData.pays.length > 0) {
                         const paysDiv = document.createElement('div');
                         paysDiv.className = 'calendar-day-pays';
@@ -4097,10 +4047,9 @@ L'équipe NY AKO</textarea>
             
             const hasData = !!dayData;
             
-            // Créer le titre avec date/lieu/pays
             let title = `📅 ${dateStr}`;
             if (dayData && dayData.lieux.length > 0) {
-                title += ` - <span style="color: var(--secondary-color);">${dayData.lieux[0]}</span>`;
+                title += ` - <span style="color: #333;">${dayData.lieux.join(', ')}</span>`;
             }
             if (dayData && dayData.pays.length > 0) {
                 title += ` - <span style="color: var(--accent-color);">${dayData.pays[0]}</span>`;
@@ -4117,28 +4066,7 @@ L'équipe NY AKO</textarea>
                     'Accéder aux données correspondantes de cette journée',
                     '📄',
                     () => {
-                        const rowIndex = dayData.rowIndex;
-                        if (rowIndex !== undefined && rowIndex >= 0) {
-                            const journalEntries = document.getElementById('journalEntries');
-                            const entryElements = journalEntries.querySelectorAll('.journal-entry');
-                            
-                            if (entryElements.length > rowIndex) {
-                                entryElements[rowIndex].scrollIntoView({ 
-                                    behavior: 'smooth', 
-                                    block: 'start'
-                                });
-                                
-                                entryElements[rowIndex].style.boxShadow = '0 0 0 3px var(--accent-color)';
-                                setTimeout(() => {
-                                    entryElements[rowIndex].style.boxShadow = '';
-                                }, 3000);
-                                
-                                if (window.innerWidth <= 1024) {
-                                    document.getElementById('mobileBackButton').style.display = 'flex';
-                                }
-                            }
-                        }
-                        hideModal('dateOptionsModal');
+                        showDayData(dayData);
                     }
                 ));
                 
@@ -4237,6 +4165,17 @@ L'équipe NY AKO</textarea>
             showModal('dateOptionsModal');
         }
 
+        function showDayData(dayData) {
+            const results = [sheetData[dayData.rowIndex]];
+            displayFilteredEntries(results, `Journal du ${formatDateForDisplay(dayData.date)}`);
+            
+            hideModal('dateOptionsModal');
+            
+            if (window.innerWidth <= 1024) {
+                document.getElementById('mobileBackButton').style.display = 'flex';
+            }
+        }
+
         function createDateOption(title, description, icon, onClick, locked = false) {
             const optionDiv = document.createElement('div');
             optionDiv.className = 'date-option';
@@ -4302,7 +4241,7 @@ L'équipe NY AKO</textarea>
                 tempModal.className = 'modal';
                 tempModal.style.display = 'flex';
                 tempModal.innerHTML = `
-                    <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-content" style="max-width: 400px;">
                         ${modalContent}
                     </div>
                 `;
@@ -4380,7 +4319,7 @@ L'équipe NY AKO</textarea>
                 tempModal.className = 'modal';
                 tempModal.style.display = 'flex';
                 tempModal.innerHTML = `
-                    <div class="modal-content" style="max-width: 600px;">
+                    <div class="modal-content" style="max-width: 500px;">
                         ${modalContent}
                     </div>
                 `;
@@ -4408,13 +4347,11 @@ L'équipe NY AKO</textarea>
                 for (let element of contactValues) {
                     if (element.textContent.includes(interlocuteur)) {
                         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
                         element.style.backgroundColor = '#fff9c4';
                         element.style.transition = 'background-color 0.3s ease';
                         setTimeout(() => {
                             element.style.backgroundColor = '';
                         }, 3000);
-                        
                         found = true;
                         break;
                     }
@@ -4436,20 +4373,20 @@ L'équipe NY AKO</textarea>
             
             const interlocutorDetails = findCompleteInterlocutorInfo(interlocuteur);
             
-            let html = `<h4 style="margin-bottom: 10px; color: var(--primary-color); text-align: center; font-size: 1em;">${interlocuteur}</h4>`;
+            let html = `<h4 style="margin-bottom: 8px; color: var(--primary-color); text-align: center; font-size: 0.9em;">${interlocuteur}</h4>`;
             
             if (interlocutorDetails.length > 0) {
-                html += `<div style="max-height: 300px; overflow-y: auto; padding: 6px;">`;
+                html += `<div style="max-height: 250px; overflow-y: auto; padding: 5px;">`;
                 
                 interlocutorDetails.forEach((detail, index) => {
                     html += `
-                        <div style="margin-bottom: 10px; padding: 10px; background: #f8f9fa; border-radius: 6px; border-left: 4px solid var(--secondary-color); font-size: 0.85em;">
-                            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">
-                                <span style="font-size: 0.8em;">📅</span>
+                        <div style="margin-bottom: 8px; padding: 8px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid var(--secondary-color); font-size: 0.8em;">
+                            <div style="display: flex; align-items: center; gap: 3px; margin-bottom: 3px;">
+                                <span style="font-size: 0.75em;">📅</span>
                                 <span style="font-weight: 500;">${detail.date}</span>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                                <span style="font-size: 0.8em;">📍</span>
+                            <div style="display: flex; align-items: center; gap: 3px; margin-bottom: 5px;">
+                                <span style="font-size: 0.75em;">📍</span>
                                 <span><strong>Lieux :</strong> ${detail.lieu}</span>
                             </div>
                     `;
@@ -4457,12 +4394,12 @@ L'équipe NY AKO</textarea>
                     if (detail.telephone) {
                         const telNumbers = detail.telephone.split(/[,;]/).map(tel => tel.trim()).filter(tel => tel);
                         html += `
-                            <div style="margin-bottom: 4px; font-size: 0.8em;">
-                                <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 2px;">
-                                    <span style="color: #3498db; font-size: 0.8em;">📞</span>
+                            <div style="margin-bottom: 3px; font-size: 0.75em;">
+                                <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 2px;">
+                                    <span style="color: #3498db; font-size: 0.75em;">📞</span>
                                     <strong>Téléphone:</strong>
                                 </div>
-                                <div style="padding-left: 18px;">
+                                <div style="padding-left: 15px;">
                                     ${telNumbers.map(tel => `
                                         <a href="tel:${tel}" class="contact-phone-link">${tel}</a>
                                     `).join('<br>')}
@@ -4474,12 +4411,12 @@ L'équipe NY AKO</textarea>
                     if (detail.whatsapp) {
                         const whatsappNumbers = detail.whatsapp.split(/[,;]/).map(num => num.trim()).filter(num => num);
                         html += `
-                            <div style="margin-bottom: 4px; font-size: 0.8em;">
-                                <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 2px;">
-                                    <span style="color: #25D366; font-size: 0.8em;">💬</span>
+                            <div style="margin-bottom: 3px; font-size: 0.75em;">
+                                <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 2px;">
+                                    <span style="color: #25D366; font-size: 0.75em;">💬</span>
                                     <strong>WhatsApp:</strong>
                                 </div>
-                                <div style="padding-left: 18px;">
+                                <div style="padding-left: 15px;">
                                     ${whatsappNumbers.map(num => `
                                         <a href="https://wa.me/${num.replace(/[^\d+]/g, '')}" class="contact-whatsapp-link" target="_blank">${num}</a>
                                     `).join('<br>')}
@@ -4491,12 +4428,12 @@ L'équipe NY AKO</textarea>
                     if (detail.mail) {
                         const emails = detail.mail.split(/[,;]/).map(email => email.trim()).filter(email => email);
                         html += `
-                            <div style="margin-bottom: 4px; font-size: 0.8em;">
-                                <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 2px;">
-                                    <span style="color: #e74c3c; font-size: 0.8em;">📧</span>
+                            <div style="margin-bottom: 3px; font-size: 0.75em;">
+                                <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 2px;">
+                                    <span style="color: #e74c3c; font-size: 0.75em;">📧</span>
                                     <strong>Mail:</strong>
                                 </div>
-                                <div style="padding-left: 18px;">
+                                <div style="padding-left: 15px;">
                                     ${emails.map(email => `
                                         <a href="mailto:${email}" class="contact-email-link">${email}</a>
                                     `).join('<br>')}
@@ -4507,8 +4444,8 @@ L'équipe NY AKO</textarea>
                     
                     if (detail.reseauxSociaux) {
                         html += `
-                            <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 4px; font-size: 0.8em;">
-                                <span style="color: #4267B2; font-size: 0.8em;">👥</span>
+                            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 3px; font-size: 0.75em;">
+                                <span style="color: #4267B2; font-size: 0.75em;">👥</span>
                                 <span><strong>Réseaux sociaux:</strong> ${detail.reseauxSociaux}</span>
                             </div>
                         `;
@@ -4516,12 +4453,12 @@ L'équipe NY AKO</textarea>
                     
                     if (detail.aSavoir) {
                         html += `
-                            <div style="margin-top: 6px; padding: 4px; background: #fff9c4; border-radius: 4px; font-size: 0.75em;">
-                                <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 2px;">
+                            <div style="margin-top: 5px; padding: 3px; background: #fff9c4; border-radius: 3px; font-size: 0.7em;">
+                                <div style="display: flex; align-items: center; gap: 3px; margin-bottom: 2px;">
                                     <span style="color: #e67e22;">💡</span>
                                     <strong>À savoir:</strong>
                                 </div>
-                                <div style="padding-left: 18px;">${detail.aSavoir}</div>
+                                <div style="padding-left: 15px;">${detail.aSavoir}</div>
                             </div>
                         `;
                     }
@@ -4531,7 +4468,7 @@ L'équipe NY AKO</textarea>
                 
                 html += `</div>`;
             } else {
-                html += `<p style="text-align: center; color: #7f8c8d; font-size: 0.85em;">Aucune information trouvée pour cet interlocuteur.</p>`;
+                html += `<p style="text-align: center; color: #7f8c8d; font-size: 0.8em;">Aucune information trouvée pour cet interlocuteur.</p>`;
             }
             
             content.innerHTML = html;
@@ -4651,7 +4588,7 @@ L'équipe NY AKO</textarea>
                 tempModal.className = 'modal';
                 tempModal.style.display = 'flex';
                 tempModal.innerHTML = `
-                    <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-content" style="max-width: 400px;">
                         ${modalContent}
                     </div>
                 `;
@@ -4679,13 +4616,11 @@ L'équipe NY AKO</textarea>
                 for (let element of lieuElements) {
                     if (element.textContent.includes(lieu)) {
                         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
                         element.style.backgroundColor = '#fff9c4';
                         element.style.transition = 'background-color 0.3s ease';
                         setTimeout(() => {
                             element.style.backgroundColor = '';
                         }, 3000);
-                        
                         found = true;
                         break;
                     }
@@ -4776,6 +4711,7 @@ L'équipe NY AKO</textarea>
         function showAllData() {
             currentSearchTerm = '';
             currentSearchType = '';
+            sheetData = [...originalSheetData];
             displayAllJournalEntries();
         }
 
@@ -4813,11 +4749,11 @@ L'équipe NY AKO</textarea>
             
             const header = document.createElement('div');
             header.style.background = 'linear-gradient(135deg, #e8f4fc, #d1e7f5)';
-            header.style.padding = '10px 12px';
-            header.style.borderRadius = '6px';
-            header.style.marginBottom = '15px';
-            header.style.border = '2px solid var(--neutral-border)';
-            header.innerHTML = `<strong style="font-size: 0.9em;">${results.length} journée(s) trouvée(s)</strong> pour : "${title}"`;
+            header.style.padding = '8px 10px';
+            header.style.borderRadius = '5px';
+            header.style.marginBottom = '12px';
+            header.style.border = '1px solid var(--neutral-border)';
+            header.innerHTML = `<strong style="font-size: 0.85em;">${results.length} journée(s) trouvée(s)</strong> pour : "${title}"`;
             container.appendChild(header);
             
             results.forEach((row, index) => {
@@ -4866,9 +4802,7 @@ L'équipe NY AKO</textarea>
             contentDiv.className = 'entry-content';
             
             contentDiv.appendChild(createGeneralInfoSection(row));
-            
             contentDiv.appendChild(createActivitiesSection(row));
-            
             contentDiv.appendChild(createEndOfDaySection(row));
             
             if (isAdmin || showFicheLinks) {
@@ -5020,8 +4954,6 @@ L'équipe NY AKO</textarea>
         function findActivitySectionsInHeaders() {
             const sections = [];
             
-            console.log('🔍 Recherche des sections d\'activités dans les en-têtes...');
-            
             for (let i = 1; i <= 7; i++) {
                 const activityHeader = `ACTIVITÉ ${i}`;
                 const activityHeaderAlt = `ACTIVITE ${i}`;
@@ -5047,9 +4979,6 @@ L'équipe NY AKO</textarea>
                         type: 'activity',
                         index: headerIndex
                     });
-                    console.log(`📅 Activité ${i} détectée à l'index ${headerIndex}`);
-                } else {
-                    console.log(`❌ Activité ${i} NON détectée`);
                 }
             }
             
@@ -5067,12 +4996,9 @@ L'équipe NY AKO</textarea>
                         type: 'concert',
                         index: index
                     });
-                    console.log(`🎵 Concert détecté: ${header} -> ${prefix}`);
                 }
             });
             
-            console.log(`✅ Sections d'activités trouvées: ${sections.length}`);
-            console.log('📋 Sections:', sections);
             return sections;
         }
 
@@ -5089,8 +5015,6 @@ L'équipe NY AKO</textarea>
             if (!data.type || data.type.trim() === '') {
                 return data;
             }
-            
-            console.log(`🔍 Extraction des données pour ${prefix}: "${data.type}"`);
             
             const startIndex = activityIndex + 1;
             
@@ -5132,14 +5056,12 @@ L'équipe NY AKO</textarea>
                     if (isMatching && row[currentIndex] && row[currentIndex].trim() !== '') {
                         data[field.name] = row[currentIndex];
                         fieldsFound++;
-                        console.log(`   ✅ ${field.name}: "${row[currentIndex]}"`);
                     }
                     
                     currentIndex++;
                 }
             });
             
-            console.log(`   📊 ${fieldsFound} champs trouvés pour ${prefix}`);
             return data;
         }
 
@@ -5806,11 +5728,11 @@ L'équipe NY AKO</textarea>
                 const recipientDiv = document.createElement('div');
                 recipientDiv.className = 'recipient-item';
                 recipientDiv.innerHTML = `
-                    <input type="checkbox" class="recipient-checkbox" data-index="${index}" checked style="margin-right: 8px;">
+                    <input type="checkbox" class="recipient-checkbox" data-index="${index}" checked style="margin-right: 6px;">
                     <div>
                         <strong>${item.interlocuteur}</strong><br>
                         <small style="color: #666;">${item.email}</small><br>
-                        <small style="color: #999; font-size: 0.7em;">Date: ${item.date}</small>
+                        <small style="color: #999; font-size: 0.65em;">Date: ${item.date}</small>
                     </div>
                 `;
                 recipientsContainer.appendChild(recipientDiv);
@@ -5870,18 +5792,13 @@ L'équipe NY AKO</textarea>
             });
             
             const emailBody = message;
-            
             const encodedBody = encodeURIComponent(emailBody);
             const encodedSubject = encodeURIComponent(subject);
-            
             const emailRecipients = emails.map(e => e.email).join(',');
-            
             const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailRecipients}&su=${encodedSubject}&body=${encodedBody}`;
             
             window.open(gmailUrl, '_blank');
-            
             alert(`${emails.length} email(s) préparé(s) pour envoi. Vérifiez les destinataires avant d'envoyer.`);
-            
             hideModal('emailModal');
         }
 
@@ -5920,42 +5837,28 @@ L'équipe NY AKO</textarea>
                     break;
             }
             
-            let html = `<h4 style="margin-bottom: 10px; color: var(--primary-color); font-size: 0.9em;">${listTitle} (${Array.isArray(listData) ? listData.length : Object.keys(listData).length})</h4>`;
+            let html = `<h4 style="margin-bottom: 8px; color: var(--primary-color); font-size: 0.85em;">${listTitle} (${Array.isArray(listData) ? listData.length : Object.keys(listData).length})</h4>`;
             
-            if (Array.isArray(listData)) {
+            if (listType === 'concerts') {
                 listData.forEach((item, index) => {
-                    if (typeof item === 'string') {
-                        html += `
-                            <div class="list-item">
-                                <span>${item}</span>
-                                <span class="tag">${getItemCount(item, listType)}</span>
-                                ${listType === 'concerts' ? createScrollToFicheButton(item) : ''}
-                            </div>
-                        `;
-                    } else if (typeof item === 'object') {
-                        html += `
-                            <div class="list-item">
-                                <span>${item.type || item.title}</span>
-                                <span class="tag">${item.count}</span>
-                                <div class="list-button-container">
-                                    ${createScrollToFicheButton(item.type || item.title)}
-                                    ${listType === 'concerts' && item.lieux ? `<button class="list-button" onclick="showConcertLieux('${item.title}')">📍</button>` : ''}
-                                </div>
-                            </div>
-                        `;
-                    }
-                });
-            } else if (typeof listData === 'object') {
-                Object.keys(listData).forEach(key => {
-                    const item = listData[key];
                     html += `
                         <div class="list-item">
-                            <span>${item.title || key}</span>
+                            <span>${item.title}</span>
                             <span class="tag">${item.count}</span>
                             <div class="list-button-container">
-                                ${createScrollToFicheButton(item.title || key)}
-                                ${listType === 'concerts' && item.lieux ? `<button class="list-button" onclick="showConcertLieux('${item.title}')">📍</button>` : ''}
+                                ${createScrollToFicheButton(item.title)}
+                                ${item.lieux ? `<button class="list-button" onclick="showConcertLieux('${item.title}')">📍</button>` : ''}
                             </div>
+                        </div>
+                    `;
+                });
+            } else if (Array.isArray(listData)) {
+                listData.forEach((item, index) => {
+                    html += `
+                        <div class="list-item">
+                            <span>${item}</span>
+                            <span class="tag">${getItemCount(item, listType)}</span>
+                            ${createScrollToFicheButton(item)}
                         </div>
                     `;
                 });
@@ -6000,7 +5903,6 @@ L'équipe NY AKO</textarea>
             const concertsMap = {};
             
             sheetData.forEach((row, rowIndex) => {
-                // Chercher les activités Concert
                 for (let i = 1; i <= 7; i++) {
                     const activityHeader = `ACTIVITÉ ${i}`;
                     const activityHeaderAlt = `ACTIVITE ${i}`;
@@ -6019,9 +5921,8 @@ L'équipe NY AKO</textarea>
                         
                         if (activityType && activityType.trim().toLowerCase().includes('concert')) {
                             const concertTitle = activityType;
-                            
-                            // Chercher le lieu
                             let lieu = '';
+                            
                             for (let j = activityIndex + 1; j < Math.min(activityIndex + 10, headers.length); j++) {
                                 const header = headers[j] || '';
                                 if (header.includes('Lieux')) {
@@ -6052,7 +5953,6 @@ L'équipe NY AKO</textarea>
                     }
                 }
                 
-                // Vérifier les colonnes CONCERT
                 const concertColumns = headers
                     .map((header, index) => 
                         (header && header.includes('CONCERT')) ? index : -1
@@ -6102,7 +6002,6 @@ L'équipe NY AKO</textarea>
                 });
             });
             
-            // Convertir l'objet en tableau
             return Object.keys(concertsMap).map(key => concertsMap[key]);
         }
 
@@ -6136,7 +6035,7 @@ L'équipe NY AKO</textarea>
                 tempModal.className = 'modal';
                 tempModal.style.display = 'flex';
                 tempModal.innerHTML = `
-                    <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-content" style="max-width: 400px;">
                         ${modalContent}
                     </div>
                 `;
@@ -6164,13 +6063,11 @@ L'équipe NY AKO</textarea>
                 for (let titleElement of concertSections) {
                     if (titleElement.textContent.includes(concertLieu)) {
                         titleElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
                         titleElement.style.backgroundColor = '#fff9c4';
                         titleElement.style.transition = 'background-color 0.3s ease';
                         setTimeout(() => {
                             titleElement.style.backgroundColor = '';
                         }, 3000);
-                        
                         found = true;
                         break;
                     }
@@ -6299,17 +6196,17 @@ L'équipe NY AKO</textarea>
                 <head>
                     <title>${title} - Tournée Europe 2026</title>
                     <style>
-                        body { font-family: Arial, sans-serif; margin: 15px; }
-                        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; }
-                        .list-item { margin: 8px 0; padding: 8px; border-bottom: 1px solid #eee; }
-                        .list-count { float: right; background: #3498db; color: white; padding: 2px 6px; border-radius: 8px; font-size: 0.75em; }
+                        body { font-family: Arial, sans-serif; margin: 10px; }
+                        h1 { color: #2c3e50; border-bottom: 1px solid #3498db; padding-bottom: 6px; }
+                        .list-item { margin: 6px 0; padding: 6px; border-bottom: 1px solid #eee; }
+                        .list-count { float: right; background: #3498db; color: white; padding: 2px 5px; border-radius: 6px; font-size: 0.7em; }
                         @media print { body { margin: 0; } }
                     </style>
                 </head>
                 <body>
                     <h1>${title}</h1>
                     <p>Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
-                    <div style="margin-top: 15px;">
+                    <div style="margin-top: 10px;">
             `;
             
             if (Array.isArray(data)) {
@@ -6502,16 +6399,16 @@ L'équipe NY AKO</textarea>
                 <head>
                     <title>Tournée Europe 2026 - Rapport complet</title>
                     <style>
-                        body { font-family: Arial, sans-serif; margin: 15px; }
-                        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; }
-                        .entry { margin-bottom: 20px; border: 1px solid #ddd; padding: 12px; page-break-inside: avoid; }
-                        .entry-header { background: #3498db; color: white; padding: 8px; margin: -12px -12px 12px -12px; }
-                        .section { margin-bottom: 15px; }
-                        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-                        .info-item { margin-bottom: 8px; }
+                        body { font-family: Arial, sans-serif; margin: 10px; }
+                        h1 { color: #2c3e50; border-bottom: 1px solid #3498db; padding-bottom: 6px; }
+                        .entry { margin-bottom: 15px; border: 1px solid #ddd; padding: 10px; page-break-inside: avoid; }
+                        .entry-header { background: #3498db; color: white; padding: 6px; margin: -10px -10px 10px -10px; }
+                        .section { margin-bottom: 12px; }
+                        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+                        .info-item { margin-bottom: 6px; }
                         .info-label { font-weight: bold; color: #2c3e50; }
-                        .activity-details { background: #f8f9fa; padding: 12px; margin: 8px 0; border-radius: 4px; }
-                        .activity-title { color: #e67e22; margin-bottom: 8px; }
+                        .activity-details { background: #f8f9fa; padding: 10px; margin: 6px 0; border-radius: 3px; }
+                        .activity-title { color: #e67e22; margin-bottom: 6px; }
                         @media print { 
                             body { margin: 0; }
                             .entry { page-break-inside: avoid; }
@@ -6525,7 +6422,7 @@ L'équipe NY AKO</textarea>
             
             if (includeStats) {
                 content += `
-                    <div style="background: #f8f9fa; padding: 12px; margin-bottom: 15px; border-radius: 4px;">
+                    <div style="background: #f8f9fa; padding: 10px; margin-bottom: 12px; border-radius: 3px;">
                         <h2>📊 Statistiques</h2>
                         <div class="info-grid">
                             <div class="info-item"><span class="info-label">Lieux visités:</span> ${allLieux.length}</div>
@@ -6738,15 +6635,15 @@ L'équipe NY AKO</textarea>
                 <head>
                     <title>Tournée Europe 2026 - Export sélectif</title>
                     <style>
-                        body { font-family: Arial, sans-serif; margin: 15px; }
-                        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; }
-                        .entry { margin-bottom: 20px; border: 1px solid #ddd; padding: 12px; page-break-inside: avoid; }
-                        .entry-header { background: #3498db; color: white; padding: 8px; margin: -12px -12px 12px -12px; border-radius: 4px 4px 0 0; }
-                        .section { margin-bottom: 15px; }
-                        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-                        .info-item { margin-bottom: 8px; }
+                        body { font-family: Arial, sans-serif; margin: 10px; }
+                        h1 { color: #2c3e50; border-bottom: 1px solid #3498db; padding-bottom: 6px; }
+                        .entry { margin-bottom: 15px; border: 1px solid #ddd; padding: 10px; page-break-inside: avoid; }
+                        .entry-header { background: #3498db; color: white; padding: 6px; margin: -10px -10px 10px -10px; border-radius: 3px 3px 0 0; }
+                        .section { margin-bottom: 12px; }
+                        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+                        .info-item { margin-bottom: 6px; }
                         .info-label { font-weight: bold; color: #2c3e50; }
-                        .activity-details { background: #f8f9fa; padding: 12px; margin: 8px 0; border-radius: 4px; }
+                        .activity-details { background: #f8f9fa; padding: 10px; margin: 6px 0; border-radius: 3px; }
                         @media print { 
                             body { margin: 0; }
                             .entry { page-break-inside: avoid; }
@@ -6790,7 +6687,7 @@ L'équipe NY AKO</textarea>
                 if (programmeValues.length > 0) {
                     content += `<div class="info-item" style="grid-column: 1 / -1;"><span class="info-label">Au Programme:</span><br>`;
                     programmeValues.forEach(item => {
-                        content += `<div style="margin: 4px 0; padding: 4px; background: white; border-radius: 3px;">${item}</div>`;
+                        content += `<div style="margin: 3px 0; padding: 3px; background: white; border-radius: 2px;">${item}</div>`;
                     });
                     content += `</div>`;
                 }
@@ -6884,31 +6781,31 @@ L'équipe NY AKO</textarea>
                 <head>
                     <title>Livre - Tournée Europe 2026</title>
                     <style>
-                        body { font-family: 'Georgia', serif; margin: 30px; line-height: 1.5; }
-                        h1 { text-align: center; color: #2c3e50; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 3px solid #3498db; }
-                        h2 { color: #2c3e50; margin-top: 30px; padding-bottom: 8px; border-bottom: 2px solid #3498db; }
-                        h3 { color: #3498db; margin-top: 20px; }
-                        .chapter { page-break-before: always; margin-top: 40px; }
-                        .entry { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; page-break-inside: avoid; }
-                        .entry-header { background: #3498db; color: white; padding: 15px; margin: -20px -20px 20px -20px; border-radius: 8px 8px 0 0; }
-                        .section { margin-bottom: 20px; }
-                        .activity-details { background: white; padding: 15px; margin: 12px 0; border-radius: 6px; border-left: 4px solid #3498db; }
-                        .activity-title { color: #e67e22; font-size: 1.1em; }
-                        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 25px 0; }
-                        .stat-item { text-align: center; padding: 12px; background: #f8f9fa; border-radius: 6px; }
-                        .stat-value { font-size: 1.8em; font-weight: bold; color: #3498db; }
-                        .stat-label { color: #7f8c8d; font-size: 0.85em; }
-                        .intro { font-size: 1em; line-height: 1.6; text-align: justify; margin-bottom: 30px; }
+                        body { font-family: 'Georgia', serif; margin: 20px; line-height: 1.4; }
+                        h1 { text-align: center; color: #2c3e50; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #3498db; }
+                        h2 { color: #2c3e50; margin-top: 20px; padding-bottom: 6px; border-bottom: 1px solid #3498db; }
+                        h3 { color: #3498db; margin-top: 15px; }
+                        .chapter { page-break-before: always; margin-top: 30px; }
+                        .entry { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 6px; background: #f9f9f9; page-break-inside: avoid; }
+                        .entry-header { background: #3498db; color: white; padding: 10px; margin: -15px -15px 15px -15px; border-radius: 6px 6px 0 0; }
+                        .section { margin-bottom: 15px; }
+                        .activity-details { background: white; padding: 10px; margin: 8px 0; border-radius: 5px; border-left: 3px solid #3498db; }
+                        .activity-title { color: #e67e22; font-size: 1em; }
+                        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 20px 0; }
+                        .stat-item { text-align: center; padding: 10px; background: #f8f9fa; border-radius: 5px; }
+                        .stat-value { font-size: 1.5em; font-weight: bold; color: #3498db; }
+                        .stat-label { color: #7f8c8d; font-size: 0.8em; }
+                        .intro { font-size: 0.9em; line-height: 1.5; text-align: justify; margin-bottom: 20px; }
                         .page-break { page-break-before: always; }
                         @media print { 
-                            body { margin: 15mm; }
-                            .chapter { margin-top: 30px; }
+                            body { margin: 10mm; }
+                            .chapter { margin-top: 20px; }
                             .entry { page-break-inside: avoid; }
                         }
-                        .table-of-contents { margin: 30px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; }
-                        .toc-item { margin: 8px 0; padding: 8px; border-bottom: 1px solid #ddd; }
-                        .toc-number { float: left; width: 30px; font-weight: bold; }
-                        .toc-title { margin-left: 40px; }
+                        .table-of-contents { margin: 20px 0; padding: 10px; background: #f8f9fa; border-radius: 6px; }
+                        .toc-item { margin: 6px 0; padding: 6px; border-bottom: 1px solid #ddd; }
+                        .toc-number { float: left; width: 25px; font-weight: bold; }
+                        .toc-title { margin-left: 30px; }
                     </style>
                 </head>
                 <body>
@@ -6917,8 +6814,6 @@ L'équipe NY AKO</textarea>
                         <p>Ce livre retrace l'ensemble de la tournée européenne de NY AKO en 2026. 
                         Il compile toutes les activités, rencontres, concerts et expériences vécues 
                         durant cette aventure musicale à travers l'Europe.</p>
-                        <p>Chaque journée est détaillée avec ses activités, ses interlocuteurs, 
-                        ses lieux visités et les moments marquants qui ont ponctué cette tournée.</p>
                     </div>
                     
                     <div class="table-of-contents">
@@ -6981,12 +6876,12 @@ L'équipe NY AKO</textarea>
                     <div class="entry">
                         <div class="entry-header">
                             <h2>Chapitre ${index + 1} - ${dateStr}${pays ? ` - ${pays}` : ''}</h2>
-                            <p style="opacity: 0.9; margin-top: 8px;">Jour ${index + 1} de la tournée</p>
+                            <p style="opacity: 0.9; margin-top: 6px;">Jour ${index + 1} de la tournée</p>
                         </div>
                         
                         <div class="section">
                             <h3>🌍 Contexte de la journée</h3>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                 `;
                 
                 const dateIndexCol = findHeaderIndex('Date:');
@@ -7003,7 +6898,7 @@ L'équipe NY AKO</textarea>
                     content += `
                         <div style="grid-column: 1 / -1;">
                             <strong>Au programme:</strong>
-                            <ul style="margin: 8px 0 0 15px;">
+                            <ul style="margin: 6px 0 0 12px;">
                                 ${programmeValues.map(item => `<li>${item}</li>`).join('')}
                             </ul>
                         </div>
@@ -7045,7 +6940,7 @@ L'équipe NY AKO</textarea>
                     content += `
                         <div class="section">
                             <h3>📝 Bilan et réflexions</h3>
-                            <div style="background: #fff9c4; padding: 15px; border-radius: 6px; border-left: 4px solid #ffd54f;">
+                            <div style="background: #fff9c4; padding: 10px; border-radius: 5px; border-left: 3px solid #ffd54f;">
                     `;
                     
                     if (resumeIndex !== -1 && row[resumeIndex]) {
@@ -7071,17 +6966,15 @@ L'équipe NY AKO</textarea>
                     
                     <div class="chapter page-break">
                         <h2>🔚 Conclusion</h2>
-                        <div style="text-align: center; padding: 30px; background: #f8f9fa; border-radius: 8px; margin-top: 25px;">
-                            <p style="font-size: 1.1em; font-style: italic;">
+                        <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 6px; margin-top: 20px;">
+                            <p style="font-size: 1em; font-style: italic;">
                                 "Cette tournée européenne 2026 a été une aventure riche en rencontres, 
-                                en découvertes musicales et en partages culturels. Chaque journée 
-                                a apporté son lot d'émotions, d'apprentissages et de souvenirs 
-                                qui resteront gravés dans la mémoire de tous les participants."
+                                en découvertes musicales et en partages culturels."
                             </p>
-                            <p style="margin-top: 25px; font-weight: bold;">
+                            <p style="margin-top: 15px; font-weight: bold;">
                                 NY AKO - Tournée Europe 2026
                             </p>
-                            <p style="margin-top: 15px; color: #7f8c8d;">
+                            <p style="margin-top: 10px; color: #7f8c8d;">
                                 Document généré le ${new Date().toLocaleDateString('fr-FR', { 
                                     year: 'numeric', 
                                     month: 'long', 
@@ -7192,7 +7085,6 @@ L'équipe NY AKO</textarea>
                 document.getElementById('mobileBackButton').style.display = 'none';
             }
             
-            // Afficher/masquer les boutons selon la taille de l'écran
             if (window.innerWidth <= 1024) {
                 document.getElementById('header-action-buttons').style.display = 'none';
                 document.getElementById('mobileMiniButtons').style.display = 'flex';
@@ -7202,7 +7094,6 @@ L'équipe NY AKO</textarea>
             }
         });
 
-        // Initialiser l'affichage des boutons
         window.dispatchEvent(new Event('resize'));
 
         window.toggleFilterGroup = toggleFilterGroup;
