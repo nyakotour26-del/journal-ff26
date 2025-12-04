@@ -27,6 +27,7 @@
             --apple-green: #8db600;
             --pink: #ff69b4;
             --title-height: 100px;
+            --mauve: #8e44ad;
         }
         
         * {
@@ -52,8 +53,8 @@
             right: 0;
             z-index: 1000;
             height: var(--title-height);
-            background: url('https://images.unsplash.com/photo-1516487200032-8532cb603261?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
-            background-color: #808080;
+            background: url('https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            background-color: #d3d3d3;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -149,6 +150,28 @@
             border: none;
         }
         
+        /* Info bubble améliorée pour le bouton déverrouiller */
+        .floating-button.lock:hover::after {
+            content: "Déverrouiller admin";
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            white-space: nowrap;
+            z-index: 1001;
+            animation: fadeIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         .container {
             display: flex;
             gap: 20px;
@@ -216,7 +239,7 @@
             position: relative;
             background: rgba(255,255,255,0.8);
             border-radius: 10px;
-            display: none; /* Masqué car on a le titre fixe */
+            display: none;
         }
         
         .date-options-modal {
@@ -362,7 +385,7 @@
         }
         
         .entry-title-large {
-            font-size: 2em;
+            font-size: 1.8em;
             margin-bottom: 5px;
             font-weight: 700;
         }
@@ -400,7 +423,7 @@
         }
         
         .section-title {
-            font-size: 1.5em;
+            font-size: 1.4em;
             color: var(--section-title-color);
             margin-bottom: 20px;
             padding-bottom: 12px;
@@ -571,9 +594,10 @@
         
         .search-form {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             margin-bottom: 20px;
             position: relative;
+            align-items: center;
         }
         
         .search-input {
@@ -592,18 +616,27 @@
         }
         
         .search-button {
-            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
+            background: transparent;
             color: white;
             border: none;
-            padding: 15px 25px;
+            padding: 12px;
             border-radius: var(--border-radius);
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            min-width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%233498db" width="24px" height="24px"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 24px;
         }
         
         .search-button:hover {
-            transform: translateY(-2px);
+            transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
@@ -676,6 +709,12 @@
             font-weight: 500;
         }
         
+        /* Boutons dans liste des lieux en mauve */
+        #lieuxTags .tag {
+            background: linear-gradient(to bottom, var(--mauve), #7d3c98);
+            color: white;
+        }
+        
         .tag:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -683,7 +722,7 @@
         
         .calendar-section {
             background: white;
-            padding: 25px;
+            padding: 20px;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             margin-bottom: 20px;
@@ -695,19 +734,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .calendar-nav {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
         
         .calendar-nav button {
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -720,14 +759,14 @@
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            min-width: 600px;
+            gap: 6px;
+            min-width: 550px;
         }
         
         .calendar-day-header {
             text-align: center;
             font-weight: bold;
-            padding: 12px;
+            padding: 10px;
             background-color: var(--light-color);
             border-radius: 6px;
             font-weight: 600;
@@ -735,14 +774,14 @@
         
         .calendar-day {
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             cursor: pointer;
             border-radius: 6px;
             border: 2px solid #f0f0f0;
             transition: all 0.3s ease;
             font-weight: 500;
             position: relative;
-            min-height: 100px;
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -761,7 +800,7 @@
         }
         
         .calendar-day-number {
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: bold;
             margin-bottom: 5px;
         }
@@ -771,7 +810,7 @@
             line-height: 1.2;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-height: 60px;
+            max-height: 55px;
         }
         
         .calendar-day-pays {
@@ -876,7 +915,7 @@
         }
         
         .activity-title {
-            font-size: 1.4em;
+            font-size: 1.3em;
             color: var(--primary-color);
             margin-bottom: 20px;
             padding: 15px;
@@ -956,14 +995,14 @@
         
         .admin-panel {
             background: rgba(255,255,255,0.1);
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             margin-top: 15px;
         }
         
         .admin-controls {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
             margin-top: 15px;
         }
@@ -972,11 +1011,12 @@
             background: linear-gradient(to bottom, #3498db, #2980b9);
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
+            font-size: 0.9em;
         }
         
         .admin-button:hover {
@@ -1752,7 +1792,17 @@
         
         @media (max-width: 768px) {
             .search-form {
-                flex-direction: column;
+                flex-direction: row;
+            }
+            
+            .search-button {
+                min-width: 45px;
+                height: 45px;
+                background-size: 20px;
+            }
+            
+            .search-input {
+                padding: 12px;
             }
             
             .filters-section {
@@ -2007,14 +2057,14 @@
     
     <!-- Boutons flottants -->
     <div class="floating-buttons">
-        <a href="index.html" class="floating-button home" title="Retour à l'accueil">🏠</a>
+        <a href="index.html" class="floating-button home" title="Tout">🏠</a>
         <button class="floating-button calendar" id="floatingCalendar" title="Calendrier">📅</button>
         <button class="floating-button lock" id="floatingLock" title="Déverrouiller admin">🔓</button>
         <button class="floating-button search" id="floatingSearch" title="Recherche">🔍</button>
         <button class="floating-button list" id="floatingList" title="Afficher toutes les fiches">📋</button>
     </div>
     
-    <a href="#" class="mobile-back-button" id="mobileBackButton" style="display: none;">⬅ Retour à l'accueil</a>
+    <a href="#" class="mobile-back-button" id="mobileBackButton" style="display: none;">⬅ Tout</a>
     
     <div class="container">
         <div class="sidebar" id="sidebar">
@@ -2034,7 +2084,7 @@
                                autocomplete="off">
                         <div class="search-suggestions" id="searchSuggestions"></div>
                     </div>
-                    <button type="submit" class="search-button">Rechercher</button>
+                    <button type="submit" class="search-button"></button>
                 </form>
                 
                 <div class="password-section">
@@ -2044,7 +2094,7 @@
                     <div class="password-input-container" id="passwordInputContainer">
                         <label for="passwordInput">Mot de passe:</label>
                         <input type="password" id="passwordInput" class="form-input" placeholder="Entrez le mot de passe...">
-                        <button class="search-button" id="submitPassword" style="margin-top: 10px;">Valider</button>
+                        <button class="search-button" id="submitPassword" style="margin-top: 10px; background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color)); color: white; padding: 12px 20px; min-width: auto;">Valider</button>
                     </div>
                 </div>
                 
@@ -2119,10 +2169,10 @@
                     <div class="calendar-grid" id="calendarGrid"></div>
                 </div>
                 
-                <button id="showAllButton" class="search-button" style="width: 100%; margin-top: 10px;">
+                <button id="showAllButton" class="search-button" style="width: 100%; margin-top: 10px; background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color)); color: white; padding: 12px 20px; min-width: auto;">
                     📋 Afficher toutes les journées
                 </button>
-                <button id="retryButton" class="search-button" style="background: linear-gradient(135deg, #f39c12, #e67e22); width: 100%; margin-top: 10px; display: none;">
+                <button id="retryButton" class="search-button" style="background: linear-gradient(135deg, #f39c12, #e67e22); width: 100%; margin-top: 10px; display: none; color: white; padding: 12px 20px; min-width: auto;">
                     🔄 Réessayer le chargement
                 </button>
             </section>
