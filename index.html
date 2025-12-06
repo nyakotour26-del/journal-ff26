@@ -639,7 +639,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%233498db" width="24px" height="24px"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/24 24" fill="%233498db" width="24px" height="24px"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>');
             background-repeat: no-repeat;
             background-position: center;
             background-size: 24px;
@@ -1763,6 +1763,184 @@
             border: 2px solid var(--neutral-border);
         }
         
+        /* Bulle de code d'accès améliorée */
+        .unlock-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .unlock-bubble {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 450px;
+            border: 3px solid var(--secondary-color);
+            position: relative;
+            animation: bubbleAppear 0.4s ease-out;
+        }
+        
+        @keyframes bubbleAppear {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.9); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+        
+        .unlock-bubble::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            transform: rotate(45deg);
+            border-left: 3px solid var(--secondary-color);
+            border-top: 3px solid var(--secondary-color);
+        }
+        
+        .unlock-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-blue);
+        }
+        
+        .unlock-icon {
+            font-size: 2.5em;
+            color: var(--secondary-color);
+        }
+        
+        .unlock-title {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        .unlock-description {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .code-input-container {
+            margin: 25px 0;
+        }
+        
+        .code-input {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 1.2em;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            letter-spacing: 4px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+        
+        .code-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            background: white;
+        }
+        
+        .unlock-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .unlock-button {
+            flex: 1;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .unlock-button.primary {
+            background: linear-gradient(135deg, #27ae60, #219a52);
+            color: white;
+        }
+        
+        .unlock-button.secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            color: white;
+        }
+        
+        .unlock-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+        
+        .code-hint {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #7f8c8d;
+        }
+        
+        .code-dots {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .code-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .code-dot.active {
+            background: var(--secondary-color);
+            transform: scale(1.2);
+        }
+        
+        .code-dot.filled {
+            background: var(--accent-color);
+        }
+        
+        .error-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
         @media (max-width: 1024px) {
             .container {
                 flex-direction: column;
@@ -1977,6 +2155,39 @@
                 flex-direction: column;
             }
             
+            /* Bulle de déverrouillage responsive */
+            .unlock-bubble {
+                padding: 25px 20px;
+                margin: 20px;
+            }
+            
+            .unlock-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .unlock-icon {
+                font-size: 2em;
+            }
+            
+            .unlock-title {
+                font-size: 1.3em;
+            }
+            
+            .code-input {
+                padding: 15px;
+                font-size: 1.1em;
+            }
+            
+            .unlock-actions {
+                flex-direction: column;
+            }
+            
+            .unlock-button {
+                padding: 14px;
+            }
+            
             /* En mobile, Date et Pays sur la même ligne */
             .entry-header .entry-title-large {
                 display: flex;
@@ -2059,6 +2270,19 @@
                 height: 35px;
                 font-size: 1em;
             }
+            
+            .unlock-bubble {
+                padding: 20px 15px;
+            }
+            
+            .unlock-title {
+                font-size: 1.2em;
+            }
+            
+            .code-input {
+                padding: 12px;
+                font-size: 1em;
+            }
         }
     </style>
 </head>
@@ -2080,6 +2304,53 @@
         <button class="floating-button list" id="floatingList" title="Afficher toutes les fiches">📋</button>
         <!-- Nouveau bouton admin -->
         <button class="floating-button admin" id="floatingAdmin" title="Panneau d'administration">⚙️</button>
+    </div>
+    
+    <!-- Bulle de déverrouillage améliorée -->
+    <div id="unlockModal" class="unlock-modal">
+        <div class="unlock-bubble">
+            <div class="unlock-header">
+                <div class="unlock-icon">🔓</div>
+                <div>
+                    <h3 class="unlock-title">Accès Administrateur</h3>
+                    <div class="unlock-description" id="unlockDescription">
+                        Entrez le code d'accès pour déverrouiller les fonctionnalités avancées
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-input-container">
+                <input type="password" 
+                       id="unlockCodeInput" 
+                       class="code-input" 
+                       placeholder="Code d'accès"
+                       maxlength="8"
+                       autocomplete="off">
+                <div class="code-dots" id="codeDots">
+                    <div class="code-dot" data-index="1"></div>
+                    <div class="code-dot" data-index="2"></div>
+                    <div class="code-dot" data-index="3"></div>
+                    <div class="code-dot" data-index="4"></div>
+                    <div class="code-dot" data-index="5"></div>
+                    <div class="code-dot" data-index="6"></div>
+                    <div class="code-dot" data-index="7"></div>
+                    <div class="code-dot" data-index="8"></div>
+                </div>
+            </div>
+            
+            <div class="code-hint" id="codeHint">
+                Code administrateur requis
+            </div>
+            
+            <div class="unlock-actions">
+                <button class="unlock-button secondary" id="cancelUnlock">
+                    <span>✕</span> Annuler
+                </button>
+                <button class="unlock-button primary" id="submitUnlockCode">
+                    <span>✓</span> Valider
+                </button>
+            </div>
+        </div>
     </div>
     
     <a href="#" class="mobile-back-button" id="mobileBackButton" style="display: none;">⬅ Tout</a>
@@ -2460,6 +2731,7 @@ L'équipe NY AKO</textarea>
         let currentSelectedDate = null;
         let searchSuggestions = [];
         let currentInterlocutorForBubble = null;
+        let currentUnlockContext = null; // Pour savoir d'où vient la demande de déverrouillage
 
         // Fonction pour basculer l'affichage/masquage des listes
         function toggleFilterGroup(type) {
@@ -2478,7 +2750,7 @@ L'équipe NY AKO</textarea>
             });
             
             document.getElementById('floatingLock').addEventListener('click', function() {
-                showPasswordModalForAdmin();
+                showUnlockBubble('admin');
             });
             
             document.getElementById('floatingSearch').addEventListener('click', function() {
@@ -2502,7 +2774,7 @@ L'équipe NY AKO</textarea>
                 // Si non admin, proposer la connexion
                 if (!isAdmin) {
                     setTimeout(() => {
-                        showPasswordModalForAdmin();
+                        showUnlockBubble('admin');
                     }, 500);
                 }
             });
@@ -2561,6 +2833,16 @@ L'équipe NY AKO</textarea>
             document.getElementById('selectAllDays').addEventListener('change', toggleSelectAllDays);
             document.getElementById('confirmSelectiveExport').addEventListener('click', exportSelectedDays);
             
+            // Gestion de la bulle de déverrouillage
+            document.getElementById('cancelUnlock').addEventListener('click', hideUnlockBubble);
+            document.getElementById('submitUnlockCode').addEventListener('click', validateUnlockCode);
+            document.getElementById('unlockCodeInput').addEventListener('input', updateCodeDots);
+            document.getElementById('unlockCodeInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    validateUnlockCode();
+                }
+            });
+            
             document.querySelectorAll('.export-option').forEach(option => {
                 option.addEventListener('click', function() {
                     document.querySelectorAll('.export-option').forEach(opt => {
@@ -2596,20 +2878,143 @@ L'équipe NY AKO</textarea>
             loadDataFromGoogleSheets();
         });
 
-        function showPasswordModalForAdmin() {
-            const password = prompt('Veuillez entrer le code admin pour déverrouiller les fonctionnalités:');
-            if (password === 'admin') {
+        // NOUVELLES FONCTIONS POUR LA BULLE DE DÉVERROUILLAGE AMÉLIORÉE
+        function showUnlockBubble(context) {
+            currentUnlockContext = context;
+            const unlockModal = document.getElementById('unlockModal');
+            const unlockDescription = document.getElementById('unlockDescription');
+            const unlockTitle = document.querySelector('.unlock-title');
+            
+            // Réinitialiser le champ de saisie
+            document.getElementById('unlockCodeInput').value = '';
+            updateCodeDots();
+            
+            // Changer le message en fonction du contexte
+            switch(context) {
+                case 'admin':
+                    unlockTitle.textContent = 'Accès Administrateur';
+                    unlockDescription.textContent = 'Entrez le code administrateur pour déverrouiller toutes les fonctionnalités avancées';
+                    break;
+                case 'date':
+                    unlockTitle.textContent = 'Accès aux Données';
+                    unlockDescription.textContent = 'Entrez le code pour modifier les données de cette journée';
+                    break;
+                case 'fiche':
+                    unlockTitle.textContent = 'Accès aux Fiches';
+                    unlockDescription.textContent = 'Entrez le code pour accéder aux liens des fiches complètes';
+                    break;
+            }
+            
+            unlockModal.style.display = 'flex';
+            document.getElementById('unlockCodeInput').focus();
+        }
+
+        function hideUnlockBubble() {
+            document.getElementById('unlockModal').style.display = 'none';
+            currentUnlockContext = null;
+        }
+
+        function updateCodeDots() {
+            const code = document.getElementById('unlockCodeInput').value;
+            const dots = document.querySelectorAll('.code-dot');
+            
+            dots.forEach((dot, index) => {
+                if (index < code.length) {
+                    dot.classList.add('filled');
+                    dot.classList.remove('active');
+                } else if (index === code.length) {
+                    dot.classList.add('active');
+                    dot.classList.remove('filled');
+                } else {
+                    dot.classList.remove('filled', 'active');
+                }
+            });
+        }
+
+        function validateUnlockCode() {
+            const code = document.getElementById('unlockCodeInput').value;
+            const unlockModal = document.getElementById('unlockModal');
+            
+            if (code === 'admin') {
+                // Code correct
                 isAdmin = true;
                 showFicheLinks = true;
                 localStorage.setItem('tourneeAdmin', 'true');
                 
-                enableAdminButtons();
-                updateAdminInterface();
+                // Animation de succès
+                unlockModal.style.animation = 'none';
+                setTimeout(() => {
+                    unlockModal.style.animation = 'bubbleAppear 0.4s ease-out';
+                }, 10);
                 
-                alert('✅ Accès administrateur activé!');
-            } else if (password !== null) {
-                alert('❌ Code incorrect. Veuillez réessayer.');
+                // Changer temporairement l'apparence
+                document.querySelector('.unlock-icon').textContent = '✓';
+                document.querySelector('.unlock-icon').style.color = '#27ae60';
+                document.getElementById('codeHint').textContent = '✅ Code correct! Accès autorisé';
+                document.getElementById('codeHint').style.color = '#27ae60';
+                
+                // Désactiver le champ
+                document.getElementById('unlockCodeInput').disabled = true;
+                
+                setTimeout(() => {
+                    hideUnlockBubble();
+                    
+                    // Réinitialiser l'icône
+                    document.querySelector('.unlock-icon').textContent = '🔓';
+                    document.querySelector('.unlock-icon').style.color = '';
+                    document.getElementById('unlockCodeInput').disabled = false;
+                    
+                    enableAdminButtons();
+                    updateAdminInterface();
+                    
+                    // Gérer le contexte spécifique
+                    if (currentUnlockContext === 'date' && currentSelectedDate) {
+                        showDateOptions(currentSelectedDate);
+                    }
+                    
+                    const dataInfo = document.getElementById('dataInfo');
+                    dataInfo.innerHTML = `
+                        <div class="success-message">
+                            ✅ Accès administrateur activé
+                        </div>
+                    `;
+                    dataInfo.style.display = 'block';
+                    
+                    if (document.getElementById('journalEntries').children.length > 0) {
+                        displayAllJournalEntries();
+                    }
+                    
+                    console.log('🔓 Authentification admin réussie');
+                }, 1000);
+                
+            } else {
+                // Code incorrect - effet de secousse
+                unlockModal.classList.add('error-shake');
+                document.getElementById('codeHint').textContent = '❌ Code incorrect. Veuillez réessayer.';
+                document.getElementById('codeHint').style.color = '#e74c3c';
+                
+                // Effet sur les points
+                const dots = document.querySelectorAll('.code-dot.filled');
+                dots.forEach(dot => {
+                    dot.style.backgroundColor = '#e74c3c';
+                });
+                
+                setTimeout(() => {
+                    unlockModal.classList.remove('error-shake');
+                    dots.forEach(dot => {
+                        dot.style.backgroundColor = '';
+                    });
+                    
+                    // Vider le champ après une erreur
+                    document.getElementById('unlockCodeInput').value = '';
+                    updateCodeDots();
+                    document.getElementById('unlockCodeInput').focus();
+                }, 500);
             }
+        }
+
+        function showPasswordModalForAdmin() {
+            showUnlockBubble('admin');
         }
 
         function showModal(modalId) {
@@ -3855,7 +4260,7 @@ L'équipe NY AKO</textarea>
                             }
                             hideModal('dateOptionsModal');
                         } else {
-                            alert('Cette fonctionnalité est réservée aux administrateurs. Veuillez vous connecter avec le mot de passe.');
+                            showUnlockBubble('date');
                         }
                     },
                     !isAdmin
@@ -3872,7 +4277,7 @@ L'équipe NY AKO</textarea>
                             window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
                             hideModal('dateOptionsModal');
                         } else {
-                            alert('Cette fonctionnalité est réservée aux administrateurs. Veuillez vous connecter avec le mot de passe.');
+                            showUnlockBubble('date');
                         }
                     },
                     !isAdmin
@@ -3890,7 +4295,7 @@ L'équipe NY AKO</textarea>
                         unlockDateData(date);
                         hideModal('dateOptionsModal');
                     } else {
-                        showPasswordModalForDate(date);
+                        showUnlockBubble('date');
                     }
                 },
                 false
@@ -4064,24 +4469,6 @@ L'équipe NY AKO</textarea>
             hideModal('dateOptionsModal');
         }
 
-        function showPasswordModalForDate(date) {
-            const password = prompt('Veuillez entrer le code admin pour déverrouiller les fonctionnalités:');
-            if (password === 'admin') {
-                isAdmin = true;
-                showFicheLinks = true;
-                localStorage.setItem('tourneeAdmin', 'true');
-                
-                enableAdminButtons();
-                updateAdminInterface();
-                
-                showDateOptions(date);
-                
-                alert('✅ Accès administrateur activé! Vous pouvez maintenant modifier les données.');
-            } else if (password !== null) {
-                alert('❌ Code incorrect. Veuillez réessayer.');
-            }
-        }
-
         function createDateOption(title, description, icon, onClick, locked = false) {
             const optionDiv = document.createElement('div');
             optionDiv.className = 'date-option';
@@ -4102,7 +4489,11 @@ L'équipe NY AKO</textarea>
                 optionDiv.addEventListener('click', onClick);
             } else {
                 optionDiv.addEventListener('click', () => {
-                    alert('Cette fonctionnalité est réservée aux administrateurs. Veuillez vous connecter avec le mot de passe.');
+                    if (title.includes('Déverrouiller')) {
+                        onClick();
+                    } else {
+                        showUnlockBubble('date');
+                    }
                 });
             }
             
