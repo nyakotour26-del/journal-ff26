@@ -150,9 +150,31 @@
             border: none;
         }
         
+        .floating-button.admin {
+            background: linear-gradient(135deg, #8e44ad, #7d3c98);
+            color: white;
+            border: none;
+        }
+        
         /* Info bubble améliorée pour le bouton déverrouiller */
         .floating-button.lock:hover::after {
             content: "Déverrouiller admin";
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            white-space: nowrap;
+            z-index: 1001;
+            animation: fadeIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .floating-button.admin:hover::after {
+            content: "Panneau admin";
             position: absolute;
             bottom: 60px;
             right: 0;
@@ -2059,6 +2081,7 @@
     <div class="floating-buttons">
         <a href="index.html" class="floating-button home" title="Tout">🏠</a>
         <button class="floating-button calendar" id="floatingCalendar" title="Calendrier">📅</button>
+        <button class="floating-button admin" id="floatingAdmin" title="Panneau d'administration">⚙️</button>
         <button class="floating-button lock" id="floatingLock" title="Déverrouiller admin">🔓</button>
         <button class="floating-button search" id="floatingSearch" title="Recherche">🔍</button>
         <button class="floating-button list" id="floatingList" title="Afficher toutes les fiches">📋</button>
@@ -2452,6 +2475,10 @@ L'équipe NY AKO</textarea>
             
             document.getElementById('floatingLock').addEventListener('click', function() {
                 showPasswordModalForAdmin();
+            });
+            
+            document.getElementById('floatingAdmin').addEventListener('click', function() {
+                document.querySelector('.admin-section').scrollIntoView({ behavior: 'smooth' });
             });
             
             document.getElementById('floatingSearch').addEventListener('click', function() {
@@ -2856,8 +2883,13 @@ L'équipe NY AKO</textarea>
             
             const validActivityTypes = [
                 'Rencontre/Invitation', 'Concert', 'Ecole', 
-                'Sortie/visite/Tourisme', 'Eglise/culte', 'Marché', 'Shopping',
-                'Hospice/Hopital', 'Voyage', 'Festival'
+                'Sortie/visite/Tourisme', 'Sortie/visite/tourisme', 'Sortie',
+                'Eglise/culte', 'Eglise', 'culte',
+                'Marché', 'Marche',
+                'Shopping',
+                'Hospice/Hopital', 'Hospice', 'Hopital',
+                'Voyage',
+                'Festival'
             ];
             
             validActivityTypes.forEach(type => {
@@ -3536,7 +3568,7 @@ L'équipe NY AKO</textarea>
                 
                 for (let element of elementsToSearch) {
                     if (element.textContent.includes(searchTerm)) {
-                        entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        entry.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         
                         element.style.backgroundColor = '#fff9c4';
                         element.style.transition = 'background-color 0.3s ease';
@@ -3726,6 +3758,7 @@ L'équipe NY AKO</textarea>
                     optionsList.appendChild(lieuxPaysDiv);
                 }
                 
+                // Option 1: Voir les données du jour (corrigée pour aller au début)
                 optionsList.appendChild(createDateOption(
                     'Voir les données du jour',
                     'Accéder aux données correspondantes de cette journée',
@@ -3737,11 +3770,13 @@ L'équipe NY AKO</textarea>
                             const entryElements = journalEntries.querySelectorAll('.journal-entry');
                             
                             if (entryElements.length > rowIndex) {
+                                // Faire défiler au début de l'entrée
                                 entryElements[rowIndex].scrollIntoView({ 
                                     behavior: 'smooth', 
-                                    block: 'center' 
+                                    block: 'start' 
                                 });
                                 
+                                // Mise en évidence
                                 entryElements[rowIndex].style.boxShadow = '0 0 0 3px var(--accent-color)';
                                 setTimeout(() => {
                                     entryElements[rowIndex].style.boxShadow = '';
@@ -3757,6 +3792,7 @@ L'équipe NY AKO</textarea>
                     }
                 ));
                 
+                // Option 2: Voir les Interlocuteurs/Hôtes
                 optionsList.appendChild(createDateOption(
                     'Voir les Interlocuteurs/Hôtes',
                     'Afficher la liste des interlocuteurs pour cette date',
@@ -3767,6 +3803,7 @@ L'équipe NY AKO</textarea>
                     }
                 ));
                 
+                // Option 3: Modifier les données du jour
                 optionsList.appendChild(createDateOption(
                     'Modifier les données du jour',
                     isAdmin ? 
@@ -3794,6 +3831,27 @@ L'équipe NY AKO</textarea>
                                 }
                             } else {
                                 window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
+                            }
+                            hideModal('dateOptionsModal');
+                        } else {
+                            alert('Cette fonctionnalité est réservée aux administrateurs. Veuillez vous connecter avec le mot de passe.');
+                        }
+                    },
+                    !isAdmin
+                ));
+                
+                // NOUVELLE OPTION: Exporter les données du jour
+                optionsList.appendChild(createDateOption(
+                    'Exporter les données du jour',
+                    isAdmin ? 
+                        'Exporter cette journée en format PDF ou Excel' : 
+                        'Connectez-vous en tant qu\'administrateur pour exporter',
+                    '💾',
+                    () => {
+                        if (isAdmin) {
+                            const rowIndex = dayData.rowIndex;
+                            if (rowIndex !== undefined && rowIndex >= 0) {
+                                exportSingleDay(rowIndex, dayData);
                             }
                             hideModal('dateOptionsModal');
                         } else {
@@ -3839,6 +3897,154 @@ L'équipe NY AKO</textarea>
             ));
             
             showModal('dateOptionsModal');
+        }
+
+        function exportSingleDay(rowIndex, dayData) {
+            const row = sheetData[rowIndex];
+            const dateIndex = 1;
+            const dateStr = row[dateIndex] || 'Date non spécifiée';
+            const paysIndex = findHeaderIndex('Pays:');
+            const pays = paysIndex !== -1 ? row[paysIndex] : '';
+            
+            // Demander le format d'export
+            const format = prompt('Choisissez le format d\'export:\n1. PDF\n2. Excel (CSV)', '1');
+            
+            if (!format) return;
+            
+            if (format === '1' || format.toLowerCase() === 'pdf') {
+                exportSingleDayToPDF(row, rowIndex, dateStr, pays);
+            } else if (format === '2' || format.toLowerCase() === 'excel' || format.toLowerCase() === 'csv') {
+                exportSingleDayToExcel(row, rowIndex, dateStr, pays);
+            }
+        }
+
+        function exportSingleDayToPDF(row, rowIndex, dateStr, pays) {
+            const printWindow = window.open('', '_blank');
+            let content = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Tournée Europe 2026 - ${dateStr}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+                        .entry { margin-bottom: 30px; border: 1px solid #ddd; padding: 15px; page-break-inside: avoid; }
+                        .entry-header { background: #3498db; color: white; padding: 10px; margin: -15px -15px 15px -15px; }
+                        .section { margin-bottom: 20px; }
+                        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+                        .info-item { margin-bottom: 10px; }
+                        .info-label { font-weight: bold; color: #2c3e50; }
+                        .activity-details { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
+                        .activity-title { color: #e67e22; margin-bottom: 10px; }
+                        @media print { 
+                            body { margin: 0; }
+                            .entry { page-break-inside: avoid; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>📓 Journal de Bord - Tournée Europe 2026</h1>
+                    <p>Export de la journée généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+                    
+                    <div class="entry">
+                        <div class="entry-header">
+                            <h2>Jour ${rowIndex + 1} - ${dateStr}${pays ? ` - ${pays}` : ''}</h2>
+                        </div>
+                        <div class="section">
+                            <h3>Informations Générales</h3>
+                            <div class="info-grid">
+            `;
+            
+            const dateIndexCol = findHeaderIndex('Date:');
+            if (dateIndexCol !== -1 && row[dateIndexCol]) {
+                content += `<div class="info-item"><span class="info-label">Date:</span> ${row[dateIndexCol]}</div>`;
+            }
+            
+            if (pays) {
+                content += `<div class="info-item"><span class="info-label">Pays:</span> ${pays}</div>`;
+            }
+            
+            const programmeValues = extractProgrammeValues(row);
+            if (programmeValues.length > 0) {
+                content += `<div class="info-item" style="grid-column: 1 / -1;"><span class="info-label">Au Programme:</span><br>`;
+                programmeValues.forEach(item => {
+                    content += `<div style="margin: 5px 0; padding: 5px; background: white; border-radius: 3px;">${item}</div>`;
+                });
+                content += `</div>`;
+            }
+            
+            content += `
+                            </div>
+                        </div>
+            `;
+            
+            // Ajouter les détails d'activités
+            const activitySections = findActivitySectionsInHeaders();
+            let hasActivities = false;
+            let activitiesContent = '';
+            
+            activitySections.forEach(section => {
+                const activityData = extractActivityData(row, section.index, section.prefix);
+                
+                if ((section.type === 'concert' && activityData.type && activityData.type.toLowerCase() === 'oui') || 
+                    (activityData.type && activityData.type.trim() !== '')) {
+                    hasActivities = true;
+                    activitiesContent += createActivityPDFContent(activityData, section.prefix);
+                }
+            });
+            
+            if (hasActivities) {
+                content += `
+                    <div class="section">
+                        <h3>Activités détaillées</h3>
+                        ${activitiesContent}
+                    </div>
+                `;
+            }
+            
+            const resumeIndex = findHeaderIndex('RESUME');
+            const noteIndex = findHeaderIndex('Note de la journée:');
+            
+            if ((resumeIndex !== -1 && row[resumeIndex]) || (noteIndex !== -1 && row[noteIndex])) {
+                content += `
+                    <div class="section">
+                        <h3>Bilan de la Journée</h3>
+                `;
+                
+                if (resumeIndex !== -1 && row[resumeIndex]) {
+                    content += `<p><strong>RESUME:</strong> ${row[resumeIndex]}</p>`;
+                }
+                
+                if (noteIndex !== -1 && row[noteIndex]) {
+                    content += `<p><strong>Note de la journée:</strong> ${row[noteIndex]}</p>`;
+                }
+                
+                content += `</div>`;
+            }
+            
+            content += `</div></body></html>`;
+            
+            printWindow.document.write(content);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function exportSingleDayToExcel(row, rowIndex, dateStr, pays) {
+            let csvContent = '';
+            
+            // En-têtes
+            csvContent += headers.map(header => `"${header}"`).join(',') + '\n';
+            
+            // Données de la ligne
+            const rowData = headers.map((header, index) => {
+                const value = row[index] || '';
+                return `"${value.replace(/"/g, '""').replace(/\n/g, ' ')}"`;
+            });
+            csvContent += rowData.join(',') + '\n';
+            
+            const filename = `tournee_europe_2026_jour_${rowIndex + 1}_${dateStr.replace(/\//g, '-')}.csv`;
+            downloadFile(csvContent, filename, 'text/csv');
+            alert(`Journée exportée: ${filename}`);
         }
 
         function showPasswordModalForDate(date) {
@@ -3977,7 +4183,7 @@ L'équipe NY AKO</textarea>
                 const contactValues = entry.querySelectorAll('.contact-value');
                 for (let element of contactValues) {
                     if (element.textContent.includes(interlocuteur)) {
-                        entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        entry.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         
                         element.style.backgroundColor = '#fff9c4';
                         element.style.transition = 'background-color 0.3s ease';
@@ -4253,7 +4459,7 @@ L'équipe NY AKO</textarea>
                 const lieuElements = entry.querySelectorAll('.lieux-value, .entry-lieux');
                 for (let element of lieuElements) {
                     if (element.textContent.includes(lieu)) {
-                        entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        entry.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         
                         element.style.backgroundColor = '#fff9c4';
                         element.style.transition = 'background-color 0.3s ease';
