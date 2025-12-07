@@ -28,6 +28,8 @@
             --pink: #ff69b4;
             --title-height: 100px;
             --mauve: #8e44ad;
+            --gold: #FFD700;
+            --purple: #9b59b6;
         }
         
         * {
@@ -58,7 +60,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-bottom: 3px solid #ff8c00;
+            border-bottom: 3px solid var(--gold);
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
@@ -74,7 +76,7 @@
         .title-content h1 {
             margin: 0;
             font-size: 1.8em;
-            color: #ff8c00;
+            color: var(--gold);
             font-style: italic;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
             font-weight: 600;
@@ -156,6 +158,12 @@
         
         .floating-button.list {
             background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            border: none;
+        }
+        
+        .floating-button.contacts {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
             color: white;
             border: none;
         }
@@ -1941,6 +1949,82 @@
             20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
         
+        /* Styles pour les tableaux */
+        .contacts-table-container {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .contacts-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        
+        .contacts-table th {
+            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .contacts-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .contacts-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .contacts-table tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+        
+        .contacts-table tr:nth-child(even):hover {
+            background-color: #f0f0f0;
+        }
+        
+        .contact-action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .contact-action-button {
+            padding: 4px 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-action-button.view {
+            background: #3498db;
+            color: white;
+        }
+        
+        .contact-action-button.email {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .contact-action-button.call {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .contact-action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
         @media (max-width: 1024px) {
             .container {
                 flex-direction: column;
@@ -1975,6 +2059,19 @@
             .sidebar {
                 top: calc(90px + 20px);
                 height: calc(100vh - 90px - 40px);
+            }
+            
+            .contacts-table-container {
+                max-height: 400px;
+            }
+            
+            .contacts-table {
+                font-size: 0.8em;
+            }
+            
+            .contacts-table th,
+            .contacts-table td {
+                padding: 8px 10px;
             }
         }
         
@@ -2216,6 +2313,26 @@
             .title-content p {
                 font-size: 0.8em;
             }
+            
+            .contacts-table-container {
+                max-height: 300px;
+            }
+            
+            .contacts-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .contact-action-buttons {
+                flex-direction: column;
+                gap: 3px;
+            }
+            
+            .contact-action-button {
+                padding: 3px 6px;
+                font-size: 0.7em;
+            }
         }
         
         @media (max-width: 480px) {
@@ -2283,6 +2400,10 @@
                 padding: 12px;
                 font-size: 1em;
             }
+            
+            .contacts-table-container {
+                max-height: 250px;
+            }
         }
     </style>
 </head>
@@ -2291,7 +2412,7 @@
     <div class="fixed-title">
         <div class="title-content">
             <h1>📓 Journal de Bord - Tournée Europe 2026</h1>
-            <p>NY AKO - Suivi détaillé des activités quotidiennes</p>
+            <p>NY AKO - Ministère Musical Évangélique - Suivi détaillé des activités quotidiennes</p>
         </div>
     </div>
     
@@ -2302,6 +2423,8 @@
         <button class="floating-button lock" id="floatingLock" title="Déverrouiller admin">🔓</button>
         <button class="floating-button search" id="floatingSearch" title="Recherche">🔍</button>
         <button class="floating-button list" id="floatingList" title="Afficher toutes les fiches">📋</button>
+        <!-- Bouton contacts -->
+        <button class="floating-button contacts" id="floatingContacts" title="Voir tous les interlocuteurs">📇</button>
         <!-- Nouveau bouton admin -->
         <button class="floating-button admin" id="floatingAdmin" title="Panneau d'administration">⚙️</button>
     </div>
@@ -2476,6 +2599,7 @@
                         <button class="admin-button" id="selectiveExportButton" disabled>📄 Export sélectif</button>
                         <button class="admin-button" id="exportBookButton" disabled>📚 Exporter tout en livre PDF</button>
                         <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
+                        <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
                     </div>
                 </div>
             </div>
@@ -2504,7 +2628,6 @@
             <div class="date-options-list" id="dateOptionsList">
             </div>
             
-            <!-- MODIFICATION : Ajout de l'option d'export des données du jour -->
             <div class="date-option" id="exportCurrentDayOption" style="display: none;">
                 <div class="date-option-icon">📤</div>
                 <div class="date-option-text">
@@ -2515,6 +2638,51 @@
             
             <div class="modal-actions">
                 <button class="action-button cancel" id="cancelDateOptions">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL POUR LES CONTACTS -->
+    <div id="contactsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">📇 Tableau de tous les Interlocuteurs/Hôtes</h3>
+                <button class="close-modal" id="closeContactsModal">✕</button>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Rechercher dans les contacts:</label>
+                <input type="text" id="contactsSearchInput" class="form-input" placeholder="Nom, téléphone, email...">
+            </div>
+            
+            <div class="contacts-table-container">
+                <table class="contacts-table" id="contactsTable">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Téléphone</th>
+                            <th>WhatsApp</th>
+                            <th>Email</th>
+                            <th>Lieux</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contactsTableBody">
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="margin: 15px 0; display: flex; justify-content: space-between; align-items: center;">
+                <div id="contactsCount">0 contacts trouvés</div>
+                <div>
+                    <button class="action-button secondary" id="exportContactsCSV">📊 Exporter CSV</button>
+                    <button class="action-button secondary" id="exportContactsPDF">📄 Exporter PDF</button>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="action-button cancel" id="cancelContacts">Fermer</button>
             </div>
         </div>
     </div>
@@ -2538,17 +2706,24 @@
             <div class="form-group">
                 <label class="form-label">Sujet:</label>
                 <input type="text" id="emailSubject" class="form-input" 
-                       value="Tournée Europe 2026 - Suivi des activités">
+                       value="Tournée Europe 2026 - Ministère Musical NY AKO - Suivi des activités">
             </div>
             
             <div class="form-group">
                 <label class="form-label">Message:</label>
-                <textarea id="emailMessage" class="form-textarea">Bonjour,
+                <textarea id="emailMessage" class="form-textarea">Que la paix et la grâce de notre Seigneur Jésus-Christ soient avec vous !
 
-Voici le suivi de nos activités durant la tournée Europe 2026.
+Bonjour cher(e) frère/sœur en Christ,
 
-Cordialement,
-L'équipe NY AKO</textarea>
+Voici le suivi de nos activités durant la tournée Europe 2026 de NY AKO. Dieu a fait des merveilles à travers chaque rencontre, chaque concert et chaque moment de partage.
+
+"Car là où deux ou trois sont assemblés en mon nom, je suis au milieu d'eux." (Matthieu 18:20)
+
+Que Dieu vous bénisse abondamment !
+
+Fraternellement en Christ,
+L'équipe NY AKO
+Ministère Musical Évangélique</textarea>
             </div>
             
             <div class="modal-actions">
@@ -2731,9 +2906,15 @@ L'équipe NY AKO</textarea>
         let currentSelectedDate = null;
         let searchSuggestions = [];
         let currentInterlocutorForBubble = null;
-        let currentUnlockContext = null; // Pour savoir d'où vient la demande de déverrouillage
+        let currentUnlockContext = null;
+        let allContacts = [];
 
-        // Fonction pour basculer l'affichage/masquage des listes
+        const TOUR_PARTICIPANTS = [
+            "Aina", "Ranto", "Tinasoa", "Tahiry", "Mirana", "Odile", 
+            "Henintsoa", "Kris", "Mamy", "Voahary", "Andry Tiana", 
+            "Andy", "Dede", "Sahoby", "Mirindra", "Hajanantenaina"
+        ];
+
         function toggleFilterGroup(type) {
             const group = document.getElementById(`${type}FilterGroup`);
             group.classList.toggle('collapsed');
@@ -2763,15 +2944,17 @@ L'équipe NY AKO</textarea>
                 document.getElementById('mainContent').scrollIntoView({ behavior: 'smooth' });
             });
             
-            // NOUVEAU : Gestion du bouton admin flottant
+            // NOUVEAU : Bouton contacts flottant
+            document.getElementById('floatingContacts').addEventListener('click', function() {
+                showContactsTable();
+            });
+            
             document.getElementById('floatingAdmin').addEventListener('click', function() {
-                // Scroll vers la section admin
                 const adminSection = document.getElementById('adminSection');
                 if (adminSection) {
                     adminSection.scrollIntoView({ behavior: 'smooth' });
                 }
                 
-                // Si non admin, proposer la connexion
                 if (!isAdmin) {
                     setTimeout(() => {
                         showUnlockBubble('admin');
@@ -2779,7 +2962,6 @@ L'équipe NY AKO</textarea>
                 }
             });
             
-            // Gestion du bouton retour mobile
             document.getElementById('mobileBackButton').addEventListener('click', function(e) {
                 e.preventDefault();
                 document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth' });
@@ -2797,6 +2979,7 @@ L'équipe NY AKO</textarea>
             document.getElementById('exportDataButton').addEventListener('click', showExportModal);
             document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
             document.getElementById('exportBookButton').addEventListener('click', exportToBookPDF);
+            document.getElementById('showContactsButton').addEventListener('click', showContactsTable);
             
             document.getElementById('closeEmailModal').addEventListener('click', () => hideModal('emailModal'));
             document.getElementById('cancelEmail').addEventListener('click', () => hideModal('emailModal'));
@@ -2806,11 +2989,12 @@ L'équipe NY AKO</textarea>
             document.getElementById('cancelExport').addEventListener('click', () => hideModal('exportModal'));
             document.getElementById('closeSelectiveExportModal').addEventListener('click', () => hideModal('selectiveExportModal'));
             document.getElementById('cancelSelectiveExport').addEventListener('click', () => hideModal('selectiveExportModal'));
+            document.getElementById('closeContactsModal').addEventListener('click', () => hideModal('contactsModal'));
+            document.getElementById('cancelContacts').addEventListener('click', () => hideModal('contactsModal'));
             
             document.getElementById('closeDateOptions').addEventListener('click', () => hideModal('dateOptionsModal'));
             document.getElementById('cancelDateOptions').addEventListener('click', () => hideModal('dateOptionsModal'));
             
-            // MODIFICATION : Ajout de l'événement pour exporter les données du jour
             document.getElementById('exportCurrentDayOption').addEventListener('click', exportCurrentDayData);
             
             document.getElementById('closeInterlocutorBubble').addEventListener('click', () => {
@@ -2832,8 +3016,10 @@ L'équipe NY AKO</textarea>
             document.getElementById('confirmExport').addEventListener('click', exportData);
             document.getElementById('selectAllDays').addEventListener('change', toggleSelectAllDays);
             document.getElementById('confirmSelectiveExport').addEventListener('click', exportSelectedDays);
+            document.getElementById('exportContactsCSV').addEventListener('click', exportContactsCSV);
+            document.getElementById('exportContactsPDF').addEventListener('click', exportContactsPDF);
+            document.getElementById('contactsSearchInput').addEventListener('input', filterContactsTable);
             
-            // Gestion de la bulle de déverrouillage
             document.getElementById('cancelUnlock').addEventListener('click', hideUnlockBubble);
             document.getElementById('submitUnlockCode').addEventListener('click', validateUnlockCode);
             document.getElementById('unlockCodeInput').addEventListener('input', updateCodeDots);
@@ -2867,7 +3053,6 @@ L'équipe NY AKO</textarea>
                 }, 200);
             });
             
-            // Afficher le bouton retour en mobile lors du défilement
             window.addEventListener('scroll', function() {
                 const backButton = document.getElementById('mobileBackButton');
                 if (window.innerWidth <= 1024 && window.scrollY > 100) {
@@ -2878,18 +3063,15 @@ L'équipe NY AKO</textarea>
             loadDataFromGoogleSheets();
         });
 
-        // NOUVELLES FONCTIONS POUR LA BULLE DE DÉVERROUILLAGE AMÉLIORÉE
         function showUnlockBubble(context) {
             currentUnlockContext = context;
             const unlockModal = document.getElementById('unlockModal');
             const unlockDescription = document.getElementById('unlockDescription');
             const unlockTitle = document.querySelector('.unlock-title');
             
-            // Réinitialiser le champ de saisie
             document.getElementById('unlockCodeInput').value = '';
             updateCodeDots();
             
-            // Changer le message en fonction du contexte
             switch(context) {
                 case 'admin':
                     unlockTitle.textContent = 'Accès Administrateur';
@@ -2936,30 +3118,25 @@ L'équipe NY AKO</textarea>
             const unlockModal = document.getElementById('unlockModal');
             
             if (code === 'admin') {
-                // Code correct
                 isAdmin = true;
                 showFicheLinks = true;
                 localStorage.setItem('tourneeAdmin', 'true');
                 
-                // Animation de succès
                 unlockModal.style.animation = 'none';
                 setTimeout(() => {
                     unlockModal.style.animation = 'bubbleAppear 0.4s ease-out';
                 }, 10);
                 
-                // Changer temporairement l'apparence
                 document.querySelector('.unlock-icon').textContent = '✓';
                 document.querySelector('.unlock-icon').style.color = '#27ae60';
                 document.getElementById('codeHint').textContent = '✅ Code correct! Accès autorisé';
                 document.getElementById('codeHint').style.color = '#27ae60';
                 
-                // Désactiver le champ
                 document.getElementById('unlockCodeInput').disabled = true;
                 
                 setTimeout(() => {
                     hideUnlockBubble();
                     
-                    // Réinitialiser l'icône
                     document.querySelector('.unlock-icon').textContent = '🔓';
                     document.querySelector('.unlock-icon').style.color = '';
                     document.getElementById('unlockCodeInput').disabled = false;
@@ -2967,7 +3144,6 @@ L'équipe NY AKO</textarea>
                     enableAdminButtons();
                     updateAdminInterface();
                     
-                    // Gérer le contexte spécifique
                     if (currentUnlockContext === 'date' && currentSelectedDate) {
                         showDateOptions(currentSelectedDate);
                     }
@@ -2988,12 +3164,10 @@ L'équipe NY AKO</textarea>
                 }, 1000);
                 
             } else {
-                // Code incorrect - effet de secousse
                 unlockModal.classList.add('error-shake');
                 document.getElementById('codeHint').textContent = '❌ Code incorrect. Veuillez réessayer.';
                 document.getElementById('codeHint').style.color = '#e74c3c';
                 
-                // Effet sur les points
                 const dots = document.querySelectorAll('.code-dot.filled');
                 dots.forEach(dot => {
                     dot.style.backgroundColor = '#e74c3c';
@@ -3005,7 +3179,6 @@ L'équipe NY AKO</textarea>
                         dot.style.backgroundColor = '';
                     });
                     
-                    // Vider le champ après une erreur
                     document.getElementById('unlockCodeInput').value = '';
                     updateCodeDots();
                     document.getElementById('unlockCodeInput').focus();
@@ -3080,6 +3253,7 @@ L'équipe NY AKO</textarea>
                             <button class="admin-button" id="selectiveExportButton">📄 Export sélectif</button>
                             <button class="admin-button" id="exportBookButton">📚 Exporter tout en livre PDF</button>
                             <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
+                            <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
                             <button class="admin-button" id="logoutButton" style="background: linear-gradient(to bottom, #e74c3c, #c0392b);">🚪 Déconnexion</button>
                         </div>
                     </div>
@@ -3090,6 +3264,7 @@ L'équipe NY AKO</textarea>
                 document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
                 document.getElementById('exportBookButton').addEventListener('click', exportToBookPDF);
                 document.getElementById('publicListsButton').addEventListener('click', showListsModal);
+                document.getElementById('showContactsButton').addEventListener('click', showContactsTable);
                 document.getElementById('logoutButton').addEventListener('click', logoutAdmin);
             }
             
@@ -3112,6 +3287,7 @@ L'équipe NY AKO</textarea>
                         <button class="admin-button" id="selectiveExportButton" disabled>📄 Export sélectif</button>
                         <button class="admin-button" id="exportBookButton" disabled>📚 Exporter tout en livre PDF</button>
                         <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
+                        <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
                     </div>
                 </div>
             `;
@@ -3121,6 +3297,7 @@ L'équipe NY AKO</textarea>
             document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
             document.getElementById('exportBookButton').addEventListener('click', exportToBookPDF);
             document.getElementById('publicListsButton').addEventListener('click', showListsModal);
+            document.getElementById('showContactsButton').addEventListener('click', showContactsTable);
             
             renderCalendar();
             
@@ -3206,7 +3383,6 @@ L'équipe NY AKO</textarea>
                 
                 processCSVData(csvText);
                 
-                // Réinitialiser le calendrier à avril 2026
                 currentDate = new Date(2026, 3, 1);
                 renderCalendar();
                 
@@ -3251,6 +3427,7 @@ L'équipe NY AKO</textarea>
                 extractAllPays();
                 calculateTotals();
                 calculateActivityCounts();
+                extractAllContacts();
                 updateStats();
                 renderFilterTags();
                 renderCalendar();
@@ -3264,6 +3441,197 @@ L'équipe NY AKO</textarea>
                 console.error('❌ Erreur de traitement:', error);
                 showError('Erreur lors du traitement des données: ' + error.message);
             }
+        }
+
+        function extractAllContacts() {
+            allContacts = [];
+            console.log('📇 Extraction de tous les contacts...');
+            
+            sheetData.forEach((row, rowIndex) => {
+                const interlocuteurColumns = headers
+                    .map((header, index) => 
+                        (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
+                    )
+                    .filter(index => index !== -1);
+                
+                interlocuteurColumns.forEach(colIndex => {
+                    const value = row[colIndex] || '';
+                    if (value && value.trim() !== '') {
+                        const noms = value.split(/[,;]/).map(nom => nom.trim()).filter(nom => 
+                            nom && nom.length > 1 && 
+                            !nom.includes('http') && 
+                            !nom.includes('@') &&
+                            !nom.includes('www.')
+                        );
+                        
+                        noms.forEach(nom => {
+                            const contact = {
+                                nom: nom,
+                                telephone: '',
+                                whatsapp: '',
+                                mail: '',
+                                lieu: '',
+                                date: '',
+                                rowIndex: rowIndex
+                            };
+                            
+                            const dateIndex = findHeaderIndex('Date:');
+                            if (dateIndex !== -1) {
+                                contact.date = row[dateIndex] || '';
+                            }
+                            
+                            const lieuIndex = findHeaderIndex('Lieux :');
+                            if (lieuIndex !== -1) {
+                                contact.lieu = row[lieuIndex] || '';
+                            }
+                            
+                            const telephone = findAssociatedData(row, colIndex, ['Téléphone', 'Telephone']);
+                            if (telephone) contact.telephone = telephone;
+                            
+                            const whatsapp = findAssociatedData(row, colIndex, ['Whatsapp', 'WhatsApp']);
+                            if (whatsapp) contact.whatsapp = whatsapp;
+                            
+                            const mail = findAssociatedData(row, colIndex, ['Mail:']);
+                            if (mail) contact.mail = mail;
+                            
+                            if (contact.telephone || contact.whatsapp || contact.mail) {
+                                allContacts.push(contact);
+                            }
+                        });
+                    }
+                });
+            });
+            
+            console.log(`✅ ${allContacts.length} contacts extraits`);
+        }
+
+        function showContactsTable() {
+            showModal('contactsModal');
+            updateContactsTable();
+        }
+
+        function updateContactsTable(filter = '') {
+            const tbody = document.getElementById('contactsTableBody');
+            tbody.innerHTML = '';
+            
+            let filteredContacts = allContacts;
+            if (filter) {
+                const searchLower = filter.toLowerCase();
+                filteredContacts = allContacts.filter(contact => 
+                    contact.nom.toLowerCase().includes(searchLower) ||
+                    contact.telephone.toLowerCase().includes(searchLower) ||
+                    contact.whatsapp.toLowerCase().includes(searchLower) ||
+                    contact.mail.toLowerCase().includes(searchLower) ||
+                    contact.lieu.toLowerCase().includes(searchLower)
+                );
+            }
+            
+            filteredContacts.forEach((contact, index) => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td><strong>${contact.nom}</strong></td>
+                    <td>${contact.telephone || '-'}</td>
+                    <td>${contact.whatsapp || '-'}</td>
+                    <td>${contact.mail || '-'}</td>
+                    <td>${contact.lieu || '-'}</td>
+                    <td>${contact.date || '-'}</td>
+                    <td>
+                        <div class="contact-action-buttons">
+                            <button class="contact-action-button view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\'")}')" title="Voir détails">👁️</button>
+                            ${contact.mail ? `<button class="contact-action-button email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
+                            ${contact.telephone ? `<button class="contact-action-button call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            document.getElementById('contactsCount').textContent = `${filteredContacts.length} contact(s) trouvé(s)`;
+        }
+
+        function filterContactsTable() {
+            const filter = document.getElementById('contactsSearchInput').value;
+            updateContactsTable(filter);
+        }
+
+        function exportContactsCSV() {
+            let csvContent = 'Nom,Téléphone,WhatsApp,Email,Lieu,Date\n';
+            
+            allContacts.forEach(contact => {
+                csvContent += `"${contact.nom}","${contact.telephone}","${contact.whatsapp}","${contact.mail}","${contact.lieu}","${contact.date}"\n`;
+            });
+            
+            downloadFile(csvContent, 'contacts_tournee_2026.csv', 'text/csv');
+            alert('Contacts exportés en CSV');
+        }
+
+        function exportContactsPDF() {
+            const printWindow = window.open('', '_blank');
+            let content = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Contacts - Tournée Europe 2026 NY AKO</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+                        .contact-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        .contact-table th { background: #3498db; color: white; padding: 10px; text-align: left; }
+                        .contact-table td { padding: 8px 10px; border-bottom: 1px solid #ddd; }
+                        .contact-table tr:nth-child(even) { background: #f8f9fa; }
+                        .footer { margin-top: 30px; text-align: center; color: #7f8c8d; font-size: 0.9em; }
+                        @media print { body { margin: 10mm; } }
+                    </style>
+                </head>
+                <body>
+                    <h1>📇 Liste des Contacts - Tournée Europe 2026</h1>
+                    <p style="text-align: center;">Ministère Musical NY AKO - Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+                    
+                    <table class="contact-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Téléphone</th>
+                                <th>WhatsApp</th>
+                                <th>Email</th>
+                                <th>Lieu</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            allContacts.forEach(contact => {
+                content += `
+                    <tr>
+                        <td>${contact.nom}</td>
+                        <td>${contact.telephone || '-'}</td>
+                        <td>${contact.whatsapp || '-'}</td>
+                        <td>${contact.mail || '-'}</td>
+                        <td>${contact.lieu || '-'}</td>
+                        <td>${contact.date || '-'}</td>
+                    </tr>
+                `;
+            });
+            
+            content += `
+                        </tbody>
+                    </table>
+                    
+                    <div class="footer">
+                        <p><strong>Gloire au Seigneur !</strong></p>
+                        <p>"Que la grâce du Seigneur Jésus-Christ, l'amour de Dieu, et la communion du Saint-Esprit soient avec vous tous." (2 Corinthiens 13:13)</p>
+                        <p>NY AKO - Ministère Musical Évangélique</p>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            printWindow.document.write(content);
+            printWindow.document.close();
+            printWindow.print();
         }
 
         function generateSearchSuggestions() {
@@ -3436,12 +3804,10 @@ L'équipe NY AKO</textarea>
                         const results = filterDataByType(suggestion.text, suggestion.type);
                         displayFilteredEntries(results, `${suggestion.type.charAt(0).toUpperCase() + suggestion.type.slice(1)}: ${suggestion.text}`);
                         
-                        // Ajouter automatiquement le bouton fiche si admin ET si on a un rowIndex valide
                         if (isAdmin && suggestion.rowIndex !== -1 && suggestion.rowIndex !== undefined) {
                             addFicheAccessButton(suggestion.rowIndex);
                         }
                         
-                        // Afficher le bouton retour en mobile
                         if (window.innerWidth <= 1024) {
                             document.getElementById('mobileBackButton').style.display = 'block';
                         }
@@ -3462,7 +3828,6 @@ L'équipe NY AKO</textarea>
                     if (ficheLink && ficheLink.trim() !== '') {
                         const resultsHeader = document.querySelector('#journalEntries > div:first-child');
                         if (resultsHeader) {
-                            // Vérifier si le bouton existe déjà
                             if (!document.querySelector('.fiche-access-button')) {
                                 const ficheButton = document.createElement('button');
                                 ficheButton.className = 'fiche-access-button';
@@ -3954,12 +4319,10 @@ L'équipe NY AKO</textarea>
                     
                     scrollToElementInEntry(item, type);
                     
-                    // Afficher la bulle d'info pour les interlocuteurs
                     if (type === 'nom') {
                         showInterlocutorBubble(item);
                     }
                     
-                    // Afficher le bouton retour en mobile
                     if (window.innerWidth <= 1024) {
                         document.getElementById('mobileBackButton').style.display = 'block';
                     }
@@ -4139,7 +4502,6 @@ L'équipe NY AKO</textarea>
             const optionsList = document.getElementById('dateOptionsList');
             optionsList.innerHTML = '';
             
-            // MODIFICATION : Afficher l'option d'export si des données existent
             if (hasData) {
                 document.getElementById('exportCurrentDayOption').style.display = 'flex';
             } else {
@@ -4147,7 +4509,6 @@ L'équipe NY AKO</textarea>
             }
             
             if (hasData) {
-                // Afficher les lieux et pays
                 if (dayData.lieux.length > 0 || dayData.pays.length > 0) {
                     const lieuxPaysDiv = document.createElement('div');
                     lieuxPaysDiv.style.marginBottom = '15px';
@@ -4210,7 +4571,6 @@ L'équipe NY AKO</textarea>
                                     entryElements[rowIndex].style.boxShadow = '';
                                 }, 3000);
                                 
-                                // Afficher le bouton retour en mobile
                                 if (window.innerWidth <= 1024) {
                                     document.getElementById('mobileBackButton').style.display = 'block';
                                 }
@@ -4304,7 +4664,6 @@ L'équipe NY AKO</textarea>
             showModal('dateOptionsModal');
         }
 
-        // MODIFICATION : Fonction pour exporter les données du jour
         function exportCurrentDayData() {
             if (!currentSelectedDate) return;
             
@@ -4324,7 +4683,6 @@ L'équipe NY AKO</textarea>
             
             const row = sheetData[rowIndex];
             
-            // Créer une nouvelle fenêtre pour l'impression/export PDF
             const printWindow = window.open('', '_blank');
             let content = `
                 <!DOCTYPE html>
@@ -4364,7 +4722,6 @@ L'équipe NY AKO</textarea>
                             <div class="info-grid">
             `;
             
-            // Informations générales
             const dateIndex = findHeaderIndex('Date:');
             if (dateIndex !== -1 && row[dateIndex]) {
                 content += `<div class="info-item"><span class="info-label">Date:</span> <div class="info-value">${row[dateIndex]}</div></div>`;
@@ -4390,7 +4747,6 @@ L'équipe NY AKO</textarea>
             
             content += `</div></div>`;
             
-            // Activités
             const activitySections = findActivitySectionsInHeaders();
             let hasActivities = false;
             let activitiesContent = '';
@@ -4435,7 +4791,6 @@ L'équipe NY AKO</textarea>
                 `;
             }
             
-            // Bilan
             const resumeIndex = findHeaderIndex('RESUME');
             const noteIndex = findHeaderIndex('Note de la journée:');
             
@@ -4618,7 +4973,6 @@ L'équipe NY AKO</textarea>
             const bubble = document.getElementById('interlocutorBubble');
             const content = document.getElementById('interlocutorBubbleContent');
             
-            // Afficher directement les informations complètes
             const interlocutorDetails = findCompleteInterlocutorInfo(interlocuteur);
             
             let html = `<h4 style="margin-bottom: 15px; color: var(--primary-color); text-align: center;">${interlocuteur}</h4>`;
@@ -4639,7 +4993,6 @@ L'équipe NY AKO</textarea>
                             </div>
                     `;
                     
-                    // Ajouter les informations spécifiques demandées avec liens cliquables
                     if (detail.telephone) {
                         const telNumbers = detail.telephone.split(/[,;]/).map(tel => tel.trim()).filter(tel => tel);
                         html += `
@@ -4743,7 +5096,6 @@ L'équipe NY AKO</textarea>
                 interlocuteurColumns.forEach(colIndex => {
                     const value = row[colIndex] || '';
                     if (value.includes(interlocuteur)) {
-                        // Rechercher les données associées à cet interlocuteur dans la même ligne
                         const telephone = findAssociatedData(row, colIndex, ['Téléphone', 'Telephone']);
                         const whatsapp = findAssociatedData(row, colIndex, ['Whatsapp', 'WhatsApp']);
                         const mail = findAssociatedData(row, colIndex, ['Mail:']);
@@ -4754,7 +5106,6 @@ L'équipe NY AKO</textarea>
                         const dateIndex = findHeaderIndex('Date:');
                         const date = dateIndex !== -1 ? row[dateIndex] : '';
                         
-                        // Vérifier si l'une des données recherchées existe
                         if (telephone || whatsapp || mail || reseauxSociaux || aSavoir || lieu) {
                             info.push({
                                 date: date,
@@ -4774,7 +5125,6 @@ L'équipe NY AKO</textarea>
         }
 
         function findAssociatedData(row, interlocuteurColIndex, searchTerms) {
-            // Rechercher dans les 20 colonnes autour de l'interlocuteur
             const searchRange = 20;
             const startIndex = Math.max(0, interlocuteurColIndex - searchRange);
             const endIndex = Math.min(headers.length - 1, interlocuteurColIndex + searchRange);
@@ -4981,7 +5331,6 @@ L'équipe NY AKO</textarea>
                 container.appendChild(generateJournalEntry(row, index));
             });
             
-            // Masquer le bouton retour en mobile
             if (window.innerWidth <= 1024) {
                 document.getElementById('mobileBackButton').style.display = 'none';
             }
@@ -5016,7 +5365,6 @@ L'équipe NY AKO</textarea>
             
             container.scrollIntoView({ behavior: 'smooth' });
             
-            // Afficher le bouton retour en mobile
             if (window.innerWidth <= 1024) {
                 document.getElementById('mobileBackButton').style.display = 'block';
             }
@@ -5040,7 +5388,6 @@ L'équipe NY AKO</textarea>
             const headerDiv = document.createElement('div');
             headerDiv.className = 'entry-header';
             
-            // En mobile, afficher Date et Pays sur la même ligne
             const isMobile = window.innerWidth <= 768;
             let title = '';
             
@@ -5892,10 +6239,8 @@ L'équipe NY AKO</textarea>
         }
 
         function findInterlocuteurForEmail(row, emailColIndex) {
-            // Rechercher spécifiquement l'interlocuteur "Interlocuteur ,hôte" juste avant l'email dans la même ligne
             console.log(`🔍 Recherche interlocuteur pour email à la colonne ${emailColIndex}`);
             
-            // Rechercher dans les 10 colonnes avant l'email
             for (let i = 1; i <= 10 && emailColIndex - i >= 0; i++) {
                 const prevIndex = emailColIndex - i;
                 const header = headers[prevIndex] || '';
@@ -5905,14 +6250,12 @@ L'équipe NY AKO</textarea>
                 
                 if (!header || !value || value.trim() === '') continue;
                 
-                // Vérifier si c'est exactement le header "Interlocuteur ,hôte"
                 if (header.trim() === "Interlocuteur ,hôte") {
                     console.log(`   ✅ Trouvé "Interlocuteur ,hôte" à l'index ${prevIndex}: "${value}"`);
                     
-                    // Nettoyer et retourner la valeur
                     const cleanValue = value.trim()
-                        .split(/[,;]/)[0]  // Prendre seulement le premier nom si plusieurs
-                        .replace(/\s+/g, ' ')  // Normaliser les espaces
+                        .split(/[,;]/)[0]
+                        .replace(/\s+/g, ' ')
                         .trim();
                     
                     if (cleanValue.length > 1 && 
@@ -5928,7 +6271,6 @@ L'équipe NY AKO</textarea>
             
             console.log(`   ❌ Aucun "Interlocuteur ,hôte" trouvé avant l'email`);
             
-            // Si pas trouvé, chercher dans toute la ligne pour un header contenant "Interlocuteur"
             for (let i = 0; i < headers.length; i++) {
                 const header = headers[i] || '';
                 if (header.includes("Interlocuteur")) {
@@ -5957,7 +6299,6 @@ L'équipe NY AKO</textarea>
             console.log('📧 Extraction de tous les emails avec interlocuteurs...');
             
             sheetData.forEach((row, rowIndex) => {
-                // Chercher toutes les colonnes email
                 headers.forEach((header, colIndex) => {
                     if (!header) return;
                     
@@ -5965,11 +6306,9 @@ L'équipe NY AKO</textarea>
                     if (headerLower.includes('mail') || headerLower.includes('email')) {
                         const emailValue = row[colIndex] || '';
                         if (emailValue && emailValue.trim() !== '') {
-                            // Extraire les emails du texte
                             const emails = emailValue.match(emailPattern);
                             if (emails) {
                                 emails.forEach(email => {
-                                    // Trouver l'interlocuteur correspondant en utilisant la fonction améliorée
                                     const interlocuteur = findInterlocuteurForEmail(row, colIndex);
                                     
                                     emailsWithInterlocuteurs.push({
@@ -5988,7 +6327,6 @@ L'équipe NY AKO</textarea>
                 });
             });
             
-            // Supprimer les doublons (même email)
             const uniqueEmails = [];
             const emailSet = new Set();
             
@@ -6009,7 +6347,6 @@ L'équipe NY AKO</textarea>
             const recipientsContainer = document.getElementById('emailRecipients');
             const recipientCount = document.getElementById('recipientCount');
             
-            // Utiliser la fonction améliorée pour extraire les emails avec leurs interlocuteurs
             const emailsWithInterlocuteurs = extractAllEmailsWithInterlocuteurs();
             
             recipientsContainer.innerHTML = '';
@@ -6186,7 +6523,6 @@ L'équipe NY AKO</textarea>
                         const activityType = row[activityIndex] || '';
                         
                         if (activityType && activityType.trim().toLowerCase().includes('concert')) {
-                            // Trouver le lieu correspondant
                             const lieuIndex = findHeaderIndex('Lieux :');
                             if (lieuIndex !== -1) {
                                 const lieu = row[lieuIndex] || '';
@@ -6206,7 +6542,6 @@ L'équipe NY AKO</textarea>
                     }
                 }
                 
-                // Vérifier aussi les colonnes CONCERT
                 const concertColumns = headers
                     .map((header, index) => 
                         (header && header.includes('CONCERT')) ? index : -1
@@ -6235,7 +6570,6 @@ L'équipe NY AKO</textarea>
                 });
             });
             
-            // Grouper par lieu
             const concertsByLieu = {};
             concerts.forEach(concert => {
                 if (!concertsByLieu[concert.lieu]) {
@@ -6649,7 +6983,6 @@ L'équipe NY AKO</textarea>
                         </div>
                 `;
                 
-                // Ajouter les détails d'activités si demandé
                 if (includeActivityDetails) {
                     const activitySections = findActivitySectionsInHeaders();
                     let hasActivities = false;
@@ -6881,7 +7214,6 @@ L'équipe NY AKO</textarea>
                         </div>
                 `;
                 
-                // Ajouter les détails d'activités
                 const activitySections = findActivitySectionsInHeaders();
                 let hasActivities = false;
                 let activitiesContent = '';
@@ -6964,7 +7296,7 @@ L'équipe NY AKO</textarea>
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>Livre - Tournée Europe 2026</title>
+                    <title>Livre - Tournée Europe 2026 NY AKO</title>
                     <style>
                         body { font-family: 'Georgia', serif; margin: 40px; line-height: 1.6; }
                         h1 { text-align: center; color: #2c3e50; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 3px solid #3498db; }
@@ -6991,16 +7323,34 @@ L'équipe NY AKO</textarea>
                         .toc-item { margin: 10px 0; padding: 10px; border-bottom: 1px solid #ddd; }
                         .toc-number { float: left; width: 40px; font-weight: bold; }
                         .toc-title { margin-left: 50px; }
+                        .participants-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 20px 0; }
+                        .participant-item { text-align: center; padding: 15px; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 8px; border: 1px solid #ddd; }
+                        .thank-you-box { background: linear-gradient(135deg, #fff9c4, #ffecb3); padding: 30px; border-radius: 15px; margin: 40px 0; border-left: 5px solid #FFD700; }
+                        .bible-verse { font-style: italic; color: #2c3e50; text-align: center; margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 5px solid #8e44ad; }
                     </style>
                 </head>
                 <body>
                     <h1>📚 Livre de la Tournée Europe 2026</h1>
+                    <h2 style="text-align: center; color: #8e44ad;">Ministère Musical Évangélique NY AKO</h2>
+                    
+                    <div class="bible-verse">
+                        <p>"Chantez à l'Éternel un cantique nouveau, chantez ses louanges aux extrémités de la terre!" (Ésaïe 42:10)</p>
+                    </div>
+                    
                     <div class="intro">
-                        <p>Ce livre retrace l'ensemble de la tournée européenne de NY AKO en 2026. 
-                        Il compile toutes les activités, rencontres, concerts et expériences vécues 
-                        durant cette aventure musicale à travers l'Europe.</p>
-                        <p>Chaque journée est détaillée avec ses activités, ses interlocuteurs, 
-                        ses lieux visités et les moments marquants qui ont ponctué cette tournée.</p>
+                        <p>Ce livre retrace l'incroyable aventure de la tournée européenne 2026 du groupe NY AKO, 
+                        un ministère musical dédié à glorifier Dieu et à partager l'Évangile à travers la musique. 
+                        Chaque page témoigne de la main puissante de Dieu qui a guidé chaque étape, ouvert chaque porte, 
+                        et touché chaque cœur rencontré sur le chemin.</p>
+                        
+                        <p>Cette tournée a été bien plus qu'une simple série de concerts. Elle a été une véritable 
+                        moisson spirituelle où des vies ont été transformées, des cœurs restaurés, et une foi 
+                        ravivée par la puissance du Saint-Esprit. Des moments de louange intense, des témoignages 
+                        bouleversants, et des rencontres divines ont marqué chaque journée de cette aventure.</p>
+                        
+                        <p>"Car là où deux ou trois sont assemblés en mon nom, je suis au milieu d'eux." (Matthieu 18:20) 
+                        Cette promesse de Jésus s'est manifestée de manière tangible à chaque rassemblement, 
+                        chaque concert, et chaque moment de prière partagé.</p>
                     </div>
                     
                     <div class="table-of-contents">
@@ -7020,11 +7370,27 @@ L'équipe NY AKO</textarea>
                     </div>
                     
                     <div class="chapter">
-                        <h2>📊 Statistiques de la tournée</h2>
+                        <h2>🙏 L'Équipe de la Tournée</h2>
+                        <p style="text-align: center; margin-bottom: 20px;">Dieu a rassemblé une équipe fidèle et dévouée pour cette mission :</p>
+                        <div class="participants-list">
+                            ${TOUR_PARTICIPANTS.map(participant => `
+                                <div class="participant-item">
+                                    <strong>${participant}</strong><br>
+                                    <small>Serviteur de Dieu</small>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <p style="text-align: center; margin-top: 20px; font-style: italic;">
+                            "Je rends grâce à mon Dieu chaque fois que je fais mention de vous" (Philippiens 1:3)
+                        </p>
+                    </div>
+                    
+                    <div class="chapter page-break">
+                        <h2>📊 Bilan de la Tournée</h2>
                         <div class="stat-grid">
                             <div class="stat-item">
                                 <div class="stat-value">${allLieux.length}</div>
-                                <div class="stat-label">Lieux visités</div>
+                                <div class="stat-label">Lieux sanctifiés</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value">${allPays.length}</div>
@@ -7032,25 +7398,55 @@ L'équipe NY AKO</textarea>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value">${allInterlocuteurs.length}</div>
-                                <div class="stat-label">Interlocuteurs</div>
+                                <div class="stat-label">Âmes rencontrées</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value">${totalParticipants}</div>
-                                <div class="stat-label">Participants total</div>
+                                <div class="stat-label">Participants touchés</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value">${formatHours(totalDureeTrajet)}</div>
-                                <div class="stat-label">Durée trajet total</div>
+                                <div class="stat-label">Temps dans la présence de Dieu</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value">${totalDistance.toFixed(0)}km</div>
-                                <div class="stat-label">Distance totale</div>
+                                <div class="stat-label">Chemins parcourus pour Christ</div>
                             </div>
+                        </div>
+                        
+                        <div class="bible-verse">
+                            <p>"Allez par tout le monde, et prêchez la bonne nouvelle à toute la création." (Marc 16:15)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chapter page-break">
+                        <h2>🌍 Pays Visités</h2>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0;">
+                            ${allPays.map(pays => `
+                                <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #ddd;">
+                                    <strong>${pays}</strong>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="chapter page-break">
+                        <h2>📍 Lieux de Bénédiction</h2>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0;">
+                            ${allLieux.slice(0, 30).map(lieu => `
+                                <div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd; font-size: 0.9em;">
+                                    ${lieu}
+                                </div>
+                            `).join('')}
+                            ${allLieux.length > 30 ? `<div style="grid-column: 1 / -1; text-align: center; padding: 15px; font-style: italic;">Et ${allLieux.length - 30} autres lieux bénis...</div>` : ''}
                         </div>
                     </div>
                     
                     <div class="chapter page-break">
                         <h2>📅 Journal détaillé de la tournée</h2>
+                        <p style="text-align: center; margin-bottom: 30px; font-style: italic;">
+                            "Que tout ce qui respire loue l'Éternel! Louez l'Éternel!" (Psaume 150:6)
+                        </p>
             `;
             
             sheetData.forEach((row, index) => {
@@ -7063,7 +7459,7 @@ L'équipe NY AKO</textarea>
                     <div class="entry">
                         <div class="entry-header">
                             <h2>Chapitre ${index + 1} - ${dateStr}${pays ? ` - ${pays}` : ''}</h2>
-                            <p style="opacity: 0.9; margin-top: 10px;">Jour ${index + 1} de la tournée</p>
+                            <p style="opacity: 0.9; margin-top: 10px;">Jour ${index + 1} de la tournée - Pour la gloire de Dieu</p>
                         </div>
                         
                         <div class="section">
@@ -7084,7 +7480,7 @@ L'équipe NY AKO</textarea>
                 if (programmeValues.length > 0) {
                     content += `
                         <div style="grid-column: 1 / -1;">
-                            <strong>Au programme:</strong>
+                            <strong>Au programme de Dieu pour ce jour:</strong>
                             <ul style="margin: 10px 0 0 20px;">
                                 ${programmeValues.map(item => `<li>${item}</li>`).join('')}
                             </ul>
@@ -7097,7 +7493,6 @@ L'équipe NY AKO</textarea>
                         </div>
                 `;
                 
-                // Ajouter les activités
                 const activitySections = findActivitySectionsInHeaders();
                 let hasActivities = false;
                 let activitiesContent = '';
@@ -7115,7 +7510,7 @@ L'équipe NY AKO</textarea>
                 if (hasActivities) {
                     content += `
                         <div class="section">
-                            <h3>🎭 Activités de la journée</h3>
+                            <h3>🎭 Œuvres de Dieu ce jour</h3>
                             ${activitiesContent}
                         </div>
                     `;
@@ -7127,16 +7522,16 @@ L'équipe NY AKO</textarea>
                 if ((resumeIndex !== -1 && row[resumeIndex]) || (noteIndex !== -1 && row[noteIndex])) {
                     content += `
                         <div class="section">
-                            <h3>📝 Bilan et réflexions</h3>
+                            <h3>📝 Témoignages et Actions de Grâce</h3>
                             <div style="background: #fff9c4; padding: 20px; border-radius: 8px; border-left: 5px solid #ffd54f;">
                     `;
                     
                     if (resumeIndex !== -1 && row[resumeIndex]) {
-                        content += `<p><strong>Résumé de la journée:</strong> ${row[resumeIndex]}</p>`;
+                        content += `<p><strong>Ce que Dieu a accompli:</strong> ${row[resumeIndex]}</p>`;
                     }
                     
                     if (noteIndex !== -1 && row[noteIndex]) {
-                        content += `<p><strong>Notes personnelles:</strong> ${row[noteIndex]}</p>`;
+                        content += `<p><strong>Notes de reconnaissance:</strong> ${row[noteIndex]}</p>`;
                     }
                     
                     content += `</div></div>`;
@@ -7144,7 +7539,6 @@ L'équipe NY AKO</textarea>
                 
                 content += `</div>`;
                 
-                // Ajouter un saut de page tous les 3 jours
                 if ((index + 1) % 3 === 0 && index !== sheetData.length - 1) {
                     content += `<div class="page-break"></div>`;
                 }
@@ -7154,25 +7548,132 @@ L'équipe NY AKO</textarea>
                     </div>
                     
                     <div class="chapter page-break">
-                        <h2>🔚 Conclusion</h2>
-                        <div style="text-align: center; padding: 40px; background: #f8f9fa; border-radius: 10px; margin-top: 30px;">
-                            <p style="font-size: 1.2em; font-style: italic;">
-                                "Cette tournée européenne 2026 a été une aventure riche en rencontres, 
-                                en découvertes musicales et en partages culturels. Chaque journée 
-                                a apporté son lot d'émotions, d'apprentissages et de souvenirs 
-                                qui resteront gravés dans la mémoire de tous les participants."
+                        <h2>📇 Répertoire des Interlocuteurs/Hôtes</h2>
+                        <p>Dieu nous a accordé la grâce de rencontrer ces précieuses personnes :</p>
+                        <div style="margin: 20px 0;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                                <thead>
+                                    <tr style="background: #3498db; color: white;">
+                                        <th style="padding: 10px; text-align: left;">Nom</th>
+                                        <th style="padding: 10px; text-align: left;">Contact</th>
+                                        <th style="padding: 10px; text-align: left;">Lieu</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+            `;
+            
+            allContacts.slice(0, 50).forEach(contact => {
+                content += `
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 8px 10px;"><strong>${contact.nom}</strong></td>
+                        <td style="padding: 8px 10px;">
+                            ${contact.telephone ? `📞 ${contact.telephone}<br>` : ''}
+                            ${contact.mail ? `📧 ${contact.mail}` : ''}
+                        </td>
+                        <td style="padding: 8px 10px;">${contact.lieu || '-'}</td>
+                    </tr>
+                `;
+            });
+            
+            content += `
+                                </tbody>
+                            </table>
+                            ${allContacts.length > 50 ? `<p style="text-align: center; margin-top: 15px; font-style: italic;">Et ${allContacts.length - 50} autres contacts bénis...</p>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="chapter page-break">
+                        <h2>🙌 Remerciements et Actions de Grâce</h2>
+                        
+                        <div class="thank-you-box">
+                            <h3 style="color: #8e44ad; text-align: center;">À nos précieux interlocuteurs et hôtes</h3>
+                            <p>Que Dieu vous bénisse abondamment pour votre accueil chaleureux, votre générosité, 
+                            et votre soutien dans cette mission. Chaque repas partagé, chaque conversation, 
+                            chaque moment de prière ensemble restera gravé dans nos cœurs.</p>
+                            
+                            <p>"Car j'ai eu faim, et vous m'avez donné à manger; j'ai eu soif, et vous m'avez donné à boire; 
+                            j'étais étranger, et vous m'avez recueilli." (Matthieu 25:35)</p>
+                        </div>
+                        
+                        <div class="thank-you-box" style="background: linear-gradient(135deg, #e8f4fc, #d1e7f5); border-left: 5px solid #3498db;">
+                            <h3 style="color: #2c3e50; text-align: center;">À tous ceux qui ont prié et intercédé</h3>
+                            <p>Vos prières ont été notre bouclier, votre intercession notre force. 
+                            Derrière chaque miracle, chaque porte ouverte, chaque vie touchée, 
+                            il y avait votre fidélité dans la prière. Merci d'avoir été les soutiens invisibles 
+                            mais puissants de cette tournée.</p>
+                            
+                            <p>"Priez sans cesse." (1 Thessaloniciens 5:17)</p>
+                        </div>
+                        
+                        <div class="thank-you-box" style="background: linear-gradient(135deg, #fce4ec, #f8bbd9); border-left: 5px solid #e91e63;">
+                            <h3 style="color: #c2185b; text-align: center;">À tous les NY AKO à Madagascar</h3>
+                            <p>Votre soutien, vos prières, et votre amour nous ont accompagnés à chaque instant. 
+                            Vous étiez avec nous en esprit dans chaque concert, chaque témoignage, chaque victoire. 
+                            Cette tournée est aussi la vôtre !</p>
+                        </div>
+                        
+                        <div class="thank-you-box" style="background: linear-gradient(135deg, #f3e5f5, #e1bee7); border-left: 5px solid #9c27b0;">
+                            <h3 style="color: #7b1fa2; text-align: center;">À tous ceux qui ont contribué de près ou de loin</h3>
+                            <p>Que ce soit par un soutien financier, logistique, spirituel ou moral, 
+                            sachez que votre contribution a été essentielle. Dieu voit chaque geste, 
+                            chaque sacrifice, chaque acte d'amour fait en son nom.</p>
+                            
+                            <p>"Et quiconque aura donné seulement un verre d'eau froide à l'un de ces petits parce qu'il est mon disciple, 
+                            je vous le dis en vérité, il ne perdra point sa récompense." (Matthieu 10:42)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chapter page-break">
+                        <h2>🔚 Conclusion - Pour la Gloire de Dieu</h2>
+                        <div style="text-align: center; padding: 40px; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 15px; margin-top: 30px;">
+                            <div class="bible-verse" style="margin: 0 0 30px 0;">
+                                <p>"À celui qui peut faire, par la puissance qui agit en nous, 
+                                infiniment au delà de tout ce que nous demandons ou pensons, 
+                                à lui soit la gloire dans l'Église et en Jésus-Christ, 
+                                dans toutes les générations, aux siècles des siècles! Amen!" (Éphésiens 3:20-21)</p>
+                            </div>
+                            
+                            <p style="font-size: 1.2em; font-style: italic; margin-bottom: 30px;">
+                                Cette tournée européenne 2026 a été une démonstration éclatante de la fidélité de Dieu, 
+                                de sa puissance transformatrice, et de son amour infini. Des cœurs brisés ont été restaurés, 
+                                des vies désespérées ont retrouvé l'espérance, des âmes perdues ont rencontré le Sauveur.
                             </p>
-                            <p style="margin-top: 30px; font-weight: bold;">
-                                NY AKO - Tournée Europe 2026
+                            
+                            <p style="font-size: 1.1em; margin-bottom: 20px;">
+                                Nous avons vu des larmes de joie couler lors des appels à la décision, 
+                                des mains levées en signe de reddition à Christ, des étreintes fraternelles 
+                                qui transcendaient les barrières culturelles et linguistiques.
                             </p>
-                            <p style="margin-top: 20px; color: #7f8c8d;">
+                            
+                            <p style="font-size: 1.1em; margin-bottom: 30px;">
+                                La louange est montée vers les cieux dans des langues diverses mais avec un seul cœur, 
+                                adorant le même Dieu, célébrant le même Sauveur, Jésus-Christ.
+                            </p>
+                            
+                            <div style="border-top: 2px solid #3498db; padding-top: 20px; margin-top: 20px;">
+                                <p style="font-weight: bold; font-size: 1.3em; color: #2c3e50;">
+                                    NY AKO - Ministère Musical Évangélique
+                                </p>
+                                <p style="margin-top: 10px; font-style: italic;">
+                                    "Que la grâce du Seigneur Jésus-Christ, l'amour de Dieu, 
+                                    et la communion du Saint-Esprit soient avec vous tous." (2 Corinthiens 13:13)
+                                </p>
+                            </div>
+                            
+                            <div style="margin-top: 40px; padding: 20px; background: gold; border-radius: 10px; display: inline-block;">
+                                <h3 style="color: #2c3e50; margin: 0;">GLOIRE AU SEIGNEUR !</h3>
+                                <p style="margin: 10px 0 0 0; font-size: 1.1em;">HALLELUJAH ! AMEN !</p>
+                            </div>
+                            
+                            <p style="margin-top: 30px; color: #7f8c8d; font-size: 0.9em;">
                                 Document généré le ${new Date().toLocaleDateString('fr-FR', { 
                                     year: 'numeric', 
                                     month: 'long', 
                                     day: 'numeric',
                                     hour: '2-digit',
                                     minute: '2-digit'
-                                })}
+                                })}<br>
+                                Soli Deo Gloria - À Dieu seul soit la gloire
                             </p>
                         </div>
                     </div>
@@ -7242,6 +7743,7 @@ L'équipe NY AKO</textarea>
                     ✅ Journal chargé avec succès : ${sheetData.length} journée${sheetData.length > 1 ? 's' : ''}
                     <br><small>${headers.length} colonnes détectées • Durée totale des trajets: ${formatHours(totalDureeTrajet)} • Distance totale: ${totalDistance.toFixed(0)}km</small>
                     <br><small>Cliquez sur un lieu, un interlocuteur ou un pays pour filtrer les entrées</small>
+                    <br><small><strong>À Dieu soit la gloire !</strong></small>
                 </div>
             `;
         }
@@ -7272,7 +7774,6 @@ L'équipe NY AKO</textarea>
                 displayAllJournalEntries();
             }
             
-            // Masquer le bouton retour en desktop
             if (window.innerWidth > 1024) {
                 document.getElementById('mobileBackButton').style.display = 'none';
             }
@@ -7282,6 +7783,7 @@ L'équipe NY AKO</textarea>
         window.showInterlocutorBubble = showInterlocutorBubble;
         window.scrollToLieu = scrollToLieu;
         window.toggleFilterGroup = toggleFilterGroup;
+        window.showContactsTable = showContactsTable;
     </script> 
 </body>
 </html>
