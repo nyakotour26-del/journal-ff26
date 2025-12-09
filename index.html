@@ -3718,146 +3718,69 @@ function extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex) {
         }
 
         function generateSearchSuggestions() {
-    searchSuggestions = [];
-    
-    console.log('🔍 Génération des suggestions de recherche étendues...');
-    
-    // 1. Extraire toutes les valeurs uniques du tableau source
-    const allValues = new Set();
-    const valueOccurrences = new Map();
-    
-    sheetData.forEach((row, rowIndex) => {
-        row.forEach((cell, cellIndex) => {
-            if (cell && typeof cell === 'string' && cell.trim() !== '') {
-                const trimmedValue = cell.trim();
-                
-                // Ne pas inclure les URLs et emails comme valeurs de suggestion
-                if (trimmedValue.includes('http://') || 
-                    trimmedValue.includes('https://') ||
-                    trimmedValue.includes('www.') ||
-                    trimmedValue.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/)) {
-                    return;
-                }
-                
-                // Découper les valeurs contenant des séparateurs
-                const values = trimmedValue.split(/[,;\/\n]/).map(v => v.trim()).filter(v => 
-                    v.length > 1 && v.length < 100
-                );
-                
-                values.forEach(value => {
-                    if (value.length > 0) {
-                        allValues.add(value);
-                        
-                        // Compter les occurrences
-                        if (!valueOccurrences.has(value)) {
-                            valueOccurrences.set(value, {
-                                count: 0,
-                                types: new Set(),
-                                rowIndices: new Set()
-                            });
-                        }
-                        const info = valueOccurrences.get(value);
-                        info.count++;
-                        info.rowIndices.add(rowIndex);
-                        
-                        // Déterminer le type basé sur l'en-tête de colonne
-                        const header = headers[cellIndex] || '';
-                        if (header.includes('Lieux')) {
-                            info.types.add('lieu');
-                        } else if (header.trim() === "Interlocuteur ,hôte") {
-                            info.types.add('nom');
-                        } else if (header.includes('Pays')) {
-                            info.types.add('pays');
-                        } else if (header.includes('ACTIVITÉ') || header.includes('ACTIVITE')) {
-                            info.types.add('activité');
-                        } else if (header.includes('CONCERT')) {
-                            info.types.add('concert');
-                        } else if (header.includes('Note') || header.includes('RESUME')) {
-                            info.types.add('note');
-                        } else {
-                            info.types.add('divers');
-                        }
-                    }
+            searchSuggestions = [];
+            
+            allLieux.forEach(lieu => {
+                const occurrences = findOccurrences(lieu, 'lieu');
+                occurrences.forEach(occurrence => {
+                    searchSuggestions.push({
+                        text: lieu,
+                        type: 'lieu',
+                        details: `${occurrence.date} - ${occurrence.pays}`,
+                        rowIndex: occurrence.rowIndex
+                    });
                 });
-            }
-        });
-    });
-    
-    // 2. Convertir en suggestions
-    allValues.forEach(value => {
-        const info = valueOccurrences.get(value);
-        if (info && info.count > 0) {
-            // Déterminer le type principal
-            let mainType = 'divers';
-            const typePriority = ['nom', 'lieu', 'pays', 'activité', 'concert', 'note', 'divers'];
-            for (const type of typePriority) {
-                if (info.types.has(type)) {
-                    mainType = type;
-                    break;
-                }
-            }
-            
-            // Trouver une occurrence pour avoir la date et le pays
-            let date = '';
-            let pays = '';
-            const firstRowIndex = Array.from(info.rowIndices)[0];
-            if (firstRowIndex !== undefined) {
-                const row = sheetData[firstRowIndex];
-                const dateIndex = findHeaderIndex('Date:');
-                if (dateIndex !== -1) {
-                    date = row[dateIndex] || '';
-                }
-                
-                const paysIndex = findHeaderIndex('Pays:');
-                if (paysIndex !== -1) {
-                    pays = row[paysIndex] || '';
-                }
-            }
-            
-            searchSuggestions.push({
-                text: value,
-                type: mainType,
-                details: `${date}${pays ? ' - ' + pays : ''} (${info.count} occ.)`,
-                rowIndices: Array.from(info.rowIndices),
-                count: info.count
             });
-        }
-    });
-    
-    // 3. Trier par fréquence puis par texte
-    searchSuggestions.sort((a, b) => {
-        if (b.count !== a.count) {
-            return b.count - a.count;
-        }
-        return a.text.localeCompare(b.text);
-    });
-    
-    console.log(`🔍 ${searchSuggestions.length} suggestions de recherche étendues générées`);
-    
-    // 4. Ajouter aussi les types d'activités spécifiques
-    const validActivityTypes = [
-        'Rencontre/Invitation', 'Concert', 'Ecole', 
-        'Sortie/visite/Tourisme', 'Sortie/visite/tourisme', 'Sortie',
-        'Eglise/culte', 'Eglise', 'culte',
-        'Marché', 'Marche',
-        'Shopping',
-        'Hospice/Hopital', 'Hospice', 'Hopital',
-        'Voyage',
-        'Festival'
-    ];
-    
-    validActivityTypes.forEach(type => {
-        if (activityCounts[type] > 0) {
-            searchSuggestions.push({
-                text: type,
-                type: 'activité',
-                details: `${activityCounts[type]} occurrence(s)`,
-                rowIndices: [],
-                count: activityCounts[type]
+            
+            allInterlocuteurs.forEach(interlocuteur => {
+                const occurrences = findOccurrences(interlocuteur, 'nom');
+                occurrences.forEach(occurrence => {
+                    searchSuggestions.push({
+                        text: interlocuteur,
+                        type: 'interlocuteur',
+                        details: `${occurrence.date} - ${occurrence.pays}`,
+                        rowIndex: occurrence.rowIndex
+                    });
+                });
             });
+            
+            allPays.forEach(pays => {
+                const occurrences = findOccurrences(pays, 'pays');
+                occurrences.forEach(occurrence => {
+                    searchSuggestions.push({
+                        text: pays,
+                        type: 'pays',
+                        details: occurrence.date,
+                        rowIndex: occurrence.rowIndex
+                    });
+                });
+            });
+            
+            const validActivityTypes = [
+                'Rencontre/Invitation', 'Concert', 'Ecole', 
+                'Sortie/visite/Tourisme', 'Sortie/visite/tourisme', 'Sortie',
+                'Eglise/culte', 'Eglise', 'culte',
+                'Marché', 'Marche',
+                'Shopping',
+                'Hospice/Hopital', 'Hospice', 'Hopital',
+                'Voyage',
+                'Festival'
+            ];
+            
+            validActivityTypes.forEach(type => {
+                if (activityCounts[type] > 0) {
+                    searchSuggestions.push({
+                        text: type,
+                        type: 'activité',
+                        details: `${activityCounts[type]} occurrence(s)`,
+                        rowIndex: -1
+                    });
+                }
+            });
+            
+            console.log(`🔍 ${searchSuggestions.length} suggestions de recherche générées`);
         }
-    });
-}
+
         function findOccurrences(term, type) {
             const occurrences = [];
             
@@ -3938,147 +3861,47 @@ function extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex) {
             }
         }
 
-        function generateSearchSuggestions() {
-    searchSuggestions = [];
-    
-    console.log('🔍 Génération des suggestions de recherche étendues...');
-    
-    // 1. Extraire toutes les valeurs uniques du tableau source
-    const allValues = new Set();
-    const valueOccurrences = new Map();
-    
-    sheetData.forEach((row, rowIndex) => {
-        row.forEach((cell, cellIndex) => {
-            if (cell && typeof cell === 'string' && cell.trim() !== '') {
-                const trimmedValue = cell.trim();
-                
-                // Ne pas inclure les URLs et emails comme valeurs de suggestion
-                if (trimmedValue.includes('http://') || 
-                    trimmedValue.includes('https://') ||
-                    trimmedValue.includes('www.') ||
-                    trimmedValue.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/)) {
-                    return;
-                }
-                
-                // Découper les valeurs contenant des séparateurs
-                const values = trimmedValue.split(/[,;\/\n]/).map(v => v.trim()).filter(v => 
-                    v.length > 1 && v.length < 100
-                );
-                
-                values.forEach(value => {
-                    if (value.length > 0) {
-                        allValues.add(value);
+        function showSearchSuggestions(filter = '') {
+            const suggestionsContainer = document.getElementById('searchSuggestions');
+            const searchInput = document.getElementById('searchInput');
+            suggestionsContainer.innerHTML = '';
+            
+            const filteredSuggestions = searchSuggestions.filter(suggestion => 
+                normalizeText(suggestion.text).includes(normalizeText(filter))
+            ).slice(0, 10);
+            
+            if (filteredSuggestions.length > 0) {
+                filteredSuggestions.forEach(suggestion => {
+                    const suggestionElement = document.createElement('div');
+                    suggestionElement.className = 'search-suggestion';
+                    suggestionElement.innerHTML = `
+                        <span class="suggestion-text">${suggestion.text}</span>
+                        <span class="suggestion-details">${suggestion.details}</span>
+                    `;
+                    suggestionElement.addEventListener('click', () => {
+                        searchInput.value = suggestion.text;
+                        hideSearchSuggestions();
                         
-                        // Compter les occurrences
-                        if (!valueOccurrences.has(value)) {
-                            valueOccurrences.set(value, {
-                                count: 0,
-                                types: new Set(),
-                                rowIndices: new Set()
-                            });
-                        }
-                        const info = valueOccurrences.get(value);
-                        info.count++;
-                        info.rowIndices.add(rowIndex);
+                        currentSearchTerm = suggestion.text;
+                        currentSearchType = suggestion.type;
+                        const results = filterDataByType(suggestion.text, suggestion.type);
+                        displayFilteredEntries(results, `${suggestion.type.charAt(0).toUpperCase() + suggestion.type.slice(1)}: ${suggestion.text}`);
                         
-                        // Déterminer le type basé sur l'en-tête de colonne
-                        const header = headers[cellIndex] || '';
-                        if (header.includes('Lieux')) {
-                            info.types.add('lieu');
-                        } else if (header.trim() === "Interlocuteur ,hôte") {
-                            info.types.add('nom');
-                        } else if (header.includes('Pays')) {
-                            info.types.add('pays');
-                        } else if (header.includes('ACTIVITÉ') || header.includes('ACTIVITE')) {
-                            info.types.add('activité');
-                        } else if (header.includes('CONCERT')) {
-                            info.types.add('concert');
-                        } else if (header.includes('Note') || header.includes('RESUME')) {
-                            info.types.add('note');
-                        } else {
-                            info.types.add('divers');
+                        if (isAdmin && suggestion.rowIndex !== -1 && suggestion.rowIndex !== undefined) {
+                            addFicheAccessButton(suggestion.rowIndex);
                         }
-                    }
+                        
+                        if (window.innerWidth <= 1024) {
+                            document.getElementById('mobileBackButton').style.display = 'block';
+                        }
+                    });
+                    suggestionsContainer.appendChild(suggestionElement);
                 });
+                suggestionsContainer.style.display = 'block';
+            } else {
+                hideSearchSuggestions();
             }
-        });
-    });
-    
-    // 2. Convertir en suggestions
-    allValues.forEach(value => {
-        const info = valueOccurrences.get(value);
-        if (info && info.count > 0) {
-            // Déterminer le type principal
-            let mainType = 'divers';
-            const typePriority = ['nom', 'lieu', 'pays', 'activité', 'concert', 'note', 'divers'];
-            for (const type of typePriority) {
-                if (info.types.has(type)) {
-                    mainType = type;
-                    break;
-                }
-            }
-            
-            // Trouver une occurrence pour avoir la date et le pays
-            let date = '';
-            let pays = '';
-            const firstRowIndex = Array.from(info.rowIndices)[0];
-            if (firstRowIndex !== undefined) {
-                const row = sheetData[firstRowIndex];
-                const dateIndex = findHeaderIndex('Date:');
-                if (dateIndex !== -1) {
-                    date = row[dateIndex] || '';
-                }
-                
-                const paysIndex = findHeaderIndex('Pays:');
-                if (paysIndex !== -1) {
-                    pays = row[paysIndex] || '';
-                }
-            }
-            
-            searchSuggestions.push({
-                text: value,
-                type: mainType,
-                details: `${date}${pays ? ' - ' + pays : ''} (${info.count} occ.)`,
-                rowIndices: Array.from(info.rowIndices),
-                count: info.count
-            });
         }
-    });
-    
-    // 3. Trier par fréquence puis par texte
-    searchSuggestions.sort((a, b) => {
-        if (b.count !== a.count) {
-            return b.count - a.count;
-        }
-        return a.text.localeCompare(b.text);
-    });
-    
-    console.log(`🔍 ${searchSuggestions.length} suggestions de recherche étendues générées`);
-    
-    // 4. Ajouter aussi les types d'activités spécifiques
-    const validActivityTypes = [
-        'Rencontre/Invitation', 'Concert', 'Ecole', 
-        'Sortie/visite/Tourisme', 'Sortie/visite/tourisme', 'Sortie',
-        'Eglise/culte', 'Eglise', 'culte',
-        'Marché', 'Marche',
-        'Shopping',
-        'Hospice/Hopital', 'Hospice', 'Hopital',
-        'Voyage',
-        'Festival'
-    ];
-    
-    validActivityTypes.forEach(type => {
-        if (activityCounts[type] > 0) {
-            searchSuggestions.push({
-                text: type,
-                type: 'activité',
-                details: `${activityCounts[type]} occurrence(s)`,
-                rowIndices: [],
-                count: activityCounts[type]
-            });
-        }
-    });
-}
 
         function addFicheAccessButton(rowIndex) {
             setTimeout(() => {
@@ -5407,45 +5230,19 @@ function findCompleteInterlocutorInfo(interlocuteur) {
                 // Extraire les informations de contact pour CE groupe spécifique
                 const contactInfo = extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex);
                 
-                // Chercher le lieu le plus proche AVANT cette colonne interlocuteur
-                let lieu = 'Non spécifié';
-                for (let i = interlocuteurColIndex - 1; i >= 0; i--) {
-                    if (headers[i] && headers[i].trim() === "Lieux :") {
-                        const lieuValue = row[i] || '';
-                        if (lieuValue.trim() !== '') {
-                            lieu = lieuValue.trim();
-                            break;
-                        }
-                    }
-                }
-                
-                // Si pas trouvé avant, chercher dans les colonnes "Lieux :" en général
-                if (lieu === 'Non spécifié') {
-                    const lieuxIndices = headers
-                        .map((header, index) => 
-                            (header && header.trim() === "Lieux :") ? index : -1
-                        )
-                        .filter(index => index !== -1);
-                    
-                    for (const index of lieuxIndices) {
-                        const lieuValue = row[index] || '';
-                        if (lieuValue.trim() !== '') {
-                            lieu = lieuValue.trim();
-                            break;
-                        }
-                    }
-                }
-                
-                // Informations générales
+                // Ajouter les informations générales
                 const dateIndex = findHeaderIndex('Date:');
                 const date = dateIndex !== -1 ? row[dateIndex] : '';
+                
+                const lieuIndex = findHeaderIndex('Lieux :');
+                const lieu = lieuIndex !== -1 ? row[lieuIndex] : '';
                 
                 // Vérifier si on a déjà cette combinaison date/lieu pour éviter les doublons
                 const existingInfo = info.find(i => i.date === date && i.lieu === lieu);
                 if (!existingInfo) {
                     info.push({
                         date: date,
-                        lieu: lieu,
+                        lieu: lieu || 'Non spécifié',
                         telephone: contactInfo.telephone || '',
                         whatsapp: contactInfo.whatsapp || '',
                         mail: contactInfo.mail || '',
@@ -5458,7 +5255,8 @@ function findCompleteInterlocutorInfo(interlocuteur) {
     });
     
     return info;
-}        function findAssociatedData(row, interlocuteurColIndex, searchTerms) {
+}
+        function findAssociatedData(row, interlocuteurColIndex, searchTerms) {
             const searchRange = 20;
             const startIndex = Math.max(0, interlocuteurColIndex - searchRange);
             const endIndex = Math.min(headers.length - 1, interlocuteurColIndex + searchRange);
