@@ -3444,67 +3444,150 @@ Ministère Musical Évangélique</textarea>
         }
 
         function extractAllContacts() {
-            allContacts = [];
-            console.log('📇 Extraction de tous les contacts...');
-            
-            sheetData.forEach((row, rowIndex) => {
-                const interlocuteurColumns = headers
-                    .map((header, index) => 
-                        (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
-                    )
-                    .filter(index => index !== -1);
-                
-                interlocuteurColumns.forEach(colIndex => {
-                    const value = row[colIndex] || '';
-                    if (value && value.trim() !== '') {
-                        const noms = value.split(/[,;]/).map(nom => nom.trim()).filter(nom => 
-                            nom && nom.length > 1 && 
-                            !nom.includes('http') && 
-                            !nom.includes('@') &&
-                            !nom.includes('www.')
-                        );
-                        
-                        noms.forEach(nom => {
-                            const contact = {
-                                nom: nom,
-                                telephone: '',
-                                whatsapp: '',
-                                mail: '',
-                                lieu: '',
-                                date: '',
-                                rowIndex: rowIndex
-                            };
-                            
-                            const dateIndex = findHeaderIndex('Date:');
-                            if (dateIndex !== -1) {
-                                contact.date = row[dateIndex] || '';
-                            }
-                            
-                            const lieuIndex = findHeaderIndex('Lieux :');
-                            if (lieuIndex !== -1) {
-                                contact.lieu = row[lieuIndex] || '';
-                            }
-                            
-                            const telephone = findAssociatedData(row, colIndex, ['Téléphone', 'Telephone']);
-                            if (telephone) contact.telephone = telephone;
-                            
-                            const whatsapp = findAssociatedData(row, colIndex, ['Whatsapp', 'WhatsApp']);
-                            if (whatsapp) contact.whatsapp = whatsapp;
-                            
-                            const mail = findAssociatedData(row, colIndex, ['Mail:']);
-                            if (mail) contact.mail = mail;
-                            
-                            if (contact.telephone || contact.whatsapp || contact.mail) {
-                                allContacts.push(contact);
-                            }
-                        });
-                    }
-                });
-            });
-            
-            console.log(`✅ ${allContacts.length} contacts extraits`);
+    allContacts = [];
+    console.log('📇 Extraction de tous les contacts...');
+    
+    sheetData.forEach((row, rowIndex) => {
+        // Trouver tous les indices des colonnes "Interlocuteur ,hôte"
+        const interlocuteurIndices = [];
+        for (let i = 0; i < headers.length; i++) {
+            if (headers[i] && headers[i].trim() === "Interlocuteur ,hôte") {
+                interlocuteurIndices.push(i);
+            }
         }
+        
+        console.log(`Ligne ${rowIndex + 1}: ${interlocuteurIndices.length} colonnes interlocuteur trouvées`);
+        
+        // Pour chaque colonne interlocuteur
+        for (let i = 0; i < interlocuteurIndices.length; i++) {
+            const interlocuteurColIndex = interlocuteurIndices[i];
+            const interlocuteurValue = row[interlocuteurColIndex] || '';
+            
+            if (interlocuteurValue.trim() === '') continue;
+            
+            // Séparer les noms (séparés par virgules ou points-virgules)
+            const noms = interlocuteurValue.split(/[,;]/).map(nom => nom.trim()).filter(nom => 
+                nom && nom.length > 1 && 
+                !nom.includes('http') && 
+                !nom.includes('@') &&
+                !nom.includes('www.')
+            );
+            
+            noms.forEach(nom => {
+                const contact = {
+                    nom: nom,
+                    telephone: '',
+                    whatsapp: '',
+                    mail: '',
+                    lieu: '',
+                    date: '',
+                    rowIndex: rowIndex,
+                    contactGroupIndex: i // Pour savoir à quel groupe de contact il appartient
+                };
+                
+                // Trouver les informations de contact correspondantes à CE interlocuteur spécifique
+                // Les informations suivent généralement dans les colonnes juste après
+                let currentIndex = interlocuteurColIndex + 1;
+                let fieldsFound = 0;
+                const maxFieldsToCheck = 10; // On vérifie les 10 colonnes suivantes
+                
+                while (fieldsFound < maxFieldsToCheck && currentIndex < headers.length) {
+                    const header = headers[currentIndex] || '';
+                    const value = row[currentIndex] || '';
+                    
+                    if (value.trim() !== '') {
+                        // Trouver le type de champ
+                        if (header.includes('Téléphone') || header.includes('Telephone')) {
+                            contact.telephone = value.trim();
+                        } else if (header.includes('Whatsapp') || header.includes('WhatsApp')) {
+                            contact.whatsapp = value.trim();
+                        } else if (header.includes('Mail:')) {
+                            contact.mail = value.trim();
+                        } else if (header.includes('fb ou autre contact sur réseaux sociaux') || 
+                                   header.includes('reseaux sociaux')) {
+                            // On saute ce champ pour ce contact spécifique
+                        }
+                    }
+                    
+                    // Si on trouve un autre interlocuteur, on s'arrête car les informations suivantes
+                    // appartiennent à ce nouvel interlocuteur
+                    if (header.trim() === "Interlocuteur ,hôte") {
+                        break;
+                    }
+                    
+                    currentIndex++;
+                    fieldsFound++;
+                }
+                
+                // Informations générales de la ligne
+                const dateIndex = findHeaderIndex('Date:');
+                if (dateIndex !== -1) {
+                    contact.date = row[dateIndex] || '';
+                }
+                
+                const lieuIndex = findHeaderIndex('Lieux :');
+                if (lieuIndex !== -1) {
+                    contact.lieu = row[lieuIndex] || '';
+                }
+                
+                if (contact.telephone || contact.whatsapp || contact.mail) {
+                    allContacts.push(contact);
+                    console.log(`  ✅ Contact: ${nom} - Tel: ${contact.telephone} - WhatsApp: ${contact.whatsapp} - Mail: ${contact.mail}`);
+                }
+            });
+        }
+    });
+    
+    console.log(`✅ ${allContacts.length} contacts extraits`);
+}
 
+function extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex) {
+    const contactInfo = {
+        telephone: '',
+        whatsapp: '',
+        mail: '',
+        reseauxSociaux: '',
+        aSavoir: ''
+    };
+    
+    // Chercher les informations dans les colonnes suivantes
+    let currentIndex = interlocuteurColIndex + 1;
+    let fieldsFound = 0;
+    const maxFieldsToCheck = 10; // On vérifie les 10 colonnes suivantes
+    
+    while (fieldsFound < maxFieldsToCheck && currentIndex < headers.length) {
+        const header = headers[currentIndex] || '';
+        const value = row[currentIndex] || '';
+        
+        if (value.trim() !== '') {
+            // Identifier le type de champ
+            if (header.includes('Téléphone') || header.includes('Telephone')) {
+                contactInfo.telephone = value.trim();
+            } else if (header.includes('Whatsapp') || header.includes('WhatsApp')) {
+                contactInfo.whatsapp = value.trim();
+            } else if (header.includes('Mail:')) {
+                contactInfo.mail = value.trim();
+            } else if (header.includes('fb ou autre contact sur réseaux sociaux') || 
+                       header.includes('reseaux sociaux')) {
+                contactInfo.reseauxSociaux = value.trim();
+            } else if (header.includes('À savoir sur l\'interlocuteur') || 
+                       header.includes('A savoir sur l\'interlocuteur')) {
+                contactInfo.aSavoir = value.trim();
+            }
+        }
+        
+        // Si on trouve un autre interlocuteur, on s'arrête car les informations suivantes
+        // appartiennent à ce nouvel interlocuteur
+        if (header.trim() === "Interlocuteur ,hôte") {
+            break;
+        }
+        
+        currentIndex++;
+        fieldsFound++;
+    }
+    
+    return contactInfo;
+}
         function showContactsTable() {
             showModal('contactsModal');
             updateContactsTable();
@@ -4286,11 +4369,53 @@ Ministère Musical Évangélique</textarea>
             document.getElementById('totalJours').textContent = sheetData.length;
         }
 
-        function renderFilterTags() {
-            renderTags('lieuxTags', allLieux, 'lieu');
-            renderTags('nomsTags', allInterlocuteurs, 'nom');
-            renderTags('paysTags', allPays, 'pays');
+function renderFilterTags() {
+    renderTags('lieuxTags', allLieux, 'lieu');
+    renderTags('nomsTags', allInterlocuteurs, 'nom');
+    renderTags('paysTags', allPays, 'pays');
+    
+    // Ajouter le texte "Cliquer pour afficher"/"Réduire"
+    updateFilterToggleText();
+}
+
+function updateFilterToggleText() {
+    const filterGroups = ['lieux', 'noms', 'pays'];
+    
+    filterGroups.forEach(type => {
+        const group = document.getElementById(`${type}FilterGroup`);
+        const toggleIcon = group.querySelector('.toggle-icon');
+        const titleText = group.querySelector('h3');
+        
+        // Par défaut masqué
+        group.classList.add('collapsed');
+        
+        // Mettre à jour le texte
+        const currentText = titleText.innerHTML;
+        const baseText = currentText.replace(/<span.*<\/span>/, '');
+        
+        if (group.classList.contains('collapsed')) {
+            titleText.innerHTML = `${baseText} <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Cliquer pour afficher)</span><span class="toggle-icon">▼</span>`;
+        } else {
+            titleText.innerHTML = `${baseText} <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Réduire)</span><span class="toggle-icon">▼</span>`;
         }
+    });
+}
+
+function toggleFilterGroup(type) {
+    const group = document.getElementById(`${type}FilterGroup`);
+    group.classList.toggle('collapsed');
+    
+    // Mettre à jour le texte
+    const titleText = group.querySelector('h3');
+    const currentText = titleText.innerHTML;
+    const baseText = currentText.split('(')[0].trim();
+    
+    if (group.classList.contains('collapsed')) {
+        titleText.innerHTML = `${baseText} <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Cliquer pour afficher)</span><span class="toggle-icon">▼</span>`;
+    } else {
+        titleText.innerHTML = `${baseText} <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Réduire)</span><span class="toggle-icon">▼</span>`;
+    }
+}
 
         function renderTags(containerId, items, type) {
             const container = document.getElementById(containerId);
@@ -5083,47 +5208,54 @@ Ministère Musical Évangélique</textarea>
             bubble.style.zIndex = '1001';
         }
 
-        function findCompleteInterlocutorInfo(interlocuteur) {
-            const info = [];
-            
-            sheetData.forEach((row, rowIndex) => {
-                const interlocuteurColumns = headers
-                    .map((header, index) => 
-                        (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
-                    )
-                    .filter(index => index !== -1);
-                
-                interlocuteurColumns.forEach(colIndex => {
-                    const value = row[colIndex] || '';
-                    if (value.includes(interlocuteur)) {
-                        const telephone = findAssociatedData(row, colIndex, ['Téléphone', 'Telephone']);
-                        const whatsapp = findAssociatedData(row, colIndex, ['Whatsapp', 'WhatsApp']);
-                        const mail = findAssociatedData(row, colIndex, ['Mail:']);
-                        const reseauxSociaux = findAssociatedData(row, colIndex, ['fb ou autre contact sur réseaux sociaux de l\'hôte', 'reseaux sociaux']);
-                        const aSavoir = findAssociatedData(row, colIndex, ['À savoir sur l\'interlocuteur', 'A savoir sur l\'interlocuteur']);
-                        const lieu = findAssociatedData(row, colIndex, ['Lieux :', 'Lieux']);
-                        
-                        const dateIndex = findHeaderIndex('Date:');
-                        const date = dateIndex !== -1 ? row[dateIndex] : '';
-                        
-                        if (telephone || whatsapp || mail || reseauxSociaux || aSavoir || lieu) {
-                            info.push({
-                                date: date,
-                                lieu: lieu || 'Non spécifié',
-                                telephone: telephone || '',
-                                whatsapp: whatsapp || '',
-                                mail: mail || '',
-                                reseauxSociaux: reseauxSociaux || '',
-                                aSavoir: aSavoir || ''
-                            });
-                        }
-                    }
-                });
-            });
-            
-            return info;
+function findCompleteInterlocutorInfo(interlocuteur) {
+    const info = [];
+    
+    sheetData.forEach((row, rowIndex) => {
+        // Trouver tous les indices des colonnes "Interlocuteur ,hôte"
+        const interlocuteurIndices = [];
+        for (let i = 0; i < headers.length; i++) {
+            if (headers[i] && headers[i].trim() === "Interlocuteur ,hôte") {
+                interlocuteurIndices.push(i);
+            }
         }
-
+        
+        // Pour chaque groupe d'interlocuteur
+        for (let groupIndex = 0; groupIndex < interlocuteurIndices.length; groupIndex++) {
+            const interlocuteurColIndex = interlocuteurIndices[groupIndex];
+            const interlocuteurValue = row[interlocuteurColIndex] || '';
+            
+            // Vérifier si cet interlocuteur est dans cette cellule
+            if (interlocuteurValue.includes(interlocuteur)) {
+                // Extraire les informations de contact pour CE groupe spécifique
+                const contactInfo = extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex);
+                
+                // Ajouter les informations générales
+                const dateIndex = findHeaderIndex('Date:');
+                const date = dateIndex !== -1 ? row[dateIndex] : '';
+                
+                const lieuIndex = findHeaderIndex('Lieux :');
+                const lieu = lieuIndex !== -1 ? row[lieuIndex] : '';
+                
+                // Vérifier si on a déjà cette combinaison date/lieu pour éviter les doublons
+                const existingInfo = info.find(i => i.date === date && i.lieu === lieu);
+                if (!existingInfo) {
+                    info.push({
+                        date: date,
+                        lieu: lieu || 'Non spécifié',
+                        telephone: contactInfo.telephone || '',
+                        whatsapp: contactInfo.whatsapp || '',
+                        mail: contactInfo.mail || '',
+                        reseauxSociaux: contactInfo.reseauxSociaux || '',
+                        aSavoir: contactInfo.aSavoir || ''
+                    });
+                }
+            }
+        }
+    });
+    
+    return info;
+}
         function findAssociatedData(row, interlocuteurColIndex, searchTerms) {
             const searchRange = 20;
             const startIndex = Math.max(0, interlocuteurColIndex - searchRange);
