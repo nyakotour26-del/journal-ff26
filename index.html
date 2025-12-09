@@ -3550,10 +3550,12 @@ function extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex) {
         aSavoir: ''
     };
     
+    console.log(`    🔍 Extraction contacts depuis colonne ${interlocuteurColIndex}`);
+    
     // Chercher les informations dans les colonnes suivantes
     let currentIndex = interlocuteurColIndex + 1;
     let fieldsFound = 0;
-    const maxFieldsToCheck = 10; // On vérifie les 10 colonnes suivantes
+    const maxFieldsToCheck = 15; // Augmenté pour couvrir tous les champs
     
     while (fieldsFound < maxFieldsToCheck && currentIndex < headers.length) {
         const header = headers[currentIndex] || '';
@@ -3563,22 +3565,27 @@ function extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex) {
             // Identifier le type de champ
             if (header.includes('Téléphone') || header.includes('Telephone')) {
                 contactInfo.telephone = value.trim();
+                console.log(`      📞 Téléphone: ${value}`);
             } else if (header.includes('Whatsapp') || header.includes('WhatsApp')) {
                 contactInfo.whatsapp = value.trim();
+                console.log(`      💬 WhatsApp: ${value}`);
             } else if (header.includes('Mail:')) {
                 contactInfo.mail = value.trim();
+                console.log(`      📧 Mail: ${value}`);
             } else if (header.includes('fb ou autre contact sur réseaux sociaux') || 
                        header.includes('reseaux sociaux')) {
                 contactInfo.reseauxSociaux = value.trim();
+                console.log(`      👥 Réseaux sociaux: ${value}`);
             } else if (header.includes('À savoir sur l\'interlocuteur') || 
                        header.includes('A savoir sur l\'interlocuteur')) {
                 contactInfo.aSavoir = value.trim();
+                console.log(`      💡 À savoir: ${value}`);
             }
         }
         
-        // Si on trouve un autre interlocuteur, on s'arrête car les informations suivantes
-        // appartiennent à ce nouvel interlocuteur
-        if (header.trim() === "Interlocuteur ,hôte") {
+        // Si on trouve un autre interlocuteur ou une nouvelle activité, on s'arrête
+        if (header.trim() === "Interlocuteur ,hôte" || header.includes('ACTIVITÉ')) {
+            console.log(`      ⏹️ Fin du groupe détectée: "${header}"`);
             break;
         }
         
@@ -3588,6 +3595,7 @@ function extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex) {
     
     return contactInfo;
 }
+
         function showContactsTable() {
             showModal('contactsModal');
             updateContactsTable();
@@ -5090,126 +5098,170 @@ function toggleFilterGroup(type) {
             }
         }
 
-        function showInterlocutorBubble(interlocuteur) {
-            currentInterlocutorForBubble = interlocuteur;
+       function showInterlocutorBubble(interlocuteur) {
+    currentInterlocutorForBubble = interlocuteur;
+    
+    document.getElementById('interlocutorBubble').style.display = 'none';
+    
+    const bubble = document.getElementById('interlocutorBubble');
+    const content = document.getElementById('interlocutorBubbleContent');
+    
+    const interlocutorDetails = findCompleteInterlocutorInfo(interlocuteur);
+    
+    let html = `<h4 style="margin-bottom: 15px; color: var(--primary-color); text-align: center;">${interlocuteur}</h4>`;
+    
+    if (interlocutorDetails.length > 0) {
+        html += `<div style="max-height: 400px; overflow-y: auto; padding: 10px;">`;
+        
+        interlocutorDetails.forEach((detail, index) => {
+            html += `
+                <div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid var(--secondary-color); box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; color: #3498db;">
+                        <span style="font-size: 1.1em;">📅</span>
+                        <span style="font-weight: 600;">${detail.date || 'Date non spécifiée'}</span>
+                    </div>
+                    
+                    <div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 6px; border: 1px solid #e9ecef;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                            <span style="color: #e67e22; font-size: 1.1em;">🎭</span>
+                            <span style="font-weight: 600;">Activité:</span>
+                        </div>
+                        <div style="padding-left: 25px; font-size: 0.95em;">${detail.activite}</div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding: 8px; background: white; border-radius: 6px; border: 1px solid #e9ecef;">
+                        <span style="color: #27ae60; font-size: 1.1em;">📍</span>
+                        <div>
+                            <div style="font-weight: 600;">Lieux de l'activité:</div>
+                            <div style="font-size: 1.1em; color: var(--primary-color); margin-top: 3px;">${detail.lieu}</div>
+                        </div>
+                    </div>
+            `;
             
-            document.getElementById('interlocutorBubble').style.display = 'none';
+            // Section contacts
+            let hasContacts = false;
+            let contactsHtml = '';
             
-            const bubble = document.getElementById('interlocutorBubble');
-            const content = document.getElementById('interlocutorBubbleContent');
-            
-            const interlocutorDetails = findCompleteInterlocutorInfo(interlocuteur);
-            
-            let html = `<h4 style="margin-bottom: 15px; color: var(--primary-color); text-align: center;">${interlocuteur}</h4>`;
-            
-            if (interlocutorDetails.length > 0) {
-                html += `<div style="max-height: 400px; overflow-y: auto; padding: 10px;">`;
-                
-                interlocutorDetails.forEach((detail, index) => {
-                    html += `
-                        <div style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid var(--secondary-color);">
-                            <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
-                                <span style="font-size: 0.9em;">📅</span>
-                                <span style="font-weight: 500;">${detail.date}</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 8px;">
-                                <span style="font-size: 0.9em;">📍</span>
-                                <span><strong>Lieux :</strong> ${detail.lieu}</span>
-                            </div>
-                    `;
-                    
-                    if (detail.telephone) {
-                        const telNumbers = detail.telephone.split(/[,;]/).map(tel => tel.trim()).filter(tel => tel);
-                        html += `
-                            <div style="margin-bottom: 5px; font-size: 0.9em;">
-                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 3px;">
-                                    <span style="color: #3498db; font-size: 0.9em;">📞</span>
-                                    <strong>Téléphone:</strong>
+            if (detail.telephone) {
+                hasContacts = true;
+                const telNumbers = detail.telephone.split(/[,;]/).map(tel => tel.trim()).filter(tel => tel);
+                contactsHtml += `
+                    <div style="margin-bottom: 10px; font-size: 0.95em;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                            <span style="color: #3498db; font-size: 1.1em;">📞</span>
+                            <strong>Téléphone:</strong>
+                        </div>
+                        <div style="padding-left: 25px;">
+                            ${telNumbers.map(tel => `
+                                <div style="margin-bottom: 3px;">
+                                    <a href="tel:${tel}" class="contact-phone-link">${tel}</a>
                                 </div>
-                                <div style="padding-left: 20px;">
-                                    ${telNumbers.map(tel => `
-                                        <a href="tel:${tel}" class="contact-phone-link">${tel}</a>
-                                    `).join('<br>')}
-                                </div>
-                            </div>
-                        `;
-                    }
-                    
-                    if (detail.whatsapp) {
-                        const whatsappNumbers = detail.whatsapp.split(/[,;]/).map(num => num.trim()).filter(num => num);
-                        html += `
-                            <div style="margin-bottom: 5px; font-size: 0.9em;">
-                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 3px;">
-                                    <span style="color: #25D366; font-size: 0.9em;">💬</span>
-                                    <strong>WhatsApp:</strong>
-                                </div>
-                                <div style="padding-left: 20px;">
-                                    ${whatsappNumbers.map(num => `
-                                        <a href="https://wa.me/${num.replace(/[^\d+]/g, '')}" class="contact-whatsapp-link" target="_blank">${num}</a>
-                                    `).join('<br>')}
-                                </div>
-                            </div>
-                        `;
-                    }
-                    
-                    if (detail.mail) {
-                        const emails = detail.mail.split(/[,;]/).map(email => email.trim()).filter(email => email);
-                        html += `
-                            <div style="margin-bottom: 5px; font-size: 0.9em;">
-                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 3px;">
-                                    <span style="color: #e74c3c; font-size: 0.9em;">📧</span>
-                                    <strong>Mail:</strong>
-                                </div>
-                                <div style="padding-left: 20px;">
-                                    ${emails.map(email => `
-                                        <a href="mailto:${email}" class="contact-email-link">${email}</a>
-                                    `).join('<br>')}
-                                </div>
-                            </div>
-                        `;
-                    }
-                    
-                    if (detail.reseauxSociaux) {
-                        html += `
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 0.9em;">
-                                <span style="color: #4267B2; font-size: 0.9em;">👥</span>
-                                <span><strong>Réseaux sociaux:</strong> ${detail.reseauxSociaux}</span>
-                            </div>
-                        `;
-                    }
-                    
-                    if (detail.aSavoir) {
-                        html += `
-                            <div style="margin-top: 8px; padding: 8px; background: #fff9c4; border-radius: 4px; font-size: 0.85em;">
-                                <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 3px;">
-                                    <span style="color: #e67e22;">💡</span>
-                                    <strong>À savoir:</strong>
-                                </div>
-                                <div style="padding-left: 20px;">${detail.aSavoir}</div>
-                            </div>
-                        `;
-                    }
-                    
-                    html += `</div>`;
-                });
-                
-                html += `</div>`;
-            } else {
-                html += `<p style="text-align: center; color: #7f8c8d;">Aucune information trouvée pour cet interlocuteur.</p>`;
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
             }
             
-            content.innerHTML = html;
+            if (detail.whatsapp) {
+                hasContacts = true;
+                const whatsappNumbers = detail.whatsapp.split(/[,;]/).map(num => num.trim()).filter(num => num);
+                contactsHtml += `
+                    <div style="margin-bottom: 10px; font-size: 0.95em;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                            <span style="color: #25D366; font-size: 1.1em;">💬</span>
+                            <strong>WhatsApp:</strong>
+                        </div>
+                        <div style="padding-left: 25px;">
+                            ${whatsappNumbers.map(num => `
+                                <div style="margin-bottom: 3px;">
+                                    <a href="https://wa.me/${num.replace(/[^\d+]/g, '')}" class="contact-whatsapp-link" target="_blank">${num}</a>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
             
-            bubble.style.display = 'block';
-            bubble.style.position = 'fixed';
-            bubble.style.top = '50%';
-            bubble.style.left = '50%';
-            bubble.style.transform = 'translate(-50%, -50%)';
-            bubble.style.zIndex = '1001';
-        }
+            if (detail.mail) {
+                hasContacts = true;
+                const emails = detail.mail.split(/[,;]/).map(email => email.trim()).filter(email => email);
+                contactsHtml += `
+                    <div style="margin-bottom: 10px; font-size: 0.95em;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                            <span style="color: #e74c3c; font-size: 1.1em;">📧</span>
+                            <strong>Mail:</strong>
+                        </div>
+                        <div style="padding-left: 25px;">
+                            ${emails.map(email => `
+                                <div style="margin-bottom: 3px;">
+                                    <a href="mailto:${email}" class="contact-email-link">${email}</a>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (hasContacts) {
+                html += `
+                    <div style="margin-top: 15px; padding: 12px; background: white; border-radius: 6px; border: 1px solid #e9ecef;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #e9ecef;">
+                            <span style="color: #9b59b6; font-size: 1.1em;">📇</span>
+                            <strong>Contacts:</strong>
+                        </div>
+                        ${contactsHtml}
+                    </div>
+                `;
+            }
+            
+            if (detail.reseauxSociaux) {
+                html += `
+                    <div style="margin-top: 10px; padding: 10px; background: white; border-radius: 6px; border: 1px solid #e9ecef; font-size: 0.95em;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                            <span style="color: #4267B2; font-size: 1.1em;">👥</span>
+                            <strong>Réseaux sociaux:</strong>
+                        </div>
+                        <div style="padding-left: 25px;">${detail.reseauxSociaux}</div>
+                    </div>
+                `;
+            }
+            
+            if (detail.aSavoir) {
+                html += `
+                    <div style="margin-top: 10px; padding: 10px; background: #fff9c4; border-radius: 6px; border: 1px solid #ffd54f; font-size: 0.9em;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                            <span style="color: #e67e22; font-size: 1.1em;">💡</span>
+                            <strong>À savoir:</strong>
+                        </div>
+                        <div style="padding-left: 25px;">${detail.aSavoir}</div>
+                    </div>
+                `;
+            }
+            
+            html += `</div>`;
+        });
+        
+        html += `</div>`;
+    } else {
+        html += `<p style="text-align: center; color: #7f8c8d; padding: 20px;">Aucune information trouvée pour cet interlocuteur.</p>`;
+    }
+    
+    content.innerHTML = html;
+    
+    bubble.style.display = 'block';
+    bubble.style.position = 'fixed';
+    bubble.style.top = '50%';
+    bubble.style.left = '50%';
+    bubble.style.transform = 'translate(-50%, -50%)';
+    bubble.style.zIndex = '1001';
+    bubble.style.maxWidth = '500px';
+    bubble.style.width = '90vw';
+}
 
 function findCompleteInterlocutorInfo(interlocuteur) {
     const info = [];
+    
+    console.log(`🔍 Recherche complète d'infos pour: ${interlocuteur}`);
     
     sheetData.forEach((row, rowIndex) => {
         // Trouver tous les indices des colonnes "Interlocuteur ,hôte"
@@ -5220,42 +5272,119 @@ function findCompleteInterlocutorInfo(interlocuteur) {
             }
         }
         
-        // Pour chaque groupe d'interlocuteur
-        for (let groupIndex = 0; groupIndex < interlocuteurIndices.length; groupIndex++) {
-            const interlocuteurColIndex = interlocuteurIndices[groupIndex];
+        console.log(`Ligne ${rowIndex + 1}: ${interlocuteurIndices.length} colonnes interlocuteur trouvées`);
+        
+        // Pour chaque colonne interlocuteur
+        for (let i = 0; i < interlocuteurIndices.length; i++) {
+            const interlocuteurColIndex = interlocuteurIndices[i];
             const interlocuteurValue = row[interlocuteurColIndex] || '';
             
             // Vérifier si cet interlocuteur est dans cette cellule
             if (interlocuteurValue.includes(interlocuteur)) {
-                // Extraire les informations de contact pour CE groupe spécifique
-                const contactInfo = extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex);
+                console.log(`  ✅ Interlocuteur "${interlocuteur}" trouvé à la colonne ${interlocuteurColIndex}`);
                 
-                // Ajouter les informations générales
+                // 1. Trouver le LIEUX correspondant dans le même groupe d'activité
+                let lieuCorrespondant = 'Non spécifié';
+                
+                // Rechercher la colonne "Lieux :" dans le même groupe d'activité
+                // Remonter à partir de la colonne interlocuteur pour trouver le début du groupe
+                let startSearchIndex = interlocuteurColIndex - 1;
+                let foundLieux = false;
+                
+                // Chercher vers l'arrière jusqu'à trouver "Lieux :" ou le début d'un nouveau groupe
+                while (startSearchIndex >= 0 && !foundLieux) {
+                    const header = headers[startSearchIndex] || '';
+                    
+                    // Si on trouve "Lieux :", c'est le lieux de cette activité
+                    if (header.trim() === "Lieux :") {
+                        lieuCorrespondant = row[startSearchIndex] || 'Non spécifié';
+                        console.log(`    📍 Lieux trouvé à la colonne ${startSearchIndex}: "${lieuCorrespondant}"`);
+                        foundLieux = true;
+                        break;
+                    }
+                    
+                    // Si on trouve un autre "Interlocuteur ,hôte", on est dans un autre groupe
+                    if (header.trim() === "Interlocuteur ,hôte" && startSearchIndex !== interlocuteurColIndex) {
+                        console.log(`    ⏹️ Autre interlocuteur trouvé, arrêt de la recherche`);
+                        break;
+                    }
+                    
+                    // Si on trouve un début d'activité (ACTIVITÉ X), c'est le début de ce groupe
+                    if (header.includes('ACTIVITÉ')) {
+                        console.log(`    ⏹️ Début d'activité trouvé: "${header}"`);
+                        // Maintenant chercher "Lieux :" après ce début
+                        for (let j = startSearchIndex; j < headers.length; j++) {
+                            if (headers[j] && headers[j].trim() === "Lieux :") {
+                                lieuCorrespondant = row[j] || 'Non spécifié';
+                                console.log(`    📍 Lieux trouvé après activité à la colonne ${j}: "${lieuCorrespondant}"`);
+                                foundLieux = true;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    
+                    startSearchIndex--;
+                }
+                
+                // 2. Extraire les autres informations de contact
+                const contactInfo = extractContactInfoForGroup(row, interlocuteurColIndex, i);
+                
+                // 3. Informations générales
                 const dateIndex = findHeaderIndex('Date:');
                 const date = dateIndex !== -1 ? row[dateIndex] : '';
                 
-                const lieuIndex = findHeaderIndex('Lieux :');
-                const lieu = lieuIndex !== -1 ? row[lieuIndex] : '';
+                // 4. Trouver l'activité correspondante
+                let activiteCorrespondante = 'Activité non spécifiée';
                 
-                // Vérifier si on a déjà cette combinaison date/lieu pour éviter les doublons
-                const existingInfo = info.find(i => i.date === date && i.lieu === lieu);
-                if (!existingInfo) {
-                    info.push({
+                // Chercher l'activité dans le même groupe
+                let activiteSearchIndex = interlocuteurColIndex - 1;
+                while (activiteSearchIndex >= 0) {
+                    const header = headers[activiteSearchIndex] || '';
+                    if (header.includes('ACTIVITÉ')) {
+                        activiteCorrespondante = `${header}: ${row[activiteSearchIndex] || ''}`;
+                        console.log(`    🎭 Activité trouvée: "${activiteCorrespondante}"`);
+                        break;
+                    }
+                    activiteSearchIndex--;
+                }
+                
+                // 5. Ajouter les informations si on a des contacts
+                if (contactInfo.telephone || contactInfo.whatsapp || contactInfo.mail) {
+                    const contactEntry = {
                         date: date,
-                        lieu: lieu || 'Non spécifié',
+                        lieu: lieuCorrespondant,
+                        activite: activiteCorrespondante,
                         telephone: contactInfo.telephone || '',
                         whatsapp: contactInfo.whatsapp || '',
                         mail: contactInfo.mail || '',
                         reseauxSociaux: contactInfo.reseauxSociaux || '',
-                        aSavoir: contactInfo.aSavoir || ''
-                    });
+                        aSavoir: contactInfo.aSavoir || '',
+                        rowIndex: rowIndex,
+                        interlocuteurColIndex: interlocuteurColIndex
+                    };
+                    
+                    // Vérifier les doublons
+                    const isDuplicate = info.some(existing => 
+                        existing.date === contactEntry.date &&
+                        existing.lieu === contactEntry.lieu &&
+                        existing.telephone === contactEntry.telephone &&
+                        existing.mail === contactEntry.mail
+                    );
+                    
+                    if (!isDuplicate) {
+                        info.push(contactEntry);
+                        console.log(`    ✅ Contact ajouté: ${interlocuteur} - Tel: ${contactInfo.telephone || 'non'} - Lieu: ${lieuCorrespondant}`);
+                    }
                 }
             }
         }
     });
     
+    console.log(`✅ ${info.length} entrées trouvées pour ${interlocuteur}`);
     return info;
 }
+
         function findAssociatedData(row, interlocuteurColIndex, searchTerms) {
             const searchRange = 20;
             const startIndex = Math.max(0, interlocuteurColIndex - searchRange);
