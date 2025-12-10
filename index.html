@@ -3033,6 +3033,7 @@ Ministère Musical Évangélique</textarea>
         let currentInterlocutorForBubble = null;
         let currentUnlockContext = null;
         let allContacts = [];
+let isFilterActive = false;
 
         const TOUR_PARTICIPANTS = [
             "Aina", "Ranto", "Tinasoa", "Tahiry", "Mirana", "Odile", 
@@ -3190,12 +3191,19 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
                 }, 200);
             });
             
-            window.addEventListener('scroll', function() {
-                const backButton = document.getElementById('mobileBackButton');
-                if (window.innerWidth <= 1024 && window.scrollY > 100) {
-                    backButton.style.display = 'block';
-                }
-            });
+window.addEventListener('scroll', function() {
+    const backButton = document.getElementById('mobileBackButton');
+    
+    // NE PAS changer l'affichage basé sur le scroll
+    // Cela causait le retour aux fiches complètes
+    
+    // Garder le bouton visible si on est en mode recherche/filtre
+    if (currentSearchTerm || currentSearchType) {
+        backButton.style.display = 'block';
+    } else if (window.innerWidth <= 1024 && window.scrollY > 100) {
+        backButton.style.display = 'block';
+    }
+});
             
             loadDataFromGoogleSheets();
         });
@@ -4989,37 +4997,43 @@ function toggleFilterGroup(type) {
         }
 
         function filterDataByType(value, type) {
-            let columnIndices = [];
-            
-            switch(type) {
-                case 'lieu':
-                    columnIndices = headers
-                        .map((header, index) => header.includes('Lieux') ? index : -1)
-                        .filter(index => index !== -1);
-                    break;
-                case 'nom':
-                    columnIndices = headers
-                        .map((header, index) => 
-                            (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
-                        )
-                        .filter(index => index !== -1);
-                    break;
-                case 'pays':
-                    columnIndices = headers
-                        .map((header, index) => header.includes('Pays') ? index : -1)
-                        .filter(index => index !== -1);
-                    break;
-            }
-            
-            if (columnIndices.length === 0) return [];
-            
-            return sheetData.filter(row => {
-                return columnIndices.some(index => {
-                    const cellValue = row[index] || '';
-                    return cellValue.includes(value);
-                });
-            });
-        }
+    let columnIndices = [];
+    
+    switch(type) {
+        case 'lieu':
+            columnIndices = headers
+                .map((header, index) => header.includes('Lieux') ? index : -1)
+                .filter(index => index !== -1);
+            break;
+        case 'nom':
+            columnIndices = headers
+                .map((header, index) => 
+                    (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
+                )
+                .filter(index => index !== -1);
+            break;
+        case 'pays':
+            columnIndices = headers
+                .map((header, index) => header.includes('Pays') ? index : -1)
+                .filter(index => index !== -1);
+            break;
+    }
+    
+    if (columnIndices.length === 0) return [];
+    
+    const results = sheetData.filter(row => {
+        return columnIndices.some(index => {
+            const cellValue = row[index] || '';
+            return cellValue.includes(value);
+        });
+    });
+    
+    // AJOUTER CES 2 LIGNES SEULEMENT
+    console.log(`🔍 Filtre "${type}": ${value} - ${results.length} résultats`);
+    // NE PAS faire défiler automatiquement
+    
+    return results;
+}
 
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
@@ -6090,6 +6104,11 @@ function findCompleteInterlocutorInfo(interlocuteur) {
     }, 3000);
     
     displayFilteredEntries(results, `Résultats pour "${searchValue}"`);
+    
+    // SUPPRIMEZ ou commentez cette ligne qui causait le problème :
+    // container.scrollIntoView({ behavior: 'smooth' });
+    
+    console.log(`🔍 Recherche terminée: ${results.length} résultats pour "${searchValue}"`);
 }
 
 
@@ -6198,11 +6217,12 @@ function clearSearchHighlight() {
     return results;
 }
 
-        function showAllData() {
-            currentSearchTerm = '';
-            currentSearchType = '';
-            displayAllJournalEntries();
-        }
+      function showAllData() {
+    currentSearchTerm = '';
+    currentSearchType = '';
+    isFilterActive = false; 
+    displayAllJournalEntries();
+}
 
         function displayAllJournalEntries() {
             const container = document.getElementById('journalEntries');
@@ -6222,49 +6242,55 @@ function clearSearchHighlight() {
             }
         }
 
-        function displayFilteredEntries(results, title) {
-            const container = document.getElementById('journalEntries');
-            container.innerHTML = '';
-            
-            if (results.length === 0) {
-                container.innerHTML = `
-                    <div class="no-data">
-                        <h3>❌ Aucune journée trouvée</h3>
-                        <p>Aucune journée ne correspond à votre recherche</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            const header = document.createElement('div');
-            header.style.background = 'linear-gradient(135deg, #e8f4fc, #d1e7f5)';
-            header.style.padding = '15px 20px';
-            header.style.borderRadius = '10px';
-            header.style.marginBottom = '25px';
-            header.style.border = '2px solid var(--neutral-border)';
-            header.innerHTML = `<strong style="font-size: 1.1em;">${results.length} journée(s) trouvée(s)</strong> pour : "${title}"`;
-            container.appendChild(header);
-            
-            results.forEach((row, index) => {
-                container.appendChild(generateJournalEntry(row, index));
-            });
-            
-            container.scrollIntoView({ behavior: 'smooth' });
-
-       container.scrollIntoView({ behavior: 'smooth' });
+function displayFilteredEntries(results, title) {
+    // AJOUTER CETTE LIGNE - indique qu'un filtre est actif
+    isFilterActive = true;
     
+    const container = document.getElementById('journalEntries');
+    container.innerHTML = '';
+    
+    if (results.length === 0) {
+        container.innerHTML = `
+            <div class="no-data">
+                <h3>❌ Aucune journée trouvée</h3>
+                <p>Aucune journée ne correspond à votre recherche</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const header = document.createElement('div');
+    header.style.background = 'linear-gradient(135deg, #e8f4fc, #d1e7f5)';
+    header.style.padding = '15px 20px';
+    header.style.borderRadius = '10px';
+    header.style.marginBottom = '25px';
+    header.style.border = '2px solid var(--neutral-border)';
+    header.innerHTML = `<strong style="font-size: 1.1em;">${results.length} journée(s) trouvée(s)</strong> pour : "${title}"`;
+    container.appendChild(header);
+    
+    results.forEach((row, index) => {
+        container.appendChild(generateJournalEntry(row, index));
+    });
+    
+    // RETIRER cette ligne qui causait le problème :
+    // container.scrollIntoView({ behavior: 'smooth' });
+
     // Surligner les termes de recherche
     if (currentSearchTerm && currentSearchTerm.trim() !== '') {
         setTimeout(() => {
             highlightSearchTerm(currentSearchTerm);
         }, 100);
-    }         
-            if (window.innerWidth <= 1024) {
-                document.getElementById('mobileBackButton').style.display = 'block';
-            }
-        }
-
-        function generateJournalEntry(row, index) {
+    }
+    
+    // Afficher le bouton retour seulement sur mobile
+    if (window.innerWidth <= 1024) {
+        document.getElementById('mobileBackButton').style.display = 'block';
+    } else {
+        document.getElementById('mobileBackButton').style.display = 'none';
+    }
+    
+    console.log(`✅ Affichage de ${results.length} résultats pour "${title}"`);
+}        function generateJournalEntry(row, index) {
             const dateIndex = 1;
             const dateStr = row[dateIndex] || 'Date non spécifiée';
             
