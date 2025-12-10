@@ -3194,17 +3194,22 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
 window.addEventListener('scroll', function() {
     const backButton = document.getElementById('mobileBackButton');
     
-    // NE PAS changer l'affichage basé sur le scroll
-    // Cela causait le retour aux fiches complètes
-    
-    // Garder le bouton visible si on est en mode recherche/filtre
-    if (currentSearchTerm || currentSearchType) {
-        backButton.style.display = 'block';
-    } else if (window.innerWidth <= 1024 && window.scrollY > 100) {
-        backButton.style.display = 'block';
+    // SEULEMENT sur mobile et SEULEMENT si on est en mode recherche/filtre
+    if (window.innerWidth <= 1024) {
+        // Toujours montrer le bouton si on a une recherche active
+        if (currentSearchTerm || currentSearchType) {
+            backButton.style.display = 'block';
+        }
+        // OU montrer le bouton quand on scroll un peu
+        else if (window.scrollY > 200) {
+            backButton.style.display = 'block';
+        }
+        // Cacher seulement si on est tout en haut ET pas de recherche
+        else if (window.scrollY <= 50 && !currentSearchTerm && !currentSearchType) {
+            backButton.style.display = 'none';
+        }
     }
-});
-            
+});            
             loadDataFromGoogleSheets();
         });
 
@@ -6217,10 +6222,15 @@ function clearSearchHighlight() {
     return results;
 }
 
-      function showAllData() {
+function showAllData() {
     currentSearchTerm = '';
     currentSearchType = '';
-    isFilterActive = false; 
+    isFilterActive = false;
+    
+    // Cacher le bouton retour
+    const backButton = document.getElementById('mobileBackButton');
+    backButton.style.display = 'none';
+    
     displayAllJournalEntries();
 }
 
@@ -6243,7 +6253,6 @@ function clearSearchHighlight() {
         }
 
 function displayFilteredEntries(results, title) {
-    // AJOUTER CETTE LIGNE - indique qu'un filtre est actif
     isFilterActive = true;
     
     const container = document.getElementById('journalEntries');
@@ -6272,9 +6281,6 @@ function displayFilteredEntries(results, title) {
         container.appendChild(generateJournalEntry(row, index));
     });
     
-    // RETIRER cette ligne qui causait le problème :
-    // container.scrollIntoView({ behavior: 'smooth' });
-
     // Surligner les termes de recherche
     if (currentSearchTerm && currentSearchTerm.trim() !== '') {
         setTimeout(() => {
@@ -6282,15 +6288,24 @@ function displayFilteredEntries(results, title) {
         }, 100);
     }
     
-    // Afficher le bouton retour seulement sur mobile
+    // AFFICHER le bouton retour sur mobile quand on a des résultats
     if (window.innerWidth <= 1024) {
         document.getElementById('mobileBackButton').style.display = 'block';
-    } else {
+    }
+    
+    // CACHER le bouton sur desktop
+    if (window.innerWidth > 1024) {
         document.getElementById('mobileBackButton').style.display = 'none';
     }
     
     console.log(`✅ Affichage de ${results.length} résultats pour "${title}"`);
-}        function generateJournalEntry(row, index) {
+    
+    // NE PAS FAIRE SCROLLER AUTOMATIQUEMENT
+    // ÇA CAUSE DES PROBLÈMES SUR MOBILE
+    // container.scrollIntoView({ behavior: 'smooth' }); ← SUPPRIMEZ SI VOUS LA VOYEZ
+}
+
+       function generateJournalEntry(row, index) {
             const dateIndex = 1;
             const dateStr = row[dateIndex] || 'Date non spécifiée';
             
