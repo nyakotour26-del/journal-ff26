@@ -664,27 +664,48 @@
             margin-bottom: 20px;
         }
         
-        .filter-group {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            border: 2px solid #e9ecef;
-            transition: transform 0.2s ease;
-        }
+.filter-group {
+    background: #f8f9fa;
+    padding: 12px 15px; /* Réduit le padding */
+    border-radius: var(--border-radius);
+    border: 2px solid #e9ecef;
+    transition: transform 0.2s ease, padding 0.3s ease; /* Ajout de transition pour padding */
+    max-height: 300px; /* Hauteur maximale */
+    overflow: hidden; /* Cache le contenu qui dépasse */
+}
+
+/* Quand le groupe est réduit */
+.filter-group.collapsed {
+    padding: 8px 12px; /* Encore moins de padding quand réduit */
+    max-height: 50px; /* Hauteur réduite quand masqué */
+    cursor: pointer; /* Indique que c'est cliquable */
+}
+
+/* Style spécifique pour le titre des filtres réduits */
+.filter-group.collapsed h3 {
+    margin: 0; /* Enlève la marge */
+    padding: 0; /* Enlève le padding */
+}
         
         .filter-group:hover {
             transform: translateY(-3px);
         }
         
-        .filter-group h3 {
-            margin-bottom: 15px;
-            color: var(--secondary-color);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-        }
+.filter-group h3 {
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: margin-bottom 0.3s ease; /* Transition pour le margin */
+}
+
+/* Réduit l'espace sous le titre quand le groupe est réduit */
+.filter-group.collapsed h3 {
+    margin-bottom: 5px;
+}
         
         .filter-group h3 .toggle-icon {
             font-size: 1.2em;
@@ -695,14 +716,22 @@
             transform: rotate(-90deg);
         }
         
-        .filter-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-            transition: max-height 0.3s ease;
-        }
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+/* Quand le groupe est réduit, masque complètement les tags */
+.filter-group.collapsed .filter-tags {
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Désactive les clics */
+}
         
         .filter-group.collapsed .filter-tags {
             max-height: 0;
@@ -2540,7 +2569,63 @@
     }
 }
 
- </style>
+ /* ============================================
+    AMÉLIORATION DE L'AFFICHAGE DES FILTRES
+    ============================================ */
+
+ /* Style des filtres réduits - plus compact */
+ .filter-group.collapsed {
+     min-height: 45px; /* Hauteur minimale réduite */
+     height: 45px; /* Hauteur fixe */
+     overflow: hidden; /* Cache ce qui dépasse */
+     background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+     border: 1px solid #dee2e6;
+ }
+
+ /* Style au survol quand réduit */
+ .filter-group.collapsed:hover {
+     background: linear-gradient(to bottom, #e9ecef, #dee2e6);
+     border-color: var(--secondary-color);
+ }
+
+ /* Titre plus compact dans les filtres réduits */
+ .filter-group.collapsed h3 {
+     font-size: 0.95em;
+     line-height: 1.3;
+     color: var(--primary-color);
+ }
+
+ /* Icône de réduction/expansion */
+ .filter-group h3 .toggle-icon {
+     font-size: 0.9em;
+     transition: transform 0.3s ease;
+     color: var(--secondary-color);
+ }
+
+ /* Texte "Cliquer pour afficher"/"Réduire" */
+ .filter-group .toggle-text {
+     font-size: 0.75em !important;
+     color: #6c757d !important;
+     font-weight: normal !important;
+     margin-left: 8px !important;
+ }
+
+ /* Masquer le texte descriptif quand réduit */
+ .filter-group.collapsed .toggle-text {
+     display: inline-block;
+ }
+
+ /* Afficher le texte descriptif quand étendu */
+ .filter-group:not(.collapsed) .toggle-text {
+     display: inline-block;
+ }
+
+ /* Animation fluide pour l'expansion/réduction */
+ .filter-group, .filter-tags {
+     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+ }
+
+</style>
 </head>
 <body>
     <!-- Zone titre fixe -->
@@ -3052,12 +3137,20 @@ Ministère Musical Évangélique</textarea>
             "Henintsoa", "Kris", "Mamy", "Voahary", "Andry Tiana", 
             "Andy", "Dede", "Sahoby", "Mirindra", "Hajanantenaina"
         ];
-
-        function toggleFilterGroup(type) {
-            const group = document.getElementById(`${type}FilterGroup`);
-            group.classList.toggle('collapsed');
-        }
-
+function toggleFilterGroup(type) {
+    const group = document.getElementById(`${type}FilterGroup`);
+    group.classList.toggle('collapsed');
+    
+    // Pour une transition plus fluide
+    const tags = group.querySelector('.filter-tags');
+    if (group.classList.contains('collapsed')) {
+        // Groupe réduit - position plus compacte
+        group.style.padding = '8px 12px';
+    } else {
+        // Groupe étendu - position normale
+        group.style.padding = '12px 15px';
+    }
+}
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Démarrage du Journal de Bord...');
             
@@ -4954,6 +5047,16 @@ function renderFilterTags() {
     
     // Ajouter le texte "Cliquer pour afficher"/"Réduire"
     updateFilterToggleText();
+    
+    // Appliquer le style réduit par défaut
+    setTimeout(() => {
+        ['lieux', 'pays'].forEach(type => {
+            const group = document.getElementById(`${type}FilterGroup`);
+            if (group && !group.classList.contains('noms')) {
+                group.classList.add('collapsed');
+            }
+        });
+    }, 100);
 }
 
 function updateFilterToggleText() {
@@ -8778,6 +8881,7 @@ function checkCurrentDisplayMode() {
         window.scrollToLieu = scrollToLieu;
         window.toggleFilterGroup = toggleFilterGroup;
         window.showContactsTable = showContactsTable;
+
     </script> 
 </body>
 </html>
