@@ -887,34 +887,39 @@
             margin-bottom: 20px;
         }
         
-        .stat-card {
-            background: white;
-            padding: 15px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            text-align: center;
-            border: 2px solid var(--neutral-border);
-            transition: transform 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-value {
-            font-size: 1.8em;
-            font-weight: 800;
-            color: var(--pink);
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            color: #7f8c8d;
-            font-size: 0.8em;
-            font-weight: 500;
-            line-height: 1.2;
-        }
-        
+.stat-card {
+    background: white;
+    padding: 3px 6px; /* Réduit: 5px→3px (haut/bas), 8px→6px (gauche/droite) */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    border: 2px solid #87CEEB;
+    transition: transform 0.3s ease;
+    height: 1.2cm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-value {
+    font-size: 1.5em;
+    font-weight: 800;
+    color: #87CEEB;
+    margin-bottom: 0; /* Supprime l'espace en bas */
+    line-height: 0.9; /* Réduit l'interligne */
+}
+
+.stat-label {
+    color: #7f8c8d;
+    font-size: 0.65em; /* Réduit de 0.7 à 0.65 */
+    font-weight: 600;
+    line-height: 0.8; /* Réduit encore l'interligne */
+    margin-top: 0; /* Supprime l'espace */
+}   
         .loading {
             text-align: center;
             padding: 50px;
@@ -1098,10 +1103,27 @@
             margin-bottom: 20px;
         }
         
-        .stats-row .stat-card {
-            flex: 1;
-            min-width: auto;
-        }
+.stats-row .stat-card {
+    flex: 1;
+    min-width: auto;
+    height: 1cm; /* Hauteur fixe de 1cm */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px 8px; /* Réduit le padding */
+}
+
+.stat-value {
+    font-size: 1.5em !important; /* Réduit la taille */
+    font-weight: 800 !important; /* Mettre en gras */
+    margin-bottom: 2px !important;
+}
+
+.stat-label {
+    font-size: 0.7em !important; /* Réduit la taille */
+    font-weight: 600 !important; /* Mettre en gras */
+    line-height: 1.1 !important;
+}
         
         .activity-stats {
             display: grid;
@@ -1117,17 +1139,20 @@
             margin-top: 15px;
         }
         
-        .activity-stat {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-            border-left: 4px solid var(--secondary-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
+.activity-stat {
+    background: white;
+    padding: 6px 4px; /* Réduit: 8px→6px (haut/bas), 5px→4px (gauche/droite) */
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    border-left: 4px solid #FF69B4;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 1.2cm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}      
         .activity-stat:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -1142,18 +1167,20 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
-        .activity-stat-value {
-            font-size: 1.8em;
-            font-weight: 700;
-            color: var(--pink);
-            margin-bottom: 5px;
-        }
-        
-        .activity-stat-label {
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }
-        
+.activity-stat-value {
+    font-size: 1.3em;
+    font-weight: 800;
+    color: #FF69B4;
+    margin-bottom: 0; /* Supprime l'espace en bas */
+    line-height: 0.9; /* Réduit l'interligne */
+}     
+.activity-stat-label {
+    color: #7f8c8d;
+    font-size: 0.6em; /* Réduit de 0.65 à 0.6 */
+    font-weight: 600;
+    line-height: 0.8; /* Réduit encore l'interligne */
+    margin-top: 0; /* Supprime l'espace */
+}
         .concert-filter-button {
             display: none;
         }
@@ -2385,6 +2412,32 @@
                 padding: 3px 6px;
                 font-size: 0.7em;
             }
+    /* Statistiques sur mobile */
+    .stats-row .stat-card {
+        height: 1.2cm !important; /* Ajout de 2mm */
+        padding: 3px 5px !important;
+    }
+    .stat-value {
+        font-size: 1.2em !important;
+    }
+    
+    .stat-label {
+        font-size: 0.6em !important;
+    }
+    
+    .activity-stats-mobile .activity-stat {
+        height: 1.2cm !important; /* Ajout de 2mm */
+        padding: 4px 2px !important;
+        border-left: 3px solid #FF69B4 !important;
+    }
+    
+    .activity-stat-value {
+        font-size: 1.1em !important;
+    }
+    
+    .activity-stat-label {
+        font-size: 0.6em !important;
+    }
         }
         
         @media (max-width: 480px) {
@@ -2456,7 +2509,51 @@
             .contacts-table-container {
                 max-height: 250px;
             }
+    .activity-stats-mobile .activity-stat {
+        padding: 3px 1px !important;
+        height: 1.2cm !important; /* Ajout de 2mm */
+    }
+    
+    .activity-stat-value {
+        font-size: 1.1em !important;
+    }
+    
+    .activity-stat-label {
+        font-size: 0.55em !important;
+    }    
+ }
+.stat-label,
+        .activity-stat-label {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limite à 2 lignes maximum */
+            -webkit-box-orient: vertical;
+            word-break: break-word; /* Force le retour à la ligne */
         }
+
+        /* Ajustement spécifique pour ordinateur */
+        @media (min-width: 769px) {
+            .stat-label {
+                font-size: 0.6em !important; /* Encore plus petit sur ordi */
+                line-height: 0.75 !important;
+            }
+            
+            .activity-stat-label {
+                font-size: 0.55em !important; /* Encore plus petit sur ordi */
+                line-height: 0.75 !important;
+            }
+            
+            /* Réduit encore le padding sur ordi */
+            .stat-card {
+                padding: 2px 4px !important;
+            }
+            
+            .activity-stat {
+                padding: 5px 3px !important;
+            }
+        }
+
    /* ============================================
    CORRECTION BARRE DE RECHERCHE
    ============================================ */
