@@ -3194,18 +3194,26 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
 window.addEventListener('scroll', function() {
     const backButton = document.getElementById('mobileBackButton');
     
-    // VERSION TRÈS SIMPLE
+    // SUR MOBILE SEULEMENT
     if (window.innerWidth <= 1024) {
-        // Montrer le bouton seulement si on a une recherche active
-        if (currentSearchTerm || currentSearchType) {
+        // GESTION SIMPLIFIÉE : Montrer le bouton "Tout" seulement quand on a des résultats filtrés
+        const journalEntries = document.getElementById('journalEntries');
+        const hasResultsHeader = journalEntries.querySelector('div[style*="background"]') !== null;
+        const hasSearchResults = journalEntries.innerHTML.includes('journée(s) trouvée(s)');
+        
+        if ((currentSearchTerm || currentSearchType || hasResultsHeader || hasSearchResults) && isFilterActive) {
             backButton.style.display = 'block';
+        } else {
+            // IMPORTANT : NE RIEN FAIRE ici
+            // Ne pas cacher le bouton, ne pas réinitialiser quoi que ce soit
         }
-        // Sinon, NE RIEN FAIRE
-        // Le scroll ne doit JAMAIS cacher ou réinitialiser quoi que ce soit
     }
     
-    // Sur desktop, ne rien faire du tout
-});          
+    // SUR DESKTOP : Cacher le bouton
+    if (window.innerWidth > 1024) {
+        backButton.style.display = 'none';
+    }
+});         
             loadDataFromGoogleSheets();
         });
 
@@ -6223,11 +6231,14 @@ function showAllData() {
     currentSearchType = '';
     isFilterActive = false;
     
-    // Cacher le bouton retour
+    // IMPORTANT : Cacher le bouton retour AVANT de réinitialiser
     const backButton = document.getElementById('mobileBackButton');
     backButton.style.display = 'none';
     
-    displayAllJournalEntries();
+    // Attendre un peu avant d'afficher les données
+    setTimeout(() => {
+        displayAllJournalEntries();
+    }, 100);
 }
 
         function displayAllJournalEntries() {
