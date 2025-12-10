@@ -3033,6 +3033,10 @@ Ministère Musical Évangélique</textarea>
         let currentInterlocutorForBubble = null;
         let currentUnlockContext = null;
         let allContacts = [];
+	// Variables pour gérer le scroll mobile
+let isRestoringFromScroll = false;
+let currentFilteredResults = null;
+let currentFilterTitle = null;
 
         const TOUR_PARTICIPANTS = [
             "Aina", "Ranto", "Tinasoa", "Tahiry", "Mirana", "Odile", 
@@ -3191,12 +3195,54 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
                 }, 200);
             });
             
-            window.addEventListener('scroll', function() {
-                const backButton = document.getElementById('mobileBackButton');
-                if (window.innerWidth <= 1024 && window.scrollY > 100) {
-                    backButton.style.display = 'block';
-                }
-            });
+// Vérifier lors du scroll si on a perdu les filtres (avec anti-rebond)
+let scrollTimeout;
+
+window.addEventListener('scroll', function() {
+    const backButton = document.getElementById('mobileBackButton');
+    
+    // Afficher/masquer le bouton retour
+    if (window.innerWidth <= 1024 && window.scrollY > 100) {
+        backButton.style.display = 'block';
+    } else if (window.innerWidth <= 1024) {
+        backButton.style.display = 'none';
+    }
+    
+    // NE PAS vérifier les filtres pendant le scroll - seulement après arrêt
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(checkScrollForLostFilters, 500); // Attendre 500ms après fin du scroll
+});
+
+function checkScrollForLostFilters() {
+    // Ne vérifier que sur mobile et si on a des résultats filtrés
+    if (window.innerWidth <= 1024 && window.currentFilteredResults) {
+        const container = document.getElementById('journalEntries');
+        if (!container) return;
+        
+        const currentEntries = container.querySelectorAll('.journal-entry').length;
+        const firstEntry = container.querySelector('.journal-entry:first-child');
+        const header = container.firstElementChild;
+        
+        // Vérifier si on a un en-tête de résultats filtrés
+        const hasFilterHeader = header && (
+            header.textContent.includes('journée(s) trouvée(s)') || 
+            (header.style && header.style.background.includes('linear-gradient'))
+        );
+        
+        const expectedCount = window.currentFilteredResults.length;
+        
+        // Si on n'a pas d'en-tête de filtre ET qu'on a un nombre différent d'entrées
+        if (!hasFilterHeader && currentEntries !== expectedCount) {
+            // ET si on n'est pas en train de charger
+            if (document.getElementById('loadingIndicator').style.display === 'none') {
+                console.log('📱 Restauration des résultats filtrés après scroll...');
+                // Réafficher les résultats filtrés SANS animation de scroll
+                window.isRestoringFromScroll = true;
+                displayFilteredEntries(window.currentFilteredResults, window.currentFilterTitle);
+            }
+        }
+    }
+}
             
             loadDataFromGoogleSheets();
         });
@@ -6216,12 +6262,27 @@ function clearSearchHighlight() {
 }
 
        function showAllData() {
-    currentSearchTerm = '';
-    currentSearchType = '';
-    // Effacer les résultats filtrés stockés
+    window.isRestoringFromScroll = false;
     window.currentFilteredResults = null;
     window.currentFilterTitle = null;
-    displayAllJournalEntries();
+    currentSearchTerm = '';
+    currentSearchType = '';
+    
+    const container = document.getElementById('journalEntries');
+    container.innerHTML = '';
+    
+    if (sheetData.length === 0) {
+        container.innerHTML = '<div class="no-data">Aucune donnée de journal disponible</div>';
+        return;
+    }
+    
+    sheetData.forEach((row, index) => {
+        container.appendChild(generateJournalEntry(row, index));
+    });
+    
+    if (window.innerWidth <= 1024) {
+        document.getElementById('mobileBackButton').style.display = 'none';
+    }
 }
 
         function displayAllJournalEntries() {
@@ -6243,6 +6304,10 @@ function clearSearchHighlight() {
         }
 
         function displayFilteredEntries(results, title) {
+    // Si c'est une restauration après scroll, ne pas faire d'animation
+    const isRestoring = window.isRestoringFromScroll;
+    window.isRestoringFromScroll = false;
+    
     const container = document.getElementById('journalEntries');
     container.innerHTML = '';
     
@@ -6273,7 +6338,10 @@ function clearSearchHighlight() {
         container.appendChild(generateJournalEntry(row, index));
     });
     
-    container.scrollIntoView({ behavior: 'smooth' });
+    // SEULEMENT faire défiler si ce n'est pas une restauration
+    if (!isRestoring) {
+        container.scrollIntoView({ behavior: 'smooth' });
+    }
     
     // Surligner les termes de recherche
     if (currentSearchTerm && currentSearchTerm.trim() !== '') {
@@ -8734,6 +8802,8 @@ window.addEventListener('scroll', function() {
         }
     }
 });
+
+
     </script> 
 </body>
 </html>
