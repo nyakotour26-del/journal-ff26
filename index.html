@@ -2463,12 +2463,25 @@
     font-size: 18px !important;
 }
 /* Bouton d'annulation rouge */
+/* Bouton d'annulation de recherche */
 #clearHighlightButton {
     background: linear-gradient(to bottom, #ff4444, #cc0000) !important;
     border: 2px solid #cc0000 !important;
     color: white !important;
     transition: all 0.3s ease !important;
     min-width: 50px !important;
+}
+
+/* Masquer le bouton sur mobile */
+@media (max-width: 768px) {
+    #clearHighlightButton {
+        display: none !important;
+    }
+    
+    /* Ajuster la largeur du champ de recherche sur mobile */
+    .search-section .search-form {
+        gap: 5px !important;
+    }
 }
 
 #clearHighlightButton:hover {
@@ -3095,6 +3108,60 @@ Ministère Musical Évangélique</textarea>
             
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
 document.getElementById('clearHighlightButton').addEventListener('click', clearSearchHighlight);
+// Gestion spéciale pour le bouton d'annulation sur mobile
+function handleMobileSearchClear() {
+    const searchInput = document.getElementById('searchInput');
+    if (window.innerWidth <= 768) {
+        // Sur mobile, vider le champ efface aussi la recherche
+        searchInput.addEventListener('input', function() {
+            if (this.value === '') {
+                clearSearchHighlight();
+            }
+        });
+        
+        // Ajouter un bouton "effacer" dans le champ sur mobile
+        searchInput.style.paddingRight = '40px';
+        
+        // Créer un bouton X à l'intérieur du champ
+        const clearButton = document.createElement('button');
+        clearButton.innerHTML = '✕';
+        clearButton.style.position = 'absolute';
+        clearButton.style.right = '10px';
+        clearButton.style.top = '50%';
+        clearButton.style.transform = 'translateY(-50%)';
+        clearButton.style.background = 'transparent';
+        clearButton.style.border = 'none';
+        clearButton.style.color = '#999';
+        clearButton.style.fontSize = '18px';
+        clearButton.style.cursor = 'pointer';
+        clearButton.style.display = 'none';
+        clearButton.id = 'mobileClearButton';
+        
+        // Ajouter au formulaire de recherche
+        const searchForm = document.querySelector('.search-form');
+        searchInput.parentNode.style.position = 'relative';
+        searchInput.parentNode.appendChild(clearButton);
+        
+        // Afficher/masquer le bouton X
+        searchInput.addEventListener('input', function() {
+            clearButton.style.display = this.value ? 'block' : 'none';
+        });
+        
+        // Effacer au clic
+        clearButton.addEventListener('click', function() {
+            searchInput.value = '';
+            clearSearchHighlight();
+            clearButton.style.display = 'none';
+            searchInput.focus();
+        });
+    }
+}
+
+// Appeler cette fonction au chargement
+document.addEventListener('DOMContentLoaded', function() {
+    handleMobileSearchClear();
+});
+
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
             document.getElementById('nextMonth').addEventListener('click', nextMonth);
             document.getElementById('showAllButton').addEventListener('click', showAllData);
