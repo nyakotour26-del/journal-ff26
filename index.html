@@ -211,20 +211,7 @@
             min-width: 0;
         }
         
-        .mobile-back-button {
-            display: none;
-            position: fixed;
-            top: calc(var(--title-height) + 15px);
-            left: 15px;
-            background: var(--secondary-color);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 20px;
-            text-decoration: none;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            font-weight: 500;
-        }
+
         
         .special-frame {
             position: relative;
@@ -2598,7 +2585,7 @@
         </div>
     </div>
     
-    <a href="#" class="mobile-back-button" id="mobileBackButton" style="display: none;">⬅ Tout</a>
+
     
     <div class="container">
         <div class="sidebar" id="sidebar">
@@ -3088,11 +3075,7 @@ let isFilterActive = false;
                 }
             });
             
-            document.getElementById('mobileBackButton').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth' });
-                this.style.display = 'none';
-            });
+         
             
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
 document.getElementById('clearHighlightButton').addEventListener('click', clearSearchHighlight);
@@ -3191,29 +3174,7 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
                 }, 200);
             });
             
-window.addEventListener('scroll', function() {
-    const backButton = document.getElementById('mobileBackButton');
-    
-    // SUR MOBILE SEULEMENT
-    if (window.innerWidth <= 1024) {
-        // GESTION SIMPLIFIÉE : Montrer le bouton "Tout" seulement quand on a des résultats filtrés
-        const journalEntries = document.getElementById('journalEntries');
-        const hasResultsHeader = journalEntries.querySelector('div[style*="background"]') !== null;
-        const hasSearchResults = journalEntries.innerHTML.includes('journée(s) trouvée(s)');
-        
-        if ((currentSearchTerm || currentSearchType || hasResultsHeader || hasSearchResults) && isFilterActive) {
-            backButton.style.display = 'block';
-        } else {
-            // IMPORTANT : NE RIEN FAIRE ici
-            // Ne pas cacher le bouton, ne pas réinitialiser quoi que ce soit
-        }
-    }
-    
-    // SUR DESKTOP : Cacher le bouton
-    if (window.innerWidth > 1024) {
-        backButton.style.display = 'none';
-    }
-});         
+         
             loadDataFromGoogleSheets();
         });
 
@@ -5037,9 +4998,7 @@ function toggleFilterGroup(type) {
         });
     });
     
-    // AJOUTER CES 2 LIGNES SEULEMENT
-    console.log(`🔍 Filtre "${type}": ${value} - ${results.length} résultats`);
-    // NE PAS faire défiler automatiquement
+
     
     return results;
 }
@@ -6231,14 +6190,9 @@ function showAllData() {
     currentSearchType = '';
     isFilterActive = false;
     
-    // IMPORTANT : Cacher le bouton retour AVANT de réinitialiser
-    const backButton = document.getElementById('mobileBackButton');
-    backButton.style.display = 'none';
+
     
-    // Attendre un peu avant d'afficher les données
-    setTimeout(() => {
-        displayAllJournalEntries();
-    }, 100);
+    displayAllJournalEntries();
 }
 
         function displayAllJournalEntries() {
@@ -6254,9 +6208,7 @@ function showAllData() {
                 container.appendChild(generateJournalEntry(row, index));
             });
             
-            if (window.innerWidth <= 1024) {
-                document.getElementById('mobileBackButton').style.display = 'none';
-            }
+       
         }
 
 function displayFilteredEntries(results, title) {
@@ -6295,15 +6247,7 @@ function displayFilteredEntries(results, title) {
         }, 100);
     }
     
-    // AFFICHER le bouton retour sur mobile quand on a des résultats
-    if (window.innerWidth <= 1024) {
-        document.getElementById('mobileBackButton').style.display = 'block';
-    }
-    
-    // CACHER le bouton sur desktop
-    if (window.innerWidth > 1024) {
-        document.getElementById('mobileBackButton').style.display = 'none';
-    }
+
     
     console.log(`✅ Affichage de ${results.length} résultats pour "${title}"`);
     
