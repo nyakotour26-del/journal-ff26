@@ -3194,22 +3194,18 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
 window.addEventListener('scroll', function() {
     const backButton = document.getElementById('mobileBackButton');
     
-    // SEULEMENT sur mobile et SEULEMENT si on est en mode recherche/filtre
+    // VERSION TRÈS SIMPLE
     if (window.innerWidth <= 1024) {
-        // Toujours montrer le bouton si on a une recherche active
+        // Montrer le bouton seulement si on a une recherche active
         if (currentSearchTerm || currentSearchType) {
             backButton.style.display = 'block';
         }
-        // OU montrer le bouton quand on scroll un peu
-        else if (window.scrollY > 200) {
-            backButton.style.display = 'block';
-        }
-        // Cacher seulement si on est tout en haut ET pas de recherche
-        else if (window.scrollY <= 50 && !currentSearchTerm && !currentSearchType) {
-            backButton.style.display = 'none';
-        }
+        // Sinon, NE RIEN FAIRE
+        // Le scroll ne doit JAMAIS cacher ou réinitialiser quoi que ce soit
     }
-});            
+    
+    // Sur desktop, ne rien faire du tout
+});          
             loadDataFromGoogleSheets();
         });
 
