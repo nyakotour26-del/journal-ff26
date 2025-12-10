@@ -2415,7 +2415,77 @@
                 max-height: 250px;
             }
         }
-    </style>
+   /* ============================================
+   CORRECTION BARRE DE RECHERCHE
+   ============================================ */
+.search-section .search-form {
+    display: flex !important;
+    width: 100% !important;
+}
+
+.search-section .search-input {
+    flex: 1 !important;
+    min-width: 200px !important;
+}
+
+.search-section .search-button {
+    background: linear-gradient(to bottom, #8db600, #7aa000) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 20px !important;
+    border-radius: 8px !important;
+    min-width: 60px !important;
+    height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.search-section .search-button:hover {
+    background: linear-gradient(to bottom, #9bc600, #88b000) !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+}
+.search-section .search-button::before {
+    content: "🔍" !important;
+    font-size: 18px !important;
+}
+/* ============================================
+   ÉLARGISSEMENT BARRE DE RECHERCHE
+   ============================================ */
+.search-section .search-form > div {
+    flex: 1 !important;
+    display: flex !important;
+}
+
+.search-section .search-input {
+    width: 100% !important;
+    flex: 1 !important;
+}
+/* ============================================
+   RESPONSIVE MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+    .search-section .search-form {
+        flex-wrap: nowrap !important;
+    }
+    
+    .search-section .search-input {
+        padding: 10px 12px !important;
+        font-size: 14px !important;
+    }
+    
+    .search-section .search-button {
+        padding: 10px 15px !important;
+        min-width: 50px !important;
+        height: 45px !important;
+    }
+    
+    .search-section .search-button::before {
+        font-size: 16px !important;
+    }
+}
+
+ </style>
 </head>
 <body>
     <!-- Zone titre fixe -->
