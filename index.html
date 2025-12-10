@@ -3033,10 +3033,6 @@ Ministère Musical Évangélique</textarea>
         let currentInterlocutorForBubble = null;
         let currentUnlockContext = null;
         let allContacts = [];
-	// Variables pour gérer le scroll mobile
-let isRestoringFromScroll = false;
-let currentFilteredResults = null;
-let currentFilterTitle = null;
 
         const TOUR_PARTICIPANTS = [
             "Aina", "Ranto", "Tinasoa", "Tahiry", "Mirana", "Odile", 
@@ -3091,12 +3087,11 @@ let currentFilterTitle = null;
                 }
             });
             
-          document.getElementById('mobileBackButton').addEventListener('click', function(e) {
-    e.preventDefault();
-    showAllData();
-    document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth' });
-    this.style.display = 'none';
-});
+            document.getElementById('mobileBackButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth' });
+                this.style.display = 'none';
+            });
             
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
 document.getElementById('clearHighlightButton').addEventListener('click', clearSearchHighlight);
@@ -3195,54 +3190,12 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
                 }, 200);
             });
             
-// Vérifier lors du scroll si on a perdu les filtres (avec anti-rebond)
-let scrollTimeout;
-
-window.addEventListener('scroll', function() {
-    const backButton = document.getElementById('mobileBackButton');
-    
-    // Afficher/masquer le bouton retour
-    if (window.innerWidth <= 1024 && window.scrollY > 100) {
-        backButton.style.display = 'block';
-    } else if (window.innerWidth <= 1024) {
-        backButton.style.display = 'none';
-    }
-    
-    // NE PAS vérifier les filtres pendant le scroll - seulement après arrêt
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(checkScrollForLostFilters, 500); // Attendre 500ms après fin du scroll
-});
-
-function checkScrollForLostFilters() {
-    // Ne vérifier que sur mobile et si on a des résultats filtrés
-    if (window.innerWidth <= 1024 && window.currentFilteredResults) {
-        const container = document.getElementById('journalEntries');
-        if (!container) return;
-        
-        const currentEntries = container.querySelectorAll('.journal-entry').length;
-        const firstEntry = container.querySelector('.journal-entry:first-child');
-        const header = container.firstElementChild;
-        
-        // Vérifier si on a un en-tête de résultats filtrés
-        const hasFilterHeader = header && (
-            header.textContent.includes('journée(s) trouvée(s)') || 
-            (header.style && header.style.background.includes('linear-gradient'))
-        );
-        
-        const expectedCount = window.currentFilteredResults.length;
-        
-        // Si on n'a pas d'en-tête de filtre ET qu'on a un nombre différent d'entrées
-        if (!hasFilterHeader && currentEntries !== expectedCount) {
-            // ET si on n'est pas en train de charger
-            if (document.getElementById('loadingIndicator').style.display === 'none') {
-                console.log('📱 Restauration des résultats filtrés après scroll...');
-                // Réafficher les résultats filtrés SANS animation de scroll
-                window.isRestoringFromScroll = true;
-                displayFilteredEntries(window.currentFilteredResults, window.currentFilterTitle);
-            }
-        }
-    }
-}
+            window.addEventListener('scroll', function() {
+                const backButton = document.getElementById('mobileBackButton');
+                if (window.innerWidth <= 1024 && window.scrollY > 100) {
+                    backButton.style.display = 'block';
+                }
+            });
             
             loadDataFromGoogleSheets();
         });
@@ -4322,7 +4275,29 @@ function findOccurrencesWithContext(term, type) {
         });
     }
 }
+// Fonction pour vérifier si on doit préserver les résultats filtrés
+function shouldPreserveFilteredResults() {
+    return currentSearchTerm || currentSearchType;
+}
 
+// Empêcher le recalcul inutile lors du scroll mobile
+let lastScrollTime = 0;
+window.addEventListener('scroll', function() {
+    const now = Date.now();
+    
+    // Limiter les vérifications à toutes les 500ms max
+    if (now - lastScrollTime < 500) return;
+    
+    lastScrollTime = now;
+    
+    // Pour le bouton retour mobile uniquement
+    const backButton = document.getElementById('mobileBackButton');
+    if (window.innerWidth <= 1024 && window.scrollY > 100) {
+        backButton.style.display = 'block';
+    } else if (window.innerWidth <= 1024) {
+        backButton.style.display = 'none';
+    }
+});
       function showSearchSuggestions(filter = '') {
     const suggestionsContainer = document.getElementById('searchSuggestions');
     const searchInput = document.getElementById('searchInput');
@@ -4404,9 +4379,6 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
         hideSearchSuggestions();
         
         // Mettre à jour la recherche
-        // Stocker les résultats pour éviter la perte lors du scroll
-        window.currentFilteredResults = results;
-        window.currentFilterTitle = `Recherche: ${suggestion.text}`;
         currentSearchTerm = suggestion.text;
         currentSearchType = suggestion.type;
         
@@ -4655,9 +4627,6 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
             });
             
             displayFilteredEntries(results, `Activité: ${activityType}`);
-    // Stocker les résultats pour éviter la perte lors du scroll
-    window.currentFilteredResults = results;
-    window.currentFilterTitle = `Activité: ${activityType}`;
         }
 
         function parseCSV(csvText) {
@@ -5042,43 +5011,37 @@ function toggleFilterGroup(type) {
         }
 
         function filterDataByType(value, type) {
-    let columnIndices = [];
-    
-    switch(type) {
-        case 'lieu':
-            columnIndices = headers
-                .map((header, index) => header.includes('Lieux') ? index : -1)
-                .filter(index => index !== -1);
-            break;
-        case 'nom':
-            columnIndices = headers
-                .map((header, index) => 
-                    (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
-                )
-                .filter(index => index !== -1);
-            break;
-        case 'pays':
-            columnIndices = headers
-                .map((header, index) => header.includes('Pays') ? index : -1)
-                .filter(index => index !== -1);
-            break;
-    }
-    
-    if (columnIndices.length === 0) return [];
-    
-    const results = sheetData.filter(row => {
-        return columnIndices.some(index => {
-            const cellValue = row[index] || '';
-            return cellValue.includes(value);
-        });
-    });
-    
-    // STOCKER LES RÉSULTATS POUR ÉVITER LA PERTE LORS DU SCROLL
-    window.currentFilteredResults = results;
-    window.currentFilterTitle = `${type.charAt(0).toUpperCase() + type.slice(1)}: ${value}`;
-    
-    return results;
-}
+            let columnIndices = [];
+            
+            switch(type) {
+                case 'lieu':
+                    columnIndices = headers
+                        .map((header, index) => header.includes('Lieux') ? index : -1)
+                        .filter(index => index !== -1);
+                    break;
+                case 'nom':
+                    columnIndices = headers
+                        .map((header, index) => 
+                            (header && header.trim() === "Interlocuteur ,hôte") ? index : -1
+                        )
+                        .filter(index => index !== -1);
+                    break;
+                case 'pays':
+                    columnIndices = headers
+                        .map((header, index) => header.includes('Pays') ? index : -1)
+                        .filter(index => index !== -1);
+                    break;
+            }
+            
+            if (columnIndices.length === 0) return [];
+            
+            return sheetData.filter(row => {
+                return columnIndices.some(index => {
+                    const cellValue = row[index] || '';
+                    return cellValue.includes(value);
+                });
+            });
+        }
 
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
@@ -6254,21 +6217,23 @@ function clearSearchHighlight() {
     });
     
     console.log(`✅ ${results.length} journées trouvées pour "${searchValue}"`);
-    
-    // STOCKER LES RÉSULTATS POUR ÉVITER LA PERTE LORS DU SCROLL
-    window.currentFilteredResults = results;
-    
     return results;
 }
 
-       function showAllData() {
-    window.isRestoringFromScroll = false;
-    window.currentFilteredResults = null;
-    window.currentFilterTitle = null;
-    currentSearchTerm = '';
-    currentSearchType = '';
-    
+        function showAllData() {
+            currentSearchTerm = '';
+            currentSearchType = '';
+            displayAllJournalEntries();
+        }
+
+       function displayAllJournalEntries() {
     const container = document.getElementById('journalEntries');
+    
+    // NE PAS effacer si on a une recherche active
+    if (currentSearchTerm || currentSearchType) {
+        return;
+    }
+    
     container.innerHTML = '';
     
     if (sheetData.length === 0) {
@@ -6285,75 +6250,47 @@ function clearSearchHighlight() {
     }
 }
 
-        function displayAllJournalEntries() {
+        function displayFilteredEntries(results, title) {
             const container = document.getElementById('journalEntries');
             container.innerHTML = '';
             
-            if (sheetData.length === 0) {
-                container.innerHTML = '<div class="no-data">Aucune donnée de journal disponible</div>';
+            if (results.length === 0) {
+                container.innerHTML = `
+                    <div class="no-data">
+                        <h3>❌ Aucune journée trouvée</h3>
+                        <p>Aucune journée ne correspond à votre recherche</p>
+                    </div>
+                `;
                 return;
             }
             
-            sheetData.forEach((row, index) => {
+            const header = document.createElement('div');
+            header.style.background = 'linear-gradient(135deg, #e8f4fc, #d1e7f5)';
+            header.style.padding = '15px 20px';
+            header.style.borderRadius = '10px';
+            header.style.marginBottom = '25px';
+            header.style.border = '2px solid var(--neutral-border)';
+            header.innerHTML = `<strong style="font-size: 1.1em;">${results.length} journée(s) trouvée(s)</strong> pour : "${title}"`;
+            container.appendChild(header);
+            
+            results.forEach((row, index) => {
                 container.appendChild(generateJournalEntry(row, index));
             });
             
-            if (window.innerWidth <= 1024) {
-                document.getElementById('mobileBackButton').style.display = 'none';
-            }
-        }
+            container.scrollIntoView({ behavior: 'smooth' });
 
-        function displayFilteredEntries(results, title) {
-    // Si c'est une restauration après scroll, ne pas faire d'animation
-    const isRestoring = window.isRestoringFromScroll;
-    window.isRestoringFromScroll = false;
-    
-    const container = document.getElementById('journalEntries');
-    container.innerHTML = '';
-    
-    // Stocker les résultats de la recherche GLOBALEMENT
-    window.currentFilteredResults = results;
-    window.currentFilterTitle = title;
-    
-    if (results.length === 0) {
-        container.innerHTML = `
-            <div class="no-data">
-                <h3>❌ Aucune journée trouvée</h3>
-                <p>Aucune journée ne correspond à votre recherche</p>
-            </div>
-        `;
-        return;
-    }
-    
-    const header = document.createElement('div');
-    header.style.background = 'linear-gradient(135deg, #e8f4fc, #d1e7f5)';
-    header.style.padding = '15px 20px';
-    header.style.borderRadius = '10px';
-    header.style.marginBottom = '25px';
-    header.style.border = '2px solid var(--neutral-border)';
-    header.innerHTML = `<strong style="font-size: 1.1em;">${results.length} journée(s) trouvée(s)</strong> pour : "${title}"`;
-    container.appendChild(header);
-    
-    results.forEach((row, index) => {
-        container.appendChild(generateJournalEntry(row, index));
-    });
-    
-    // SEULEMENT faire défiler si ce n'est pas une restauration
-    if (!isRestoring) {
-        container.scrollIntoView({ behavior: 'smooth' });
-    }
+       container.scrollIntoView({ behavior: 'smooth' });
     
     // Surligner les termes de recherche
     if (currentSearchTerm && currentSearchTerm.trim() !== '') {
         setTimeout(() => {
             highlightSearchTerm(currentSearchTerm);
         }, 100);
-    }
-    
-    if (window.innerWidth <= 1024) {
-        document.getElementById('mobileBackButton').style.display = 'block';
-    }
-}
+    }         
+            if (window.innerWidth <= 1024) {
+                document.getElementById('mobileBackButton').style.display = 'block';
+            }
+        }
 
         function generateJournalEntry(row, index) {
             const dateIndex = 1;
@@ -8752,58 +8689,28 @@ function clearSearchHighlight() {
             renderCalendar();
         }
 
-        window.addEventListener('resize', function() {
-            renderActivityStats();
-            
-            if (document.getElementById('journalEntries').children.length > 0) {
-                displayAllJournalEntries();
-            }
-            
-            if (window.innerWidth > 1024) {
-                document.getElementById('mobileBackButton').style.display = 'none';
-            }
-        });
-
+window.addEventListener('resize', function() {
+    renderActivityStats();
+    
+    if (window.innerWidth > 1024) {
+        document.getElementById('mobileBackButton').style.display = 'none';
+    }
+});
+	// Vérifier si on affiche des résultats filtrés ou tout
+function checkCurrentDisplayMode() {
+    const container = document.getElementById('journalEntries');
+    const header = container.querySelector('div:first-child');
+    
+    if (header && header.innerHTML.includes('journée(s) trouvée(s)')) {
+        return 'filtered';
+    }
+    return 'all';
+}
         window.scrollToInterlocuteur = scrollToInterlocuteur;
         window.showInterlocutorBubble = showInterlocutorBubble;
         window.scrollToLieu = scrollToLieu;
         window.toggleFilterGroup = toggleFilterGroup;
         window.showContactsTable = showContactsTable;
-// Fonction pour vérifier et maintenir les résultats filtrés lors du scroll
-function checkAndMaintainFilter() {
-    // Si on a des résultats filtrés en cours, les réafficher
-    if (window.currentFilteredResults && window.currentFilterTitle) {
-        displayFilteredEntries(window.currentFilteredResults, window.currentFilterTitle);
-    }
-}
-
-// Vérifier lors du scroll si on a perdu les filtres
-window.addEventListener('scroll', function() {
-    const backButton = document.getElementById('mobileBackButton');
-    
-    // En mobile, vérifier si on doit remettre les résultats filtrés
-    if (window.innerWidth <= 1024) {
-        // Si on a des résultats filtrés stockés mais que l'écran affiche toutes les fiches
-        if (window.currentFilteredResults) {
-            const container = document.getElementById('journalEntries');
-            const currentEntries = container.querySelectorAll('.journal-entry').length;
-            
-            // Si on a moins d'entrées que les résultats filtrés (ou plus que nécessaire)
-            if (currentEntries !== window.currentFilteredResults.length + 1) { // +1 pour l'en-tête
-                // Réafficher les résultats filtrés
-                setTimeout(() => {
-                    displayFilteredEntries(window.currentFilteredResults, window.currentFilterTitle);
-                }, 100);
-            }
-        }
-        
-        if (window.scrollY > 100) {
-            backButton.style.display = 'block';
-        }
-    }
-});
-
-
     </script> 
 </body>
 </html>
