@@ -3482,63 +3482,129 @@ Ministère Musical Évangélique</textarea>
                     lieu: '',
                     date: '',
                     rowIndex: rowIndex,
-                    contactGroupIndex: i // Pour savoir à quel groupe de contact il appartient
+                    contactGroupIndex: i,
+                    interlocuteurColIndex: interlocuteurColIndex // On stocke l'index pour trouver le lieu
                 };
                 
-                // Trouver les informations de contact correspondantes à CE interlocuteur spécifique
-                // Les informations suivent généralement dans les colonnes juste après
-                let currentIndex = interlocuteurColIndex + 1;
-                let fieldsFound = 0;
-                const maxFieldsToCheck = 10; // On vérifie les 10 colonnes suivantes
+                // 1. TROUVER LE LIEU SPÉCIFIQUE (MÊME LOGIQUE QUE findCompleteInterlocutorInfo)
+                let lieuCorrespondant = 'Non spécifié';
                 
-                while (fieldsFound < maxFieldsToCheck && currentIndex < headers.length) {
+                // Rechercher vers l'arrière pour trouver "Lieux :" dans le même bloc d'activité
+                let currentIndex = interlocuteurColIndex - 1;
+                let foundLieux = false;
+                
+                while (currentIndex >= 0 && !foundLieux) {
                     const header = headers[currentIndex] || '';
-                    const value = row[currentIndex] || '';
+                    
+                    // Si on trouve "Lieux :" dans la même activité
+                    if (header.trim() === "Lieux :") {
+                        lieuCorrespondant = row[currentIndex] || 'Non spécifié';
+                        console.log(`    📍 Lieux trouvé à la colonne ${currentIndex}: "${lieuCorrespondant}" pour "${nom}"`);
+                        foundLieux = true;
+                        break;
+                    }
+                    
+                    // Si on trouve le début d'une activité (ACTIVITÉ X), on est au bon endroit
+                    if (header.includes('ACTIVITÉ')) {
+                        // Maintenant chercher "Lieux :" dans CETTE activité spécifique
+                        for (let j = currentIndex; j < headers.length; j++) {
+                            if (headers[j] && headers[j].trim() === "Lieux :") {
+                                lieuCorrespondant = row[j] || 'Non spécifié';
+                                console.log(`    📍 Lieux dans l'activité à la colonne ${j}: "${lieuCorrespondant}" pour "${nom}"`);
+                                foundLieux = true;
+                                break;
+                            }
+                            // Si on arrive à un autre interlocuteur ou une autre activité, on s'arrête
+                            if (j > currentIndex && (headers[j] && 
+                                (headers[j].trim() === "Interlocuteur ,hôte" || 
+                                 headers[j].includes('ACTIVITÉ')))) {
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    
+                    // Si on trouve un autre interlocuteur avant de trouver une activité, on s'arrête
+                    if (header.trim() === "Interlocuteur ,hôte" && currentIndex !== interlocuteurColIndex) {
+                        break;
+                    }
+                    
+                    currentIndex--;
+                }
+                
+                // Si on n'a pas trouvé de lieu spécifique, chercher le lieu général de la journée
+                if (!foundLieux) {
+                    // Rechercher le lieu général de la journée (première colonne "Lieux :")
+                    for (let j = 0; j < headers.length; j++) {
+                        if (headers[j] && headers[j].trim() === "Lieux :") {
+                            lieuCorrespondant = row[j] || 'Non spécifié';
+                            console.log(`    📍 Lieux général à la colonne ${j}: "${lieuCorrespondant}" pour "${nom}"`);
+                            break;
+                        }
+                    }
+                }
+                
+                contact.lieu = lieuCorrespondant;
+                
+                // 2. Extraire les informations de contact
+                let currentIndexContact = interlocuteurColIndex + 1;
+                let fieldsFound = 0;
+                const maxFieldsToCheck = 10;
+                
+                while (fieldsFound < maxFieldsToCheck && currentIndexContact < headers.length) {
+                    const header = headers[currentIndexContact] || '';
+                    const value = row[currentIndexContact] || '';
                     
                     if (value.trim() !== '') {
-                        // Trouver le type de champ
                         if (header.includes('Téléphone') || header.includes('Telephone')) {
                             contact.telephone = value.trim();
                         } else if (header.includes('Whatsapp') || header.includes('WhatsApp')) {
                             contact.whatsapp = value.trim();
                         } else if (header.includes('Mail:')) {
                             contact.mail = value.trim();
-                        } else if (header.includes('fb ou autre contact sur réseaux sociaux') || 
-                                   header.includes('reseaux sociaux')) {
-                            // On saute ce champ pour ce contact spécifique
                         }
                     }
                     
-                    // Si on trouve un autre interlocuteur, on s'arrête car les informations suivantes
-                    // appartiennent à ce nouvel interlocuteur
+                    // Si on trouve un autre interlocuteur, on s'arrête car les informations 
+                    // suivantes appartiennent à ce nouvel interlocuteur
                     if (header.trim() === "Interlocuteur ,hôte") {
                         break;
                     }
                     
-                    currentIndex++;
+                    currentIndexContact++;
                     fieldsFound++;
                 }
                 
-                // Informations générales de la ligne
+                // 3. Informations générales de la ligne
                 const dateIndex = findHeaderIndex('Date:');
                 if (dateIndex !== -1) {
                     contact.date = row[dateIndex] || '';
                 }
                 
-                const lieuIndex = findHeaderIndex('Lieux :');
-                if (lieuIndex !== -1) {
-                    contact.lieu = row[lieuIndex] || '';
-                }
-                
+                // 4. Ajouter le contact s'il a au moins une information de contact
                 if (contact.telephone || contact.whatsapp || contact.mail) {
-                    allContacts.push(contact);
-                    console.log(`  ✅ Contact: ${nom} - Tel: ${contact.telephone} - WhatsApp: ${contact.whatsapp} - Mail: ${contact.mail}`);
+                    // Vérifier si ce contact n'existe pas déjà (pour éviter les doublons)
+                    const existingContact = allContacts.find(c => 
+                        c.nom === contact.nom && 
+                        c.telephone === contact.telephone && 
+                        c.mail === contact.mail && 
+                        c.date === contact.date
+                    );
+                    
+                    if (!existingContact) {
+                        allContacts.push(contact);
+                        console.log(`  ✅ Contact ajouté: ${nom} - Tel: ${contact.telephone} - Lieu: ${contact.lieu}`);
+                    }
                 }
             });
         }
     });
     
+    // Trier les contacts par nom
+    allContacts.sort((a, b) => a.nom.localeCompare(b.nom));
+    
     console.log(`✅ ${allContacts.length} contacts extraits`);
+    return allContacts;
 }
 
 function extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex) {
@@ -5281,50 +5347,77 @@ function findCompleteInterlocutorInfo(interlocuteur) {
             
             // Vérifier si cet interlocuteur est dans cette cellule
             if (interlocuteurValue.includes(interlocuteur)) {
-                console.log(`  ✅ Interlocuteur "${interlocuteur}" trouvé à la colonne ${interlocuteurColIndex}`);
+                console.log(`  ✅ Interlocuteur "${interlocuteur}" trouvé à la colonne ${interlocuteurColIndex}: "${interlocuteurValue}"`);
                 
-                // 1. Trouver le LIEUX correspondant dans le même groupe d'activité
+                // 1. CORRECTION : Trouver le LIEUX spécifique à CET interlocuteur
                 let lieuCorrespondant = 'Non spécifié';
                 
-                // Rechercher la colonne "Lieux :" dans le même groupe d'activité
-                // Remonter à partir de la colonne interlocuteur pour trouver le début du groupe
-                let startSearchIndex = interlocuteurColIndex - 1;
+                // Méthode améliorée : Rechercher le lieu spécifique dans le même groupe d'activité
+                // On recherche vers l'arrière pour trouver "Lieux :" dans le même bloc
+                let currentIndex = interlocuteurColIndex - 1;
                 let foundLieux = false;
+                let foundActivityStart = false;
                 
-                // Chercher vers l'arrière jusqu'à trouver "Lieux :" ou le début d'un nouveau groupe
-                while (startSearchIndex >= 0 && !foundLieux) {
-                    const header = headers[startSearchIndex] || '';
+                // Recherche vers l'arrière jusqu'à trouver "Lieux :" ou le début d'une nouvelle activité
+                while (currentIndex >= 0 && !foundLieux) {
+                    const header = headers[currentIndex] || '';
                     
-                    // Si on trouve "Lieux :", c'est le lieux de cette activité
+                    // Si on trouve "Lieux :" dans la même activité
                     if (header.trim() === "Lieux :") {
-                        lieuCorrespondant = row[startSearchIndex] || 'Non spécifié';
-                        console.log(`    📍 Lieux trouvé à la colonne ${startSearchIndex}: "${lieuCorrespondant}"`);
+                        lieuCorrespondant = row[currentIndex] || 'Non spécifié';
+                        console.log(`    📍 Lieux spécifique trouvé à la colonne ${currentIndex}: "${lieuCorrespondant}"`);
                         foundLieux = true;
                         break;
                     }
                     
-                    // Si on trouve un autre "Interlocuteur ,hôte", on est dans un autre groupe
-                    if (header.trim() === "Interlocuteur ,hôte" && startSearchIndex !== interlocuteurColIndex) {
-                        console.log(`    ⏹️ Autre interlocuteur trouvé, arrêt de la recherche`);
-                        break;
-                    }
-                    
-                    // Si on trouve un début d'activité (ACTIVITÉ X), c'est le début de ce groupe
+                    // Si on trouve le début d'une activité (ACTIVITÉ X), on est au bon endroit
                     if (header.includes('ACTIVITÉ')) {
-                        console.log(`    ⏹️ Début d'activité trouvé: "${header}"`);
-                        // Maintenant chercher "Lieux :" après ce début
-                        for (let j = startSearchIndex; j < headers.length; j++) {
+                        foundActivityStart = true;
+                        console.log(`    🎭 Début d'activité trouvé à la colonne ${currentIndex}: "${header}"`);
+                        
+                        // Maintenant chercher "Lieux :" dans CETTE activité spécifique
+                        // On recherche vers l'avant à partir du début de l'activité
+                        for (let j = currentIndex; j < headers.length; j++) {
                             if (headers[j] && headers[j].trim() === "Lieux :") {
                                 lieuCorrespondant = row[j] || 'Non spécifié';
-                                console.log(`    📍 Lieux trouvé après activité à la colonne ${j}: "${lieuCorrespondant}"`);
+                                console.log(`    📍 Lieux dans l'activité à la colonne ${j}: "${lieuCorrespondant}"`);
                                 foundLieux = true;
+                                break;
+                            }
+                            // Si on arrive à un autre interlocuteur ou une autre activité, on s'arrête
+                            if (j > currentIndex && (headers[j] && 
+                                (headers[j].trim() === "Interlocuteur ,hôte" || 
+                                 headers[j].includes('ACTIVITÉ')))) {
+                                console.log(`    ⏹️ Fin du groupe activité détectée: "${headers[j]}"`);
                                 break;
                             }
                         }
                         break;
                     }
                     
-                    startSearchIndex--;
+                    // Si on trouve un autre interlocuteur avant de trouver une activité, on s'arrête
+                    if (header.trim() === "Interlocuteur ,hôte" && currentIndex !== interlocuteurColIndex) {
+                        console.log(`    ⏹️ Autre interlocuteur trouvé avant l'activité: "${header}"`);
+                        break;
+                    }
+                    
+                    currentIndex--;
+                }
+                
+                // Si on n'a pas trouvé de lieu spécifique, chercher le lieu général de la journée
+                if (!foundLieux) {
+                    // Rechercher le lieu général de la journée (colonne "Lieux :" après la date)
+                    const dateIndex = findHeaderIndex('Date:');
+                    if (dateIndex !== -1) {
+                        // Chercher la première occurrence de "Lieux :" après la date
+                        for (let j = dateIndex + 1; j < headers.length; j++) {
+                            if (headers[j] && headers[j].trim() === "Lieux :") {
+                                lieuCorrespondant = row[j] || 'Non spécifié';
+                                console.log(`    📍 Lieux général de la journée à la colonne ${j}: "${lieuCorrespondant}"`);
+                                break;
+                            }
+                        }
+                    }
                 }
                 
                 // 2. Extraire les autres informations de contact
@@ -5342,8 +5435,9 @@ function findCompleteInterlocutorInfo(interlocuteur) {
                 while (activiteSearchIndex >= 0) {
                     const header = headers[activiteSearchIndex] || '';
                     if (header.includes('ACTIVITÉ')) {
-                        activiteCorrespondante = `${header}: ${row[activiteSearchIndex] || ''}`;
-                        console.log(`    🎭 Activité trouvée: "${activiteCorrespondante}"`);
+                        const activityType = row[activiteSearchIndex] || '';
+                        activiteCorrespondante = `${activityType}`;
+                        console.log(`    🎭 Activité correspondante trouvée: "${activiteCorrespondante}"`);
                         break;
                     }
                     activiteSearchIndex--;
@@ -5364,12 +5458,13 @@ function findCompleteInterlocutorInfo(interlocuteur) {
                         interlocuteurColIndex: interlocuteurColIndex
                     };
                     
-                    // Vérifier les doublons
+                    // Vérifier les doublons (plus strict)
                     const isDuplicate = info.some(existing => 
                         existing.date === contactEntry.date &&
                         existing.lieu === contactEntry.lieu &&
                         existing.telephone === contactEntry.telephone &&
-                        existing.mail === contactEntry.mail
+                        existing.mail === contactEntry.mail &&
+                        existing.interlocuteurColIndex === contactEntry.interlocuteurColIndex
                     );
                     
                     if (!isDuplicate) {
@@ -5384,7 +5479,6 @@ function findCompleteInterlocutorInfo(interlocuteur) {
     console.log(`✅ ${info.length} entrées trouvées pour ${interlocuteur}`);
     return info;
 }
-
         function findAssociatedData(row, interlocuteurColIndex, searchTerms) {
             const searchRange = 20;
             const startIndex = Math.max(0, interlocuteurColIndex - searchRange);
