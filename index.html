@@ -211,7 +211,20 @@
             min-width: 0;
         }
         
-
+        .mobile-back-button {
+            display: none;
+            position: fixed;
+            top: calc(var(--title-height) + 15px);
+            left: 15px;
+            background: var(--secondary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            font-weight: 500;
+        }
         
         .special-frame {
             position: relative;
@@ -2585,7 +2598,7 @@
         </div>
     </div>
     
-
+    <a href="#" class="mobile-back-button" id="mobileBackButton" style="display: none;">⬅ Tout</a>
     
     <div class="container">
         <div class="sidebar" id="sidebar">
@@ -3020,7 +3033,6 @@ Ministère Musical Évangélique</textarea>
         let currentInterlocutorForBubble = null;
         let currentUnlockContext = null;
         let allContacts = [];
-let isFilterActive = false;
 
         const TOUR_PARTICIPANTS = [
             "Aina", "Ranto", "Tinasoa", "Tahiry", "Mirana", "Odile", 
@@ -3075,7 +3087,12 @@ let isFilterActive = false;
                 }
             });
             
-         
+          document.getElementById('mobileBackButton').addEventListener('click', function(e) {
+    e.preventDefault();
+    showAllData();
+    document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth' });
+    this.style.display = 'none';
+});
             
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
 document.getElementById('clearHighlightButton').addEventListener('click', clearSearchHighlight);
@@ -3174,7 +3191,13 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
                 }, 200);
             });
             
-         
+            window.addEventListener('scroll', function() {
+                const backButton = document.getElementById('mobileBackButton');
+                if (window.innerWidth <= 1024 && window.scrollY > 100) {
+                    backButton.style.display = 'block';
+                }
+            });
+            
             loadDataFromGoogleSheets();
         });
 
@@ -4335,6 +4358,9 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
         hideSearchSuggestions();
         
         // Mettre à jour la recherche
+        // Stocker les résultats pour éviter la perte lors du scroll
+        window.currentFilteredResults = results;
+        window.currentFilterTitle = `Recherche: ${suggestion.text}`;
         currentSearchTerm = suggestion.text;
         currentSearchType = suggestion.type;
         
@@ -4583,6 +4609,9 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
             });
             
             displayFilteredEntries(results, `Activité: ${activityType}`);
+    // Stocker les résultats pour éviter la perte lors du scroll
+    window.currentFilteredResults = results;
+    window.currentFilterTitle = `Activité: ${activityType}`;
         }
 
         function parseCSV(csvText) {
@@ -4998,7 +5027,9 @@ function toggleFilterGroup(type) {
         });
     });
     
-
+    // STOCKER LES RÉSULTATS POUR ÉVITER LA PERTE LORS DU SCROLL
+    window.currentFilteredResults = results;
+    window.currentFilterTitle = `${type.charAt(0).toUpperCase() + type.slice(1)}: ${value}`;
     
     return results;
 }
@@ -6072,11 +6103,6 @@ function findCompleteInterlocutorInfo(interlocuteur) {
     }, 3000);
     
     displayFilteredEntries(results, `Résultats pour "${searchValue}"`);
-    
-    // SUPPRIMEZ ou commentez cette ligne qui causait le problème :
-    // container.scrollIntoView({ behavior: 'smooth' });
-    
-    console.log(`🔍 Recherche terminée: ${results.length} résultats pour "${searchValue}"`);
 }
 
 
@@ -6182,16 +6208,19 @@ function clearSearchHighlight() {
     });
     
     console.log(`✅ ${results.length} journées trouvées pour "${searchValue}"`);
+    
+    // STOCKER LES RÉSULTATS POUR ÉVITER LA PERTE LORS DU SCROLL
+    window.currentFilteredResults = results;
+    
     return results;
 }
 
-function showAllData() {
+       function showAllData() {
     currentSearchTerm = '';
     currentSearchType = '';
-    isFilterActive = false;
-    
-
-    
+    // Effacer les résultats filtrés stockés
+    window.currentFilteredResults = null;
+    window.currentFilterTitle = null;
     displayAllJournalEntries();
 }
 
@@ -6208,14 +6237,18 @@ function showAllData() {
                 container.appendChild(generateJournalEntry(row, index));
             });
             
-       
+            if (window.innerWidth <= 1024) {
+                document.getElementById('mobileBackButton').style.display = 'none';
+            }
         }
 
-function displayFilteredEntries(results, title) {
-    isFilterActive = true;
-    
+        function displayFilteredEntries(results, title) {
     const container = document.getElementById('journalEntries');
     container.innerHTML = '';
+    
+    // Stocker les résultats de la recherche GLOBALEMENT
+    window.currentFilteredResults = results;
+    window.currentFilterTitle = title;
     
     if (results.length === 0) {
         container.innerHTML = `
@@ -6240,6 +6273,8 @@ function displayFilteredEntries(results, title) {
         container.appendChild(generateJournalEntry(row, index));
     });
     
+    container.scrollIntoView({ behavior: 'smooth' });
+    
     // Surligner les termes de recherche
     if (currentSearchTerm && currentSearchTerm.trim() !== '') {
         setTimeout(() => {
@@ -6247,16 +6282,12 @@ function displayFilteredEntries(results, title) {
         }, 100);
     }
     
-
-    
-    console.log(`✅ Affichage de ${results.length} résultats pour "${title}"`);
-    
-    // NE PAS FAIRE SCROLLER AUTOMATIQUEMENT
-    // ÇA CAUSE DES PROBLÈMES SUR MOBILE
-    // container.scrollIntoView({ behavior: 'smooth' }); ← SUPPRIMEZ SI VOUS LA VOYEZ
+    if (window.innerWidth <= 1024) {
+        document.getElementById('mobileBackButton').style.display = 'block';
+    }
 }
 
-       function generateJournalEntry(row, index) {
+        function generateJournalEntry(row, index) {
             const dateIndex = 1;
             const dateStr = row[dateIndex] || 'Date non spécifiée';
             
@@ -8670,6 +8701,39 @@ function displayFilteredEntries(results, title) {
         window.scrollToLieu = scrollToLieu;
         window.toggleFilterGroup = toggleFilterGroup;
         window.showContactsTable = showContactsTable;
+// Fonction pour vérifier et maintenir les résultats filtrés lors du scroll
+function checkAndMaintainFilter() {
+    // Si on a des résultats filtrés en cours, les réafficher
+    if (window.currentFilteredResults && window.currentFilterTitle) {
+        displayFilteredEntries(window.currentFilteredResults, window.currentFilterTitle);
+    }
+}
+
+// Vérifier lors du scroll si on a perdu les filtres
+window.addEventListener('scroll', function() {
+    const backButton = document.getElementById('mobileBackButton');
+    
+    // En mobile, vérifier si on doit remettre les résultats filtrés
+    if (window.innerWidth <= 1024) {
+        // Si on a des résultats filtrés stockés mais que l'écran affiche toutes les fiches
+        if (window.currentFilteredResults) {
+            const container = document.getElementById('journalEntries');
+            const currentEntries = container.querySelectorAll('.journal-entry').length;
+            
+            // Si on a moins d'entrées que les résultats filtrés (ou plus que nécessaire)
+            if (currentEntries !== window.currentFilteredResults.length + 1) { // +1 pour l'en-tête
+                // Réafficher les résultats filtrés
+                setTimeout(() => {
+                    displayFilteredEntries(window.currentFilteredResults, window.currentFilterTitle);
+                }, 100);
+            }
+        }
+        
+        if (window.scrollY > 100) {
+            backButton.style.display = 'block';
+        }
+    }
+});
     </script> 
 </body>
 </html>
