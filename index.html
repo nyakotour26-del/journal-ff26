@@ -714,6 +714,19 @@
             background: linear-gradient(to bottom, var(--apple-green), #7aa300);
             color: white;
         }
+/* Style spécifique pour le bouton d'annulation de recherche */
+#clearHighlightButton {
+    background: linear-gradient(to bottom, #ff4444, #cc0000) !important;
+    border: 2px solid #cc0000 !important;
+    color: white !important;
+    transition: all 0.3s ease !important;
+}
+
+#clearHighlightButton:hover {
+    background: linear-gradient(to bottom, #ff6666, #ff0000) !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3) !important;
+}
         
         .tag {
             background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
@@ -2449,6 +2462,35 @@
     content: "🔍" !important;
     font-size: 18px !important;
 }
+/* Bouton d'annulation rouge */
+#clearHighlightButton {
+    background: linear-gradient(to bottom, #ff4444, #cc0000) !important;
+    border: 2px solid #cc0000 !important;
+    color: white !important;
+    transition: all 0.3s ease !important;
+    min-width: 50px !important;
+}
+
+#clearHighlightButton:hover {
+    background: linear-gradient(to bottom, #ff6666, #ff0000) !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3) !important;
+}
+/* ============================================
+   BOUTON D'ANNULATION DE RECHERCHE
+   ============================================ */
+#clearHighlightButton {
+    background: linear-gradient(to bottom, #ff4444, #cc0000) !important;
+    border: 2px solid #cc0000 !important;
+    color: white !important;
+    transition: all 0.3s ease !important;
+}
+
+#clearHighlightButton:hover {
+    background: linear-gradient(to bottom, #ff6666, #ff0000) !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3) !important;
+}
 /* ============================================
    ÉLARGISSEMENT BARRE DE RECHERCHE
    ============================================ */
@@ -2568,16 +2610,19 @@
             
             <section class="search-section">
                 <form class="search-form" id="searchForm" autocomplete="off">
-                    <div style="position: relative; flex: 1;">
-                        <input type="text" 
-                               class="search-input" 
-                               id="searchInput" 
-                               placeholder="🔍 Rechercher dans le journal..."
-                               autocomplete="off">
-                        <div class="search-suggestions" id="searchSuggestions"></div>
-                    </div>
-                    <button type="submit" class="search-button"></button>
-                </form>
+<div style="position: relative; flex: 1;">
+    <input type="text" 
+           class="search-input" 
+           id="searchInput" 
+           placeholder="🔍 Rechercher dans le journal..."
+           autocomplete="off">
+    <div class="search-suggestions" id="searchSuggestions"></div>
+</div>
+<button type="submit" class="search-button" title="Lancer la recherche"></button>
+<button type="button" class="search-button" id="clearHighlightButton" style="background: linear-gradient(to bottom, #ff4444, #cc0000); margin-left: 10px; border: 2px solid #cc0000; color: white;" title="Effacer le surlignage">
+    ✕
+</button>
+    </form>
                 
                 <div class="password-section">
                     <button class="password-button" id="passwordButton">
@@ -3049,6 +3094,7 @@ Ministère Musical Évangélique</textarea>
             });
             
             document.getElementById('searchForm').addEventListener('submit', handleSearch);
+document.getElementById('clearHighlightButton').addEventListener('click', clearSearchHighlight);
             document.getElementById('prevMonth').addEventListener('click', prevMonth);
             document.getElementById('nextMonth').addEventListener('click', nextMonth);
             document.getElementById('showAllButton').addEventListener('click', showAllData);
@@ -4215,13 +4261,20 @@ function findOccurrencesWithContext(term, type) {
         }
 
         function handleSearchInput(event) {
-            const searchValue = event.target.value.trim();
-            if (searchValue.length > 0) {
-                showSearchSuggestions(searchValue);
-            } else {
-                hideSearchSuggestions();
-            }
-        }
+    const searchValue = event.target.value.trim();
+    if (searchValue.length > 0) {
+        showSearchSuggestions(searchValue);
+    } else {
+        hideSearchSuggestions();
+        // Nettoyer les surlignages si la recherche est vide
+        const existingHighlights = document.querySelectorAll('.search-highlight');
+        existingHighlights.forEach(highlight => {
+            const parent = highlight.parentNode;
+            parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+            parent.normalize();
+        });
+    }
+}
 
       function showSearchSuggestions(filter = '') {
     const suggestionsContainer = document.getElementById('searchSuggestions');
@@ -6039,6 +6092,86 @@ function findCompleteInterlocutorInfo(interlocuteur) {
     displayFilteredEntries(results, `Résultats pour "${searchValue}"`);
 }
 
+
+// Fonction pour surligner le texte dans les résultats
+function highlightSearchTerm(searchTerm) {
+    // Nettoyer les surlignages précédents
+    const existingHighlights = document.querySelectorAll('.search-highlight');
+    existingHighlights.forEach(highlight => {
+        const parent = highlight.parentNode;
+        parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+        parent.normalize();
+    });
+    
+    if (!searchTerm || searchTerm.trim() === '') return;
+    
+    const searchRegex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    const textNodes = [];
+    
+    // Trouver tous les nœuds de texte dans les résultats
+    const walker = document.createTreeWalker(
+        document.getElementById('journalEntries'),
+        NodeFilter.SHOW_TEXT,
+        null,
+        false
+    );
+    
+    let node;
+    while (node = walker.nextNode()) {
+        if (node.textContent.match(searchRegex)) {
+            textNodes.push(node);
+        }
+    }
+    
+    // Surligner chaque occurrence
+    textNodes.forEach(textNode => {
+        const span = document.createElement('span');
+        span.className = 'search-highlight';
+        span.style.backgroundColor = '#FFFF00';
+        span.style.color = '#000000';
+        span.style.padding = '2px 4px';
+        span.style.borderRadius = '3px';
+        span.style.fontWeight = 'bold';
+        
+        const content = textNode.textContent;
+        const newContent = content.replace(searchRegex, '<span class="search-highlight" style="background-color: #FFFF00; color: #000000; padding: 2px 4px; border-radius: 3px; font-weight: bold;">$1</span>');
+        
+        if (newContent !== content) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = newContent;
+            
+            const parent = textNode.parentNode;
+            while (tempDiv.firstChild) {
+                parent.insertBefore(tempDiv.firstChild, textNode);
+            }
+            parent.removeChild(textNode);
+        }
+    });
+    
+    // Faire défiler vers le premier résultat
+    const firstHighlight = document.querySelector('.search-highlight');
+    if (firstHighlight) {
+        firstHighlight.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+        });
+    }
+}
+
+
+// Fonction pour effacer le surlignage
+function clearSearchHighlight() {
+    const existingHighlights = document.querySelectorAll('.search-highlight');
+    existingHighlights.forEach(highlight => {
+        const parent = highlight.parentNode;
+        parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+        parent.normalize();
+    });
+    
+    document.getElementById('searchInput').value = '';
+    currentSearchTerm = '';
+    hideSearchSuggestions();
+}
         function searchData(searchValue) {
     const searchNormalized = normalizeText(searchValue);
     const results = [];
@@ -6117,7 +6250,15 @@ function findCompleteInterlocutorInfo(interlocuteur) {
             });
             
             container.scrollIntoView({ behavior: 'smooth' });
-            
+
+       container.scrollIntoView({ behavior: 'smooth' });
+    
+    // Surligner les termes de recherche
+    if (currentSearchTerm && currentSearchTerm.trim() !== '') {
+        setTimeout(() => {
+            highlightSearchTerm(currentSearchTerm);
+        }, 100);
+    }         
             if (window.innerWidth <= 1024) {
                 document.getElementById('mobileBackButton').style.display = 'block';
             }
