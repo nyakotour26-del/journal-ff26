@@ -686,11 +686,9 @@
 /* Quand réduit - même style mais compact */
 .filter-group.collapsed h3 {
     margin-bottom: 5px;
-    padding: 8px 12px;
-    font-size: 1.1em !important; /* Légèrement plus petit quand réduit */
-    min-height: 25px; /* Hauteur réduite mais fixe */
-    line-height: 1.3; /* Ajuste l'interligne pour meilleur centrage */
-
+    padding: 10px 12px;
+    font-size: 1em !important; /* Légèrement plus petit quand réduit */
+    min-height: 40px; /* Hauteur réduite mais fixe */
 }
         
         .filter-group:hover {
@@ -705,11 +703,11 @@
     align-items: center;
      justify-content: flex-start; /* Alignement à gauche */
     cursor: pointer;
-    font-size: 1.1em !important; /* Taille augmentée */
+    font-size: 1em !important; /* Taille augmentée */
     transition: all 0.3s ease;
-    padding: 10px 12px;
-    line-height: 1.3; /* Ajuste l'interligne pour meilleur centrage */
-    min-height: 30px; /* Hauteur minimale fixe */
+    padding: 10px 15px;
+
+    min-height: 44px; /* Hauteur minimale fixe */
 }
 .filter-group h3:hover {
     background: linear-gradient(to right, rgba(255, 152, 0, 0.15), rgba(255, 152, 0, 0.08));
@@ -2778,17 +2776,24 @@ margin-left: 5px; /* Petit espace après le texte */
 
 /* Texte "Cliquer pour afficher/réduire" - taille fixe et couleur */
 .filter-group .toggle-text {
-    font-size: 0.75em !important; /* Taille fixe */
+    font-size: 0.7em !important; /* Taille fixe */
         color: #7f8c8d !important; /* Gris */
     font-weight: 400 !important; /* Gras */
     margin-left: auto !important; /* Pousse le texte à droite */
     margin-right: 8px !important; /* Espace avant l'icône */
     opacity: 0.9;
     white-space: nowrap;
- display: inline-block !important; /* Toujours visible */
 }
 
-   
+ /* Masquer le texte descriptif quand réduit */
+ .filter-group.collapsed .toggle-text {
+     display: inline-block;
+ }
+
+ /* Afficher le texte descriptif quand étendu */
+ .filter-group:not(.collapsed) .toggle-text {
+     display: inline-block;
+ }
 
  /* Animation fluide pour l'expansion/réduction */
  .filter-group, .filter-tags {
