@@ -2794,7 +2794,30 @@ margin-left: 5px; /* Petit espace après le texte */
      background: linear-gradient(to bottom, #e9ecef, #dee2e6);
      border-color: var(--secondary-color);
  }
+/* =============== ÉTAPE 6 : NOUVEAUX STYLES POUR ACTIVITÉS =============== */
 
+/* Styles pour le menu contextuel */
+#activityContextMenu div:hover {
+    background: #f8f9fa !important;
+}
+
+/* Animation pour le modal des lieux */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#lieuxModal > div {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* =============== FIN DE L'ÉTAPE 6 =============== */
  /* Titre plus compact dans les filtres réduits */
  .filter-group.collapsed h3 {
      font-size: 0.95em;
@@ -4912,43 +4935,572 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
         }
 
         function renderActivityStats() {
-            const container = document.getElementById('activityStats');
-            container.innerHTML = '';
+    const container = document.getElementById('activityStats');
+    container.innerHTML = '';
+    
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        container.className = 'activity-stats-mobile';
+    } else {
+        container.className = 'activity-stats';
+    }
+    
+    Object.keys(activityCounts).forEach(type => {
+        if (activityCounts[type] > 0) {
+            const statDiv = document.createElement('div');
+            statDiv.className = 'activity-stat';
+            statDiv.setAttribute('data-activity-type', type);
+            statDiv.setAttribute('title', `Cliquer pour voir les détails de ${type}`);
             
-            const isMobile = window.innerWidth <= 768;
+            const valueDiv = document.createElement('div');
+            valueDiv.className = 'activity-stat-value';
+            valueDiv.textContent = activityCounts[type];
             
-            if (isMobile) {
-                container.className = 'activity-stats-mobile';
-            } else {
-                container.className = 'activity-stats';
+            const labelDiv = document.createElement('div');
+            labelDiv.className = 'activity-stat-label';
+            labelDiv.textContent = type;
+            
+            statDiv.appendChild(valueDiv);
+            statDiv.appendChild(labelDiv);
+            
+            // Ajouter un menu contextuel au clic droit
+            statDiv.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                showActivityMenu(type, e.clientX, e.clientY);
+            });
+            
+            // Clic gauche pour filtrer
+            statDiv.addEventListener('click', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    // Clic avec Ctrl pour afficher directement les lieux
+                    showActivityLieux(type);
+                } else {
+                    // Clic normal pour filtrer
+                    filterByActivityType(type);
+                }
+            });
+            
+            container.appendChild(statDiv);
+        }
+    });
+}
+
+function showActivityMenu(activityType, x, y) {
+    // Supprimer tout menu existant
+    const existingMenu = document.getElementById('activityContextMenu');
+    if (existingMenu) {
+        existingMenu.remove();
+    }
+    
+    // Créer le menu
+    const menu = document.createElement('div');
+    menu.id = 'activityContextMenu';
+    menu.style.cssText = `
+        position: fixed;
+        left: ${x}px;
+        top: ${y}px;
+        background: white;
+        border: 2px solid var(--secondary-color);
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        z-index: 2000;
+        min-width: 200px;
+        padding: 10px 0;
+    `;
+    
+    // Option 1 : Voir toutes les activités
+    const option1 = document.createElement('div');
+    option1.style.cssText = `
+        padding: 12px 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background 0.2s;
+    `;
+    option1.innerHTML = '📋 Voir toutes les activités ' + activityType;
+    option1.onmouseenter = () => option1.style.background = '#f8f9fa';
+    option1.onmouseleave = () => option1.style.background = 'white';
+    option1.onclick = () => {
+        filterByActivityType(activityType);
+        menu.remove();
+    };
+    
+    // Option 2 : Voir la liste des lieux
+    const option2 = document.createElement('div');
+    option2.style.cssText = `
+        padding: 12px 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background 0.2s;
+    `;
+    option2.innerHTML = '📍 Voir la liste des lieux';
+    option2.onmouseenter = () => option2.style.background = '#f8f9fa';
+    option2.onmouseleave = () => option2.style.background = 'white';
+    option2.onclick = () => {
+        showActivityLieux(activityType);
+        menu.remove();
+    };
+    
+    // Séparateur
+    const separator = document.createElement('div');
+    separator.style.cssText = `
+        height: 1px;
+        background: #e0e0e0;
+        margin: 5px 0;
+    `;
+    
+    // Option Fermer
+    const optionClose = document.createElement('div');
+    optionClose.style.cssText = `
+        padding: 10px 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #e74c3c;
+        font-weight: 600;
+        border-top: 1px solid #e0e0e0;
+        margin-top: 5px;
+    `;
+    optionClose.innerHTML = '✕ Fermer';
+    optionClose.onclick = () => menu.remove();
+    
+    menu.appendChild(option1);
+    menu.appendChild(option2);
+    menu.appendChild(separator);
+    menu.appendChild(optionClose);
+    
+    document.body.appendChild(menu);
+    
+    // Fermer le menu en cliquant ailleurs
+    const closeMenu = (e) => {
+        if (!menu.contains(e.target)) {
+            menu.remove();
+            document.removeEventListener('click', closeMenu);
+        }
+    };
+    setTimeout(() => {
+        document.addEventListener('click', closeMenu);
+    }, 100);
+}
+function showActivityLieux(activityType) {
+    const lieuxData = extractLieuxByActivityType(activityType);
+    const lieuxArray = Object.entries(lieuxData)
+        .map(([lieu, count]) => ({ lieu, count }))
+        .sort((a, b) => b.count - a.count);
+    
+    // Créer le modal
+    const modal = document.createElement('div');
+    modal.id = 'lieuxModal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        border: 3px solid var(--secondary-color);
+    `;
+    
+    let html = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--light-blue);">
+            <h3 style="margin: 0; color: var(--primary-color); font-size: 1.5em;">
+                📍 Lieux pour ${activityType}
+            </h3>
+            <button onclick="this.closest('#lieuxModal').remove()" 
+                    style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--accent-color); padding: 5px;">
+                ✕
+            </button>
+        </div>
+    `;
+    
+    if (lieuxArray.length === 0) {
+        html += `
+            <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+                <div style="font-size: 3em; margin-bottom: 20px;">🏢</div>
+                <h4 style="margin-bottom: 10px;">Aucun lieu trouvé</h4>
+                <p>Aucun lieu n'a été enregistré pour ${activityType}</p>
+            </div>
+        `;
+    } else {
+        html += `
+            <p style="color: #7f8c8d; margin-bottom: 20px;">
+                ${lieuxArray.length} lieu(x) où des ${activityType.toLowerCase()} ont eu lieu
+            </p>
+            <div style="max-height: 400px; overflow-y: auto;">
+        `;
+        
+        lieuxArray.forEach((item, index) => {
+            html += `
+                <div style="display: flex; justify-content: space-between; align-items: center; 
+                            padding: 15px; margin-bottom: 10px; background: #f8f9fa; 
+                            border-radius: 8px; border-left: 4px solid var(--secondary-color);">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="background: var(--secondary-color); color: white; 
+                                     width: 30px; height: 30px; border-radius: 50%; 
+                                     display: flex; align-items: center; justify-content: center; 
+                                     font-weight: bold;">${index + 1}</span>
+                        <div>
+                            <div style="font-weight: 600; font-size: 1.1em;">${item.lieu}</div>
+                            <div style="font-size: 0.9em; color: #7f8c8d;">
+                                Cliquer pour filtrer
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: var(--accent-color); color: white; 
+                                padding: 5px 12px; border-radius: 15px; font-weight: bold;">
+                        ${item.count} fois
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += `</div>`;
+        
+        // Bouton pour filtrer par un lieu spécifique
+        html += `
+            <div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
+                <button onclick="filterByActivityAndLieux('${activityType}', '')" 
+                        style="background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
+                               color: white; border: none; padding: 12px 20px; 
+                               border-radius: 8px; cursor: pointer; font-weight: 600; 
+                               width: 100%; transition: all 0.3s ease;"
+                        onmouseover="this.style.transform='scale(1.02)'"
+                        onmouseout="this.style.transform='scale(1)'">
+                    🔍 Voir toutes les activités "${activityType}"
+                </button>
+            </div>
+        `;
+    }
+    
+    content.innerHTML = html;
+function showActivityLieux(activityType) {
+    const lieuxData = extractLieuxByActivityType(activityType);
+    const lieuxArray = Object.entries(lieuxData)
+        .map(([lieu, count]) => ({ lieu, count }))
+        .sort((a, b) => b.count - a.count);
+    
+    // Créer le modal
+    const modal = document.createElement('div');
+    modal.id = 'lieuxModal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        border: 3px solid var(--secondary-color);
+    `;
+    
+    let html = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--light-blue);">
+            <h3 style="margin: 0; color: var(--primary-color); font-size: 1.5em;">
+                📍 Lieux pour ${activityType}
+            </h3>
+            <button onclick="this.closest('#lieuxModal').remove()" 
+                    style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--accent-color); padding: 5px;">
+                ✕
+            </button>
+        </div>
+    `;
+    
+    if (lieuxArray.length === 0) {
+        html += `
+            <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+                <div style="font-size: 3em; margin-bottom: 20px;">🏢</div>
+                <h4 style="margin-bottom: 10px;">Aucun lieu trouvé</h4>
+                <p>Aucun lieu n'a été enregistré pour ${activityType}</p>
+            </div>
+        `;
+    } else {
+        html += `
+            <p style="color: #7f8c8d; margin-bottom: 20px;">
+                ${lieuxArray.length} lieu(x) où des ${activityType.toLowerCase()} ont eu lieu
+            </p>
+            <div style="max-height: 400px; overflow-y: auto;">
+        `;
+        
+        lieuxArray.forEach((item, index) => {
+            html += `
+                <div style="display: flex; justify-content: space-between; align-items: center; 
+                            padding: 15px; margin-bottom: 10px; background: #f8f9fa; 
+                            border-radius: 8px; border-left: 4px solid var(--secondary-color);"
+                     class="lieu-item">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="background: var(--secondary-color); color: white; 
+                                     width: 30px; height: 30px; border-radius: 50%; 
+                                     display: flex; align-items: center; justify-content: center; 
+                                     font-weight: bold;">${index + 1}</span>
+                        <div>
+                            <div style="font-weight: 600; font-size: 1.1em;" class="lieu-nom">${item.lieu}</div>
+                            <div style="font-size: 0.9em; color: #7f8c8d;">
+                                Cliquer pour filtrer
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: var(--accent-color); color: white; 
+                                padding: 5px 12px; border-radius: 15px; font-weight: bold;">
+                        ${item.count} fois
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += `</div>`;
+        
+        // Bouton pour filtrer par un lieu spécifique
+        html += `
+            <div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
+                <button onclick="filterByActivityAndLieux('${activityType}', '')" 
+                        style="background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
+                               color: white; border: none; padding: 12px 20px; 
+                               border-radius: 8px; cursor: pointer; font-weight: 600; 
+                               width: 100%; transition: all 0.3s ease;"
+                        onmouseover="this.style.transform='scale(1.02)'"
+                        onmouseout="this.style.transform='scale(1)'">
+                    🔍 Voir toutes les activités "${activityType}"
+                </button>
+            </div>
+        `;
+    }
+    
+    content.innerHTML = html;
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    // AJOUTEZ ICI L'ÉTAPE 7 - Événements de clic sur les lieux
+    // Attendre que le HTML soit rendu
+    setTimeout(() => {
+        const lieuxItems = content.querySelectorAll('.lieu-item');
+        lieuxItems.forEach(item => {
+            const lieuText = item.querySelector('.lieu-nom');
+            if (lieuText) {
+                item.style.cursor = 'pointer';
+                item.onclick = () => {
+                    filterByActivityAndLieux(activityType, lieuText.textContent);
+                    modal.remove();
+                };
+                item.onmouseenter = () => {
+                    item.style.transform = 'translateX(5px)';
+                    item.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                    item.style.transition = 'all 0.3s ease';
+                };
+                item.onmouseleave = () => {
+                    item.style.transform = 'translateX(0)';
+                    item.style.boxShadow = 'none';
+                };
             }
+        });
+    }, 100);
+    
+    // Fermer en cliquant en dehors
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+} // Fin de la fonction showActivityLieux
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    // Fermer en cliquant en dehors
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+function filterByActivityAndLieux(activityType, lieu) {
+    const results = [];
+    
+    sheetData.forEach(row => {
+        let hasActivity = false;
+        let hasLieu = !lieu; // Si pas de lieu spécifié, on accepte tous
+        
+        // Vérifier l'activité
+        for (let i = 1; i <= 7; i++) {
+            const activityHeader = `ACTIVITÉ ${i}`;
+            const activityIndex = headers.findIndex(header => 
+                header && header.includes(activityHeader)
+            );
             
-            Object.keys(activityCounts).forEach(type => {
-                if (activityCounts[type] > 0) {
-                    const statDiv = document.createElement('div');
-                    statDiv.className = 'activity-stat';
-                    statDiv.setAttribute('data-activity-type', type);
+            if (activityIndex !== -1) {
+                const activityValue = row[activityIndex] || '';
+                
+                if (activityValue.trim().toLowerCase() === activityType.toLowerCase()) {
+                    hasActivity = true;
                     
-                    const valueDiv = document.createElement('div');
-                    valueDiv.className = 'activity-stat-value';
-                    valueDiv.textContent = activityCounts[type];
+                    // Si un lieu est spécifié, vérifier le lieu
+                    if (lieu) {
+                        // Chercher le lieu dans le même bloc d'activité
+                        for (let j = activityIndex + 1; j < headers.length; j++) {
+                            if (headers[j] && headers[j].includes('Lieux :')) {
+                                const lieuValue = row[j] || '';
+                                if (lieuValue.includes(lieu)) {
+                                    hasLieu = true;
+                                }
+                                break;
+                            }
+                            // Si nouvelle activité, on arrête
+                            if (headers[j] && headers[j].includes('ACTIVITÉ')) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Vérifier aussi pour les concerts spécifiques
+        if (activityType === 'Concert') {
+            const concertColumns = headers
+                .map((header, index) => 
+                    (header && header.includes('CONCERT')) ? index : -1
+                )
+                .filter(index => index !== -1);
+            
+            const hasConcert = concertColumns.some(colIndex => {
+                const concertValue = row[colIndex] || '';
+                return concertValue && 
+                       (concertValue.toLowerCase() === 'oui' || 
+                        concertValue.toLowerCase().includes('concert'));
+            });
+            
+            if (hasConcert) {
+                hasActivity = true;
+            }
+        }
+        
+        if (hasActivity && hasLieu) {
+            results.push(row);
+        }
+    });
+    
+    let title = `Activité: ${activityType}`;
+    if (lieu) {
+        title += ` à ${lieu}`;
+    }
+    
+    displayFilteredEntries(results, title);
+}
+function extractLieuxByActivityType(activityType) {
+    const lieuxSet = new Set();
+    const result = {};
+    
+    console.log(`🔍 Extraction des lieux pour l'activité: ${activityType}`);
+    
+    sheetData.forEach(row => {
+        for (let i = 1; i <= 7; i++) {
+            const activityHeader = `ACTIVITÉ ${i}`;
+            const activityIndex = headers.findIndex(header => 
+                header && header.includes(activityHeader)
+            );
+            
+            if (activityIndex !== -1) {
+                const currentActivityType = row[activityIndex] || '';
+                
+                if (currentActivityType.trim().toLowerCase() === activityType.toLowerCase()) {
+                    // Trouver le lieu correspondant à cette activité
+                    let lieuTrouve = '';
                     
-                    const labelDiv = document.createElement('div');
-                    labelDiv.className = 'activity-stat-label';
-                    labelDiv.textContent = type;
+                    // Chercher la colonne "Lieux :" dans le même bloc d'activité
+                    for (let j = activityIndex + 1; j < headers.length; j++) {
+                        if (headers[j] && headers[j].includes('Lieux :')) {
+                            lieuTrouve = row[j] || '';
+                            break;
+                        }
+                        // Si on trouve une nouvelle activité, on arrête
+                        if (headers[j] && headers[j].includes('ACTIVITÉ')) {
+                            break;
+                        }
+                    }
                     
-                    statDiv.appendChild(valueDiv);
-                    statDiv.appendChild(labelDiv);
+                    if (lieuTrouve.trim() !== '') {
+                        // Compter les occurrences
+                        if (!result[lieuTrouve]) {
+                            result[lieuTrouve] = 1;
+                        } else {
+                            result[lieuTrouve]++;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Vérifier aussi les concerts spécifiques
+        if (activityType.toLowerCase() === 'concert') {
+            const concertColumns = headers
+                .map((header, index) => 
+                    (header && header.includes('CONCERT')) ? index : -1
+                )
+                .filter(index => index !== -1);
+            
+            concertColumns.forEach(colIndex => {
+                const concertValue = row[colIndex] || '';
+                if (concertValue.toLowerCase() === 'oui' || 
+                    concertValue.toLowerCase().includes('concert')) {
                     
-                    statDiv.addEventListener('click', function() {
-                        filterByActivityType(type);
-                    });
+                    // Chercher le lieu
+                    let lieuTrouve = '';
+                    for (let j = colIndex + 1; j < headers.length; j++) {
+                        if (headers[j] && headers[j].includes('Lieux :')) {
+                            lieuTrouve = row[j] || '';
+                            break;
+                        }
+                    }
                     
-                    container.appendChild(statDiv);
+                    if (lieuTrouve.trim() !== '') {
+                        if (!result[lieuTrouve]) {
+                            result[lieuTrouve] = 1;
+                        } else {
+                            result[lieuTrouve]++;
+                        }
+                    }
                 }
             });
         }
-
+    });
+    
+    console.log(`✅ ${Object.keys(result).length} lieux trouvés pour ${activityType}:`, result);
+    return result;
+}
         function filterByActivityType(activityType) {
             const results = [];
             
