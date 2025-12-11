@@ -707,6 +707,7 @@
     transition: all 0.3s ease;
     padding: 10px 15px;
     min-height: 44px; /* Hauteur minimale fixe */
+    line-height: 1.2; /* ← AJOUTEZ CETTE LIGNE */
 }
 .filter-group h3:hover {
     background: linear-gradient(to right, rgba(255, 152, 0, 0.15), rgba(255, 152, 0, 0.08));
@@ -947,11 +948,11 @@ margin-left: 5px; /* Petit espace après le texte */
 }
 
 .stat-value {
-    font-size: 1.5em; /* Augmenté de 1.5 à 1.6 */
-    font-weight: 800;
-    color: #87CEEB;
+    font-size: 1.3em !important;
+    font-weight: 500 !important; /* ← CHANGÉ : 800 devient 500 */
+        color: #87CEEB !important; /* ← BLEU CIEL AU LIEU DE GRIS */
     margin-bottom: 0;
-    line-height: 1; /* Augmenté de 0.9 à 1 */
+    line-height: 1;
 }
 
 .stat-label {
@@ -1209,12 +1210,12 @@ margin-left: 5px; /* Petit espace après le texte */
         }
         
 .activity-stat-value {
-    font-size: 1.3em; /* Augmenté de 1.3 à 1.4 */
-    font-weight: 800;
-    color: #FF69B4;
+    font-size: 1.3em;
+    font-weight: 500; /* ← CHANGÉ : 800 devient 500 */
+        color: #FF69B4; /* ← ROSE AU LIEU DE GRIS */
     margin-bottom: 0;
-    line-height: 1; /* Augmenté de 0.9 à 1 */
-}    
+    line-height: 1;
+}  
 .activity-stat-label {
     color: #7f8c8d;
     font-size: 0.6em; /* Réduit de 0.65 à 0.6 */
@@ -5265,9 +5266,9 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
         }
 
 function renderFilterTags() {
-    renderTags('lieuxTags', allLieux, 'lieu');
-    renderTags('nomsTags', allInterlocuteurs, 'nom');
-    renderTags('paysTags', allPays, 'pays');
+    renderTagsWithCount('lieuxTags', allLieux, 'lieu');
+    renderTagsWithCount('nomsTags', allInterlocuteurs, 'nom');
+    renderTagsWithCount('paysTags', allPays, 'pays');
     
     // Ajouter le texte "Cliquer pour afficher"/"Réduire"
     updateFilterToggleText();
@@ -5282,43 +5283,96 @@ function renderFilterTags() {
         });
     }, 100);
 }
-
+function renderTagsWithCount(containerId, items, type) {
+    const container = document.getElementById(containerId);
+    const groupTitle = container.closest('.filter-group').querySelector('h3');
+    
+    // Mettre à jour le titre avec le compte
+    const baseText = groupTitle.innerHTML.split('<span')[0].trim();
+    groupTitle.innerHTML = `${baseText} (${items.length}) <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Cliquer pour afficher)</span><span class="toggle-icon">▼</span>`;
+    
+    // Appeler la fonction originale pour afficher les tags
+    renderTags(containerId, items, type);
+}
 function updateFilterToggleText() {
     const filterGroups = ['lieux', 'noms', 'pays'];
     
     filterGroups.forEach(type => {
         const group = document.getElementById(`${type}FilterGroup`);
-        const toggleIcon = group.querySelector('.toggle-icon');
+        
+        if (!group) return;
+        
         const titleText = group.querySelector('h3');
+        
+        // On ne réécrit plus le titre ici car il a déjà le nombre
+        // grâce à renderTagsWithCount()
         
         // Par défaut masqué
         group.classList.add('collapsed');
         
-        // Mettre à jour le texte
-        const currentText = titleText.innerHTML;
-        const baseText = currentText.replace(/<span.*<\/span>/, '');
+        // Mettre à jour seulement le texte toggle
+        const currentHTML = titleText.innerHTML;
+        
+        // Extraire le texte de base avec le nombre
+        let baseWithCount = '';
+        const textMatch = titleText.textContent.match(/^(.+?)\s*\(\d+\)/);
+        
+        if (textMatch) {
+            baseWithCount = textMatch[0]; // Ex: "Pays (6)"
+        } else {
+            // Fallback
+            baseWithCount = titleText.textContent.split('(')[0].trim();
+        }
         
         if (group.classList.contains('collapsed')) {
-            titleText.innerHTML = `${baseText} <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Cliquer pour afficher)</span><span class="toggle-icon">▼</span>`;
+            titleText.innerHTML = `${baseWithCount} <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Cliquer pour afficher)</span><span class="toggle-icon">▼</span>`;
         } else {
-            titleText.innerHTML = `${baseText} <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Réduire)</span><span class="toggle-icon">▼</span>`;
+            titleText.innerHTML = `${baseWithCount} <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Réduire)</span><span class="toggle-icon">▼</span>`;
         }
     });
 }
-
 function toggleFilterGroup(type) {
     const group = document.getElementById(`${type}FilterGroup`);
+    const tags = group.querySelector('.filter-tags');
+    const titleText = group.querySelector('h3');
+    
+    // Basculer la classe collapsed
     group.classList.toggle('collapsed');
     
-    // Mettre à jour le texte
-    const titleText = group.querySelector('h3');
-    const currentText = titleText.innerHTML;
-    const baseText = currentText.split('(')[0].trim();
+    // Récupérer le texte de base AVEC le nombre
+    // On doit extraire le texte avant les parenthèses
+    const currentHTML = titleText.innerHTML;
+    
+    // Extraire le texte avant le premier "("
+    let baseText = '';
+    let countText = '';
+    
+    // Chercher le texte avec le nombre formaté comme "Pays (6)"
+    const match = titleText.textContent.match(/^(.+?)\s*\((\d+)\)/);
+    
+    if (match) {
+        baseText = match[1]; // Ex: "Pays"
+        countText = ` (${match[2]})`; // Ex: " (6)"
+    } else {
+        // Fallback si pas de parenthèses
+        baseText = titleText.textContent.split('(')[0].trim();
+    }
     
     if (group.classList.contains('collapsed')) {
-        titleText.innerHTML = `${baseText} <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Cliquer pour afficher)</span><span class="toggle-icon">▼</span>`;
+        // Format réduit : avec le nombre
+        titleText.innerHTML = `${baseText}${countText} <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Cliquer pour afficher)</span><span class="toggle-icon">▼</span>`;
     } else {
-        titleText.innerHTML = `${baseText} <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Réduire)</span><span class="toggle-icon">▼</span>`;
+        // Format étendu : avec le nombre
+        titleText.innerHTML = `${baseText}${countText} <span class="toggle-text" style="font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px;">(Réduire)</span><span class="toggle-icon">▼</span>`;
+    }
+    
+    // Forcer une hauteur fixe pour éviter les sauts
+    if (group.classList.contains('collapsed')) {
+        tags.style.display = 'none';
+        group.style.height = 'auto';
+    } else {
+        tags.style.display = 'flex';
+        group.style.height = 'auto';
     }
 }
 
