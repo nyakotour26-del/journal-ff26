@@ -3094,6 +3094,8 @@ margin-left: 5px; /* Petit espace après le texte */
                         <button class="admin-button" id="exportBookButton" disabled>📚 Exporter tout en livre PDF</button>
                         <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
                         <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
+			<button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
+<button class="admin-button" id="showGlobalActivityTableButton">📈 Tableau global activités</button>
                     </div>
                 </div>
             </div>
@@ -3180,6 +3182,102 @@ margin-left: 5px; /* Petit espace après le texte */
             </div>
         </div>
     </div>
+</div>
+
+<!-- MODAL POUR LE TABLEAU DES ACTIVITÉS PAR TYPE -->
+<div id="activitySummaryModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">📊 Tableau des activités regroupées par type</h3>
+            <button class="close-modal" id="closeActivitySummaryModal">✕</button>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Regroupement par type d'activité :</label>
+            <div style="margin: 10px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                <p>Cette vue regroupe toutes les activités par type (Concerts, Rencontres, Églises, etc.) 
+                et montre le nombre d'occurrences pour chaque type.</p>
+            </div>
+        </div>
+        
+        <div class="contacts-table-container">
+            <table class="contacts-table" id="activitySummaryTable">
+                <thead>
+                    <tr>
+                        <th>Type d'activité</th>
+                        <th>Nombre</th>
+                        <th>Lieux (exemples)</th>
+                        <th>Dates (exemples)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="activitySummaryTableBody">
+                    <!-- Les données seront insérées ici par JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="margin: 15px 0; display: flex; justify-content: space-between; align-items: center;">
+            <div id="activitySummaryCount">0 types d'activités trouvés</div>
+            <div>
+                <button class="action-button secondary" id="exportActivitySummaryCSV">📊 Exporter CSV</button>
+                <button class="action-button secondary" id="exportActivitySummaryPDF">📄 Exporter PDF</button>
+                <button class="action-button primary" id="exportActivitySummaryExcel">📈 Exporter Excel</button>
+            </div>
+        </div>
+        
+        <div class="modal-actions">
+            <button class="action-button cancel" id="cancelActivitySummary">Fermer</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL POUR LE TABLEAU GLOBAL DES ACTIVITÉS - VERSION CORRECTE -->
+<div id="globalActivityModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">📈 Tableau global de toutes les activités regroupées</h3>
+            <button class="close-modal" id="closeGlobalActivityModal">✕</button>
+        </div>
+        
+        <div class="form-group">
+            <div style="margin: 10px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                <p><strong>📋 Vue globale regroupée par type</strong> - Toutes les activités sont organisées par type avec leurs détails complets.</p>
+                <p style="font-size: 0.9em; color: #7f8c8d; margin-top: 5px;">
+                    <span style="color: #e74c3c;">● Concert</span> | 
+                    <span style="color: #2ecc71;">● Rencontre</span> | 
+                    <span style="color: #9b59b6;">● Église</span> | 
+                    <span style="color: #f39c12;">● Sortie</span> | 
+                    <span style="color: #3498db;">● Autres</span>
+                </p>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <input type="text" id="globalActivitySearch" placeholder="🔍 Rechercher (lieu, interlocuteur, date...)" 
+                   style="flex: 1; min-width: 250px; padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95em;">
+            <select id="globalActivityFilter" style="padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; min-width: 200px; font-size: 0.95em;">
+                <option value="">Tous les types</option>
+                <!-- Les options seront ajoutées par JavaScript -->
+            </select>
+        </div>
+        
+        <div id="globalActivityTableBody" style="max-height: 500px; overflow-y: auto; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px;">
+            <!-- Les tableaux regroupés par type seront insérés ici -->
+        </div>
+        
+        <div style="margin: 15px 0; display: flex; justify-content: space-between; align-items: center;">
+            <div id="globalActivityCount" style="font-weight: 600; color: #2c3e50;">0 activités trouvées</div>
+            <div id="exportButtonsContainer" style="display: flex; gap: 10px;">
+                <!-- Les boutons d'export seront ajoutés dynamiquement -->
+            </div>
+        </div>
+        
+        <div class="modal-actions">
+            <button class="action-button cancel" id="cancelGlobalActivity">Fermer</button>
+        </div>
+    </div>
+</div>
 
     <div id="emailModal" class="modal">
         <div class="modal-content">
@@ -3477,7 +3575,8 @@ function toggleFilterGroup(type) {
                     }, 500);
                 }
             });
-            
+            // Événement pour le bouton du tableau global des activités
+document.getElementById('showGlobalActivityTableButton').addEventListener('click', showGlobalActivityTable);
             document.getElementById('mobileBackButton').addEventListener('click', function(e) {
                 e.preventDefault();
                 document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth' });
@@ -3588,8 +3687,18 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('selectAllDays').addEventListener('change', toggleSelectAllDays);
             document.getElementById('confirmSelectiveExport').addEventListener('click', exportSelectedDays);
             document.getElementById('exportContactsCSV').addEventListener('click', exportContactsCSV);
-            document.getElementById('exportContactsPDF').addEventListener('click', exportContactsPDF);
-            document.getElementById('contactsSearchInput').addEventListener('input', filterContactsTable);
+document.getElementById('exportContactsPDF').addEventListener('click', exportContactsPDF);
+
+// Événements pour le tableau global des activités
+// NOTE IMPORTANTE : Les boutons exportGlobalActivityCSV, exportGlobalActivityPDF, exportGlobalActivityExcel
+// ne sont plus dans le HTML initial. Ils seront créés DYNAMIQUEMENT dans updateExportButtonsVisibility()
+// selon le statut admin. Les événements seront attachés dans cette fonction.
+
+// Seuls ces événements restent car les éléments existent toujours dans le HTML :
+document.getElementById('closeGlobalActivityModal').addEventListener('click', () => hideModal('globalActivityModal'));
+document.getElementById('cancelGlobalActivity').addEventListener('click', () => hideModal('globalActivityModal'));
+
+document.getElementById('contactsSearchInput').addEventListener('input', filterContactsTable);
             
             document.getElementById('cancelUnlock').addEventListener('click', hideUnlockBubble);
             document.getElementById('submitUnlockCode').addEventListener('click', validateUnlockCode);
@@ -3725,7 +3834,8 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
                     
                     enableAdminButtons();
                     updateAdminInterface();
-                    
+                     updateExportButtonsVisibility();
+
                     if (currentUnlockContext === 'date' && currentSelectedDate) {
                         showDateOptions(currentSelectedDate);
                     }
@@ -3817,6 +3927,10 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
             console.log('✅ Boutons admin activés');
         }
 
+    // Activer spécifiquement le bouton du tableau des activités
+    document.getElementById('showActivitySummaryButton').addEventListener('click', showActivitySummaryTable);
+// Activer le bouton du tableau global des activités
+document.getElementById('showGlobalActivityTableButton').addEventListener('click', showGlobalActivityTable);
         function updateAdminInterface() {
             console.log('🔄 Mise à jour de l\'interface admin...');
             
@@ -3836,6 +3950,8 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
                             <button class="admin-button" id="exportBookButton">📚 Exporter tout en livre PDF</button>
                             <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
                             <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
+			<button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
+			<button class="admin-button" id="showGlobalActivityTableButton">📈 Tableau global activités</button>
                             <button class="admin-button" id="logoutButton" style="background: linear-gradient(to bottom, #e74c3c, #c0392b);">🚪 Déconnexion</button>
                         </div>
                     </div>
@@ -3847,6 +3963,9 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
                 document.getElementById('exportBookButton').addEventListener('click', exportToBookPDF);
                 document.getElementById('publicListsButton').addEventListener('click', showListsModal);
                 document.getElementById('showContactsButton').addEventListener('click', showContactsTable);
+
+document.getElementById('showActivitySummaryButton').addEventListener('click', showActivitySummaryTable);
+document.getElementById('showGlobalActivityTableButton').addEventListener('click', showGlobalActivityTable);
                 document.getElementById('logoutButton').addEventListener('click', logoutAdmin);
             }
             
@@ -3870,6 +3989,8 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
                         <button class="admin-button" id="exportBookButton" disabled>📚 Exporter tout en livre PDF</button>
                         <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
                         <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
+			<button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
+<button class="admin-button" id="showGlobalActivityTableButton">📈 Tableau global activités</button>
                     </div>
                 </div>
             `;
@@ -3880,7 +4001,7 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
             document.getElementById('exportBookButton').addEventListener('click', exportToBookPDF);
             document.getElementById('publicListsButton').addEventListener('click', showListsModal);
             document.getElementById('showContactsButton').addEventListener('click', showContactsTable);
-            
+  document.getElementById('showActivitySummaryButton').addEventListener('click', showActivitySummaryTable);          
             renderCalendar();
             
             const dataInfo = document.getElementById('dataInfo');
@@ -3892,6 +4013,7 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
             dataInfo.style.display = 'block';
             
             console.log('🚪 Déconnexion admin effectuée');
+  updateExportButtonsVisibility();
         }
 
         function togglePasswordInput() {
@@ -3911,6 +4033,7 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
                 
                 enableAdminButtons();
                 updateAdminInterface();
+updateExportButtonsVisibility();
                 
                 const dataInfo = document.getElementById('dataInfo');
                 dataInfo.innerHTML = `
@@ -5558,7 +5681,6 @@ function filterTable(searchTerm) {
     });
 }
 
-// Fonction pour aller à une ligne spécifique
 function scrollToRow(rowIndex) {
     const entries = document.querySelectorAll('.journal-entry');
     if (entries.length > rowIndex) {
@@ -5572,6 +5694,9 @@ function scrollToRow(rowIndex) {
         setTimeout(() => {
             entries[rowIndex].style.boxShadow = '';
         }, 3000);
+        
+        // Fermer le modal
+        hideModal('globalActivityModal');
     }
 }
 // Fonctions d'export
@@ -10192,7 +10317,69 @@ function updateShowAllButtonVisibility() {
                             ${allContacts.length > 50 ? `<p style="text-align: center; margin-top: 15px; font-style: italic;">Et ${allContacts.length - 50} autres contacts bénis...</p>` : ''}
                         </div>
                     </div>
-                    
+                                  <div class="chapter page-break">
+                        <h2>📊 Activités par type - Bilan complet</h2>
+                        <p>Répartition de toutes les activités menées pendant la tournée :</p>
+                        <div style="margin: 20px 0;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                                <thead>
+                                    <tr style="background: #9b59b6; color: white;">
+                                        <th style="padding: 10px; text-align: left;">Type d'activité</th>
+                                        <th style="padding: 10px; text-align: center;">Nombre</th>
+                                        <th style="padding: 10px; text-align: left;">Pourcentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+            `;
+            
+            // Trier par nombre décroissant
+            const sortedActivities = Object.keys(activityCounts)
+                .filter(type => activityCounts[type] > 0)
+                .sort((a, b) => activityCounts[b] - activityCounts[a]);
+            
+            const totalActivities = sortedActivities.reduce((sum, type) => sum + activityCounts[type], 0);
+            
+            sortedActivities.forEach(type => {
+                const percentage = ((activityCounts[type] / totalActivities) * 100).toFixed(1);
+                content += `
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 8px 10px;">${type}</td>
+                        <td style="padding: 8px 10px; text-align: center;">
+                            <span style="background: #9b59b6; color: white; padding: 3px 8px; border-radius: 10px; font-weight: bold;">
+                                ${activityCounts[type]}
+                            </span>
+                        </td>
+                        <td style="padding: 8px 10px;">
+                            <div style="background: #f0f0f0; border-radius: 3px; height: 20px; margin-top: 5px;">
+                                <div style="background: #9b59b6; width: ${percentage}%; height: 100%; border-radius: 3px;"></div>
+                            </div>
+                            <div style="text-align: center; font-size: 0.8em; margin-top: 3px;">${percentage}%</div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            content += `
+                                </tbody>
+                            </table>
+                            <p style="text-align: center; margin-top: 15px; font-style: italic;">
+                                Total : ${totalActivities} activités enregistrées • ${sortedActivities.length} types différents
+                            </p>
+                        </div>
+                        
+                        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                            <h3 style="color: #2c3e50; margin-bottom: 15px;">📈 Analyse des activités</h3>
+                            <p>Cette tournée a été marquée par une grande diversité d'activités :</p>
+                            <ul style="margin-left: 20px;">
+                                <li><strong>${sortedActivities[0]}</strong> a été l'activité la plus fréquente avec ${activityCounts[sortedActivities[0]]} occurrence(s)</li>
+                                <li>La moitié des activités étaient des <strong>${sortedActivities.slice(0, 3).join(', ')}</strong></li>
+                                <li>Cette diversité montre l'ampleur du ministère et la variété des rencontres</li>
+                            </ul>
+                            <p style="margin-top: 15px; font-style: italic;">
+                                "Il y a diversité de dons, mais le même Esprit; diversité de services, mais le même Seigneur." (1 Corinthiens 12:4-5)
+                            </p>
+                        </div>
+                    </div>      
                     <div class="chapter page-break">
                         <h2>🙌 Remerciements et Actions de Grâce</h2>
                         
@@ -10394,6 +10581,1175 @@ function checkCurrentDisplayMode() {
         return 'filtered';
     }
     return 'all';
+}
+// =============== FONCTIONS POUR LE TABLEAU DES ACTIVITÉS PAR TYPE ===============
+
+function showActivitySummaryTable() {
+    showModal('activitySummaryModal');
+    updateActivitySummaryTable();
+}
+function showGlobalActivityTable() {
+    if (!isAdmin) {
+        showUnlockBubble('admin');
+        return;
+    }
+    showModal('globalActivityModal');
+    updateGlobalActivityTable();
+}
+
+function updateGlobalActivityTable() {
+    const container = document.getElementById('globalActivityTableBody');
+    const filterSelect = document.getElementById('globalActivityFilter');
+    const searchInput = document.getElementById('globalActivitySearch');
+    
+    // VIDER le conteneur complètement
+    container.innerHTML = '<div style="text-align: center; padding: 20px; color: #7f8c8d;">Chargement des activités...</div>';
+    
+    // Donner le temps au DOM de se mettre à jour
+    setTimeout(() => {
+        container.innerHTML = '';
+        
+        // Collecter toutes les activités par type
+        const activitiesByType = {};
+        const activityTypesSet = new Set();
+        
+        console.log("🔍 Collecte de toutes les activités...");
+        
+        sheetData.forEach((row, rowIndex) => {
+            // Chercher dans les activités 1-7
+            for (let i = 1; i <= 7; i++) {
+                const activityHeader = `ACTIVITÉ ${i}`;
+                const activityIndex = headers.findIndex(header => 
+                    header && header.includes(activityHeader)
+                );
+                
+                if (activityIndex !== -1) {
+                    const activityType = row[activityIndex] || '';
+                    const cleanType = activityType.trim();
+                    
+                    if (cleanType !== '') {
+                        console.log(`  📝 Activité trouvée: "${cleanType}" à la ligne ${rowIndex + 1}`);
+                        
+                        const activityData = extractActivityData(row, activityIndex, activityHeader);
+                        
+                        // ACCEPTER TOUTES les activités, même sans détails
+                        const dateIndex = findHeaderIndex('Date:');
+                        const date = dateIndex !== -1 ? row[dateIndex] : '';
+                        
+                        if (!activitiesByType[cleanType]) {
+                            activitiesByType[cleanType] = [];
+                        }
+                        
+                        activitiesByType[cleanType].push({
+                            type: cleanType,
+                            date: date,
+                            lieu: activityData.lieux || '',
+                            heureDebut: activityData.heureDebut || '',
+                            heureFin: activityData.heureFin || '',
+                            participants: activityData.nbParticipant || '',
+                            interlocuteur: activityData.interlocuteur || '',
+                            telephone: activityData.telephone || '',
+                            whatsapp: activityData.whatsapp || '',
+                            mail: activityData.mail || '',
+                            details: activityData.details || '',
+                            observations: activityData.observations || '',
+                            faits: activityData.faits || '',
+                            rowIndex: rowIndex
+                        });
+                        
+                        activityTypesSet.add(cleanType);
+                    }
+                }
+            }
+            
+            // Chercher dans les concerts
+            const concertColumns = headers
+                .map((header, index) => 
+                    (header && header.includes('CONCERT')) ? index : -1
+                )
+                .filter(index => index !== -1);
+            
+            concertColumns.forEach(colIndex => {
+                const concertValue = row[colIndex] || '';
+                if (concertValue.toLowerCase() === 'oui' || concertValue.toLowerCase().includes('concert')) {
+                    console.log(`  🎵 Concert trouvé à la ligne ${rowIndex + 1}`);
+                    
+                    const activityData = extractActivityData(row, colIndex, 'CONCERT');
+                    
+                    const dateIndex = findHeaderIndex('Date:');
+                    const date = dateIndex !== -1 ? row[dateIndex] : '';
+                    
+                    if (!activitiesByType['Concert']) {
+                        activitiesByType['Concert'] = [];
+                    }
+                    
+                    activitiesByType['Concert'].push({
+                        type: 'Concert',
+                        date: date,
+                        lieu: activityData.lieux || '',
+                        heureDebut: activityData.heureDebut || '',
+                        heureFin: activityData.heureFin || '',
+                        participants: activityData.nbParticipant || '',
+                        interlocuteur: activityData.interlocuteur || '',
+                        telephone: activityData.telephone || '',
+                        whatsapp: activityData.whatsapp || '',
+                        mail: activityData.mail || '',
+                        details: activityData.details || '',
+                        observations: activityData.observations || '',
+                        faits: activityData.faits || '',
+                        rowIndex: rowIndex
+                    });
+                    
+                    activityTypesSet.add('Concert');
+                }
+            });
+        });
+        
+        console.log(`✅ ${Object.keys(activitiesByType).length} types d'activités collectés:`, Object.keys(activitiesByType));
+        
+        // Trier les types d'activités par nombre d'occurrences (décroissant)
+        const sortedTypes = Object.keys(activitiesByType).sort((a, b) => 
+            activitiesByType[b].length - activitiesByType[a].length
+        );
+        
+        // Mettre à jour le filtre par type
+        filterSelect.innerHTML = '<option value="">Tous les types</option>';
+        sortedTypes.forEach(type => {
+            const count = activitiesByType[type].length;
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = `${type} (${count})`;
+            filterSelect.appendChild(option);
+        });
+        
+        // Filtrer par type sélectionné
+        const filterType = filterSelect.value;
+        const searchTerm = searchInput.value.toLowerCase();
+        
+        let typesToDisplay = filterType ? [filterType] : sortedTypes;
+        
+        // Si recherche, filtrer aussi les types
+        if (searchTerm) {
+            typesToDisplay = typesToDisplay.filter(type => 
+                type.toLowerCase().includes(searchTerm) ||
+                activitiesByType[type].some(act => 
+                    act.lieu.toLowerCase().includes(searchTerm) ||
+                    act.interlocuteur.toLowerCase().includes(searchTerm) ||
+                    act.date.toLowerCase().includes(searchTerm)
+                )
+            );
+        }
+        
+        // Afficher les activités regroupées par type
+        let totalActivitesAffichees = 0;
+        
+        typesToDisplay.forEach(type => {
+            let activities = activitiesByType[type] || [];
+            
+            // Appliquer la recherche sur les activités individuelles
+            if (searchTerm) {
+                activities = activities.filter(act => 
+                    act.lieu.toLowerCase().includes(searchTerm) ||
+                    act.interlocuteur.toLowerCase().includes(searchTerm) ||
+                    act.date.toLowerCase().includes(searchTerm) ||
+                    (act.details && act.details.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            if (activities.length === 0) return;
+            
+            totalActivitesAffichees += activities.length;
+            
+            // Créer une SECTION pour ce type d'activité
+            const typeSection = document.createElement('div');
+            typeSection.className = 'activity-type-section';
+            typeSection.style.cssText = `
+                margin-bottom: 30px;
+                border: 2px solid #3498db;
+                border-radius: 10px;
+                overflow: hidden;
+                background: white;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            `;
+            
+            // Couleur différente selon le type
+            const colors = {
+                'Concert': '#e74c3c',
+                'Rencontre': '#2ecc71',
+                'Eglise': '#9b59b6',
+                'Sortie': '#f39c12',
+                'default': '#3498db'
+            };
+            
+            const color = colors[type.split('/')[0]] || colors[type] || colors['default'];
+            
+            typeSection.innerHTML = `
+                <div style="background: linear-gradient(to right, ${color}, ${color}dd); 
+                            color: white; padding: 15px 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0; font-size: 1.3em; display: flex; align-items: center; gap: 10px;">
+                            <span style="background: rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 20px;">
+                                ${getActivityIcon(type)}
+                            </span>
+                            ${type}
+                        </h3>
+                        <span style="background: rgba(255,255,255,0.3); padding: 5px 15px; border-radius: 15px; 
+                                    font-weight: bold; font-size: 1.1em;">
+                            ${activities.length} activité(s)
+                        </span>
+                    </div>
+                </div>
+                <div style="overflow-x: auto; padding: 0;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.85em;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd; min-width: 80px;">Date</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd; min-width: 120px;">Lieux</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd; min-width: 100px;">Horaires</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd; min-width: 80px;">Participants</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd; min-width: 120px;">Interlocuteur</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd; min-width: 150px;">Contacts</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd; min-width: 80px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-${type.replace(/[^a-zA-Z0-9]/g, '-')}">
+                            <!-- Les lignes seront ajoutées ci-dessous -->
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            container.appendChild(typeSection);
+            
+            // Remplir le tableau avec les activités de ce type
+            const tbody = typeSection.querySelector(`#tbody-${type.replace(/[^a-zA-Z0-9]/g, '-')}`);
+            
+            activities.forEach((activity, index) => {
+                const row = document.createElement('tr');
+                row.style.borderBottom = '1px solid #eee';
+                row.style.backgroundColor = index % 2 === 0 ? '#ffffff' : '#f9f9f9';
+                row.style.transition = 'background-color 0.2s';
+                
+                row.onmouseenter = () => row.style.backgroundColor = '#f0f7ff';
+                row.onmouseleave = () => row.style.backgroundColor = index % 2 === 0 ? '#ffffff' : '#f9f9f9';
+                
+                // Formater les contacts
+                let contactsHTML = '';
+                if (activity.telephone) {
+                    const tels = activity.telephone.split(/[,;]/).map(t => t.trim()).filter(t => t);
+                    contactsHTML += tels.map(tel => `<div style="margin: 2px 0;">📞 ${tel}</div>`).join('');
+                }
+                if (activity.whatsapp) {
+                    const was = activity.whatsapp.split(/[,;]/).map(w => w.trim()).filter(w => w);
+                    contactsHTML += was.map(wa => `<div style="margin: 2px 0;">💬 ${wa}</div>`).join('');
+                }
+                if (activity.mail) {
+                    const mails = activity.mail.split(/[,;]/).map(m => m.trim()).filter(m => m);
+                    contactsHTML += mails.map(mail => `<div style="margin: 2px 0;">📧 ${mail}</div>`).join('');
+                }
+                if (!contactsHTML) contactsHTML = '<div style="color: #95a5a6; font-style: italic;">-</div>';
+                
+                row.innerHTML = `
+                    <td style="padding: 10px 12px; vertical-align: top;">
+                        <div style="font-weight: 500;">${activity.date || '-'}</div>
+                    </td>
+                    <td style="padding: 10px 12px; vertical-align: top;">
+                        <div style="font-weight: 500; color: #2c3e50;">${activity.lieu || '-'}</div>
+                        ${activity.details ? `<div style="font-size: 0.8em; color: #7f8c8d; margin-top: 3px;">${activity.details.substring(0, 50)}${activity.details.length > 50 ? '...' : ''}</div>` : ''}
+                    </td>
+                    <td style="padding: 10px 12px; vertical-align: top;">
+                        ${activity.heureDebut ? `<div>${activity.heureDebut}</div>` : '-'}
+                        ${activity.heureFin ? `<div style="font-size: 0.8em; color: #7f8c8d;">à ${activity.heureFin}</div>` : ''}
+                    </td>
+                    <td style="padding: 10px 12px; vertical-align: top; text-align: center;">
+                        ${activity.participants ? `<span style="background: #e8f4fc; padding: 3px 8px; border-radius: 10px; font-weight: bold;">${activity.participants}</span>` : '-'}
+                    </td>
+                    <td style="padding: 10px 12px; vertical-align: top;">
+                        ${activity.interlocuteur ? `
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <span style="color: #27ae60;">👤</span>
+                                <span style="font-weight: 500;">${activity.interlocuteur}</span>
+                            </div>
+                        ` : '-'}
+                    </td>
+                    <td style="padding: 10px 12px; vertical-align: top; font-size: 0.8em;">
+                        ${contactsHTML}
+                    </td>
+                    <td style="padding: 10px 12px; vertical-align: top;">
+                        <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                            <button onclick="scrollToGlobalActivityRow(${activity.rowIndex})" 
+                                    style="background: #3498db; color: white; border: none; padding: 6px 10px; border-radius: 4px; 
+                                           cursor: pointer; font-size: 0.8em; display: flex; align-items: center; gap: 3px;"
+                                    title="Aller à la fiche">
+                                <span>👁️</span>
+                                <span style="font-size: 0.7em;">Voir</span>
+                            </button>
+                            ${activity.interlocuteur ? `
+                            <button onclick="showInterlocutorBubble('${activity.interlocuteur.replace(/'/g, "\\'")}')" 
+                                    style="background: #27ae60; color: white; border: none; padding: 6px 10px; border-radius: 4px; 
+                                           cursor: pointer; font-size: 0.8em; display: flex; align-items: center; gap: 3px;"
+                                    title="Voir interlocuteur">
+                                <span>👤</span>
+                                <span style="font-size: 0.7em;">Contact</span>
+                            </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        });
+        
+        // Afficher le nombre total
+        const totalActivities = Object.values(activitiesByType).reduce((sum, arr) => sum + arr.length, 0);
+        document.getElementById('globalActivityCount').textContent = 
+            `${totalActivitesAffichees} activités affichées (sur ${totalActivities} total) dans ${typesToDisplay.length} type(s)`;
+        
+        // Si aucun résultat
+        if (totalActivitesAffichees === 0) {
+            container.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+                    <div style="font-size: 3em; margin-bottom: 20px;">🔍</div>
+                    <h3 style="margin-bottom: 10px;">Aucune activité trouvée</h3>
+                    <p>Essayez de modifier vos critères de recherche ou de filtre</p>
+                </div>
+            `;
+        }
+        
+        // Mettre à jour les boutons d'export
+        updateExportButtonsVisibility();
+        
+    }, 100); // Petit délai pour que le DOM soit prêt
+    
+    // Événements pour la recherche et le filtre
+    searchInput.oninput = () => updateGlobalActivityTable();
+    filterSelect.onchange = () => updateGlobalActivityTable();
+}
+
+// Fonction pour obtenir l'icône appropriée selon le type d'activité
+function getActivityIcon(type) {
+    const icons = {
+        'Concert': '🎵',
+        'concert': '🎵',
+        'Rencontre': '🤝',
+        'rencontre': '🤝',
+        'Eglise': '⛪',
+        'eglise': '⛪',
+        'Ecole': '🏫',
+        'école': '🏫',
+        'Sortie': '🚶',
+        'sortie': '🚶',
+        'Tourisme': '🏛️',
+        'tourisme': '🏛️',
+        'Marché': '🛒',
+        'marché': '🛒',
+        'Shopping': '🛍️',
+        'shopping': '🛍️',
+        'Voyage': '✈️',
+        'voyage': '✈️',
+        'Festival': '🎪',
+        'festival': '🎪'
+    };
+    
+    for (const [key, icon] of Object.entries(icons)) {
+        if (type.toLowerCase().includes(key.toLowerCase())) {
+            return icon;
+        }
+    }
+    
+    return '📝';
+}
+
+// Nouvelle fonction pour défiler
+function scrollToGlobalActivityRow(rowIndex) {
+    const entries = document.querySelectorAll('.journal-entry');
+    if (entries.length > rowIndex) {
+        entries[rowIndex].scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+        });
+        
+        // Surligner temporairement
+        entries[rowIndex].style.boxShadow = '0 0 0 3px var(--accent-color)';
+        setTimeout(() => {
+            entries[rowIndex].style.boxShadow = '';
+        }, 3000);
+        
+        // Fermer le modal
+        hideModal('globalActivityModal');
+    }
+}
+
+function exportGlobalActivityCSV() {
+    if (!isAdmin) {
+        console.log("❌ Tentative d'export CSV par non-admin");
+        showUnlockBubble('admin');
+        return;
+    }
+    
+    console.log("✅ Export CSV démarré par admin");
+    
+    // Récupérer les données comme dans updateGlobalActivityTable
+    const activitiesByType = {};
+    
+    sheetData.forEach((row, rowIndex) => {
+        for (let i = 1; i <= 7; i++) {
+            const activityHeader = `ACTIVITÉ ${i}`;
+            const activityIndex = headers.findIndex(header => 
+                header && header.includes(activityHeader)
+            );
+            
+            if (activityIndex !== -1) {
+                const activityType = row[activityIndex] || '';
+                const cleanType = activityType.trim();
+                
+                if (cleanType !== '') {
+                    const activityData = extractActivityData(row, activityIndex, activityHeader);
+                    
+                    const dateIndex = findHeaderIndex('Date:');
+                    const date = dateIndex !== -1 ? row[dateIndex] : '';
+                    
+                    if (!activitiesByType[cleanType]) {
+                        activitiesByType[cleanType] = [];
+                    }
+                    
+                    activitiesByType[cleanType].push({
+                        type: cleanType,
+                        date: date,
+                        lieu: activityData.lieux || '',
+                        heureDebut: activityData.heureDebut || '',
+                        heureFin: activityData.heureFin || '',
+                        participants: activityData.nbParticipant || '',
+                        interlocuteur: activityData.interlocuteur || '',
+                        telephone: activityData.telephone || '',
+                        whatsapp: activityData.whatsapp || '',
+                        mail: activityData.mail || '',
+                        details: activityData.details || ''
+                    });
+                }
+            }
+        }
+    });
+    
+    // Générer le CSV GROUPÉ PAR TYPE
+    let csvContent = '';
+    
+    Object.keys(activitiesByType).sort((a, b) => 
+        activitiesByType[b].length - activitiesByType[a].length
+    ).forEach(type => {
+        // En-tête pour ce type
+        csvContent += `\n\n=== ${type} (${activitiesByType[type].length} activités) ===\n`;
+        csvContent += 'Type,Date,Lieux,Heure début,Heure fin,Participants,Interlocuteur,Téléphone,WhatsApp,Mail,Détails\n';
+        
+        // Données pour ce type
+        activitiesByType[type].forEach(activity => {
+            csvContent += `"${activity.type}","${activity.date}","${activity.lieu}","${activity.heureDebut}","${activity.heureFin}","${activity.participants}","${activity.interlocuteur}","${activity.telephone}","${activity.whatsapp}","${activity.mail}","${activity.details}"\n`;
+        });
+    });
+    
+    // Ajouter un résumé
+    const totalActivities = Object.values(activitiesByType).reduce((sum, arr) => sum + arr.length, 0);
+    csvContent += `\n\n=== RÉSUMÉ ===\n`;
+    csvContent += `Total activités: ${totalActivities}\n`;
+    csvContent += `Nombre de types: ${Object.keys(activitiesByType).length}\n`;
+    csvContent += `Date d'export: ${new Date().toLocaleDateString('fr-FR')}\n`;
+    
+    downloadFile(csvContent, 'tableau_global_activites_regroupees_2026.csv', 'text/csv');
+    alert(`✅ Export CSV réussi !\n${totalActivities} activités dans ${Object.keys(activitiesByType).length} types différents.`);
+}
+function exportGlobalActivityPDF() {
+    if (!isAdmin) {
+        console.log("❌ Tentative d'export PDF par non-admin");
+        showUnlockBubble('admin');
+        return;
+    }
+    
+    console.log("✅ Export PDF démarré par admin");
+    
+    // Récupérer les données COMME dans l'affichage
+    const activitiesByType = {};
+    
+    sheetData.forEach((row, rowIndex) => {
+        // Activités 1-7
+        for (let i = 1; i <= 7; i++) {
+            const activityHeader = `ACTIVITÉ ${i}`;
+            const activityIndex = headers.findIndex(header => 
+                header && header.includes(activityHeader)
+            );
+            
+            if (activityIndex !== -1) {
+                const activityType = row[activityIndex] || '';
+                const cleanType = activityType.trim();
+                
+                if (cleanType !== '') {
+                    const activityData = extractActivityData(row, activityIndex, activityHeader);
+                    
+                    const dateIndex = findHeaderIndex('Date:');
+                    const date = dateIndex !== -1 ? row[dateIndex] : '';
+                    
+                    if (!activitiesByType[cleanType]) {
+                        activitiesByType[cleanType] = [];
+                    }
+                    
+                    activitiesByType[cleanType].push({
+                        type: cleanType,
+                        date: date,
+                        lieu: activityData.lieux || '',
+                        heureDebut: activityData.heureDebut || '',
+                        heureFin: activityData.heureFin || '',
+                        participants: activityData.nbParticipant || '',
+                        interlocuteur: activityData.interlocuteur || '',
+                        telephone: activityData.telephone || '',
+                        whatsapp: activityData.whatsapp || '',
+                        mail: activityData.mail || '',
+                        details: activityData.details || '',
+                        observations: activityData.observations || '',
+                        faits: activityData.faits || '',
+                        rowIndex: rowIndex
+                    });
+                }
+            }
+        }
+        
+        // Concerts
+        const concertColumns = headers
+            .map((header, index) => 
+                (header && header.includes('CONCERT')) ? index : -1
+            )
+            .filter(index => index !== -1);
+        
+        concertColumns.forEach(colIndex => {
+            const concertValue = row[colIndex] || '';
+            if (concertValue.toLowerCase() === 'oui' || concertValue.toLowerCase().includes('concert')) {
+                const activityData = extractActivityData(row, colIndex, 'CONCERT');
+                
+                const dateIndex = findHeaderIndex('Date:');
+                const date = dateIndex !== -1 ? row[dateIndex] : '';
+                
+                if (!activitiesByType['Concert']) {
+                    activitiesByType['Concert'] = [];
+                }
+                
+                activitiesByType['Concert'].push({
+                    type: 'Concert',
+                    date: date,
+                    lieu: activityData.lieux || '',
+                    heureDebut: activityData.heureDebut || '',
+                    heureFin: activityData.heureFin || '',
+                    participants: activityData.nbParticipant || '',
+                    interlocuteur: activityData.interlocuteur || '',
+                    telephone: activityData.telephone || '',
+                    whatsapp: activityData.whatsapp || '',
+                    mail: activityData.mail || '',
+                    details: activityData.details || '',
+                    observations: activityData.observations || '',
+                    faits: activityData.faits || '',
+                    rowIndex: rowIndex
+                });
+            }
+        });
+    });
+    
+    // Trier par nombre d'occurrences
+    const sortedTypes = Object.keys(activitiesByType).sort((a, b) => 
+        activitiesByType[b].length - activitiesByType[a].length
+    );
+    
+    const totalActivities = Object.values(activitiesByType).reduce((sum, arr) => sum + arr.length, 0);
+    
+    // Créer la fenêtre d'impression
+    const printWindow = window.open('', '_blank');
+    
+    let content = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Tableau global des activités regroupées - Tournée Europe 2026 NY AKO</title>
+            <style>
+                body { 
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                    margin: 15mm; 
+                    line-height: 1.4;
+                    color: #2c3e50;
+                }
+                
+                .header { 
+                    text-align: center; 
+                    margin-bottom: 20px; 
+                    padding-bottom: 15px;
+                    border-bottom: 3px solid #3498db;
+                }
+                
+                .header h1 { 
+                    color: #2c3e50; 
+                    margin-bottom: 10px;
+                    font-size: 24px;
+                }
+                
+                .summary { 
+                    background: #f8f9fa; 
+                    padding: 15px; 
+                    border-radius: 8px; 
+                    margin-bottom: 25px;
+                    border-left: 5px solid #3498db;
+                }
+                
+                .activity-section { 
+                    margin-bottom: 30px; 
+                    page-break-inside: avoid;
+                    border: 2px solid #3498db;
+                    border-radius: 10px;
+                    overflow: hidden;
+                }
+                
+                .activity-header { 
+                    background: #3498db; 
+                    color: white; 
+                    padding: 15px 20px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .activity-title { 
+                    margin: 0; 
+                    font-size: 18px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                
+                .activity-count { 
+                    background: rgba(255,255,255,0.3); 
+                    padding: 5px 15px; 
+                    border-radius: 15px; 
+                    font-weight: bold;
+                    font-size: 16px;
+                }
+                
+                .activity-table { 
+                    width: 100%; 
+                    border-collapse: collapse; 
+                    font-size: 11px;
+                }
+                
+                .activity-table th { 
+                    background: #f8f9fa; 
+                    color: #2c3e50; 
+                    padding: 10px 8px; 
+                    text-align: left; 
+                    border-bottom: 2px solid #ddd;
+                    font-weight: 600;
+                }
+                
+                .activity-table td { 
+                    padding: 8px; 
+                    border-bottom: 1px solid #eee; 
+                    vertical-align: top;
+                }
+                
+                .activity-table tr:nth-child(even) { 
+                    background: #f9f9f9; 
+                }
+                
+                .contact-info { 
+                    font-size: 9px; 
+                    line-height: 1.2;
+                }
+                
+                .footer { 
+                    margin-top: 30px; 
+                    text-align: center; 
+                    color: #7f8c8d; 
+                    font-size: 10px;
+                    padding-top: 15px;
+                    border-top: 1px solid #ddd;
+                }
+                
+                .concert { border-color: #e74c3c; }
+                .concert .activity-header { background: #e74c3c; }
+                
+                .rencontre { border-color: #2ecc71; }
+                .rencontre .activity-header { background: #2ecc71; }
+                
+                .eglise { border-color: #9b59b6; }
+                .eglise .activity-header { background: #9b59b6; }
+                
+                .sortie { border-color: #f39c12; }
+                .sortie .activity-header { background: #f39c12; }
+                
+                @media print { 
+                    body { margin: 10mm; }
+                    .activity-section { page-break-inside: avoid; }
+                    .header { margin-top: 0; }
+                }
+                
+                .page-break { page-break-before: always; }
+                
+                .icon { 
+                    background: rgba(255,255,255,0.2); 
+                    padding: 5px 10px; 
+                    border-radius: 20px;
+                    font-size: 14px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>📈 Tableau global des activités regroupées par type</h1>
+                <p>Ministère Musical NY AKO - Tournée Europe 2026</p>
+                <p>Export PDF - Généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+            </div>
+            
+            <div class="summary">
+                <p><strong>📊 Résumé :</strong> ${totalActivities} activités dans ${sortedTypes.length} types différents</p>
+                <p><strong>🎨 Légende des couleurs :</strong> 
+                    <span style="color: #e74c3c;">● Concerts</span> | 
+                    <span style="color: #2ecc71;">● Rencontres</span> | 
+                    <span style="color: #9b59b6;">● Églises</span> | 
+                    <span style="color: #f39c12;">● Sorties</span> | 
+                    <span style="color: #3498db;">● Autres activités</span>
+                </p>
+            </div>
+    `;
+    
+    // Ajouter chaque type d'activité avec son propre tableau
+    sortedTypes.forEach((type, typeIndex) => {
+        const activities = activitiesByType[type];
+        const typeClass = getPDFActivityClass(type);
+        const icon = getActivityIcon(type);
+        
+        content += `
+            <div class="activity-section ${typeClass}">
+                <div class="activity-header">
+                    <h3 class="activity-title">
+                        <span class="icon">${icon}</span>
+                        ${type}
+                    </h3>
+                    <span class="activity-count">${activities.length} activité(s)</span>
+                </div>
+                
+                <table class="activity-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Lieux</th>
+                            <th>Horaires</th>
+                            <th>Participants</th>
+                            <th>Interlocuteur</th>
+                            <th>Contacts</th>
+                            <th>Détails</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        activities.forEach(activity => {
+            // Formater les contacts
+            let contactsHTML = '';
+            if (activity.telephone) contactsHTML += `📞 ${activity.telephone}<br>`;
+            if (activity.whatsapp) contactsHTML += `💬 ${activity.whatsapp}<br>`;
+            if (activity.mail) contactsHTML += `📧 ${activity.mail}`;
+            if (!contactsHTML) contactsHTML = '-';
+            
+            // Formater les détails
+            let detailsHTML = '';
+            if (activity.details) detailsHTML += activity.details.substring(0, 80);
+            if (activity.details && activity.details.length > 80) detailsHTML += '...';
+            if (activity.observations) detailsHTML += (detailsHTML ? '<br>' : '') + activity.observations.substring(0, 60);
+            if (!detailsHTML) detailsHTML = '-';
+            
+            content += `
+                <tr>
+                    <td>${activity.date || '-'}</td>
+                    <td><strong>${activity.lieu || '-'}</strong></td>
+                    <td>
+                        ${activity.heureDebut || '-'}
+                        ${activity.heureFin ? `<br><small>à ${activity.heureFin}</small>` : ''}
+                    </td>
+                    <td style="text-align: center;">
+                        ${activity.participants ? `<strong>${activity.participants}</strong>` : '-'}
+                    </td>
+                    <td>${activity.interlocuteur || '-'}</td>
+                    <td class="contact-info">${contactsHTML}</td>
+                    <td style="font-size: 9px;">${detailsHTML}</td>
+                </tr>
+            `;
+        });
+        
+        content += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+        
+        // Ajouter un saut de page après 3 sections (pour une meilleure lisibilité)
+        if ((typeIndex + 1) % 3 === 0 && typeIndex !== sortedTypes.length - 1) {
+            content += `<div class="page-break"></div>`;
+        }
+    });
+    
+    content += `
+            <div class="footer">
+                <p><strong>NY AKO - Ministère Musical Évangélique</strong></p>
+                <p>Document réservé aux administrateurs - Export PDF</p>
+                <p>"Que tout ce que vous faites se fasse avec amour." (1 Corinthiens 16:14)</p>
+                <p>Total : ${totalActivities} activités exportées</p>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    printWindow.document.write(content);
+    printWindow.document.close();
+    
+    // Donner le temps au CSS de charger
+    setTimeout(() => {
+        printWindow.print();
+        console.log(`✅ Export PDF réussi : ${totalActivities} activités dans ${sortedTypes.length} types`);
+    }, 500);
+}
+
+// Fonction pour déterminer la classe CSS selon le type d'activité
+function getPDFActivityClass(type) {
+    const typeLower = type.toLowerCase();
+    
+    if (typeLower.includes('concert')) return 'concert';
+    if (typeLower.includes('rencontre')) return 'rencontre';
+    if (typeLower.includes('eglise') || typeLower.includes('culte')) return 'eglise';
+    if (typeLower.includes('sortie') || typeLower.includes('tourisme') || typeLower.includes('visite')) return 'sortie';
+    
+    return '';
+}
+function exportGlobalActivityExcel() {
+    // VÉRIFICATION ADMIN - AJOUTEZ CES 4 LIGNES AU DÉBUT
+    if (!isAdmin) {
+        console.log("❌ Tentative d'export Excel par non-admin");
+        showUnlockBubble('admin');
+        return;
+    }
+    
+    console.log("✅ Export Excel démarré par admin");
+    
+    // Utiliser la même fonction que CSV car c'est compatible Excel
+    exportGlobalActivityCSV();
+}
+
+function scrollToRow(rowIndex) {
+    const entries = document.querySelectorAll('.journal-entry');
+    if (entries.length > rowIndex) {
+        entries[rowIndex].scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+        });
+        
+        // Surligner temporairement
+        entries[rowIndex].style.boxShadow = '0 0 0 3px var(--accent-color)';
+        setTimeout(() => {
+            entries[rowIndex].style.boxShadow = '';
+        }, 3000);
+    }
+}
+function updateActivitySummaryTable() {
+    const tbody = document.getElementById('activitySummaryTableBody');
+    tbody.innerHTML = '';
+    
+    // Récupérer les statistiques d'activités
+    const activityTypes = Object.keys(activityCounts).filter(type => activityCounts[type] > 0);
+    
+    // Trier par nombre décroissant
+    activityTypes.sort((a, b) => activityCounts[b] - activityCounts[a]);
+    
+    activityTypes.forEach(type => {
+        // Récupérer des exemples de lieux et dates pour cette activité
+        const examples = getExamplesForActivityType(type);
+        
+        const row = document.createElement('tr');
+        
+        row.innerHTML = `
+            <td><strong>${type}</strong></td>
+            <td><span style="background: var(--accent-color); color: white; padding: 5px 10px; border-radius: 15px; font-weight: bold;">${activityCounts[type]}</span></td>
+            <td>${examples.lieux.slice(0, 3).join(', ')}${examples.lieux.length > 3 ? '...' : ''}</td>
+            <td>${examples.dates.slice(0, 2).join(', ')}${examples.dates.length > 2 ? '...' : ''}</td>
+            <td>
+                <div class="contact-action-buttons">
+                    <button class="contact-action-button view" onclick="filterByActivityType('${type.replace(/'/g, "\\'")}'); hideModal('activitySummaryModal');" title="Voir toutes les activités">👁️</button>
+                    <button class="contact-action-button email" onclick="showActivityLieux('${type.replace(/'/g, "\\'")}'); hideModal('activitySummaryModal');" title="Voir les lieux">📍</button>
+                    <button class="contact-action-button call" onclick="showActivityTable('${type.replace(/'/g, "\\'")}'); hideModal('activitySummaryModal');" title="Tableau détaillé">📊</button>
+                </div>
+            </td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+    
+    document.getElementById('activitySummaryCount').textContent = `${activityTypes.length} types d'activités trouvés`;
+    
+    // Ajouter les événements pour les boutons d'export
+    document.getElementById('exportActivitySummaryCSV').onclick = exportActivitySummaryCSV;
+    document.getElementById('exportActivitySummaryPDF').onclick = exportActivitySummaryPDF;
+    document.getElementById('exportActivitySummaryExcel').onclick = exportActivitySummaryExcel;
+    document.getElementById('closeActivitySummaryModal').onclick = () => hideModal('activitySummaryModal');
+    document.getElementById('cancelActivitySummary').onclick = () => hideModal('activitySummaryModal');
+}
+
+function getExamplesForActivityType(activityType) {
+    const lieuxSet = new Set();
+    const datesSet = new Set();
+    
+    sheetData.forEach(row => {
+        // Chercher cette activité dans les colonnes d'activités
+        for (let i = 1; i <= 7; i++) {
+            const activityHeader = `ACTIVITÉ ${i}`;
+            const activityIndex = headers.findIndex(header => 
+                header && header.includes(activityHeader)
+            );
+            
+            if (activityIndex !== -1) {
+                const currentActivityType = row[activityIndex] || '';
+                
+                if (currentActivityType.trim().toLowerCase() === activityType.toLowerCase()) {
+                    // Trouver le lieu correspondant
+                    for (let j = activityIndex + 1; j < headers.length; j++) {
+                        if (headers[j] && headers[j].includes('Lieux :')) {
+                            const lieu = row[j] || '';
+                            if (lieu.trim() !== '') {
+                                lieuxSet.add(lieu);
+                            }
+                            break;
+                        }
+                    }
+                    
+                    // Trouver la date
+                    const dateIndex = findHeaderIndex('Date:');
+                    if (dateIndex !== -1) {
+                        const date = row[dateIndex] || '';
+                        if (date.trim() !== '') {
+                            datesSet.add(date);
+                        }
+                    }
+                    
+                    break;
+                }
+            }
+        }
+        
+        // Vérifier aussi pour les concerts spécifiques
+        if (activityType.toLowerCase() === 'concert') {
+            const concertColumns = headers
+                .map((header, index) => 
+                    (header && header.includes('CONCERT')) ? index : -1
+                )
+                .filter(index => index !== -1);
+            
+            concertColumns.forEach(colIndex => {
+                const concertValue = row[colIndex] || '';
+                if (concertValue.toLowerCase() === 'oui' || 
+                    concertValue.toLowerCase().includes('concert')) {
+                    
+                    // Trouver le lieu
+                    for (let j = colIndex + 1; j < headers.length; j++) {
+                        if (headers[j] && headers[j].includes('Lieux :')) {
+                            const lieu = row[j] || '';
+                            if (lieu.trim() !== '') {
+                                lieuxSet.add(lieu);
+                            }
+                            break;
+                        }
+                    }
+                    
+                    // Trouver la date
+                    const dateIndex = findHeaderIndex('Date:');
+                    if (dateIndex !== -1) {
+                        const date = row[dateIndex] || '';
+                        if (date.trim() !== '') {
+                            datesSet.add(date);
+                        }
+                    }
+                }
+            });
+        }
+    });
+    
+    return {
+        lieux: Array.from(lieuxSet),
+        dates: Array.from(datesSet)
+    };
+}
+
+function exportActivitySummaryCSV() {
+    let csvContent = 'Type d\'activité,Nombre d\'occurrences\n';
+    
+    // Trier par nombre décroissant
+    const sortedActivities = Object.keys(activityCounts)
+        .filter(type => activityCounts[type] > 0)
+        .sort((a, b) => activityCounts[b] - activityCounts[a]);
+    
+    sortedActivities.forEach(type => {
+        csvContent += `"${type}",${activityCounts[type]}\n`;
+    });
+    
+    downloadFile(csvContent, 'activites_par_type_tournee_2026.csv', 'text/csv');
+    alert('Tableau des activités exporté en CSV');
+}
+
+function exportActivitySummaryPDF() {
+    const printWindow = window.open('', '_blank');
+    
+    // Trier par nombre décroissant
+    const sortedActivities = Object.keys(activityCounts)
+        .filter(type => activityCounts[type] > 0)
+        .sort((a, b) => activityCounts[b] - activityCounts[a]);
+    
+    let content = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Activités par type - Tournée Europe 2026 NY AKO</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+                .activity-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                .activity-table th { background: #3498db; color: white; padding: 10px; text-align: left; }
+                .activity-table td { padding: 8px 10px; border-bottom: 1px solid #ddd; }
+                .activity-table tr:nth-child(even) { background: #f8f9fa; }
+                .count-badge { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 10px; font-weight: bold; }
+                .percentage-bar { background: #f0f0f0; border-radius: 3px; height: 20px; margin-top: 5px; }
+                .percentage-fill { background: #9b59b6; height: 100%; border-radius: 3px; }
+                .footer { margin-top: 30px; text-align: center; color: #7f8c8d; font-size: 0.9em; }
+                @media print { body { margin: 10mm; } }
+            </style>
+        </head>
+        <body>
+            <h1>📊 Tableau des activités par type</h1>
+            <p style="text-align: center;">Ministère Musical NY AKO - Tournée Europe 2026</p>
+            <p style="text-align: center;">Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+            
+            <table class="activity-table">
+                <thead>
+                    <tr>
+                        <th>Type d'activité</th>
+                        <th>Nombre</th>
+                        <th>Pourcentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+    
+    const totalActivities = sortedActivities.reduce((sum, type) => sum + activityCounts[type], 0);
+    
+    sortedActivities.forEach(type => {
+        const percentage = ((activityCounts[type] / totalActivities) * 100).toFixed(1);
+        content += `
+            <tr>
+                <td>${type}</td>
+                <td><span class="count-badge">${activityCounts[type]}</span></td>
+                <td>
+                    <div class="percentage-bar">
+                        <div class="percentage-fill" style="width: ${percentage}%;"></div>
+                    </div>
+                    <div style="text-align: center; font-size: 0.8em; margin-top: 3px;">${percentage}%</div>
+                </td>
+            </tr>
+        `;
+    });
+    
+    content += `
+                </tbody>
+            </table>
+            
+            <div class="footer">
+                <p><strong>Total : ${totalActivities} activités enregistrées</strong></p>
+                <p><strong>${sortedActivities.length} types d'activités différents</strong></p>
+                <p>"Que tout ce que vous faites se fasse avec amour." (1 Corinthiens 16:14)</p>
+                <p>NY AKO - Ministère Musical Évangélique</p>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    printWindow.document.write(content);
+    printWindow.document.close();
+    printWindow.print();
+}
+
+function exportActivitySummaryExcel() {
+    let csvContent = 'Type d\'activité,Nombre\n';
+    
+    // Trier par nombre décroissant
+    const sortedActivities = Object.keys(activityCounts)
+        .filter(type => activityCounts[type] > 0)
+        .sort((a, b) => activityCounts[b] - activityCounts[a]);
+    
+    sortedActivities.forEach(type => {
+        csvContent += `"${type}",${activityCounts[type]}\n`;
+    });
+    
+    const filename = 'activites_par_type_tournee_2026.csv';
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    alert(`Tableau exporté : ${filename}`);
+}
+function updateExportButtonsVisibility() {
+    const container = document.getElementById('exportButtonsContainer');
+    if (!container) return;
+    
+    console.log("🔄 Mise à jour des boutons d'export - Admin:", isAdmin);
+    
+    if (isAdmin) {
+        container.innerHTML = `
+            <button class="action-button secondary" id="exportGlobalActivityCSV" 
+                    style="background: linear-gradient(to bottom, #27ae60, #219a52);">
+                📊 Exporter CSV
+            </button>
+            <button class="action-button secondary" id="exportGlobalActivityPDF"
+                    style="background: linear-gradient(to bottom, #e74c3c, #c0392b);">
+                📄 Exporter PDF
+            </button>
+            <button class="action-button primary" id="exportGlobalActivityExcel"
+                    style="background: linear-gradient(to bottom, #3498db, #2980b9);">
+                📈 Exporter Excel
+            </button>
+        `;
+        
+        // Attacher les événements après un petit délai
+        setTimeout(() => {
+            const csvBtn = document.getElementById('exportGlobalActivityCSV');
+            const pdfBtn = document.getElementById('exportGlobalActivityPDF');
+            const excelBtn = document.getElementById('exportGlobalActivityExcel');
+            
+            if (csvBtn) csvBtn.addEventListener('click', exportGlobalActivityCSV);
+            if (pdfBtn) pdfBtn.addEventListener('click', exportGlobalActivityPDF);
+            if (excelBtn) excelBtn.addEventListener('click', exportGlobalActivityExcel);
+            
+            console.log("✅ Boutons d'export admin attachés");
+        }, 100);
+    } else {
+        container.innerHTML = `
+            <button class="action-button secondary" onclick="showUnlockBubble('admin')" 
+                    style="background: linear-gradient(135deg, #8e44ad, #7d3c98);
+                           padding: 12px 20px;
+                           font-weight: 600;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.2em;">🔓</span>
+                    <div style="text-align: left;">
+                        <div style="font-size: 0.9em; font-weight: bold;">Accès administrateur requis</div>
+                        <div style="font-size: 0.75em; opacity: 0.9;">Cliquez pour déverrouiller</div>
+                    </div>
+                </div>
+            </button>
+        `;
+        console.log("🔒 Bouton déverrouillage affiché pour non-admin");
+    }
 }
         window.scrollToInterlocuteur = scrollToInterlocuteur;
         window.showInterlocutorBubble = showInterlocutorBubble;
