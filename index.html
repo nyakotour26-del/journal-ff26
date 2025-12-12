@@ -931,7 +931,7 @@ margin-left: 5px; /* Petit espace après le texte */
         
 .stat-card {
     background: white;
-    padding: 3px 6px; /* Réduit: 5px→3px (haut/bas), 8px→6px (gauche/droite) */
+    padding: 6px 6px; /* Réduit: 5px→3px (haut/bas), 8px→6px (gauche/droite) */
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     text-align: center;
@@ -948,8 +948,8 @@ margin-left: 5px; /* Petit espace après le texte */
 }
 
 .stat-value {
-    font-size: 1.3em !important;
-    font-weight: 500 !important; /* ← CHANGÉ : 800 devient 500 */
+    font-size: 0.5em !important;
+    font-weight: 300 !important; /* ← CHANGÉ : 800 devient 500 */
         color: #87CEEB !important; /* ← BLEU CIEL AU LIEU DE GRIS */
     margin-bottom: 0;
     line-height: 1;
@@ -2498,6 +2498,35 @@ margin-left: 5px; /* Petit espace après le texte */
     .activity-stat-label {
         font-size: 0.6em !important;
     }
+ /* Styles spécifiques pour le modal des lieux sur mobile */
+    #lieuxModal > div {
+        width: 95% !important;
+        padding: 20px !important;
+        margin: 10px !important;
+        max-height: 90vh !important;
+    }
+    
+    .lieu-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+    
+    .lieu-item > div:last-child {
+        align-self: flex-end !important;
+        margin-top: -40px !important;
+    }
+    
+    /* Menu contextuel sur mobile */
+    #activityContextMenu {
+        min-width: 250px !important;
+        left: 10px !important;
+        right: 10px !important;
+        top: auto !important;
+        bottom: 10px !important;
+        transform: none !important;
+    }
+}
         }
         
         @media (max-width: 480px) {
@@ -2580,7 +2609,15 @@ margin-left: 5px; /* Petit espace après le texte */
     
     .activity-stat-label {
         font-size: 0.55em !important;
-    }    
+    } 
+
+    #lieuxModal > div {
+        padding: 15px !important;
+    }
+    
+    .lieu-nom {
+        font-size: 1em !important;
+    }   
  }
 .stat-label,
         .activity-stat-label {
@@ -4987,7 +5024,14 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
 }
 
 function showActivityMenu(activityType, x, y) {
-    // Supprimer tout menu existant
+      // Vérifier si on est sur mobile
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        // Version mobile simplifiée
+        showMobileActivityOptions(activityType);
+        return;
+    }
     const existingMenu = document.getElementById('activityContextMenu');
     if (existingMenu) {
         existingMenu.remove();
@@ -5044,7 +5088,24 @@ function showActivityMenu(activityType, x, y) {
         showActivityLieux(activityType);
         menu.remove();
     };
-    
+        // OPTION 3 À AJOUTER APRÈS L'OPTION 2 :
+    // Option 3 : Voir tableau des activités
+    const option3 = document.createElement('div');
+    option3.style.cssText = `
+        padding: 12px 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background 0.2s;
+    `;
+    option3.innerHTML = '📊 Voir tableau des activités';
+    option3.onmouseenter = () => option3.style.background = '#f8f9fa';
+    option3.onmouseleave = () => option3.style.background = 'white';
+    option3.onclick = () => {
+        showActivityTable(activityType);
+        menu.remove();
+    };
     // Séparateur
     const separator = document.createElement('div');
     separator.style.cssText = `
@@ -5071,6 +5132,7 @@ function showActivityMenu(activityType, x, y) {
     
     menu.appendChild(option1);
     menu.appendChild(option2);
+menu.appendChild(option3);
     menu.appendChild(separator);
     menu.appendChild(optionClose);
     
@@ -5087,6 +5149,541 @@ function showActivityMenu(activityType, x, y) {
         document.addEventListener('click', closeMenu);
     }, 100);
 }
+function showMobileActivityOptions(activityType) {
+    // Créer un modal simple pour mobile
+    const modal = document.createElement('div');
+    modal.id = 'mobileActivityModal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 0;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 400px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    `;
+    
+    content.innerHTML = `
+        <div style="background: linear-gradient(to right, var(--secondary-color), var(--primary-color)); 
+                    color: white; padding: 20px; text-align: center;">
+            <h3 style="margin: 0; font-size: 1.2em;">${activityType}</h3>
+        </div>
+        
+        <div style="padding: 0;">
+            <div style="padding: 20px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; gap: 15px; cursor: pointer;"
+                 onclick="filterByActivityType('${activityType}'); document.getElementById('mobileActivityModal')?.remove();">
+                <div style="font-size: 1.5em;">📋</div>
+                <div>
+                    <div style="font-weight: 600;">Voir toutes les activités</div>
+                    <div style="font-size: 0.9em; color: #7f8c8d;">Filtrer par type d'activité</div>
+                </div>
+            </div>
+            
+            <div style="padding: 20px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; gap: 15px; cursor: pointer;"
+                 onclick="showActivityLieux('${activityType}'); document.getElementById('mobileActivityModal')?.remove();">
+                <div style="font-size: 1.5em;">📍</div>
+                <div>
+                    <div style="font-weight: 600;">Voir les lieux</div>
+                    <div style="font-size: 0.9em; color: #7f8c8d;">Liste des lieux où ça s'est passé</div>
+                </div>
+            </div>
+          <div style="padding: 20px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; gap: 15px; cursor: pointer;"
+             onclick="showActivityTable('${activityType}'); document.getElementById('mobileActivityModal')?.remove();">
+            <div style="font-size: 1.5em;">📊</div>
+            <div>
+                <div style="font-weight: 600;">Voir tableau complet</div>
+                <div style="font-size: 0.9em; color: #7f8c8d;">Avec export PDF/Excel</div>
+            </div>
+        </div>          
+            <div style="padding: 20px; display: flex; align-items: center; gap: 15px; cursor: pointer; color: #e74c3c;"
+                 onclick="document.getElementById('mobileActivityModal')?.remove();">
+                <div style="font-size: 1.5em;">✕</div>
+                <div style="font-weight: 600;">Fermer</div>
+            </div>
+        </div>
+    `;
+    
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    // Fermer en cliquant en dehors
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+// =============== NOUVELLE FONCTION : TABLEAU DES ACTIVITÉS ===============
+
+function showActivityTable(activityType) {
+    console.log(`📊 Préparation du tableau pour ${activityType}`);
+    
+    // Créer le modal
+    const modal = document.createElement('div');
+    modal.id = 'activityTableModal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        width: 95%;
+        max-width: 1200px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        border: 3px solid var(--secondary-color);
+    `;
+    
+    // Message temporaire pendant le chargement
+    content.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--light-blue);">
+            <h3 style="margin: 0; color: var(--primary-color); font-size: 1.5em;">
+                📊 Tableau des activités : ${activityType}
+            </h3>
+            <button onclick="this.closest('#activityTableModal').remove()" 
+                    style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--accent-color); padding: 5px;">
+                ✕
+            </button>
+        </div>
+        
+        <div style="text-align: center; padding: 40px;">
+            <div class="spinner" style="border: 5px solid rgba(0, 0, 0, 0.1); border-left-color: var(--secondary-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 25px;"></div>
+            <p>Préparation du tableau en cours...</p>
+        </div>
+    `;
+    
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    // Fermer en cliquant en dehors
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+    
+    // Attendre un peu puis générer le tableau
+    setTimeout(() => {
+        generateActivityTable(activityType, modal, content);
+    }, 100);
+}
+function generateActivityTable(activityType, modal, content) {
+    console.log(`🔍 Collecte des données pour ${activityType}`);
+    
+    // Collecter les données
+    const tableData = [];
+    
+    sheetData.forEach((row, rowIndex) => {
+        // Vérifier si cette ligne contient l'activité recherchée
+        let activityFound = false;
+        let activityData = {};
+        
+        // 1. Chercher dans les activités normales (ACTIVITÉ 1 à 7)
+        for (let i = 1; i <= 7; i++) {
+            const activityHeader = `ACTIVITÉ ${i}`;
+            const activityIndex = headers.findIndex(header => 
+                header && header.includes(activityHeader)
+            );
+            
+            if (activityIndex !== -1) {
+                const currentActivityType = row[activityIndex] || '';
+                
+                if (currentActivityType.trim().toLowerCase() === activityType.toLowerCase()) {
+                    activityFound = true;
+                    activityData = extractActivityData(row, activityIndex, activityHeader);
+                    break;
+                }
+            }
+        }
+        
+        // 2. Vérifier aussi pour les concerts spécifiques
+        if (activityType.toLowerCase() === 'concert' && !activityFound) {
+            const concertColumns = headers
+                .map((header, index) => 
+                    (header && header.includes('CONCERT')) ? index : -1
+                )
+                .filter(index => index !== -1);
+            
+            concertColumns.forEach(colIndex => {
+                const concertValue = row[colIndex] || '';
+                if (concertValue.toLowerCase() === 'oui' || 
+                    concertValue.toLowerCase().includes('concert')) {
+                    activityFound = true;
+                    activityData = extractActivityData(row, colIndex, 'CONCERT');
+                }
+            });
+        }
+        
+        if (activityFound) {
+            // Ajouter les informations de la fiche
+            const dateIndex = findHeaderIndex('Date:');
+            const paysIndex = findHeaderIndex('Pays:');
+            
+            tableData.push({
+                rowIndex: rowIndex,
+                date: dateIndex !== -1 ? row[dateIndex] : '',
+                pays: paysIndex !== -1 ? row[paysIndex] : '',
+                heureDebut: activityData.heureDebut || '',
+                heureFin: activityData.heureFin || '',
+                lieux: activityData.lieux || '',
+                nbParticipant: activityData.nbParticipant || '',
+                interlocuteur: activityData.interlocuteur || '',
+                telephone: activityData.telephone || '',
+                whatsapp: activityData.whatsapp || '',
+                mail: activityData.mail || ''
+            });
+        }
+    });
+    
+    console.log(`✅ ${tableData.length} activités trouvées`);
+    
+    // Afficher le tableau
+    displayActivityTable(activityType, tableData, content);
+}
+
+function displayActivityTable(activityType, tableData, content) {
+    if (tableData.length === 0) {
+        content.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--light-blue);">
+                <h3 style="margin: 0; color: var(--primary-color); font-size: 1.5em;">
+                    📊 Tableau des activités : ${activityType}
+                </h3>
+                <button onclick="this.closest('#activityTableModal').remove()" 
+                        style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--accent-color); padding: 5px;">
+                    ✕
+                </button>
+            </div>
+            
+            <div style="text-align: center; padding: 60px;">
+                <div style="font-size: 4em; margin-bottom: 20px;">📭</div>
+                <h4 style="margin-bottom: 10px; color: #7f8c8d;">Aucune activité trouvée</h4>
+                <p>Aucune donnée n'a été enregistrée pour ${activityType}</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--light-blue);">
+            <div>
+                <h3 style="margin: 0; color: var(--primary-color); font-size: 1.5em;">
+                    📊 Tableau des activités : ${activityType}
+                </h3>
+                <p style="margin: 5px 0 0 0; color: #7f8c8d; font-size: 0.9em;">
+                    ${tableData.length} activité(s) trouvée(s)
+                </p>
+            </div>
+            <button onclick="this.closest('#activityTableModal').remove()" 
+                    style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--accent-color); padding: 5px;">
+                ✕
+            </button>
+        </div>
+        
+        <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <button id="exportTablePDF" 
+                    style="background: linear-gradient(to bottom, #e74c3c, #c0392b); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                📄 Exporter en PDF
+            </button>
+            <button id="exportTableExcel" 
+                    style="background: linear-gradient(to bottom, #27ae60, #219a52); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                📊 Exporter en Excel
+            </button>
+            <div style="flex: 1;"></div>
+            <div style="font-size: 0.9em; color: #7f8c8d; display: flex; align-items: center; gap: 5px;">
+                <span>🔍</span>
+                <input type="text" id="searchActivityTable" placeholder="Rechercher dans le tableau..." 
+                       style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; width: 250px;">
+            </div>
+        </div>
+        
+        <div style="overflow-x: auto; max-height: 500px;">
+            <table id="activityDataTable" style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                <thead>
+                    <tr style="background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color)); color: white; position: sticky; top: 0;">
+                        <th style="padding: 12px 15px; text-align: left; border-bottom: 2px solid var(--light-blue);">Pays</th>
+                        <th style="padding: 12px 15px; text-align: left; border-bottom: 2px solid var(--light-blue);">Date</th>
+                        <th style="padding: 12px 15px; text-align: left; border-bottom: 2px solid var(--light-blue);">Heure début</th>
+                        <th style="padding: 12px 15px; text-align: left; border-bottom: 2px solid var(--light-blue);">Heure fin</th>
+                        <th style="padding: 12px 15px; text-align: left; border-bottom: 2px solid var(--light-blue);">Lieux</th>
+                        <th style="padding: 12px 15px; text-align: left; border-bottom: 2px solid var(--light-blue);">Participants</th>
+                        <th style="padding: 12px 15px; text-align: left; border-bottom: 2px solid var(--light-blue);">Interlocuteur</th>
+                        <th style="padding: 12px 15px; text-align: left; border-bottom: 2px solid var(--light-blue);">Téléphone</th>
+                        <th style="padding: 12px 15px; text-align: left; border-bottom: 2px solid var(--light-blue);">WhatsApp</th>
+                        <th style="padding: 12px 15px; text-align: left; border-bottom: 2px solid var(--light-blue);">Mail</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+    
+    tableData.forEach((item, index) => {
+        html += `
+            <tr style="border-bottom: 1px solid #eee; ${index % 2 === 0 ? 'background: #f8f9fa;' : ''}">
+                <td style="padding: 10px 15px;">${item.pays || '-'}</td>
+                <td style="padding: 10px 15px;">${item.date || '-'}</td>
+                <td style="padding: 10px 15px;">${item.heureDebut || '-'}</td>
+                <td style="padding: 10px 15px;">${item.heureFin || '-'}</td>
+                <td style="padding: 10px 15px;">
+                    ${item.lieux ? 
+                        `<span style="color: var(--secondary-color); cursor: pointer; text-decoration: underline;" 
+                              onclick="scrollToRow(${item.rowIndex}); document.getElementById('activityTableModal').remove();">
+                            ${item.lieux}
+                         </span>` 
+                        : '-'}
+                </td>
+                <td style="padding: 10px 15px;">${item.nbParticipant || '-'}</td>
+                <td style="padding: 10px 15px;">
+                    ${item.interlocuteur ? 
+                        `<span style="color: var(--apple-green); cursor: pointer; text-decoration: underline;" 
+                              onclick="showInterlocutorBubble('${item.interlocuteur.replace(/'/g, "\\'")}');">
+                            ${item.interlocuteur}
+                         </span>` 
+                        : '-'}
+                </td>
+                <td style="padding: 10px 15px;">
+                    ${item.telephone ? 
+                        item.telephone.split(/[,;]/).map(tel => {
+                            const cleanTel = tel.trim();
+                            return `<a href="tel:${cleanTel}" style="color: #3498db; text-decoration: none; display: block; margin: 2px 0;" 
+                                      onclick="event.stopPropagation();">
+                                    📞 ${cleanTel}
+                                  </a>`;
+                        }).join('') 
+                        : '-'}
+                </td>
+                <td style="padding: 10px 15px;">
+                    ${item.whatsapp ? 
+                        item.whatsapp.split(/[,;]/).map(wa => {
+                            const cleanWa = wa.trim();
+                            return `<a href="https://wa.me/${cleanWa.replace(/[^\d+]/g, '')}" 
+                                      style="color: #25D366; text-decoration: none; display: block; margin: 2px 0;" 
+                                      target="_blank" onclick="event.stopPropagation();">
+                                    💬 ${cleanWa}
+                                  </a>`;
+                        }).join('') 
+                        : '-'}
+                </td>
+                <td style="padding: 10px 15px;">
+                    ${item.mail ? 
+                        item.mail.split(/[,;]/).map(email => {
+                            const cleanEmail = email.trim();
+                            return `<a href="mailto:${cleanEmail}" 
+                                      style="color: #e74c3c; text-decoration: none; display: block; margin: 2px 0;" 
+                                      onclick="event.stopPropagation();">
+                                    📧 ${cleanEmail}
+                                  </a>`;
+                        }).join('') 
+                        : '-'}
+                </td>
+            </tr>
+        `;
+    });
+    
+    html += `
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0; color: #7f8c8d; font-size: 0.9em; display: flex; justify-content: space-between;">
+            <div>
+                💡 <strong>Astuces :</strong> Cliquez sur un lieu pour aller à la fiche. Cliquez sur un interlocuteur pour voir ses informations.
+            </div>
+            <div>
+                Total : ${tableData.length} ligne(s)
+            </div>
+        </div>
+    `;
+    
+    content.innerHTML = html;
+    
+    // Ajouter les événements
+    setTimeout(() => {
+        // Recherche dans le tableau
+        const searchInput = document.getElementById('searchActivityTable');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                filterTable(this.value.toLowerCase());
+            });
+        }
+        
+        // Bouton export PDF
+        const exportPDFBtn = document.getElementById('exportTablePDF');
+        if (exportPDFBtn) {
+            exportPDFBtn.onclick = () => exportActivityTablePDF(activityType, tableData);
+        }
+        
+        // Bouton export Excel
+        const exportExcelBtn = document.getElementById('exportTableExcel');
+        if (exportExcelBtn) {
+            exportExcelBtn.onclick = () => exportActivityTableExcel(activityType, tableData);
+        }
+    }, 100);
+}
+
+// Fonction pour filtrer le tableau
+function filterTable(searchTerm) {
+    const table = document.getElementById('activityDataTable');
+    if (!table) return;
+    
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
+}
+
+// Fonction pour aller à une ligne spécifique
+function scrollToRow(rowIndex) {
+    const entries = document.querySelectorAll('.journal-entry');
+    if (entries.length > rowIndex) {
+        entries[rowIndex].scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+        });
+        
+        // Surligner temporairement
+        entries[rowIndex].style.boxShadow = '0 0 0 3px var(--accent-color)';
+        setTimeout(() => {
+            entries[rowIndex].style.boxShadow = '';
+        }, 3000);
+    }
+}
+// Fonctions d'export
+function exportActivityTablePDF(activityType, tableData) {
+    const printWindow = window.open('', '_blank');
+    
+    let content = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>${activityType} - Tournée Europe 2026</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+                .table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
+                .table th { background: #3498db; color: white; padding: 10px; text-align: left; }
+                .table td { padding: 8px 10px; border-bottom: 1px solid #ddd; }
+                .table tr:nth-child(even) { background: #f8f9fa; }
+                .footer { margin-top: 30px; text-align: center; color: #7f8c8d; font-size: 0.9em; }
+                @media print { body { margin: 10mm; } .table { font-size: 0.8em; } }
+            </style>
+        </head>
+        <body>
+            <h1>📊 Tableau des activités : ${activityType}</h1>
+            <p>Export généré le ${new Date().toLocaleDateString('fr-FR')} • ${tableData.length} activité(s)</p>
+            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Pays</th>
+                        <th>Date</th>
+                        <th>Heure début</th>
+                        <th>Heure fin</th>
+                        <th>Lieux</th>
+                        <th>Participants</th>
+                        <th>Interlocuteur</th>
+                        <th>Téléphone</th>
+                        <th>WhatsApp</th>
+                        <th>Mail</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+    
+    tableData.forEach(item => {
+        content += `
+            <tr>
+                <td>${item.pays || '-'}</td>
+                <td>${item.date || '-'}</td>
+                <td>${item.heureDebut || '-'}</td>
+                <td>${item.heureFin || '-'}</td>
+                <td>${item.lieux || '-'}</td>
+                <td>${item.nbParticipant || '-'}</td>
+                <td>${item.interlocuteur || '-'}</td>
+                <td>${item.telephone || '-'}</td>
+                <td>${item.whatsapp || '-'}</td>
+                <td>${item.mail || '-'}</td>
+            </tr>
+        `;
+    });
+    
+    content += `
+                </tbody>
+            </table>
+            
+            <div class="footer">
+                <p><strong>NY AKO - Ministère Musical Évangélique</strong></p>
+                <p>Tournée Europe 2026 - Document exporté</p>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    printWindow.document.write(content);
+    printWindow.document.close();
+    printWindow.print();
+}
+
+function exportActivityTableExcel(activityType, tableData) {
+    let csvContent = 'Pays,Date,Heure début,Heure fin,Lieux,Participants,Interlocuteur,Téléphone,WhatsApp,Mail\n';
+    
+    tableData.forEach(item => {
+        const row = [
+            item.pays || '',
+            item.date || '',
+            item.heureDebut || '',
+            item.heureFin || '',
+            item.lieux || '',
+            item.nbParticipant || '',
+            item.interlocuteur || '',
+            item.telephone || '',
+            item.whatsapp || '',
+            item.mail || ''
+        ].map(field => `"${field.replace(/"/g, '""')}"`).join(',');
+        
+        csvContent += row + '\n';
+    });
+    
+    const filename = `${activityType}_tournee_2026.csv`;
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    alert(`Tableau exporté : ${filename}`);
+}
+// =============== FIN DE LA NOUVELLE FONCTION ===============
 function showActivityLieux(activityType) {
     const lieuxData = extractLieuxByActivityType(activityType);
     const lieuxArray = Object.entries(lieuxData)
