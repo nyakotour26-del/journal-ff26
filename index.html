@@ -3095,7 +3095,7 @@ margin-left: 5px; /* Petit espace après le texte */
                         <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
                         <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
 			<button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
-<button class="admin-button" id="showGlobalActivityTableButton">📈 Tableau global activités</button>
+<button class="admin-button" id="showGlobalActivityTableButton" style="background: linear-gradient(to bottom, #3498db, #2980b9);">📈 Tableau global activités</button>
                     </div>
                 </div>
             </div>
@@ -3192,13 +3192,7 @@ margin-left: 5px; /* Petit espace après le texte */
             <button class="close-modal" id="closeActivitySummaryModal">✕</button>
         </div>
         
-        <div class="form-group">
-            <label class="form-label">Regroupement par type d'activité :</label>
-            <div style="margin: 10px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                <p>Cette vue regroupe toutes les activités par type (Concerts, Rencontres, Églises, etc.) 
-                et montre le nombre d'occurrences pour chaque type.</p>
-            </div>
-        </div>
+        
         
         <div class="contacts-table-container">
             <table class="contacts-table" id="activitySummaryTable">
@@ -3241,16 +3235,7 @@ margin-left: 5px; /* Petit espace après le texte */
         </div>
         
         <div class="form-group">
-            <div style="margin: 10px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                <p><strong>📋 Vue globale regroupée par type</strong> - Toutes les activités sont organisées par type avec leurs détails complets.</p>
-                <p style="font-size: 0.9em; color: #7f8c8d; margin-top: 5px;">
-                    <span style="color: #e74c3c;">● Concert</span> | 
-                    <span style="color: #2ecc71;">● Rencontre</span> | 
-                    <span style="color: #9b59b6;">● Église</span> | 
-                    <span style="color: #f39c12;">● Sortie</span> | 
-                    <span style="color: #3498db;">● Autres</span>
-                </p>
-            </div>
+            <!-- Description supprimée -->
         </div>
         
         <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
@@ -3951,7 +3936,7 @@ document.getElementById('showGlobalActivityTableButton').addEventListener('click
                             <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
                             <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
 			<button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
-			<button class="admin-button" id="showGlobalActivityTableButton">📈 Tableau global activités</button>
+			<button class="admin-button" id="showGlobalActivityTableButton" style="background: linear-gradient(to bottom, #3498db, #2980b9);">📈 Tableau global activités</button>
                             <button class="admin-button" id="logoutButton" style="background: linear-gradient(to bottom, #e74c3c, #c0392b);">🚪 Déconnexion</button>
                         </div>
                     </div>
@@ -3990,7 +3975,7 @@ document.getElementById('showGlobalActivityTableButton').addEventListener('click
                         <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
                         <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
 			<button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
-<button class="admin-button" id="showGlobalActivityTableButton">📈 Tableau global activités</button>
+<button class="admin-button" id="showGlobalActivityTableButton" style="background: linear-gradient(to bottom, #3498db, #2980b9);">📈 Tableau global activités</button>
                     </div>
                 </div>
             `;
@@ -4148,11 +4133,15 @@ updateExportButtonsVisibility();
             }
         }
 
-        function extractAllContacts() {
+       function extractAllContacts() {
     allContacts = [];
     console.log('📇 Extraction de tous les contacts...');
     
     sheetData.forEach((row, rowIndex) => {
+        // Trouver le pays de cette fiche
+        const paysIndex = findHeaderIndex('Pays:');
+        const paysFiche = paysIndex !== -1 ? row[paysIndex] || '' : '';
+        
         // Trouver tous les indices des colonnes "Interlocuteur ,hôte"
         const interlocuteurIndices = [];
         for (let i = 0; i < headers.length; i++) {
@@ -4161,7 +4150,7 @@ updateExportButtonsVisibility();
             }
         }
         
-        console.log(`Ligne ${rowIndex + 1}: ${interlocuteurIndices.length} colonnes interlocuteur trouvées`);
+        console.log(`Ligne ${rowIndex + 1}: ${interlocuteurIndices.length} colonnes interlocuteur trouvées, Pays: ${paysFiche}`);
         
         // Pour chaque colonne interlocuteur
         for (let i = 0; i < interlocuteurIndices.length; i++) {
@@ -4186,12 +4175,13 @@ updateExportButtonsVisibility();
                     mail: '',
                     lieu: '',
                     date: '',
+                    pays: paysFiche, // Utiliser le pays de la fiche
                     rowIndex: rowIndex,
                     contactGroupIndex: i,
-                    interlocuteurColIndex: interlocuteurColIndex // On stocke l'index pour trouver le lieu
+                    interlocuteurColIndex: interlocuteurColIndex
                 };
                 
-                // 1. TROUVER LE LIEU SPÉCIFIQUE (MÊME LOGIQUE QUE findCompleteInterlocutorInfo)
+                // 1. TROUVER LE LIEU SPÉCIFIQUE
                 let lieuCorrespondant = 'Non spécifié';
                 
                 // Rechercher vers l'arrière pour trouver "Lieux :" dans le même bloc d'activité
@@ -4293,12 +4283,13 @@ updateExportButtonsVisibility();
                         c.nom === contact.nom && 
                         c.telephone === contact.telephone && 
                         c.mail === contact.mail && 
-                        c.date === contact.date
+                        c.date === contact.date &&
+                        c.lieu === contact.lieu
                     );
                     
                     if (!existingContact) {
                         allContacts.push(contact);
-                        console.log(`  ✅ Contact ajouté: ${nom} - Tel: ${contact.telephone} - Lieu: ${contact.lieu}`);
+                        console.log(`  ✅ Contact ajouté: ${nom} - Tel: ${contact.telephone || 'non'} - Lieu: ${contact.lieu} - Pays: ${contact.pays}`);
                     }
                 }
             });
@@ -4308,17 +4299,18 @@ updateExportButtonsVisibility();
     // Trier les contacts par nom
     allContacts.sort((a, b) => a.nom.localeCompare(b.nom));
     
-    console.log(`✅ ${allContacts.length} contacts extraits`);
+    console.log(`✅ ${allContacts.length} contacts extraits avec leurs pays de fiche`);
     return allContacts;
 }
 
+// Fonction pour organiser les contacts par pays de la fiche
 function organizeContactsByCountry(contacts) {
     const contactsByCountry = {};
     
     contacts.forEach(contact => {
-        // Extraire le pays du lieu si possible
-        let country = extractCountryFromLieu(contact.lieu);
-        if (!country) {
+        // Utiliser le pays de la fiche
+        let country = contact.pays || '';
+        if (!country || country.trim() === '') {
             country = 'Pays non spécifié';
         }
         
@@ -4351,6 +4343,69 @@ function organizeContactsByCountry(contacts) {
     return sortedResult;
 }
 
+// Supprimer ou commenter l'ancienne fonction extractCountryFromLieu qui n'est plus utilisée
+/*
+function extractCountryFromLieu(lieu) {
+    // Cette fonction n'est plus utilisée car on utilise directement le pays de la fiche
+    return 'Pays non spécifié';
+}
+*/
+
+function organizeContactsByCountry(contacts) {
+    const contactsByCountry = {};
+    
+    contacts.forEach(contact => {
+        // Extraire le pays de la fiche (colonne "Pays:")
+        let country = extractCountryFromRow(contact.rowIndex);
+        if (!country || country === 'Non spécifié') {
+            country = 'Pays non spécifié';
+        }
+        
+        if (!contactsByCountry[country]) {
+            contactsByCountry[country] = {
+                name: country,
+                contacts: [],
+                count: 0
+            };
+        }
+        
+        contactsByCountry[country].contacts.push(contact);
+        contactsByCountry[country].count++;
+    });
+    
+    // Trier les pays par nombre de contacts (décroissant)
+    const sortedCountries = Object.keys(contactsByCountry).sort((a, b) => 
+        contactsByCountry[b].count - contactsByCountry[a].count
+    );
+    
+    const sortedResult = {};
+    sortedCountries.forEach(country => {
+        // Trier les contacts par nom
+        contactsByCountry[country].contacts.sort((a, b) => 
+            a.nom.localeCompare(b.nom)
+        );
+        sortedResult[country] = contactsByCountry[country];
+    });
+    
+    return sortedResult;
+}
+
+// Nouvelle fonction pour extraire le pays de la fiche
+function extractCountryFromRow(rowIndex) {
+    if (rowIndex < 0 || rowIndex >= sheetData.length) {
+        return 'Pays non spécifié';
+    }
+    
+    const row = sheetData[rowIndex];
+    const paysIndex = findHeaderIndex('Pays:');
+    
+    if (paysIndex !== -1) {
+        const pays = row[paysIndex] || '';
+        return pays.trim() || 'Pays non spécifié';
+    }
+    
+    return 'Pays non spécifié';
+}
 function extractCountryFromLieu(lieu) {
     if (!lieu || lieu === 'Non spécifié') {
         return 'Pays non spécifié';
@@ -4500,9 +4555,9 @@ function filterContactsTable() {
             document.getElementById('contactsCount').textContent = `${filteredContacts.length} contact(s) trouvé(s)`;
         }
 
-function updateContactsTableByCountry(contactsByCountry) {
+function updateContactsTableByCountry(contactsByCountry, filter = '') {
     const tbody = document.getElementById('contactsTableBody');
-    const searchInput = document.getElementById('contactsSearchInput').value.toLowerCase();
+    const searchInput = filter || document.getElementById('contactsSearchInput').value.toLowerCase();
     tbody.innerHTML = '';
     
     let totalContacts = 0;
@@ -4520,7 +4575,8 @@ function updateContactsTableByCountry(contactsByCountry) {
             contact.telephone.toLowerCase().includes(searchInput) ||
             contact.whatsapp.toLowerCase().includes(searchInput) ||
             contact.mail.toLowerCase().includes(searchInput) ||
-            contact.lieu.toLowerCase().includes(searchInput)
+            contact.lieu.toLowerCase().includes(searchInput) ||
+            contact.pays.toLowerCase().includes(searchInput) // Recherche aussi par pays
         );
         
         if (filteredContacts.length === 0) return;
@@ -4575,14 +4631,14 @@ function updateContactsTableByCountry(contactsByCountry) {
             contact.telephone.toLowerCase().includes(searchInput) ||
             contact.whatsapp.toLowerCase().includes(searchInput) ||
             contact.mail.toLowerCase().includes(searchInput) ||
-            contact.lieu.toLowerCase().includes(searchInput)
+            contact.lieu.toLowerCase().includes(searchInput) ||
+            contact.pays.toLowerCase().includes(searchInput)
         )
     ).length;
     
     document.getElementById('contactsCount').textContent = 
         `${displayedContacts} contact(s) dans ${countriesCount} pays`;
 }
-
         function filterContactsTable() {
     const filter = document.getElementById('contactsSearchInput').value;
     const contactsByCountry = organizeContactsByCountry(allContacts);
@@ -10937,14 +10993,10 @@ function showActivitySummaryTable() {
     updateActivitySummaryTable();
 }
 function showGlobalActivityTable() {
-    if (!isAdmin) {
-        showUnlockBubble('admin');
-        return;
-    }
+    // SUPPRIMEZ la vérification admin - rendre accessible à tous
     showModal('globalActivityModal');
     updateGlobalActivityTable();
 }
-
 function updateGlobalActivityTable() {
     const container = document.getElementById('globalActivityTableBody');
     const filterSelect = document.getElementById('globalActivityFilter');
@@ -11132,21 +11184,22 @@ function updateGlobalActivityTable() {
             const color = colors[type.split('/')[0]] || colors[type] || colors['default'];
             
             typeSection.innerHTML = `
-                <div style="background: linear-gradient(to right, ${color}, ${color}dd); 
-                            color: white; padding: 15px 20px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h3 style="margin: 0; font-size: 1.3em; display: flex; align-items: center; gap: 10px;">
-                            <span style="background: rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 20px;">
-                                ${getActivityIcon(type)}
-                            </span>
-                            ${type}
-                        </h3>
-                        <span style="background: rgba(255,255,255,0.3); padding: 5px 15px; border-radius: 15px; 
-                                    font-weight: bold; font-size: 1.1em;">
-                            ${activities.length} activité(s)
-                        </span>
-                    </div>
-                </div>
+    <div style="background: linear-gradient(to right, ${color}, ${color}dd); 
+                color: white; padding: 8px 15px; min-height: 40px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; height: 100%;">
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 1em; font-weight: 600;">
+                <span style="background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 15px; font-size: 0.9em;">
+                    ${getActivityIcon(type)}
+                </span>
+                ${type}
+            </div>
+            <span style="background: rgba(255,255,255,0.3); padding: 3px 10px; border-radius: 12px; 
+                        font-weight: bold; font-size: 0.9em;">
+                ${activities.length} activité(s)
+            </span>
+        </div>
+    </div>
+
                 <div style="overflow-x: auto; padding: 0;">
                     <table style="width: 100%; border-collapse: collapse; font-size: 0.85em;">
                         <thead>
@@ -11668,15 +11721,15 @@ function exportGlobalActivityPDF() {
         const typeClass = getPDFActivityClass(type);
         const icon = getActivityIcon(type);
         
-        content += `
-            <div class="activity-section ${typeClass}">
-                <div class="activity-header">
-                    <h3 class="activity-title">
-                        <span class="icon">${icon}</span>
-                        ${type}
-                    </h3>
-                    <span class="activity-count">${activities.length} activité(s)</span>
-                </div>
+       content += `
+    <div class="activity-section ${typeClass}">
+        <div class="activity-header" style="padding: 10px 15px; min-height: 40px;">
+            <h3 class="activity-title" style="font-size: 16px; margin: 0; display: flex; align-items: center; gap: 8px;">
+                <span class="icon" style="padding: 3px 8px; font-size: 12px;">${icon}</span>
+                ${type}
+            </h3>
+            <span class="activity-count" style="padding: 3px 10px; font-size: 14px;">${activities.length} activité(s)</span>
+        </div>
                 
                 <table class="activity-table">
                     <thead>
@@ -12086,17 +12139,19 @@ function updateExportButtonsVisibility() {
             <button class="action-button secondary" onclick="showUnlockBubble('admin')" 
                     style="background: linear-gradient(135deg, #8e44ad, #7d3c98);
                            padding: 12px 20px;
-                           font-weight: 600;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 1.2em;">🔓</span>
-                    <div style="text-align: left;">
-                        <div style="font-size: 0.9em; font-weight: bold;">Accès administrateur requis</div>
-                        <div style="font-size: 0.75em; opacity: 0.9;">Cliquez pour déverrouiller</div>
-                    </div>
-                </div>
+                           font-weight: 600; opacity: 0.7; cursor: not-allowed;">
+                📊 Exporter CSV
+            </button>
+            <button class="action-button secondary" onclick="showUnlockBubble('admin')"
+                    style="background: linear-gradient(to bottom, #e74c3c, #c0392b); opacity: 0.7; cursor: not-allowed;">
+                📄 Exporter PDF
+            </button>
+            <button class="action-button primary" onclick="showUnlockBubble('admin')"
+                    style="background: linear-gradient(to bottom, #3498db, #2980b9); opacity: 0.7; cursor: not-allowed;">
+                📈 Exporter Excel
             </button>
         `;
-        console.log("🔒 Bouton déverrouillage affiché pour non-admin");
+        console.log("🔒 Boutons export désactivés pour non-admin");
     }
 }
         window.scrollToInterlocuteur = scrollToInterlocuteur;
