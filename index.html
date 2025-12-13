@@ -4312,6 +4312,81 @@ updateExportButtonsVisibility();
     return allContacts;
 }
 
+function organizeContactsByCountry(contacts) {
+    const contactsByCountry = {};
+    
+    contacts.forEach(contact => {
+        // Extraire le pays du lieu si possible
+        let country = extractCountryFromLieu(contact.lieu);
+        if (!country) {
+            country = 'Pays non spécifié';
+        }
+        
+        if (!contactsByCountry[country]) {
+            contactsByCountry[country] = {
+                name: country,
+                contacts: [],
+                count: 0
+            };
+        }
+        
+        contactsByCountry[country].contacts.push(contact);
+        contactsByCountry[country].count++;
+    });
+    
+    // Trier les pays par nombre de contacts (décroissant)
+    const sortedCountries = Object.keys(contactsByCountry).sort((a, b) => 
+        contactsByCountry[b].count - contactsByCountry[a].count
+    );
+    
+    const sortedResult = {};
+    sortedCountries.forEach(country => {
+        // Trier les contacts par nom
+        contactsByCountry[country].contacts.sort((a, b) => 
+            a.nom.localeCompare(b.nom)
+        );
+        sortedResult[country] = contactsByCountry[country];
+    });
+    
+    return sortedResult;
+}
+
+function extractCountryFromLieu(lieu) {
+    if (!lieu || lieu === 'Non spécifié') {
+        return 'Pays non spécifié';
+    }
+    
+    // Liste de pays européens à rechercher dans le lieu
+    const europeanCountries = [
+        'France', 'Allemagne', 'Italie', 'Espagne', 'Portugal', 'Belgique', 
+        'Pays-Bas', 'Suisse', 'Suède', 'Norvège', 'Danemark', 'Finlande',
+        'Autriche', 'République Tchèque', 'Pologne', 'Hongrie', 'Slovaquie',
+        'Slovénie', 'Croatie', 'Roumanie', 'Bulgarie', 'Grèce', 'Chypre',
+        'Malte', 'Luxembourg', 'Irlande', 'Royaume-Uni', 'UK', 'Angleterre'
+    ];
+    
+    for (const country of europeanCountries) {
+        if (lieu.toLowerCase().includes(country.toLowerCase())) {
+            return country;
+        }
+    }
+    
+    // Si pas trouvé, essayer de trouver un mot qui ressemble à un pays
+    const words = lieu.split(/[,\s]+/);
+    for (const word of words) {
+        if (word.length > 3) {
+            for (const country of europeanCountries) {
+                if (country.toLowerCase().includes(word.toLowerCase()) || 
+                    word.toLowerCase().includes(country.toLowerCase().substring(0, 4))) {
+                    return country;
+                }
+            }
+        }
+    }
+    
+    return 'Autres pays';
+}
+
 function extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex) {
     const contactInfo = {
         telephone: '',
@@ -4367,11 +4442,23 @@ function extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex) {
     return contactInfo;
 }
 
-        function showContactsTable() {
-            showModal('contactsModal');
-            updateContactsTable();
-        }
+// REMPLACEZ la fonction showContactsTable existante (ligne ~977)
+function showContactsTable() {
+    showModal('contactsModal');
+    
+    // Réorganiser les contacts par pays
+    const contactsByCountry = organizeContactsByCountry(allContacts);
+    
+    // Mettre à jour l'interface pour afficher par pays
+    updateContactsTableByCountry(contactsByCountry);
+}
 
+// REMPLACEZ la fonction filterContactsTable existante (ligne ~984)
+function filterContactsTable() {
+    const filter = document.getElementById('contactsSearchInput').value;
+    const contactsByCountry = organizeContactsByCountry(allContacts);
+    updateContactsTableByCountry(contactsByCountry, filter);
+}
         function updateContactsTable(filter = '') {
             const tbody = document.getElementById('contactsTableBody');
             tbody.innerHTML = '';
@@ -4413,88 +4500,336 @@ function extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex) {
             document.getElementById('contactsCount').textContent = `${filteredContacts.length} contact(s) trouvé(s)`;
         }
 
-        function filterContactsTable() {
-            const filter = document.getElementById('contactsSearchInput').value;
-            updateContactsTable(filter);
-        }
-
-        function exportContactsCSV() {
-            let csvContent = 'Nom,Téléphone,WhatsApp,Email,Lieu,Date\n';
+function updateContactsTableByCountry(contactsByCountry) {
+    const tbody = document.getElementById('contactsTableBody');
+    const searchInput = document.getElementById('contactsSearchInput').value.toLowerCase();
+    tbody.innerHTML = '';
+    
+    let totalContacts = 0;
+    let displayedContacts = 0;
+    
+    // Créer une vue détaillée avec sections par pays
+    Object.keys(contactsByCountry).forEach(country => {
+        const countryData = contactsByCountry[country];
+        totalContacts += countryData.count;
+        
+        // Filtrer les contacts de ce pays selon la recherche
+        const filteredContacts = countryData.contacts.filter(contact => 
+            searchInput === '' || 
+            contact.nom.toLowerCase().includes(searchInput) ||
+            contact.telephone.toLowerCase().includes(searchInput) ||
+            contact.whatsapp.toLowerCase().includes(searchInput) ||
+            contact.mail.toLowerCase().includes(searchInput) ||
+            contact.lieu.toLowerCase().includes(searchInput)
+        );
+        
+        if (filteredContacts.length === 0) return;
+        
+        displayedContacts += filteredContacts.length;
+        
+        // Créer une ligne d'en-tête pour le pays
+        const countryHeader = document.createElement('tr');
+        countryHeader.innerHTML = `
+            <td colspan="7" style="background: linear-gradient(to right, #3498db, #2980b9); color: white; padding: 15px; border-radius: 5px; font-weight: bold; font-size: 1.1em;">
+                🌍 ${country} 
+                <span style="background: rgba(255,255,255,0.3); padding: 3px 10px; border-radius: 15px; margin-left: 10px; font-size: 0.9em;">
+                    ${filteredContacts.length} contact${filteredContacts.length > 1 ? 's' : ''}
+                </span>
+                <button onclick="exportCountryContacts('${country}', contactsByCountry['${country}'].contacts)" 
+                        style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 5px; margin-left: 10px; cursor: pointer; font-size: 0.8em; float: right;">
+                    📄 Exporter ce pays
+                </button>
+            </td>
+        `;
+        tbody.appendChild(countryHeader);
+        
+        // Ajouter les contacts de ce pays
+        filteredContacts.forEach(contact => {
+            const row = document.createElement('tr');
             
-            allContacts.forEach(contact => {
-                csvContent += `"${contact.nom}","${contact.telephone}","${contact.whatsapp}","${contact.mail}","${contact.lieu}","${contact.date}"\n`;
-            });
-            
-            downloadFile(csvContent, 'contacts_tournee_2026.csv', 'text/csv');
-            alert('Contacts exportés en CSV');
-        }
-
-        function exportContactsPDF() {
-            const printWindow = window.open('', '_blank');
-            let content = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Contacts - Tournée Europe 2026 NY AKO</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; margin: 20px; }
-                        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-                        .contact-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-                        .contact-table th { background: #3498db; color: white; padding: 10px; text-align: left; }
-                        .contact-table td { padding: 8px 10px; border-bottom: 1px solid #ddd; }
-                        .contact-table tr:nth-child(even) { background: #f8f9fa; }
-                        .footer { margin-top: 30px; text-align: center; color: #7f8c8d; font-size: 0.9em; }
-                        @media print { body { margin: 10mm; } }
-                    </style>
-                </head>
-                <body>
-                    <h1>📇 Liste des Contacts - Tournée Europe 2026</h1>
-                    <p style="text-align: center;">Ministère Musical NY AKO - Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
-                    
-                    <table class="contact-table">
-                        <thead>
-                            <tr>
-                                <th>Nom</th>
-                                <th>Téléphone</th>
-                                <th>WhatsApp</th>
-                                <th>Email</th>
-                                <th>Lieu</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-            
-            allContacts.forEach(contact => {
-                content += `
-                    <tr>
-                        <td>${contact.nom}</td>
-                        <td>${contact.telephone || '-'}</td>
-                        <td>${contact.whatsapp || '-'}</td>
-                        <td>${contact.mail || '-'}</td>
-                        <td>${contact.lieu || '-'}</td>
-                        <td>${contact.date || '-'}</td>
-                    </tr>
-                `;
-            });
-            
-            content += `
-                        </tbody>
-                    </table>
-                    
-                    <div class="footer">
-                        <p><strong>Gloire au Seigneur !</strong></p>
-                        <p>"Que la grâce du Seigneur Jésus-Christ, l'amour de Dieu, et la communion du Saint-Esprit soient avec vous tous." (2 Corinthiens 13:13)</p>
-                        <p>NY AKO - Ministère Musical Évangélique</p>
+            row.innerHTML = `
+                <td><strong>${contact.nom}</strong></td>
+                <td>${contact.telephone || '-'}</td>
+                <td>${contact.whatsapp || '-'}</td>
+                <td>${contact.mail || '-'}</td>
+                <td>${contact.lieu || '-'}</td>
+                <td>${contact.date || '-'}</td>
+                <td>
+                    <div class="contact-action-buttons">
+                        <button class="contact-action-button view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\'")}')" title="Voir détails">👁️</button>
+                        ${contact.mail ? `<button class="contact-action-button email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
+                        ${contact.telephone ? `<button class="contact-action-button call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
                     </div>
-                </body>
-                </html>
+                </td>
             `;
             
-            printWindow.document.write(content);
-            printWindow.document.close();
-            printWindow.print();
+            tbody.appendChild(row);
+        });
+    });
+    
+    // Mettre à jour le compteur
+    const countriesCount = Object.keys(contactsByCountry).filter(country => 
+        contactsByCountry[country].contacts.some(contact => 
+            searchInput === '' || 
+            contact.nom.toLowerCase().includes(searchInput) ||
+            contact.telephone.toLowerCase().includes(searchInput) ||
+            contact.whatsapp.toLowerCase().includes(searchInput) ||
+            contact.mail.toLowerCase().includes(searchInput) ||
+            contact.lieu.toLowerCase().includes(searchInput)
+        )
+    ).length;
+    
+    document.getElementById('contactsCount').textContent = 
+        `${displayedContacts} contact(s) dans ${countriesCount} pays`;
+}
+
+        function filterContactsTable() {
+    const filter = document.getElementById('contactsSearchInput').value;
+    const contactsByCountry = organizeContactsByCountry(allContacts);
+    updateContactsTableByCountry(contactsByCountry, filter);
+}
+
+      // REMPLACEZ la fonction exportContactsCSV existante (ligne ~1000)
+function exportContactsCSV() {
+    const contactsByCountry = organizeContactsByCountry(allContacts);
+    let csvContent = '';
+    
+    // Exporter chaque pays dans un bloc séparé
+    Object.keys(contactsByCountry).forEach(country => {
+        const countryContacts = contactsByCountry[country].contacts;
+        
+        csvContent += `\n\n=== ${country} (${countryContacts.length} contacts) ===\n`;
+        csvContent += 'Nom,Téléphone,WhatsApp,Email,Lieu,Date\n';
+        
+        countryContacts.forEach(contact => {
+            csvContent += `"${contact.nom}","${contact.telephone || ''}","${contact.whatsapp || ''}","${contact.mail || ''}","${contact.lieu || ''}","${contact.date || ''}"\n`;
+        });
+    });
+    
+    // Ajouter un résumé
+    csvContent += `\n\n=== RÉSUMÉ GLOBAL ===\n`;
+    csvContent += `Total contacts: ${allContacts.length}\n`;
+    csvContent += `Nombre de pays: ${Object.keys(contactsByCountry).length}\n`;
+    csvContent += `Date d'export: ${new Date().toLocaleDateString('fr-FR')}\n`;
+    
+    downloadFile(csvContent, 'contacts_par_pays_tournee_2026.csv', 'text/csv');
+    alert(`Contacts exportés par pays : ${allContacts.length} contacts dans ${Object.keys(contactsByCountry).length} pays`);
+}
+
+// REMPLACEZ la fonction exportContactsPDF existante (ligne ~1030)
+function exportContactsPDF() {
+    const contactsByCountry = organizeContactsByCountry(allContacts);
+    const printWindow = window.open('', '_blank');
+    
+    let content = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Contacts par pays - Tournée Europe 2026 NY AKO</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+                .country-section { margin-bottom: 30px; page-break-inside: avoid; }
+                .country-header { background: linear-gradient(to right, #3498db, #2980b9); color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+                .contact-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+                .contact-table th { background: #2c3e50; color: white; padding: 10px; text-align: left; }
+                .contact-table td { padding: 8px 10px; border-bottom: 1px solid #ddd; }
+                .contact-table tr:nth-child(even) { background: #f8f9fa; }
+                .summary-box { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #3498db; }
+                .footer { margin-top: 30px; text-align: center; color: #7f8c8d; font-size: 0.9em; }
+                .page-break { page-break-before: always; }
+                @media print { body { margin: 10mm; } .country-section { page-break-inside: avoid; } }
+            </style>
+        </head>
+        <body>
+            <h1>📇 Contacts par pays - Tournée Europe 2026</h1>
+            <p style="text-align: center;">Ministère Musical NY AKO - Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+            
+            <div class="summary-box">
+                <h3>📊 Résumé global</h3>
+                <ul>
+                    <li><strong>Total contacts :</strong> ${allContacts.length}</li>
+                    <li><strong>Nombre de pays :</strong> ${Object.keys(contactsByCountry).length}</li>
+                    <li><strong>Export complet par pays</strong></li>
+                </ul>
+            </div>
+    `;
+    
+    Object.keys(contactsByCountry).forEach((country, index) => {
+        const countryData = contactsByCountry[country];
+        
+        content += `
+            <div class="country-section">
+                <div class="country-header">
+                    <h2 style="margin: 0;">🌍 ${country}</h2>
+                    <p style="margin: 5px 0 0 0; font-size: 1.1em;">${countryData.count} contact(s)</p>
+                </div>
+                
+                <table class="contact-table">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Téléphone</th>
+                            <th>WhatsApp</th>
+                            <th>Email</th>
+                            <th>Lieu</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        countryData.contacts.forEach(contact => {
+            content += `
+                <tr>
+                    <td><strong>${contact.nom}</strong></td>
+                    <td>${contact.telephone || '-'}</td>
+                    <td>${contact.whatsapp || '-'}</td>
+                    <td>${contact.mail || '-'}</td>
+                    <td>${contact.lieu || '-'}</td>
+                    <td>${contact.date || '-'}</td>
+                </tr>
+            `;
+        });
+        
+        content += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+        
+        // Ajouter un saut de page après 3 pays (pour une meilleure lisibilité)
+        if ((index + 1) % 3 === 0 && index !== Object.keys(contactsByCountry).length - 1) {
+            content += `<div class="page-break"></div>`;
         }
+    });
+    
+    content += `
+            <div class="footer">
+                <p><strong>Gloire au Seigneur !</strong></p>
+                <p>"Que la grâce du Seigneur Jésus-Christ, l'amour de Dieu, et la communion du Saint-Esprit soient avec vous tous." (2 Corinthiens 13:13)</p>
+                <p>NY AKO - Ministère Musical Évangélique</p>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    printWindow.document.write(content);
+    printWindow.document.close();
+    printWindow.print();
+}
+
+function exportCountryContacts(countryName, contacts) {
+    if (contacts.length === 0) {
+        alert('Aucun contact à exporter pour ce pays');
+        return;
+    }
+    
+    const format = confirm(`Exporter les contacts de ${countryName} ?\n\nOK = PDF\nAnnuler = CSV`) ? 'pdf' : 'csv';
+    
+    if (format === 'pdf') {
+        exportCountryContactsPDF(countryName, contacts);
+    } else {
+        exportCountryContactsCSV(countryName, contacts);
+    }
+}
+
+function exportCountryContactsPDF(countryName, contacts) {
+    const printWindow = window.open('', '_blank');
+    
+    let content = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Contacts ${countryName} - Tournée Europe 2026</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+                .country-header { background: #3498db; color: white; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; }
+                .contact-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
+                .contact-table th { background: #2c3e50; color: white; padding: 10px; text-align: left; }
+                .contact-table td { padding: 8px 10px; border-bottom: 1px solid #ddd; }
+                .contact-table tr:nth-child(even) { background: #f8f9fa; }
+                .summary-box { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #3498db; }
+                .footer { margin-top: 30px; text-align: center; color: #7f8c8d; font-size: 0.9em; }
+                @media print { body { margin: 10mm; } }
+            </style>
+        </head>
+        <body>
+            <h1>📇 Contacts - ${countryName}</h1>
+            <p style="text-align: center;">Ministère Musical NY AKO - Tournée Europe 2026</p>
+            <p style="text-align: center;">Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+            
+            <div class="country-header">
+                <h2 style="margin: 0;">🌍 ${countryName}</h2>
+                <p style="margin: 5px 0 0 0; font-size: 1.1em;">${contacts.length} contact(s)</p>
+            </div>
+            
+            <div class="summary-box">
+                <p><strong>📊 Statistiques :</strong></p>
+                <ul>
+                    <li>Contacts avec téléphone : ${contacts.filter(c => c.telephone).length}</li>
+                    <li>Contacts avec WhatsApp : ${contacts.filter(c => c.whatsapp).length}</li>
+                    <li>Contacts avec email : ${contacts.filter(c => c.mail).length}</li>
+                    <li>Contacts complets (téléphone + email) : ${contacts.filter(c => c.telephone && c.mail).length}</li>
+                </ul>
+            </div>
+            
+            <table class="contact-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Téléphone</th>
+                        <th>WhatsApp</th>
+                        <th>Email</th>
+                        <th>Lieu</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+    
+    contacts.forEach(contact => {
+        content += `
+            <tr>
+                <td><strong>${contact.nom}</strong></td>
+                <td>${contact.telephone || '-'}</td>
+                <td>${contact.whatsapp || '-'}</td>
+                <td>${contact.mail || '-'}</td>
+                <td>${contact.lieu || '-'}</td>
+                <td>${contact.date || '-'}</td>
+            </tr>
+        `;
+    });
+    
+    content += `
+                </tbody>
+            </table>
+            
+            <div class="footer">
+                <p><strong>NY AKO - Ministère Musical Évangélique</strong></p>
+                <p>"Que la grâce du Seigneur Jésus-Christ, l'amour de Dieu, et la communion du Saint-Esprit soient avec vous tous." (2 Corinthiens 13:13)</p>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    printWindow.document.write(content);
+    printWindow.document.close();
+    printWindow.print();
+}
+
+function exportCountryContactsCSV(countryName, contacts) {
+    let csvContent = `Nom,Téléphone,WhatsApp,Email,Lieu,Date\n`;
+    
+    contacts.forEach(contact => {
+        csvContent += `"${contact.nom}","${contact.telephone || ''}","${contact.whatsapp || ''}","${contact.mail || ''}","${contact.lieu || ''}","${contact.date || ''}"\n`;
+    });
+    
+    const filename = `contacts_${countryName.replace(/[^a-zA-Z0-9]/g, '_')}_tournee_2026.csv`;
+    downloadFile(csvContent, filename, 'text/csv');
+    alert(`Contacts de ${countryName} exportés : ${contacts.length} contact(s)`);
+}
 
        function generateSearchSuggestions() {
     searchSuggestions = [];
@@ -5099,6 +5434,7 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
     container.innerHTML = '';
     
     const isMobile = window.innerWidth <= 768;
+    const isTablet = window.innerWidth <= 1024 && window.innerWidth > 768;
     
     if (isMobile) {
         container.className = 'activity-stats-mobile';
@@ -5124,22 +5460,41 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
             statDiv.appendChild(valueDiv);
             statDiv.appendChild(labelDiv);
             
-            // Ajouter un menu contextuel au clic droit
-            statDiv.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-                showActivityMenu(type, e.clientX, e.clientY);
-            });
-            
-            // Clic gauche pour filtrer
+            // GESTION UNIFIÉE POUR TOUTES LES PLATEFORMES :
+            // Au clic gauche, afficher le menu d'options selon l'appareil
             statDiv.addEventListener('click', function(e) {
-                if (e.ctrlKey || e.metaKey) {
-                    // Clic avec Ctrl pour afficher directement les lieux
-                    showActivityLieux(type);
-                } else {
-                    // Clic normal pour filtrer
-                    filterByActivityType(type);
+                // Empêcher le comportement par défaut du clic
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Pour mobile, on utilise un modal spécifique
+                if (isMobile) {
+                    showMobileActivityOptions(type);
+                } 
+                // Pour tablette et ordinateur, on affiche le menu contextuel
+                else {
+                    showActivityMenu(type, e.clientX, e.clientY);
                 }
             });
+            
+            // Conserver le clic droit pour ordinateur (optionnel)
+            if (!isMobile && !isTablet) {
+                statDiv.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                    showActivityMenu(type, e.clientX, e.clientY);
+                });
+            }
+            
+            // Clic avec Ctrl pour afficher directement les lieux (ordinateur uniquement)
+            if (!isMobile && !isTablet) {
+                statDiv.addEventListener('click', function(e) {
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showActivityLieux(type);
+                    }
+                });
+            }
             
             container.appendChild(statDiv);
         }
@@ -5147,14 +5502,6 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
 }
 
 function showActivityMenu(activityType, x, y) {
-      // Vérifier si on est sur mobile
-    const isMobile = window.innerWidth <= 768;
-    
-    if (isMobile) {
-        // Version mobile simplifiée
-        showMobileActivityOptions(activityType);
-        return;
-    }
     const existingMenu = document.getElementById('activityContextMenu');
     if (existingMenu) {
         existingMenu.remove();
@@ -5211,7 +5558,7 @@ function showActivityMenu(activityType, x, y) {
         showActivityLieux(activityType);
         menu.remove();
     };
-        // OPTION 3 À AJOUTER APRÈS L'OPTION 2 :
+    
     // Option 3 : Voir tableau des activités
     const option3 = document.createElement('div');
     option3.style.cssText = `
@@ -5229,6 +5576,7 @@ function showActivityMenu(activityType, x, y) {
         showActivityTable(activityType);
         menu.remove();
     };
+    
     // Séparateur
     const separator = document.createElement('div');
     separator.style.cssText = `
@@ -5255,7 +5603,7 @@ function showActivityMenu(activityType, x, y) {
     
     menu.appendChild(option1);
     menu.appendChild(option2);
-menu.appendChild(option3);
+    menu.appendChild(option3);
     menu.appendChild(separator);
     menu.appendChild(optionClose);
     
@@ -5271,8 +5619,7 @@ menu.appendChild(option3);
     setTimeout(() => {
         document.addEventListener('click', closeMenu);
     }, 100);
-}
-function showMobileActivityOptions(activityType) {
+}function showMobileActivityOptions(activityType) {
     // Créer un modal simple pour mobile
     const modal = document.createElement('div');
     modal.id = 'mobileActivityModal';
@@ -5324,14 +5671,16 @@ function showMobileActivityOptions(activityType) {
                     <div style="font-size: 0.9em; color: #7f8c8d;">Liste des lieux où ça s'est passé</div>
                 </div>
             </div>
-          <div style="padding: 20px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; gap: 15px; cursor: pointer;"
-             onclick="showActivityTable('${activityType}'); document.getElementById('mobileActivityModal')?.remove();">
-            <div style="font-size: 1.5em;">📊</div>
-            <div>
-                <div style="font-weight: 600;">Voir tableau complet</div>
-                <div style="font-size: 0.9em; color: #7f8c8d;">Avec export PDF/Excel</div>
+            
+            <div style="padding: 20px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; gap: 15px; cursor: pointer;"
+                 onclick="showActivityTable('${activityType}'); document.getElementById('mobileActivityModal')?.remove();">
+                <div style="font-size: 1.5em;">📊</div>
+                <div>
+                    <div style="font-weight: 600;">Voir tableau complet</div>
+                    <div style="font-size: 0.9em; color: #7f8c8d;">Avec export PDF/Excel</div>
+                </div>
             </div>
-        </div>          
+            
             <div style="padding: 20px; display: flex; align-items: center; gap: 15px; cursor: pointer; color: #e74c3c;"
                  onclick="document.getElementById('mobileActivityModal')?.remove();">
                 <div style="font-size: 1.5em;">✕</div>
@@ -5349,8 +5698,7 @@ function showMobileActivityOptions(activityType) {
             modal.remove();
         }
     });
-}
-// =============== NOUVELLE FONCTION : TABLEAU DES ACTIVITÉS ===============
+}// =============== NOUVELLE FONCTION : TABLEAU DES ACTIVITÉS ===============
 
 function showActivityTable(activityType) {
     console.log(`📊 Préparation du tableau pour ${activityType}`);
