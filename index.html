@@ -3933,7 +3933,7 @@ document.getElementById('showGlobalActivityTableButton').addEventListener('click
                             <button class="admin-button" id="groupEmailButton">📧 Envoi mail groupé</button>
                             <button class="admin-button" id="exportDataButton">💾 Exporter les données</button>
                             <button class="admin-button" id="selectiveExportButton">📄 Export sélectif</button>
-                            <button class="admin-button" id="exportBookButton">📚 Exporter tout en livre PDF</button>
+                            <button class="admin-button" id="exportBookButton">📚 Gérer participants + Exporter PDF</button>
                             <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
                             <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
 			<button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
@@ -3946,7 +3946,7 @@ document.getElementById('showGlobalActivityTableButton').addEventListener('click
                 document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
                 document.getElementById('exportDataButton').addEventListener('click', showExportModal);
                 document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
-                document.getElementById('exportBookButton').addEventListener('click', exportToBookPDF);
+                                document.getElementById('exportBookButton').addEventListener('click', manageParticipantsForBook);
                 document.getElementById('publicListsButton').addEventListener('click', showListsModal);
                 document.getElementById('showContactsButton').addEventListener('click', showContactsTable);
 
@@ -3984,9 +3984,9 @@ document.getElementById('showGlobalActivityTableButton').addEventListener('click
             document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
             document.getElementById('exportDataButton').addEventListener('click', showExportModal);
             document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
-            document.getElementById('exportBookButton').addEventListener('click', exportToBookPDF);
-            document.getElementById('publicListsButton').addEventListener('click', showListsModal);
-            document.getElementById('showContactsButton').addEventListener('click', showContactsTable);
+                            document.getElementById('exportBookButton').addEventListener('click', manageParticipantsForBook);
+                document.getElementById('publicListsButton').addEventListener('click', showListsModal);
+                document.getElementById('showContactsButton').addEventListener('click', showContactsTable);
   document.getElementById('showActivitySummaryButton').addEventListener('click', showActivitySummaryTable);          
             renderCalendar();
             
