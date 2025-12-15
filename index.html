@@ -499,20 +499,24 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
-        .programme-list {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid var(--secondary-color);
-        }
+      .programme-list {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--secondary-color);
+    grid-column: 1 / -1;  /* <-- AJOUTEZ CETTE LIGNE */
+}
         
-        .programme-item {
-            margin-bottom: 8px;
-            padding: 8px 12px;
-            background: white;
-            border-radius: 6px;
-            border-left: 3px solid var(--accent-color);
-        }
+       .programme-item {
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 6px;
+    border-left: 3px solid var(--accent-color);
+    font-family: "Brush Script MT", cursive;  /* <-- AJOUTEZ CETTE LIGNE */
+    font-weight: bold;                        /* <-- AJOUTEZ CETTE LIGNE */
+    font-size: 1.1em;                         /* <-- AJOUTEZ CETTE LIGNE */
+}
         
         .programme-item:last-child {
             margin-bottom: 0;
