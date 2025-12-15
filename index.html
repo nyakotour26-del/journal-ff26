@@ -499,12 +499,14 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
-      .programme-list {
+   .programme-list {
     background-color: #f8f9fa;
     padding: 15px;
     border-radius: 8px;
     border-left: 4px solid var(--secondary-color);
-    grid-column: 1 / -1;  /* <-- AJOUTEZ CETTE LIGNE */
+    grid-column: 1 / -1;  /* Prend toute la largeur */
+    width: 100%;  /* <-- AJOUTER CETTE LIGNE */
+    margin: 0;  /* <-- AJOUTER CETTE LIGNE */
 }
         
        .programme-item {
@@ -2315,9 +2317,27 @@ margin-left: 5px; /* Petit espace après le texte */
                 max-height: 50px;
             }
             
-            .info-grid-mobile {
-                grid-template-columns: 1fr 1fr;
-            }
+                /* Pour la section "Au Programme" sur mobile */
+    .info-grid-mobile .programme-list {
+        width: 100vw;  /* Prend toute la largeur de l'écran */
+        margin-left: -20px;  /* Compense le padding du conteneur */
+        margin-right: -20px;  /* Compense le padding du conteneur */
+        border-radius: 0;  /* Retire les coins arrondis pour un look plus large */
+        border-left: none;  /* Retire la bordure gauche */
+        border-top: 3px solid var(--secondary-color);  /* Ajoute une bordure en haut */
+        border-bottom: 3px solid var(--secondary-color);  /* Ajoute une bordure en bas */
+    }
+    
+    /* Pour les éléments individuels du programme */
+    .programme-item {
+        font-size: 1.2em;  /* Taille de police augmentée */
+        padding: 12px 15px;  /* Plus d'espacement */
+        margin-bottom: 10px;  /* Plus d'espace entre les éléments */
+        background: white;  /* Fond blanc pour mieux voir */
+        border-radius: 10px;  /* Coins arrondis */
+        border-left: 4px solid var(--accent-color);  /* Bordure colorée */
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);  /* Ombre pour profondeur */
+    }
             
             .lieux-info {
                 grid-template-columns: 1fr 1fr;
