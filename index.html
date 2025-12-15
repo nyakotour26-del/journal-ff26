@@ -9210,6 +9210,11 @@ function updateShowAllButtonVisibility() {
             });
             
             console.log(`   📊 ${fieldsFound} champs trouvés pour ${prefix}`);
+    // Ajouter la date de la fiche
+    const dateIndex = findHeaderIndex('Date:');
+    if (dateIndex !== -1) {
+        data.date = row[dateIndex] || '';
+    }
             return data;
         }
 
@@ -9220,14 +9225,36 @@ function updateShowAllButtonVisibility() {
             const activityTitle = document.createElement('h4');
             activityTitle.className = 'activity-title concert-title';
             
-            let title = `${concertPrefix}`;
-            if (activityData.lieux) {
-                title += ` à ${activityData.lieux}`;
-            } else {
-                title += ` à Lieu non spécifié`;
-            }
-            
-            activityTitle.textContent = title;
+                // Extraire le numéro du concert (ex: "CONCERT 1" -> "1")
+    const concertNumber = concertPrefix.match(/\d+/)?.[0] || '';
+    
+    // Créer le titre avec numéro à gauche et date à droite
+    let titleHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="background: #e74c3c; color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.9em; font-weight: bold;">
+                    Concert ${concertNumber}
+                </span>
+                <span style="color: #e74c3c; font-weight: bold; font-size: 1.1em;">
+                    ${concertPrefix}
+    `;
+    
+    if (activityData.lieux) {
+        titleHTML += ` à ${activityData.lieux}`;
+    } else {
+        titleHTML += ` à Lieu non spécifié`;
+    }
+    
+    titleHTML += `
+                </span>
+            </div>
+            <div style="color: #666; font-size: 0.85em; font-style: italic;">
+                ${activityData.date || ''}
+            </div>
+        </div>
+    `;
+    
+    activityTitle.innerHTML = titleHTML;
             sectionDiv.appendChild(activityTitle);
             
             if (activityData.heureDebut || activityData.heureFin) {
@@ -9398,15 +9425,37 @@ function updateShowAllButtonVisibility() {
             const activityTitle = document.createElement('h4');
             activityTitle.className = 'activity-title activity-type';
             
-            let title = activityType;
-            if (activityData.interlocuteur) {
-                title += ` - ${activityData.interlocuteur}`;
-            }
-            if (activityData.lieux) {
-                title += ` à ${activityData.lieux}`;
-            }
-            
-            activityTitle.textContent = title;
+                // Extraire le numéro de l'activité (ex: "ACTIVITÉ 1" -> "1")
+    const activityNumber = activityPrefix.match(/\d+/)?.[0] || '';
+    
+    // Créer le titre avec numéro à gauche et date à droite
+    let titleHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="background: #e74c3c; color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.9em; font-weight: bold;">
+                    Activité ${activityNumber}
+                </span>
+                <span style="color: #e74c3c; font-weight: bold; font-size: 1.1em;">
+                    ${activityType}
+    `;
+    
+    if (activityData.interlocuteur) {
+        titleHTML += ` - ${activityData.interlocuteur}`;
+    }
+    if (activityData.lieux) {
+        titleHTML += ` à ${activityData.lieux}`;
+    }
+    
+    titleHTML += `
+                </span>
+            </div>
+            <div style="color: #666; font-size: 0.85em; font-style: italic;">
+                ${activityData.date || ''}
+            </div>
+        </div>
+    `;
+    
+    activityTitle.innerHTML = titleHTML;
             sectionDiv.appendChild(activityTitle);
             
             if (activityData.heureDebut || activityData.heureFin) {
