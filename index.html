@@ -10828,8 +10828,26 @@ function updateShowAllButtonVisibility() {
                         .entry { margin-bottom: 40px; padding: 25px; border: 1px solid #ddd; border-radius: 10px; background: #f9f9f9; page-break-inside: avoid; }
                         .entry-header { background: #3498db; color: white; padding: 20px; margin: -25px -25px 25px -25px; border-radius: 10px 10px 0 0; }
                         .section { margin-bottom: 25px; }
-                        .activity-details { background: white; padding: 20px; margin: 15px 0; border-radius: 8px; border-left: 5px solid #3498db; }
-                        .activity-title { color: #e67e22; font-size: 1.2em; }
+                        .activity-section { 
+    margin-bottom: 25px; 
+    padding: 20px; 
+    background: #f8f9fa; 
+    border-radius: 10px; 
+    border-left: 6px solid #3498db; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    page-break-inside: avoid;
+}
+.activity-title { 
+    font-size: 1.3em; 
+    color: #2c3e50; 
+    margin-bottom: 20px; 
+    padding: 15px; 
+    border-radius: 8px; 
+    border-bottom: 2px solid rgba(0,0,0,0.1); 
+    font-weight: 700; 
+    text-align: center; 
+    background-color: #fce4ec;
+}
                         .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 30px 0; }
                         .stat-item { text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px; }
                         .stat-value { font-size: 2em; font-weight: bold; color: #3498db; }
@@ -11642,55 +11660,226 @@ function exportBookPDFWithParticipants(selectedParticipants, includeList = true,
 // Chercher dans exportToBookPDF() la partie qui génère la liste des participants
 // Remplacer TOUR_PARTICIPANTS par window.selectedParticipantsForExport si défini
         function createBookActivityContent(activityData, prefix) {
-            let content = `<div class="activity-details">`;
-            content += `<h4 class="activity-title">${prefix}: ${activityData.type || 'Activité'}</h4>`;
+    // RÉPLIQUE EXACTE de la présentation des fiches
+    let content = `<div class="activity-section" style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 6px solid #3498db; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">`;
+    
+    // Titre comme dans les fiches
+    content += `<h4 class="activity-title" style="font-size: 1.3em; color: #2c3e50; margin-bottom: 20px; padding: 15px; border-radius: 8px; border-bottom: 2px solid rgba(0,0,0,0.1); font-weight: 700; text-align: center; background-color: #fce4ec;">`;
+    
+    if (prefix.includes('CONCERT')) {
+        content += `<span style="color: #e67e22;">🎵 ${prefix}</span>`;
+    } else {
+        content += `<span style="color: #2c3e50;">📅 ${prefix}: ${activityData.type || 'Activité'}</span>`;
+    }
+    content += `</h4>`;
+    
+    // Groupe d'heures (EXACTEMENT comme les fiches)
+    if (activityData.heureDebut || activityData.heureFin) {
+        content += `<div style="display: flex; gap: 15px; margin-bottom: 20px;">`;
+        
+        if (activityData.heureDebut) {
+            content += `
+                <div style="flex: 1; background: #f8f9fa; padding: 10px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 50px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 0.8em;">🕐</span>
+                        <span style="font-size: 0.8em; color: #7f8c8d;">Heure début</span>
+                    </div>
+                    <span style="font-size: 1.1em; font-weight: 700; color: #27ae60; margin-top: 5px;">${activityData.heureDebut}</span>
+                </div>
+            `;
+        }
+        
+        if (activityData.heureFin) {
+            content += `
+                <div style="flex: 1; background: #f8f9fa; padding: 10px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 50px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 0.8em;">🕔</span>
+                        <span style="font-size: 0.8em; color: #7f8c8d;">Heure fin</span>
+                    </div>
+                    <span style="font-size: 1.1em; font-weight: 700; color: #27ae60; margin-top: 5px;">${activityData.heureFin}</span>
+                </div>
+            `;
+        }
+        
+        content += `</div>`;
+    }
+    
+    // Lieux (EXACTEMENT comme les fiches)
+    if (activityData.lieux || activityData.trajet || activityData.dureeTrajet || activityData.distanceTrajet) {
+        content += `<h5 style="font-size: 1.2em; color: #3498db; margin: 20px 0 15px; padding-left: 15px; border-left: 4px solid #3498db; font-weight: 600;">Concernant les lieux:</h5>`;
+        
+        content += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">`;
+        
+        if (activityData.lieux) {
+            content += `
+                <div style="background: #f8f9fa; padding: 10px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 1.2em; color: #ff9800;">📍</span>
+                        <span style="font-size: 0.85em; color: #7f8c8d;">Lieux</span>
+                    </div>
+                    <span style="font-size: 1.1em; font-weight: 700; color: #ff9800; margin-top: 5px;">${activityData.lieux}</span>
+                </div>
+            `;
+        }
+        
+        if (activityData.trajet) {
+            content += `
+                <div style="background: #f8f9fa; padding: 10px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 1.2em; color: #ff9800;">🛣️</span>
+                        <span style="font-size: 0.85em; color: #7f8c8d;">Trajet</span>
+                    </div>
+                    <span style="font-size: 1.1em; font-weight: 700; color: #ff9800; margin-top: 5px;">${activityData.trajet}</span>
+                </div>
+            `;
+        }
+        
+        // Durée et distance (EXACTEMENT comme les fiches)
+        if (activityData.dureeTrajet || activityData.distanceTrajet) {
+            content += `<div style="grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">`;
             
-            if (activityData.heureDebut || activityData.heureFin) {
-                content += `<p><strong>🕐 Horaires:</strong> ${activityData.heureDebut || ''} - ${activityData.heureFin || ''}</p>`;
+            if (activityData.dureeTrajet) {
+                content += `
+                    <div style="background: #f8f9fa; padding: 6px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
+                        <div style="font-size: 1.5em; margin-bottom: 8px;">⏱️</div>
+                        <div style="font-size: 0.9em; color: #7f8c8d; margin-bottom: 5px;">Durée trajet</div>
+                        <div style="font-size: 1.1em; font-weight: 700; color: #2c3e50;">${formatHours(parseDurationToHours(activityData.dureeTrajet))}</div>
+                    </div>
+                `;
             }
             
-            if (activityData.lieux) {
-                content += `<p><strong>📍 Lieux:</strong> ${activityData.lieux}</p>`;
-            }
-            
-            if (activityData.trajet) {
-                content += `<p><strong>🛣️ Trajet:</strong> ${activityData.trajet}</p>`;
-            }
-            
-            if (activityData.dureeTrajet || activityData.distanceTrajet) {
-                content += `<p><strong>📏 Déplacement:</strong> `;
-                if (activityData.dureeTrajet) {
-                    content += `${formatHours(parseDurationToHours(activityData.dureeTrajet))}`;
-                }
-                if (activityData.distanceTrajet) {
-                    content += ` • ${activityData.distanceTrajet} Km`;
-                }
-                content += `</p>`;
-            }
-            
-            if (activityData.details) {
-                content += `<p><strong>📋 Détails:</strong> ${activityData.details}</p>`;
-            }
-            
-            if (activityData.faits) {
-                content += `<p><strong>🌟 Faits marquants:</strong> ${activityData.faits}</p>`;
-            }
-            
-            if (activityData.observations) {
-                content += `<p><strong>👁️ Observations:</strong> ${activityData.observations}</p>`;
-            }
-            
-            if (activityData.nbParticipant) {
-                content += `<p><strong>👥 Nombre de participants:</strong> ${activityData.nbParticipant} personne(s)</p>`;
-            }
-            
-            if (activityData.interlocuteur) {
-                content += `<p><strong>🤝 Interlocuteur:</strong> ${activityData.interlocuteur}</p>`;
+            if (activityData.distanceTrajet) {
+                content += `
+                    <div style="background: #f8f9fa; padding: 6px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
+                        <div style="font-size: 1.5em; margin-bottom: 8px;">📏</div>
+                        <div style="font-size: 0.9em; color: #7f8c8d; margin-bottom: 5px;">Distance trajet</div>
+                        <div style="font-size: 1.1em; font-weight: 700; color: #2c3e50;">${activityData.distanceTrajet} Km</div>
+                    </div>
+                `;
             }
             
             content += `</div>`;
-            return content;
         }
+        
+        content += `</div>`;
+    }
+    
+    // Notes (EXACTEMENT comme les fiches)
+    if (activityData.details || activityData.faits || activityData.observations) {
+        content += `<h5 style="font-size: 1.2em; color: #3498db; margin: 20px 0 15px; padding-left: 15px; border-left: 4px solid #3498db; font-weight: 600;">Notes:</h5>`;
+        
+        if (activityData.details) {
+            content += `
+                <div style="background-color: #fff9c4; border: 2px solid #ffd54f; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
+                    <div style="font-weight: 700; margin-bottom: 12px; color: #2c3e50; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
+                        <span>📝</span> Détails sur l'activité:
+                    </div>
+                    <div>${activityData.details.replace(/\n/g, '<br>')}</div>
+                </div>
+            `;
+        }
+        
+        if (activityData.faits) {
+            content += `
+                <div style="background-color: #fff9c4; border: 2px solid #ffd54f; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
+                    <div style="font-weight: 700; margin-bottom: 12px; color: #2c3e50; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
+                        <span>🌟</span> Faits marquants et Anecdote:
+                    </div>
+                    <div>${activityData.faits.replace(/\n/g, '<br>')}</div>
+                </div>
+            `;
+        }
+        
+        if (activityData.observations) {
+            content += `
+                <div style="background-color: #fff9c4; border: 2px solid #ffd54f; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
+                    <div style="font-weight: 700; margin-bottom: 12px; color: #2c3e50; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
+                        <span>👁️</span> Observations:
+                    </div>
+                    <div>${activityData.observations.replace(/\n/g, '<br>')}</div>
+                </div>
+            `;
+        }
+    }
+    
+    // Participants (EXACTEMENT comme les fiches)
+    if (activityData.nbParticipant) {
+        content += `
+            <div style="font-size: 1.2em; font-weight: 700; color: #e74c3c; padding: 12px; background: #f8f9fa; border-radius: 8px; text-align: left; border: 1px solid #e9ecef; margin: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <strong>Nb participant:</strong> ${activityData.nbParticipant} personne(s)
+            </div>
+        `;
+    }
+    
+    // Contacts (EXACTEMENT comme les fiches)
+    if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || activityData.mail) {
+        content += `
+            <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 20px; border-radius: 10px; margin-top: 15px; border: 2px solid #ddd;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ddd;">
+                    <span style="font-size: 1.2em;">📞</span>
+                    <h4 style="margin: 0; color: #2c3e50; font-size: 1.2em;">Information sur Interlocuteur ,hôte</h4>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+        `;
+        
+        if (activityData.interlocuteur) {
+            content += `
+                <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <span style="font-size: 1.2em;">👤</span>
+                    <span style="flex: 1; font-weight: 500;">${activityData.interlocuteur}</span>
+                </div>
+            `;
+        }
+        
+        if (activityData.telephone) {
+            const tels = activityData.telephone.split(/[,;]/).map(tel => tel.trim()).filter(tel => tel);
+            tels.forEach(tel => {
+                content += `
+                    <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <span style="font-size: 1.2em; color: #3498db;">📞</span>
+                        <span style="flex: 1; font-weight: 500;">
+                            <a href="tel:${tel}" style="color: #3498db; text-decoration: none;">${tel}</a>
+                        </span>
+                    </div>
+                `;
+            });
+        }
+        
+        if (activityData.whatsapp) {
+            const whatsapps = activityData.whatsapp.split(/[,;]/).map(num => num.trim()).filter(num => num);
+            whatsapps.forEach(num => {
+                content += `
+                    <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <span style="font-size: 1.2em; color: #25D366;">💬</span>
+                        <span style="flex: 1; font-weight: 500;">
+                            <a href="https://wa.me/${num.replace(/[^\d+]/g, '')}" style="color: #25D366; text-decoration: none;" target="_blank">${num}</a>
+                        </span>
+                    </div>
+                `;
+            });
+        }
+        
+        if (activityData.mail) {
+            const emails = activityData.mail.split(/[,;]/).map(email => email.trim()).filter(email => email);
+            emails.forEach(email => {
+                content += `
+                    <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <span style="font-size: 1.2em; color: #e74c3c;">📧</span>
+                        <span style="flex: 1; font-weight: 500;">
+                            <a href="mailto:${email}" style="color: #e74c3c; text-decoration: none;">${email}</a>
+                        </span>
+                    </div>
+                `;
+            });
+        }
+        
+        content += `</div></div>`;
+    }
+    
+    content += `</div>`;
+    return content;
+}
 
         function showDataInfo() {
             document.getElementById('dataInfo').innerHTML = `
