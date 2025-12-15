@@ -3450,12 +3450,12 @@ margin-left: 5px; /* Petit espace après le texte */
         </div>
         
         <div style="margin: 15px 0; display: flex; justify-content: space-between; align-items: center;">
-    <div id="contactsCount">0 contacts trouvés</div>
-    <div id="contactsExportButtons" style="display: none;">
-        <button class="action-button secondary" id="exportContactsCSV">📊 Exporter CSV</button>
-        <button class="action-button secondary" id="exportContactsPDF">📄 Exporter PDF</button>
-    </div>
-</div>
+            <div id="contactsCount">0 contacts trouvés</div>
+            <div>
+                <button class="action-button secondary" id="exportContactsCSV">📊 Exporter CSV</button>
+                <button class="action-button secondary" id="exportContactsPDF">📄 Exporter PDF</button>
+            </div>
+        </div>
         
         <div class="modal-actions">
             <button class="action-button cancel" id="cancelContacts">Fermer</button>
@@ -4099,7 +4099,7 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
                     enableAdminButtons();
                     updateAdminInterface();
                      updateExportButtonsVisibility();
-    updateContactsExportButtons();
+
                     if (currentUnlockContext === 'date' && currentSelectedDate) {
                         showDateOptions(currentSelectedDate);
                     }
@@ -4118,7 +4118,6 @@ document.getElementById('searchSuggestions').addEventListener('mousedown', funct
                     
                     console.log('🔓 Authentification admin réussie');
                 }, 1000);
-
                 
             } else {
                 unlockModal.classList.add('error-shake');
@@ -4237,84 +4236,49 @@ document.getElementById('showGlobalActivityTableButton').addEventListener('click
             console.log('✅ Interface admin mise à jour');
         }
 
-      function logoutAdmin() {
-    isAdmin = false;
-    showFicheLinks = false;
-    localStorage.removeItem('tourneeAdmin');
-    
-    const adminSection = document.getElementById('adminSection');
-    adminSection.innerHTML = `
-        <h3>🔐 Panneau d'administration</h3>
-        <div class="admin-panel">
-            <p>Accès aux fonctionnalités avancées</p>
-            <div class="admin-controls">
-                <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
-                <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
-                <button class="admin-button" id="selectiveExportButton" disabled>📄 Export sélectif</button>
-                <!-- BOUTON VISIBLE MAIS DÉSACTIVÉ -->
-                <button class="admin-button" id="exportBookButton" disabled>📚 Gérer participants + Exporter PDF</button>
-                <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
-                <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
-                <button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
-                <button class="admin-button" id="showGlobalActivityTableButton" style="background: linear-gradient(to bottom, #3498db, #2980b9);">📈 Tableau global activités</button>
-            </div>
-        </div>
-    `;
-    
-    // ATTACHER TOUS LES ÉVÉNEMENTS, y compris pour exportBookButton
-    document.getElementById('groupEmailButton').addEventListener('click', function() {
-        if (!isAdmin) {
-            showUnlockBubble('admin');
-        } else {
-            showEmailModal();
+        function logoutAdmin() {
+            isAdmin = false;
+            showFicheLinks = false;
+            localStorage.removeItem('tourneeAdmin');
+            
+            const adminSection = document.getElementById('adminSection');
+            adminSection.innerHTML = `
+                <h3>🔐 Panneau d'administration</h3>
+                <div class="admin-panel">
+                    <p>Accès aux fonctionnalités avancées</p>
+                    <div class="admin-controls">
+                        <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
+                        <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
+                        <button class="admin-button" id="selectiveExportButton" disabled>📄 Export sélectif</button>
+                        document.getElementById('exportBookButton').addEventListener('click', manageParticipantsForBook);
+                        <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
+                        <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
+			<button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
+<button class="admin-button" id="showGlobalActivityTableButton" style="background: linear-gradient(to bottom, #3498db, #2980b9);">📈 Tableau global activités</button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('groupEmailButton').addEventListener('click', showEmailModal);
+            document.getElementById('exportDataButton').addEventListener('click', showExportModal);
+            document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
+                            document.getElementById('exportBookButton').addEventListener('click', manageParticipantsForBook);
+                document.getElementById('publicListsButton').addEventListener('click', showListsModal);
+                document.getElementById('showContactsButton').addEventListener('click', showContactsTable);
+  document.getElementById('showActivitySummaryButton').addEventListener('click', showActivitySummaryTable);          
+            renderCalendar();
+            
+            const dataInfo = document.getElementById('dataInfo');
+            dataInfo.innerHTML = `
+                <div class="success-message" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                    🔓 Déconnexion réussie - Accès administrateur désactivé
+                </div>
+            `;
+            dataInfo.style.display = 'block';
+            
+            console.log('🚪 Déconnexion admin effectuée');
+  updateExportButtonsVisibility();
         }
-    });
-    
-    document.getElementById('exportDataButton').addEventListener('click', function() {
-        if (!isAdmin) {
-            showUnlockBubble('admin');
-        } else {
-            showExportModal();
-        }
-    });
-    
-    document.getElementById('selectiveExportButton').addEventListener('click', function() {
-        if (!isAdmin) {
-            showUnlockBubble('admin');
-        } else {
-            showSelectiveExportModal();
-        }
-    });
-    
-    // IMPORTANT : Attacher l'événement pour exportBookButton
-    document.getElementById('exportBookButton').addEventListener('click', function() {
-        if (!isAdmin) {
-            showUnlockBubble('admin');
-        } else {
-            manageParticipantsForBook();
-        }
-    });
-    
-    document.getElementById('publicListsButton').addEventListener('click', showListsModal);
-    document.getElementById('showContactsButton').addEventListener('click', showContactsTable);
-    document.getElementById('showActivitySummaryButton').addEventListener('click', showActivitySummaryTable);
-    document.getElementById('showGlobalActivityTableButton').addEventListener('click', showGlobalActivityTable);
-    
-    renderCalendar();
-    
-    const dataInfo = document.getElementById('dataInfo');
-    dataInfo.innerHTML = `
-        <div class="success-message" style="background: linear-gradient(135deg, #3498db, #2980b9);">
-            🔓 Déconnexion réussie - Accès administrateur désactivé
-        </div>
-    `;
-    dataInfo.style.display = 'block';
-    
-    console.log('🚪 Déconnexion admin effectuée');
-    updateExportButtonsVisibility();
-    updateContactsExportButtons();
-}
-
 
         function togglePasswordInput() {
             const passwordContainer = document.getElementById('passwordInputContainer');
@@ -4812,16 +4776,9 @@ function extractContactInfoForGroup(row, interlocuteurColIndex, groupIndex) {
     return contactInfo;
 }
 
+// REMPLACEZ la fonction showContactsTable existante (ligne ~977)
 function showContactsTable() {
     showModal('contactsModal');
-    
-    // Afficher/masquer les boutons d'export selon le statut admin
-    const exportButtons = document.getElementById('contactsExportButtons');
-    if (isAdmin) {
-        exportButtons.style.display = 'flex';
-    } else {
-        exportButtons.style.display = 'none';
-    }
     
     // Réorganiser les contacts par pays
     const contactsByCountry = organizeContactsByCountry(allContacts);
@@ -4855,21 +4812,53 @@ function filterContactsTable() {
             filteredContacts.forEach((contact, index) => {
                 const row = document.createElement('tr');
                 
-                row.innerHTML = `
-                    <td><strong>${contact.nom}</strong></td>
-                    <td>${contact.telephone || '-'}</td>
-                    <td>${contact.whatsapp || '-'}</td>
-                    <td>${contact.mail || '-'}</td>
-                    <td>${contact.lieu || '-'}</td>
-                    <td>${contact.date || '-'}</td>
-                    <td>
-                        <div class="contact-action-buttons">
-                            <button class="contact-action-button view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\'")}')" title="Voir détails">👁️</button>
-                            ${contact.mail ? `<button class="contact-action-button email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
-                            ${contact.telephone ? `<button class="contact-action-button call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
-                        </div>
-                    </td>
-                `;
+                // Formater le téléphone en liens cliquables
+let telephoneHTML = '-';
+if (contact.telephone) {
+    const telNumbers = contact.telephone.split(/[,;]/).map(tel => tel.trim()).filter(tel => tel);
+    telephoneHTML = telNumbers.map(tel => 
+        `<a href="tel:${tel}" style="color: #3498db; text-decoration: none; display: block; margin: 2px 0;" 
+          onclick="event.stopPropagation();">${tel}</a>`
+    ).join('');
+}
+
+// Formater WhatsApp en liens cliquables
+let whatsappHTML = '-';
+if (contact.whatsapp) {
+    const whatsappNumbers = contact.whatsapp.split(/[,;]/).map(num => num.trim()).filter(num => num);
+    whatsappHTML = whatsappNumbers.map(num => 
+        `<a href="https://wa.me/${num.replace(/[^\d+]/g, '')}" 
+          style="color: #25D366; text-decoration: none; display: block; margin: 2px 0;" 
+          target="_blank" onclick="event.stopPropagation();">${num}</a>`
+    ).join('');
+}
+
+// Formater l'email en liens cliquables
+let mailHTML = '-';
+if (contact.mail) {
+    const emails = contact.mail.split(/[,;]/).map(email => email.trim()).filter(email => email);
+    mailHTML = emails.map(email => 
+        `<a href="mailto:${email}" 
+          style="color: #e74c3c; text-decoration: none; display: block; margin: 2px 0;" 
+          onclick="event.stopPropagation();">${email}</a>`
+    ).join('');
+}
+
+row.innerHTML = `
+    <td><strong>${contact.nom}</strong></td>
+    <td>${telephoneHTML}</td>
+    <td>${whatsappHTML}</td>
+    <td>${mailHTML}</td>
+    <td>${contact.lieu || '-'}</td>
+    <td>${contact.date || '-'}</td>
+    <td>
+        <div class="contact-action-buttons">
+            <button class="contact-action-button view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\'")}')" title="Voir détails">👁️</button>
+            ${contact.mail ? `<button class="contact-action-button email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
+            ${contact.telephone ? `<button class="contact-action-button call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
+        </div>
+    </td>
+`;
                 
                 tbody.appendChild(row);
             });
@@ -4913,10 +4902,10 @@ function updateContactsTableByCountry(contactsByCountry, filter = '') {
                 <span style="background: rgba(255,255,255,0.3); padding: 3px 10px; border-radius: 15px; margin-left: 10px; font-size: 0.9em;">
                     ${filteredContacts.length} contact${filteredContacts.length > 1 ? 's' : ''}
                 </span>
-               ${isAdmin ? `<button onclick="exportCountryContacts('${country}', contactsByCountry['${country}'].contacts)" 
-        style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 5px; margin-left: 10px; cursor: pointer; font-size: 0.8em; float: right;">
-    📄 Exporter ce pays
-</button>` : ''}
+                <button onclick="exportCountryContacts('${country}', contactsByCountry['${country}'].contacts)" 
+                        style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 5px; margin-left: 10px; cursor: pointer; font-size: 0.8em; float: right;">
+                    📄 Exporter ce pays
+                </button>
             </td>
         `;
         tbody.appendChild(countryHeader);
@@ -4925,21 +4914,54 @@ function updateContactsTableByCountry(contactsByCountry, filter = '') {
         filteredContacts.forEach(contact => {
             const row = document.createElement('tr');
             
-            row.innerHTML = `
-                <td><strong>${contact.nom}</strong></td>
-                <td>${contact.telephone || '-'}</td>
-                <td>${contact.whatsapp || '-'}</td>
-                <td>${contact.mail || '-'}</td>
-                <td>${contact.lieu || '-'}</td>
-                <td>${contact.date || '-'}</td>
-                <td>
-                    <div class="contact-action-buttons">
-                        <button class="contact-action-button view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\'")}')" title="Voir détails">👁️</button>
-                        ${contact.mail ? `<button class="contact-action-button email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
-                        ${contact.telephone ? `<button class="contact-action-button call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
-                    </div>
-                </td>
-            `;
+           // Formater le téléphone en liens cliquables
+let telephoneHTML = '-';
+if (contact.telephone) {
+    const telNumbers = contact.telephone.split(/[,;]/).map(tel => tel.trim()).filter(tel => tel);
+    telephoneHTML = telNumbers.map(tel => 
+        `<a href="tel:${tel}" style="color: #3498db; text-decoration: none; display: block; margin: 2px 0;" 
+          onclick="event.stopPropagation();">${tel}</a>`
+    ).join('');
+}
+
+// Formater WhatsApp en liens cliquables
+let whatsappHTML = '-';
+if (contact.whatsapp) {
+    const whatsappNumbers = contact.whatsapp.split(/[,;]/).map(num => num.trim()).filter(num => num);
+    whatsappHTML = whatsappNumbers.map(num => 
+        `<a href="https://wa.me/${num.replace(/[^\d+]/g, '')}" 
+          style="color: #25D366; text-decoration: none; display: block; margin: 2px 0;" 
+          target="_blank" onclick="event.stopPropagation();">${num}</a>`
+    ).join('');
+}
+
+// Formater l'email en liens cliquables
+let mailHTML = '-';
+if (contact.mail) {
+    const emails = contact.mail.split(/[,;]/).map(email => email.trim()).filter(email => email);
+    mailHTML = emails.map(email => 
+        `<a href="mailto:${email}" 
+          style="color: #e74c3c; text-decoration: none; display: block; margin: 2px 0;" 
+          onclick="event.stopPropagation();">${email}</a>`
+    ).join('');
+}
+
+row.innerHTML = `
+    <td><strong>${contact.nom}</strong></td>
+    <td>${telephoneHTML}</td>
+    <td>${whatsappHTML}</td>
+    <td>${mailHTML}</td>
+    <td>${contact.lieu || '-'}</td>
+    <td>${contact.date || '-'}</td>
+    <td>${contact.pays || '-'}</td>
+    <td>
+        <div class="contact-action-buttons">
+            <button class="contact-action-button view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\'")}')" title="Voir détails">👁️</button>
+            ${contact.mail ? `<button class="contact-action-button email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
+            ${contact.telephone ? `<button class="contact-action-button call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
+        </div>
+    </td>
+`;
             
             tbody.appendChild(row);
         });
@@ -12858,16 +12880,7 @@ function showContactsTable() {
     showModal('contactsModal');
     showContactsByCountryView();
 }
-function updateContactsExportButtons() {
-    const exportButtons = document.getElementById('contactsExportButtons');
-    if (!exportButtons) return;
-    
-    if (isAdmin) {
-        exportButtons.style.display = 'flex';
-    } else {
-        exportButtons.style.display = 'none';
-    }
-}
+
 function showContactsByCountryView() {
     // Afficher la vue par pays, cacher la vue liste
     document.getElementById('contactsByCountryView').style.display = 'block';
@@ -12880,14 +12893,6 @@ function showContactsByCountryView() {
     document.getElementById('showAllContactsButton').classList.remove('primary');
     
     updateContactsByCountryTable();
-    
-    // Afficher/masquer les boutons d'export selon le statut admin
-    const exportButtons = document.getElementById('contactsExportButtons');
-    if (isAdmin) {
-        exportButtons.style.display = 'flex';
-    } else {
-        exportButtons.style.display = 'none';
-    }
 }
 
 function showAllContactsListView() {
@@ -12902,14 +12907,6 @@ function showAllContactsListView() {
     document.getElementById('showByCountryButton').classList.remove('primary');
     
     updateAllContactsTable();
-    
-    // Afficher/masquer les boutons d'export selon le statut admin
-    const exportButtons = document.getElementById('contactsExportButtons');
-    if (isAdmin) {
-        exportButtons.style.display = 'flex';
-    } else {
-        exportButtons.style.display = 'none';
-    }
 }
 
 function updateContactsByCountryTable(filter = '') {
@@ -13212,11 +13209,17 @@ function updateContactsByCountryView(filter = '') {
             const contactItem = document.createElement('div');
             contactItem.className = 'contact-item-compact';
             
-            // Formater les détails du contact
-            let contactDetails = '';
-            if (contact.lieu) contactDetails += `<span>📍 ${contact.lieu}</span>`;
-            if (contact.date) contactDetails += `<span>📅 ${contact.date}</span>`;
-            if (contact.telephone) contactDetails += `<span>📞 ${contact.telephone}</span>`;
+           // Formater les détails du contact
+let contactDetails = '';
+if (contact.lieu) contactDetails += `<span>📍 ${contact.lieu}</span>`;
+if (contact.date) contactDetails += `<span>📅 ${contact.date}</span>`;
+if (contact.telephone) {
+    const telNumbers = contact.telephone.split(/[,;]/).map(tel => tel.trim()).filter(tel => tel);
+    contactDetails += `<span>📞 ${telNumbers.map(tel => 
+        `<a href="tel:${tel}" style="color: #3498db; text-decoration: none; margin-right: 5px;" 
+          onclick="event.stopPropagation();">${tel}</a>`
+    ).join(', ')}</span>`;
+}
             
             contactItem.innerHTML = `
                 <div class="contact-info-compact">
