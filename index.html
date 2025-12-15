@@ -73,21 +73,21 @@
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
         
-        .title-content h1 {
-            margin: 0;
-            font-size: 1.8em;
-            color: var(--gold);
-            font-style: italic;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-            font-weight: 600;
-        }
-        
-        .title-content p {
-            margin: 5px 0 0 0;
-            font-size: 0.9em;
-            color: #fff;
-            font-style: italic;
-        }
+       .title-content h1 {
+    margin: 0;
+    font-size: 1.8em;
+    color: var(--gold);
+    font-style: italic;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    font-weight: 600;
+}
+
+.title-content p {
+    margin: 5px 0 0 0;
+    font-size: 0.9em;
+    color: #fff;
+    font-style: italic;
+}
         
         /* Boutons flottants */
         .floating-buttons {
@@ -2902,9 +2902,10 @@ margin-left: 5px; /* Petit espace après le texte */
     <!-- Zone titre fixe -->
     <div class="fixed-title">
         <div class="title-content">
-            <h1>📓 Journal de Bord - Tournée Europe 2026</h1>
-            <p>NY AKO - Ministère Musical Évangélique - Suivi détaillé des activités quotidiennes</p>
-        </div>
+    <h1>📓 Journal de Bord - Tournée Europe 2026</h1>
+    <p>NY AKO - Section Artistique de la Ligue pour la lecture de la Bible à Madagascar</p>
+    <p>Thème : "Nos sources sont en TOI" - Concerts culturels & évangélisation</p>
+</div>
     </div>
     
     <!-- Boutons flottants -->
@@ -3091,7 +3092,7 @@ margin-left: 5px; /* Petit espace après le texte */
                         <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
                         <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
                         <button class="admin-button" id="selectiveExportButton" disabled>📄 Export sélectif</button>
-                        <button class="admin-button" id="exportBookButton" disabled>📚 Exporter tout en livre PDF</button>
+                        <button class="admin-button" id="exportBookButton" disabled>📚 Gérer participants + Exporter PDF</button>
                         <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
                         <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
 			<button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
@@ -3633,7 +3634,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('publicListsButton').addEventListener('click', showListsModal);
             document.getElementById('exportDataButton').addEventListener('click', showExportModal);
             document.getElementById('selectiveExportButton').addEventListener('click', showSelectiveExportModal);
-            document.getElementById('exportBookButton').addEventListener('click', exportToBookPDF);
+            document.getElementById('exportBookButton').addEventListener('click', manageParticipantsForBook);
             document.getElementById('showContactsButton').addEventListener('click', showContactsTable);
             
             document.getElementById('closeEmailModal').addEventListener('click', () => hideModal('emailModal'));
@@ -3971,7 +3972,7 @@ document.getElementById('showGlobalActivityTableButton').addEventListener('click
                         <button class="admin-button" id="groupEmailButton" disabled>📧 Envoi mail groupé</button>
                         <button class="admin-button" id="exportDataButton" disabled>💾 Exporter les données</button>
                         <button class="admin-button" id="selectiveExportButton" disabled>📄 Export sélectif</button>
-                        <button class="admin-button" id="exportBookButton" disabled>📚 Exporter tout en livre PDF</button>
+                        document.getElementById('exportBookButton').addEventListener('click', manageParticipantsForBook);
                         <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
                         <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
 			<button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
@@ -10478,8 +10479,10 @@ function updateShowAllButtonVisibility() {
                     </div>
                     
                     <div class="intro">
-                        <p>Ce livre retrace l'incroyable aventure de la tournée européenne 2026 du groupe NY AKO, 
-                        un ministère musical dédié à glorifier Dieu et à partager l'Évangile à travers la musique. 
+    <p>Ce livre retrace l'incroyable aventure de la tournée européenne 2026 du groupe NY AKO, 
+    section artistique de la Ligue pour la lecture de la Bible à Madagascar. 
+    Un ministère musical dédié à glorifier Dieu et à partager l'Évangile à travers 
+    des prestations culturelles et des moments d'évangélisation.
                         Chaque page témoigne de la main puissante de Dieu qui a guidé chaque étape, ouvert chaque porte, 
                         et touché chaque cœur rencontré sur le chemin.</p>
                         
@@ -10488,9 +10491,10 @@ function updateShowAllButtonVisibility() {
                         ravivée par la puissance du Saint-Esprit. Des moments de louange intense, des témoignages 
                         bouleversants, et des rencontres divines ont marqué chaque journée de cette aventure.</p>
                         
-                        <p>"Car là où deux ou trois sont assemblés en mon nom, je suis au milieu d'eux." (Matthieu 18:20) 
-                        Cette promesse de Jésus s'est manifestée de manière tangible à chaque rassemblement, 
-                        chaque concert, et chaque moment de prière partagé.</p>
+                        <p><strong>Thème de la tournée : "Nos sources sont en TOI"</strong></p>
+<p>"Car là où deux ou trois sont assemblés en mon nom, je suis au milieu d'eux." (Matthieu 18:20) 
+Cette promesse de Jésus s'est manifestée de manière tangible à chaque rassemblement, 
+chaque concert culturel, chaque moment d'évangélisation, et chaque instant de prière partagé.</p>
                     </div>
                     
                     <div class="table-of-contents">
@@ -10509,21 +10513,112 @@ function updateShowAllButtonVisibility() {
                         }).join('')}
                     </div>
                     
-                    <div class="chapter">
-                        <h2>🙏 L'Équipe de la Tournée</h2>
-                        <p style="text-align: center; margin-bottom: 20px;">Dieu a rassemblé une équipe fidèle et dévouée pour cette mission :</p>
-                        <div class="participants-list">
-                            ${TOUR_PARTICIPANTS.map(participant => `
-                                <div class="participant-item">
-                                    <strong>${participant}</strong><br>
-                                    <small>Serviteur de Dieu</small>
+                  <div class="chapter">
+    <h2>🙏 Participants de la Tournée</h2>
+    
+    ${window.selectedParticipantsForExport && window.selectedParticipantsForExport.length > 0 ? `
+        <p style="text-align: center; margin-bottom: 20px; font-style: italic; color: #7f8c8d;">
+            Liste des participants sélectionnés pour cette édition (${window.selectedParticipantsForExport.length} participant(s))
+        </p>
+        
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid var(--gold);">
+            <h3 style="color: var(--primary-color); text-align: center; margin-bottom: 15px;">🎤 Chanteurs & Danseurs</h3>
+            
+            <!-- 1ère Voix -->
+            ${(() => {
+                const premiereVoix = window.selectedParticipantsForExport.filter(p => 
+                    p.role && p.role.includes('1ère voix')
+                );
+                if (premiereVoix.length > 0) {
+                    return `
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #e74c3c; margin-bottom: 10px;">1ère Voix & Danseuses :</h4>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                            ${premiereVoix.map(p => `
+                                <div style="padding: 10px; background: white; border-radius: 5px; text-align: center;">
+                                    ${p.name}
                                 </div>
                             `).join('')}
                         </div>
-                        <p style="text-align: center; margin-top: 20px; font-style: italic;">
-                            "Je rends grâce à mon Dieu chaque fois que je fais mention de vous" (Philippiens 1:3)
-                        </p>
+                    </div>`;
+                }
+                return '';
+            })()}
+            
+            <!-- 2ème Voix -->
+            ${(() => {
+                const deuxiemeVoix = window.selectedParticipantsForExport.filter(p => 
+                    p.role && p.role.includes('2ème voix')
+                );
+                if (deuxiemeVoix.length > 0) {
+                    return `
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #3498db; margin-bottom: 10px;">2ème Voix & Danseuses :</h4>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                            ${deuxiemeVoix.map(p => `
+                                <div style="padding: 10px; background: white; border-radius: 5px; text-align: center;">
+                                    ${p.name}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>`;
+                }
+                return '';
+            })()}
+            
+            <!-- 3ème Voix -->
+            ${(() => {
+                const troisiemeVoix = window.selectedParticipantsForExport.filter(p => 
+                    p.role && p.role.includes('3ème voix')
+                );
+                if (troisiemeVoix.length > 0) {
+                    return `
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #2ecc71; margin-bottom: 10px;">3ème Voix & Danseurs :</h4>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                            ${troisiemeVoix.map(p => `
+                                <div style="padding: 10px; background: white; border-radius: 5px; text-align: center;">
+                                    ${p.name}${p.role.includes('bass') ? ' (bass)' : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>`;
+                }
+                return '';
+            })()}
+        </div>
+        
+        <!-- Musiciens -->
+        <div style="background: #e8f4fc; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid var(--secondary-color);">
+            <h3 style="color: var(--primary-color); text-align: center; margin-bottom: 15px;">🎼 Musiciens</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                ${window.selectedParticipantsForExport.filter(p => 
+                    p.role && p.role.includes('Musicien')
+                ).map(p => `
+                    <div style="padding: 10px; background: white; border-radius: 5px; text-align: center;">
+                        <strong>${p.name}</strong><br>
+                        <small style="color: #7f8c8d;">${p.role.replace('Musicien / ', '')}</small>
                     </div>
+                `).join('')}
+            </div>
+        </div>
+        
+        <p style="text-align: center; margin-top: 20px; font-style: italic; color: #7f8c8d;">
+            "Je rends grâce à mon Dieu chaque fois que je fais mention de vous" (Philippiens 1:3)
+        </p>
+        
+        <div style="background: #fff9c4; padding: 15px; border-radius: 8px; margin-top: 20px; border: 1px dashed #ffd54f;">
+            
+        </div>
+    ` : `
+        <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+            <div style="font-size: 3em; margin-bottom: 20px;">👥</div>
+            <h3 style="margin-bottom: 10px;">Aucun participant sélectionné</h3>
+            <p>Utilisez "Gérer participants" pour choisir qui inclure dans cette édition.</p>
+        </div>
+    `}
+</div>
                     
                     <div class="chapter page-break">
                         <h2>📊 Bilan de la Tournée</h2>
@@ -10887,7 +10982,284 @@ function updateShowAllButtonVisibility() {
             printWindow.document.close();
             printWindow.print();
         }
+// =============== FONCTION DE GESTION DES PARTICIPANTS ===============
 
+function manageParticipantsForBook() {
+    // Charger les choix sauvegardés ou utiliser les valeurs par défaut
+    const savedChoices = localStorage.getItem('selectedParticipants');
+    let participantsList;
+    
+    if (savedChoices) {
+        participantsList = JSON.parse(savedChoices);
+    } else {
+        // Liste initiale complète
+        participantsList = [
+            { name: "Aina", role: "Chanteuse 1ère voix & danseuse", checked: true },
+            { name: "Ranto", role: "Chanteuse 1ère voix & danseuse", checked: true },
+            { name: "Tinasoa", role: "Chanteuse 1ère voix & danseuse", checked: true },
+            { name: "Tahiry", role: "Chanteuse 1ère voix & danseuse", checked: true },
+            { name: "Mirana", role: "Chanteuse 2ème voix & danseuse", checked: true },
+            { name: "Odile", role: "Chanteuse 2ème voix & danseuse", checked: true },
+            { name: "Henintsoa", role: "Chanteuse 2ème voix & danseuse", checked: true },
+            { name: "Kris", role: "Chanteur 3ème voix & danseur", checked: true },
+            { name: "Mamy", role: "Chanteur 3ème voix/bass & danseur", checked: true },
+            { name: "Voahary", role: "Chanteur 3ème voix/bass & danseur", checked: true },
+            { name: "Andry Tiana", role: "Chanteur 3ème voix & danseur", checked: true },
+            { name: "Andy", role: "Musicien / Chanteur", checked: true },
+            { name: "Dede", role: "Musicien / Le leader du groupe", checked: true },
+            { name: "Sahoby", role: "Musicien / Chanteur", checked: true },
+            { name: "Mirindra", role: "Musicien / Chanteur", checked: true },
+            { name: "Hajanantenaina", role: "Musicien", checked: true }
+        ];
+    }
+    const modal = document.createElement('div');
+    modal.id = 'participantsModal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        border: 3px solid var(--secondary-color);
+    `;
+    
+    // Liste COMPLÈTE des participants avec leurs rôles
+const allParticipants = [
+    { name: "Aina", role: "Chanteuse 1ère voix & danseuse", checked: true },
+    { name: "Ranto", role: "Chanteuse 1ère voix & danseuse", checked: true },
+    { name: "Tinasoa", role: "Chanteuse 1ère voix & danseuse", checked: true },
+    { name: "Tahiry", role: "Chanteuse 1ère voix & danseuse", checked: true },
+    { name: "Mirana", role: "Chanteuse 2ème voix & danseuse", checked: true },
+    { name: "Odile", role: "Chanteuse 2ème voix & danseuse", checked: true },
+    { name: "Henintsoa", role: "Chanteuse 2ème voix & danseuse", checked: true },
+    { name: "Kris", role: "Chanteur 3ème voix & danseur", checked: true },
+    { name: "Mamy", role: "Chanteur 3ème voix/bass & danseur", checked: true },
+    { name: "Voahary", role: "Chanteur 3ème voix/bass & danseur", checked: true },
+    { name: "Andry Tiana", role: "Chanteur 3ème voix & danseur", checked: true },
+    { name: "Andy", role: "Musicien / Chanteur", checked: true },
+    { name: "Dede", role: "Musicien / Le leader du groupe", checked: true },
+    { name: "Sahoby", role: "Musicien / Chanteur", checked: true },
+    { name: "Mirindra", role: "Musicien / Chanteur", checked: true },
+    { name: "Hajanantenaina", role: "Musicien", checked: true }
+];
+    
+    let html = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid var(--light-blue);">
+            <div>
+                <h3 style="margin: 0; color: var(--primary-color); font-size: 1.5em;">
+                    👥 Gestion des Participants pour le Livre PDF
+                </h3>
+                <p style="margin: 5px 0 0 0; color: #7f8c8d; font-size: 0.95em;">
+                    Cochez/décochez les participants à inclure dans l'export du livre
+                </p>
+            </div>
+            <button onclick="this.closest('#participantsModal').remove()" 
+                    style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--accent-color); padding: 5px;">
+                ✕
+            </button>
+        </div>
+        
+        <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+            <button id="selectAllParticipants" 
+                    style="background: linear-gradient(to bottom, #27ae60, #219a52); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                ✅ Tout sélectionner
+            </button>
+            <button id="deselectAllParticipants" 
+                    style="background: linear-gradient(to bottom, #e74c3c, #c0392b); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                ❌ Tout désélectionner
+            </button>
+            <div style="flex: 1;"></div>
+            <div id="selectedCount" style="display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--primary-color);">
+                <span id="countNumber">${participantsList.length}</span> sélectionné(s)
+            </div>
+        </div>
+        
+<div style="margin-bottom: 20px; display: flex; gap: 10px;">
+    <button id="selectAllParticipants" 
+            style="background: linear-gradient(to bottom, #27ae60, #219a52); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+        ✅ Tout sélectionner
+    </button>
+    <button id="deselectAllParticipants" 
+            style="background: linear-gradient(to bottom, #e74c3c, #c0392b); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+        ❌ Tout désélectionner
+    </button>
+    <button id="resetParticipantsList" 
+            style="background: linear-gradient(to bottom, #f39c12, #e67e22); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+        🔄 Réinitialiser la liste
+    </button>
+    <div style="flex: 1;"></div>
+    <div id="selectedCount" style="display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--primary-color);">
+        <span id="countNumber">${participantsList.length}</span> sélectionné(s)
+    </div>
+</div>
+
+        <div style="max-height: 400px; overflow-y: auto; margin-bottom: 25px; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px;">
+    `;
+    
+    participantsList.forEach((participant, index) => {
+        html += `
+            <div style="padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease; background: ${participant.checked ? '#f0f7ff' : 'white'};">
+                <input type="checkbox" 
+                       id="participant-${index}" 
+                       class="participant-checkbox" 
+                       ${participant.checked ? 'checked' : ''}
+                       data-index="${index}"
+                       style="width: 18px; height: 18px; cursor: pointer;">
+                <div style="flex: 1;">
+                    <div style="font-weight: 600; font-size: 1.05em; color: var(--primary-color);">${participant.name}</div>
+                    <div style="font-size: 0.85em; color: #7f8c8d; margin-top: 3px;">${participant.role}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += `
+            </div>
+        </div>
+        
+        <div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
+            <h4 style="color: var(--primary-color); margin-bottom: 15px;">Options d'export :</h4>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="includeParticipantsList" checked style="width: 18px; height: 18px;">
+                    Inclure la liste des participants dans le livre
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="includePhotos" checked style="width: 18px; height: 18px;">
+                    Inclure les photos disponibles
+                </label>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: flex-end;">
+            <button onclick="this.closest('#participantsModal').remove()" 
+                    style="background: linear-gradient(to bottom, #95a5a6, #7f8c8d); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                Annuler
+            </button>
+            <button id="exportWithSelectedParticipants" 
+                    style="background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color)); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                📚 Générer le Livre PDF
+            </button>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; font-size: 0.9em; color: #7f8c8d;">
+            <p style="margin: 0;"><strong>Note :</strong> Seuls les participants cochés seront inclus dans le livre PDF final. 
+            Vous pouvez revenir à tout moment pour modifier la sélection.</p>
+        </div>
+    `;
+    
+    content.innerHTML = html;
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    // Gestion des événements
+    setTimeout(() => {
+        // Mettre à jour le compteur
+        function updateCounter() {
+            const checkboxes = content.querySelectorAll('.participant-checkbox:checked');
+            document.getElementById('countNumber').textContent = checkboxes.length;
+        }
+        
+        // Événements sur les cases à cocher
+        content.querySelectorAll('.participant-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const index = this.getAttribute('data-index');
+                const participantDiv = this.closest('div');
+                participantDiv.style.background = this.checked ? '#f0f7ff' : 'white';
+                updateCounter();
+            });
+        });
+        
+        // Bouton "Tout sélectionner"
+        document.getElementById('selectAllParticipants').addEventListener('click', function() {
+            content.querySelectorAll('.participant-checkbox').forEach(checkbox => {
+                checkbox.checked = true;
+                const participantDiv = checkbox.closest('div');
+                participantDiv.style.background = '#f0f7ff';
+            });
+            updateCounter();
+        });
+        
+        // Bouton "Tout désélectionner"
+        document.getElementById('deselectAllParticipants').addEventListener('click', function() {
+            content.querySelectorAll('.participant-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+                const participantDiv = checkbox.closest('div');
+                participantDiv.style.background = 'white';
+            });
+            updateCounter();
+        });
+     // Bouton "Réinitialiser la liste"
+document.getElementById('resetParticipantsList').addEventListener('click', function() {
+    if (confirm('Voulez-vous vraiment réinitialiser la liste à tous les participants ? Cette action effacera vos sélections précédentes.')) {
+        localStorage.removeItem('selectedParticipants');
+        modal.remove(); // Fermer le modal
+        manageParticipantsForBook(); // Réouvrir avec liste complète
+    }
+});   
+       
+        // Bouton "Générer le Livre PDF"
+document.getElementById('exportWithSelectedParticipants').addEventListener('click', function() {
+    const selectedParticipants = [];
+    content.querySelectorAll('.participant-checkbox:checked').forEach(checkbox => {
+        const index = parseInt(checkbox.getAttribute('data-index'));
+        selectedParticipants.push(participantsList[index]);
+    });
+    
+    // SAUVEGARDER les choix pour la prochaine fois
+    localStorage.setItem('selectedParticipants', JSON.stringify(participantsList));
+    
+    const includeList = document.getElementById('includeParticipantsList').checked;
+    const includePhotos = document.getElementById('includePhotos').checked;
+    
+    // Fermer le modal
+    modal.remove();
+    
+    // Appeler la fonction d'export avec les participants sélectionnés
+    exportBookPDFWithParticipants(selectedParticipants, includeList, includePhotos);
+});
+    }, 100);
+    
+    // Fermer en cliquant en dehors
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+
+// Fonction d'export avec participants sélectionnés
+function exportBookPDFWithParticipants(selectedParticipants, includeList = true, includePhotos = true) {
+    // Stocker les participants sélectionnés temporairement
+    window.selectedParticipantsForExport = selectedParticipants;
+    window.includeParticipantsListInExport = includeList;
+    window.includePhotosInExport = includePhotos;
+    
+    // Appeler la fonction originale d'export
+    exportToBookPDF();
+}
+
+// Modifier la fonction exportToBookPDF pour utiliser les participants sélectionnés
+// Chercher dans exportToBookPDF() la partie qui génère la liste des participants
+// Remplacer TOUR_PARTICIPANTS par window.selectedParticipantsForExport si défini
         function createBookActivityContent(activityData, prefix) {
             let content = `<div class="activity-details">`;
             content += `<h4 class="activity-title">${prefix}: ${activityData.type || 'Activité'}</h4>`;
