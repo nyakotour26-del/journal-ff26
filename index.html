@@ -1534,7 +1534,7 @@ margin-left: 5px; /* Petit espace après le texte */
         .heure-item {
             flex: 1;
             background: #f8f9fa;
-            padding: 15px;
+                padding: 10px 12px; /* Réduit: 15px → 10px (haut/bas), 12px (gauche/droite) */
             border-radius: 8px;
             text-align: center;
             border: 1px solid #e9ecef;
@@ -1542,25 +1542,32 @@ margin-left: 5px; /* Petit espace après le texte */
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 80px;
+            min-height: 50px;
         }
         
         .heure-icon {
-            font-size: 1.5em;
-            margin-bottom: 8px;
-        }
+    font-size: 0.8em; /* Taille réduite */
+    margin-right: 8px; /* Déplacé à droite du texte */
+    margin-bottom: 0; /* Supprimé l'espace en bas */
+    display: inline-block; /* Pour être sur la même ligne */
+    vertical-align: middle; /* Alignement vertical */
+}
         
-        .heure-label {
-            font-size: 0.9em;
-            color: #7f8c8d;
-            margin-bottom: 5px;
-        }
-        
-        .heure-value {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
+       .heure-label {
+    font-size: 0.8em;
+    color: #7f8c8d;
+    margin-right: 5px; /* Espace après le label */
+    display: inline-block; /* Sur la même ligne */
+    vertical-align: middle;
+}
+
+.heure-value {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #27ae60; /* Changé en VERT comme demandé */
+    display: inline-block; /* Sur la même ligne */
+    vertical-align: middle;
+}
         
         .lieux-info {
             display: grid;
@@ -1576,35 +1583,43 @@ margin-left: 5px; /* Petit espace après le texte */
             margin-top: 15px;
         }
         
-        .lieux-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid #e9ecef;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 80px;
-        }
+       .lieux-item {
+    background: #f8f9fa;
+    padding: 10px 12px; /* Réduit: 15px → 10px (haut/bas), 12px (gauche/droite) */
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px; /* Réduit: 80px → 60px */
+}
         
-        .lieux-icon {
-            font-size: 1.5em;
-            margin-bottom: 8px;
-        }
+       .lieux-icon {
+    font-size: 1.2em; /* Taille réduite */
+    margin-right: 8px; /* Déplacé à droite du texte */
+    margin-bottom: 0; /* Supprimé l'espace en bas */
+    display: inline-block;
+    vertical-align: middle;
+    color: #ff9800; /* Couleur ORANGE pour l'icône */
+}
         
         .lieux-label {
-            font-size: 0.9em;
-            color: #7f8c8d;
-            margin-bottom: 5px;
-        }
-        
-        .lieux-value {
-            font-size: 1.1em;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
+    font-size: 0.85em;
+    color: #7f8c8d;
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.lieux-value {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #ff9800; /* Couleur ORANGE pour le texte */
+    display: inline-block;
+    vertical-align: middle;
+}
         
         .duree-distance-presentation {
             display: grid;
@@ -1613,35 +1628,44 @@ margin-left: 5px; /* Petit espace après le texte */
             margin-top: 15px;
         }
         
-        .duree-distance-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid #e9ecef;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 80px;
-        }
+    .duree-distance-item {
+    background: #f8f9fa;
+    padding: 8px 10px; /* Réduit: 15px → 8px (haut/bas), 10px (gauche/droite) */
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 55px; /* Réduit: 80px → 55px */
+}
         
         .duree-distance-icon {
-            font-size: 1.5em;
-            margin-bottom: 8px;
-        }
+    font-size: 1.1em; /* Réduit: 1.5em → 1.1em */
+    margin-right: 6px; /* Déplacé à droite du texte */
+    margin-bottom: 0; /* Supprimé l'espace en bas */
+    display: inline-block;
+    vertical-align: middle;
+}
         
-        .duree-distance-label {
-            font-size: 0.9em;
-            color: #7f8c8d;
-            margin-bottom: 5px;
-        }
-        
-        .duree-distance-value {
-            font-size: 1.1em;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
+       .duree-distance-label {
+    font-size: 0.8em; /* Réduit: 0.9em → 0.8em */
+    color: #7f8c8d;
+    margin-right: 5px; /* Espace après le label */
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.2; /* Réduit l'interligne */
+}
+
+.duree-distance-value {
+    font-size: 1em; /* Réduit: 1.1em → 1em */
+    font-weight: 700;
+    color: var(--primary-color);
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.2; /* Réduit l'interligne */
+}
         
         .password-section {
             margin-top: 15px;
@@ -2305,29 +2329,71 @@ margin-left: 5px; /* Petit espace après le texte */
                 gap: 10px;
             }
             
-            .lieux-item {
-                min-height: 70px;
-                padding: 12px;
-            }
-            
-            .lieux-icon {
-                font-size: 1.3em;
-            }
-            
-            .lieux-value {
-                font-size: 1em;
-            }
+              .lieux-item {
+        min-height: 50px; /* Réduit: 70px → 50px */
+        padding: 8px; /* Réduit: 12px → 8px */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .lieux-icon {
+        font-size: 1.1em; /* Réduit: 1.3em → 1.1em */
+        margin-right: 6px;
+        margin-bottom: 0;
+        display: inline-block;
+        vertical-align: middle;
+        color: #ff9800; /* Orange sur mobile aussi */
+    }
+         .lieux-label, .lieux-value {
+        display: inline-block;
+        vertical-align: middle;
+    }   
+  .lieux-label {
+        margin-right: 5px;
+        font-size: 0.8em;
+    }
+                .lieux-value {
+        font-size: 1em;
+        color: #ff9800; /* Orange sur mobile */
+    }
             
             .heure-group {
                 flex-direction: row;
                 gap: 10px;
             }
             
-            .heure-item {
-                min-height: 70px;
-                padding: 12px;
-            }
-            
+              .heure-item {
+        min-height: 50px; /* ← Changé de 70px à 50px */
+        padding: 4px; /* ← Réduit de 12px à 8px */
+        display: flex; /* ← Ajouté pour alignement */
+        align-items: center; /* ← Ajouté pour centrer verticalement */
+        justify-content: center; /* ← Ajouté pour centrer horizontalement */
+    }
+    
+    .heure-icon {
+        font-size: 0.8em; /* ← Réduit de 1.3em à 1.1em */
+        margin-right: 6px; /* ← Déplacé à droite du texte */
+        margin-bottom: 0; /* ← Supprimé l'espace en bas */
+        display: inline-block; /* ← Sur la même ligne */
+        vertical-align: middle; /* ← Alignement vertical */
+    }
+        .heure-label {
+        font-size: 0.8em; /* ← Réduit de 0.9em à 0.8em */
+        color: #7f8c8d;
+        margin-right: 5px; /* ← Espace après le label */
+        display: inline-block; /* ← Sur la même ligne */
+        vertical-align: middle; /* ← Alignement vertical */
+    }
+    
+    .heure-value {
+        font-size: 1em; /* ← Réduit de 1.2em à 1em */
+        font-weight: 700;
+        color: #27ae60; /* ← Vert sur mobile aussi */
+        display: inline-block; /* ← Sur la même ligne */
+        vertical-align: middle; /* ← Alignement vertical */
+    }
+}    
             .activity-stats-mobile {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 8px;
@@ -2361,13 +2427,31 @@ margin-left: 5px; /* Petit espace après le texte */
             }
             
             .duree-distance-item {
-                min-height: 70px;
-                padding: 12px;
-            }
-            
-            .entry-title-large {
-                font-size: 1.6em;
-            }
+        min-height: 45px; /* Réduit: 70px → 45px */
+        padding: 6px 8px; /* Réduit: 12px → 6px (haut/bas), 8px (gauche/droite) */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+  .duree-distance-icon {
+        font-size: 1em; /* Réduit: 1.3em → 1em */
+        margin-right: 5px;
+        margin-bottom: 0;
+        display: inline-block;
+        vertical-align: middle;
+    }
+.duree-distance-label, .duree-distance-value {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 1.1; /* Réduit encore plus sur mobile */
+    }
+    .duree-distance-label {
+        margin-right: 4px;
+        font-size: 0.75em; /* Réduit: 0.8em → 0.75em sur mobile */
+    }
+ .duree-distance-value {
+        font-size: 0.9em; /* Réduit: 1em → 0.9em sur mobile */
+    }
             
             .entry-lieux {
                 font-size: 1em;
@@ -13020,20 +13104,41 @@ function showCountryContacts(countryName) {
     countryData.contacts.forEach(contact => {
         const row = document.createElement('tr');
         
-        row.innerHTML = `
-            <td><strong>${contact.nom}</strong></td>
-            <td>${contact.telephone || '-'}</td>
-            <td>${contact.whatsapp || '-'}</td>
-            <td>${contact.mail || '-'}</td>
-            <td>${contact.lieu || '-'}</td>
-            <td>${contact.date || '-'}</td>
-            <td>
-                <div class="contact-action-buttons">
-                    <button class="contact-action-button view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\'")}')" title="Voir détails">👁️</button>
-                    ${contact.mail ? `<button class="contact-action-button email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
-                    ${contact.telephone ? `<button class="contact-action-button call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
-                </div>
-            </td>
+       row.innerHTML = `
+    <td><strong>${contact.nom}</strong></td>
+    <td>${contact.telephone ? contact.telephone.split(/[,;]/).map(tel => {
+        const cleanTel = tel.trim();
+        return `<a href="tel:${cleanTel}" style="color: #3498db; text-decoration: none; display: block; margin: 2px 0;" 
+                  onclick="event.stopPropagation();">
+                📞 ${cleanTel}
+              </a>`;
+    }).join('') : '-'}</td>
+    <td>${contact.whatsapp ? contact.whatsapp.split(/[,;]/).map(wa => {
+        const cleanWa = wa.trim();
+        return `<a href="https://wa.me/${cleanWa.replace(/[^\d+]/g, '')}" 
+                  style="color: #25D366; text-decoration: none; display: block; margin: 2px 0;" 
+                  target="_blank" onclick="event.stopPropagation();">
+                💬 ${cleanWa}
+              </a>`;
+    }).join('') : '-'}</td>
+    <td>${contact.mail ? contact.mail.split(/[,;]/).map(email => {
+        const cleanEmail = email.trim();
+        return `<a href="mailto:${cleanEmail}" 
+                  style="color: #e74c3c; text-decoration: none; display: block; margin: 2px 0;" 
+                  onclick="event.stopPropagation();">
+                📧 ${cleanEmail}
+              </a>`;
+    }).join('') : '-'}</td>
+    <td>${contact.lieu || '-'}</td>
+    <td>${contact.date || '-'}</td>
+    <td>
+        <div class="contact-action-buttons">
+            <button class="contact-action-button view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\\\'")}')" title="Voir détails">👁️</button>
+            ${contact.mail ? `<button class="contact-action-button email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
+            ${contact.telephone ? `<button class="contact-action-button call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
+        </div>
+    </td>
+
         `;
         
         tbody.appendChild(row);
@@ -13066,22 +13171,42 @@ function updateAllContactsTable(filter = '') {
         
         const row = document.createElement('tr');
         
-        row.innerHTML = `
-            <td><strong>${contact.nom}</strong></td>
-            <td>${contact.telephone || '-'}</td>
-            <td>${contact.whatsapp || '-'}</td>
-            <td>${contact.mail || '-'}</td>
-            <td>${contact.lieu || '-'}</td>
-            <td>${contact.date || '-'}</td>
-            <td>${contact.pays || '-'}</td>
-            <td>
-                <div class="contact-action-buttons">
-                    <button class="contact-action-button view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\'")}')" title="Voir détails">👁️</button>
-                    ${contact.mail ? `<button class="contact-action-button email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
-                    ${contact.telephone ? `<button class="contact-action-button call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
-                </div>
-            </td>
-        `;
+row.innerHTML = `
+    <td><strong>${contact.nom}</strong></td>
+    <td>${contact.telephone ? contact.telephone.split(/[,;]/).map(tel => {
+        const cleanTel = tel.trim();
+        return `<a href="tel:${cleanTel}" style="color: #3498db; text-decoration: none; display: block; margin: 2px 0;" 
+                  onclick="event.stopPropagation();">
+                📞 ${cleanTel}
+              </a>`;
+    }).join('') : '-'}</td>
+    <td>${contact.whatsapp ? contact.whatsapp.split(/[,;]/).map(wa => {
+        const cleanWa = wa.trim();
+        return `<a href="https://wa.me/${cleanWa.replace(/[^\d+]/g, '')}" 
+                  style="color: #25D366; text-decoration: none; display: block; margin: 2px 0;" 
+                  target="_blank" onclick="event.stopPropagation();">
+                💬 ${cleanWa}
+              </a>`;
+    }).join('') : '-'}</td>
+    <td>${contact.mail ? contact.mail.split(/[,;]/).map(email => {
+        const cleanEmail = email.trim();
+        return `<a href="mailto:${cleanEmail}" 
+                  style="color: #e74c3c; text-decoration: none; display: block; margin: 2px 0;" 
+                  onclick="event.stopPropagation();">
+                📧 ${cleanEmail}
+              </a>`;
+    }).join('') : '-'}</td>
+    <td>${contact.lieu || '-'}</td>
+    <td>${contact.date || '-'}</td>
+    <td>${contact.pays || '-'}</td>
+    <td>
+        <div class="contact-action-buttons">
+            <button class="contact-action-button view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\\\'")}')" title="Voir détails">👁️</button>
+            ${contact.mail ? `<button class="contact-action-button email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
+            ${contact.telephone ? `<button class="contact-action-button call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
+        </div>
+    </td>
+`;
         
         tbody.appendChild(row);
     });
@@ -13213,10 +13338,15 @@ function updateContactsByCountryView(filter = '') {
             contactItem.className = 'contact-item-compact';
             
             // Formater les détails du contact
-            let contactDetails = '';
-            if (contact.lieu) contactDetails += `<span>📍 ${contact.lieu}</span>`;
-            if (contact.date) contactDetails += `<span>📅 ${contact.date}</span>`;
-            if (contact.telephone) contactDetails += `<span>📞 ${contact.telephone}</span>`;
+let contactDetails = '';
+if (contact.lieu) contactDetails += `<span>📍 ${contact.lieu}</span>`;
+if (contact.date) contactDetails += `<span>📅 ${contact.date}</span>`;
+if (contact.telephone) {
+    const tels = contact.telephone.split(/[,;]/).map(t => t.trim());
+    tels.forEach(tel => {
+        contactDetails += `<span><a href="tel:${tel}" style="color: #3498db; text-decoration: none;">📞 ${tel}</a></span>`;
+    });
+}
             
             contactItem.innerHTML = `
                 <div class="contact-info-compact">
