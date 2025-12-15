@@ -2895,7 +2895,226 @@ margin-left: 5px; /* Petit espace après le texte */
  .filter-group, .filter-tags {
      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
  }
+  
+    /* Styles pour l'organisation des contacts par pays */
+    .contacts-by-country-view {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+    
+    .country-row {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .country-row:hover {
+        background-color: #f0f7ff;
+        transform: translateX(5px);
+    }
+    
+    .country-header {
+        background: linear-gradient(to right, #3498db, #2980b9);
+        color: white;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .country-header h4 {
+        margin: 0;
+        font-size: 1.1em;
+    }
+    
+    .country-contact-count {
+        background: rgba(255, 255, 255, 0.3);
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-weight: bold;
+    }
+    
+    .contacts-grouped {
+        margin-bottom: 25px;
+        border: 2px solid #3498db;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .contacts-grouped-header {
+        background: linear-gradient(to right, #3498db, #2980b9);
+        color: white;
+        padding: 12px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+    }
+    
+    .contacts-grouped-header h4 {
+        margin: 0;
+        font-size: 1.1em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .contacts-grouped-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+    
+    .contacts-grouped-content.expanded {
+        max-height: 500px;
+    }
+    
+    .toggle-icon {
+        font-size: 0.9em;
+        transition: transform 0.3s ease;
+    }
+    
+    .contacts-grouped-header.expanded .toggle-icon {
+        transform: rotate(180deg);
+    }
+/* Styles pour la vue d'ensemble par pays */
+.country-group {
+    margin-bottom: 25px;
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
 
+.country-header {
+    background: linear-gradient(to right, #3498db, #2980b9);
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.country-header:hover {
+    background: linear-gradient(to right, #2980b9, #1c5980);
+}
+
+.country-header h4 {
+    margin: 0;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.country-contact-count {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.country-contents {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+    background: white;
+}
+
+.country-contents.expanded {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.contact-item-compact {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.contact-item-compact:hover {
+    background: #f8f9fa;
+}
+
+.contact-info-compact {
+    flex: 1;
+}
+
+.contact-name {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 3px;
+}
+
+.contact-details {
+    font-size: 0.85em;
+    color: #7f8c8d;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.contact-actions-compact {
+    display: flex;
+    gap: 8px;
+}
+
+.contact-action-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: all 0.2s;
+}
+
+.contact-action-btn:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+.contact-action-btn.email {
+    background: #27ae60;
+}
+
+.contact-action-btn.email:hover {
+    background: #219a52;
+}
+
+.contact-action-btn.call {
+    background: #e74c3c;
+}
+
+.contact-action-btn.call:hover {
+    background: #c0392b;
+}
+
+.toggle-icon {
+    font-size: 0.9em;
+    transition: transform 0.3s ease;
+}
+
+.country-header.expanded .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.no-contacts {
+    text-align: center;
+    padding: 30px;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+</style> <!-- ÇA C'EST LA BALISE FERMANTE EXISTANTE -->
 </style>
 </head>
 <body>
@@ -3139,48 +3358,107 @@ margin-left: 5px; /* Petit espace après le texte */
         </div>
     </div>
 
-    <!-- MODAL POUR LES CONTACTS -->
-    <div id="contactsModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">📇 Tableau de tous les Interlocuteurs/Hôtes</h3>
-                <button class="close-modal" id="closeContactsModal">✕</button>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Rechercher dans les contacts:</label>
-                <input type="text" id="contactsSearchInput" class="form-input" placeholder="Nom, téléphone, email...">
-            </div>
-            
+   <!-- MODAL POUR LES CONTACTS - ORGANISÉS PAR PAYS -->
+<div id="contactsModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">📇 Tableau des Interlocuteurs/Hôtes - Organisés par Pays</h3>
+            <button class="close-modal" id="closeContactsModal">✕</button>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Rechercher dans les contacts:</label>
+            <input type="text" id="contactsSearchInput" class="form-input" placeholder="Nom, téléphone, pays...">
+        </div>
+        
+        <!-- BOUTONS POUR BAS CULER ENTRE LES VUES -->
+        <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <button id="showByCountryButton" class="action-button primary" style="background: linear-gradient(to bottom, #3498db, #2980b9);">
+                🌍 Vue par Pays
+            </button>
+            <button id="showAllContactsButton" class="action-button secondary" style="background: linear-gradient(to bottom, #95a5a6, #7f8c8d);">
+                📋 Vue Liste Unique
+            </button>
+        </div>
+        
+        <!-- SECTION POUR L'AFFICHAGE PAR PAYS (PAR DÉFAUT) -->
+        <div id="contactsByCountryView" class="contacts-by-country-view">
             <div class="contacts-table-container">
-                <table class="contacts-table" id="contactsTable">
+                <table class="contacts-table" id="contactsTableByCountry">
                     <thead>
                         <tr>
-                            <th>Nom</th>
-                            <th>Téléphone</th>
-                            <th>WhatsApp</th>
-                            <th>Email</th>
-                            <th>Lieux</th>
-                            <th>Date</th>
+                            <th>Pays</th>
+                            <th>Nombre de Contacts</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="contactsTableBody">
+                    <tbody id="contactsTableByCountryBody">
+                        <!-- Les pays seront générés ici dynamiquement -->
                     </tbody>
                 </table>
             </div>
             
-            <div style="margin: 15px 0; display: flex; justify-content: space-between; align-items: center;">
-                <div id="contactsCount">0 contacts trouvés</div>
-                <div>
-                    <button class="action-button secondary" id="exportContactsCSV">📊 Exporter CSV</button>
-                    <button class="action-button secondary" id="exportContactsPDF">📄 Exporter PDF</button>
+            <!-- SECTION DÉTAILLÉE QUAND ON CLIQUE SUR UN PAYS -->
+            <div id="countryDetailsView" style="display: none; margin-top: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h4 id="countryDetailsTitle" style="margin: 0; color: var(--primary-color);">Contacts du pays</h4>
+                    <button id="backToCountriesButton" class="action-button secondary" style="padding: 8px 15px; font-size: 0.9em;">
+                        ↩ Retour aux pays
+                    </button>
+                </div>
+                
+                <div class="contacts-table-container">
+                    <table class="contacts-table" id="countryContactsTable">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Téléphone</th>
+                                <th>WhatsApp</th>
+                                <th>Email</th>
+                                <th>Lieux</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="countryContactsTableBody">
+                            <!-- Les contacts du pays sélectionné seront ici -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            
-            <div class="modal-actions">
-                <button class="action-button cancel" id="cancelContacts">Fermer</button>
+        </div>
+        
+        <!-- SECTION POUR L'AFFICHAGE DE TOUS LES CONTACTS EN UNE LISTE (CACHÉE PAR DÉFAUT) -->
+        <div id="allContactsListView" class="contacts-table-container" style="display: none;">
+            <table class="contacts-table" id="allContactsTable">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Téléphone</th>
+                        <th>WhatsApp</th>
+                        <th>Email</th>
+                        <th>Lieux</th>
+                        <th>Date</th>
+                        <th>Pays</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="allContactsTableBody">
+                    <!-- Tous les contacts seront ici -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="margin: 15px 0; display: flex; justify-content: space-between; align-items: center;">
+            <div id="contactsCount">0 contacts trouvés</div>
+            <div>
+                <button class="action-button secondary" id="exportContactsCSV">📊 Exporter CSV</button>
+                <button class="action-button secondary" id="exportContactsPDF">📄 Exporter PDF</button>
             </div>
+        </div>
+        
+        <div class="modal-actions">
+            <button class="action-button cancel" id="cancelContacts">Fermer</button>
         </div>
     </div>
 </div>
@@ -12531,7 +12809,409 @@ function updateExportButtonsVisibility() {
         window.scrollToLieu = scrollToLieu;
         window.toggleFilterGroup = toggleFilterGroup;
         window.showContactsTable = showContactsTable;
+// =============== FONCTIONS POUR LE TABLEAU DES CONTACTS ORGANISÉS PAR PAYS ===============
 
+function showContactsTable() {
+    showModal('contactsModal');
+    showContactsByCountryView();
+}
+
+function showContactsByCountryView() {
+    // Afficher la vue par pays, cacher la vue liste
+    document.getElementById('contactsByCountryView').style.display = 'block';
+    document.getElementById('allContactsListView').style.display = 'none';
+    
+    // Mettre à jour les boutons
+    document.getElementById('showByCountryButton').classList.add('primary');
+    document.getElementById('showByCountryButton').classList.remove('secondary');
+    document.getElementById('showAllContactsButton').classList.add('secondary');
+    document.getElementById('showAllContactsButton').classList.remove('primary');
+    
+    updateContactsByCountryTable();
+}
+
+function showAllContactsListView() {
+    // Afficher la vue liste, cacher la vue par pays
+    document.getElementById('contactsByCountryView').style.display = 'none';
+    document.getElementById('allContactsListView').style.display = 'block';
+    
+    // Mettre à jour les boutons
+    document.getElementById('showAllContactsButton').classList.add('primary');
+    document.getElementById('showAllContactsButton').classList.remove('secondary');
+    document.getElementById('showByCountryButton').classList.add('secondary');
+    document.getElementById('showByCountryButton').classList.remove('primary');
+    
+    updateAllContactsTable();
+}
+
+function updateContactsByCountryTable(filter = '') {
+    const tbody = document.getElementById('contactsTableByCountryBody');
+    const countryDetailsView = document.getElementById('countryDetailsView');
+    
+    // Cacher la vue détaillée si elle est ouverte
+    countryDetailsView.style.display = 'none';
+    
+    // Organiser les contacts par pays
+    const contactsByCountry = organizeContactsByCountry(allContacts);
+    const searchLower = filter.toLowerCase();
+    
+    tbody.innerHTML = '';
+    
+    Object.keys(contactsByCountry).forEach(country => {
+        const countryData = contactsByCountry[country];
+        
+        // Filtrer par recherche si nécessaire
+        if (filter && !country.toLowerCase().includes(searchLower)) {
+            // Vérifier si des contacts dans ce pays correspondent
+            const hasMatchingContacts = countryData.contacts.some(contact =>
+                contact.nom.toLowerCase().includes(searchLower) ||
+                contact.telephone.toLowerCase().includes(searchLower) ||
+                contact.whatsapp.toLowerCase().includes(searchLower) ||
+                contact.mail.toLowerCase().includes(searchLower) ||
+                contact.lieu.toLowerCase().includes(searchLower)
+            );
+            
+            if (!hasMatchingContacts) return;
+        }
+        
+        const row = document.createElement('tr');
+        row.className = 'country-row';
+        row.dataset.country = country;
+        
+        row.innerHTML = `
+            <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.2em;">🌍</span>
+                    <strong>${country}</strong>
+                </div>
+            </td>
+            <td>
+                <span style="background: var(--accent-color); color: white; padding: 5px 10px; border-radius: 15px; font-weight: bold;">
+                    ${countryData.count} contact(s)
+                </span>
+            </td>
+            <td>
+                <button class="action-button secondary view-contacts-btn" 
+                        style="padding: 8px 15px; font-size: 0.9em;">
+                    👁️ Voir les contacts
+                </button>
+            </td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+    
+    // Mettre à jour le compteur
+    const totalContacts = Object.keys(contactsByCountry).reduce((sum, country) => {
+        return sum + contactsByCountry[country].count;
+    }, 0);
+    
+    document.getElementById('contactsCount').textContent = 
+        `${totalContacts} contacts dans ${Object.keys(contactsByCountry).length} pays`;
+    
+    // Attacher les événements
+    attachCountryRowEvents();
+}
+
+function attachCountryRowEvents() {
+    // Bouton "Voir les contacts"
+    document.querySelectorAll('.view-contacts-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const country = this.closest('.country-row').dataset.country;
+            showCountryContacts(country);
+        });
+    });
+    
+    // Clic sur la ligne entière
+    document.querySelectorAll('.country-row').forEach(row => {
+        row.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('view-contacts-btn')) {
+                const country = this.dataset.country;
+                showCountryContacts(country);
+            }
+        });
+    });
+}
+
+function showCountryContacts(countryName) {
+    // Organiser les contacts par pays
+    const contactsByCountry = organizeContactsByCountry(allContacts);
+    const countryData = contactsByCountry[countryName];
+    
+    if (!countryData) return;
+    
+    // Mettre à jour le titre
+    document.getElementById('countryDetailsTitle').textContent = 
+        `📇 Contacts de ${countryName} (${countryData.count} contact(s))`;
+    
+    // Remplir le tableau des contacts du pays
+    const tbody = document.getElementById('countryContactsTableBody');
+    tbody.innerHTML = '';
+    
+    countryData.contacts.forEach(contact => {
+        const row = document.createElement('tr');
+        
+        row.innerHTML = `
+            <td><strong>${contact.nom}</strong></td>
+            <td>${contact.telephone || '-'}</td>
+            <td>${contact.whatsapp || '-'}</td>
+            <td>${contact.mail || '-'}</td>
+            <td>${contact.lieu || '-'}</td>
+            <td>${contact.date || '-'}</td>
+            <td>
+                <div class="contact-action-buttons">
+                    <button class="contact-action-button view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\'")}')" title="Voir détails">👁️</button>
+                    ${contact.mail ? `<button class="contact-action-button email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
+                    ${contact.telephone ? `<button class="contact-action-button call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
+                </div>
+            </td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+    
+    // Afficher la vue détaillée
+    document.getElementById('countryDetailsView').style.display = 'block';
+    
+    // Faire défiler vers le haut de la section
+    document.getElementById('countryDetailsView').scrollIntoView({ behavior: 'smooth' });
+}
+
+function updateAllContactsTable(filter = '') {
+    const tbody = document.getElementById('allContactsTableBody');
+    tbody.innerHTML = '';
+    
+    const searchLower = filter.toLowerCase();
+    
+    allContacts.forEach(contact => {
+        // Filtrer si une recherche est en cours
+        if (filter && 
+            !contact.nom.toLowerCase().includes(searchLower) &&
+            !contact.telephone.toLowerCase().includes(searchLower) &&
+            !contact.whatsapp.toLowerCase().includes(searchLower) &&
+            !contact.mail.toLowerCase().includes(searchLower) &&
+            !contact.lieu.toLowerCase().includes(searchLower) &&
+            !contact.pays.toLowerCase().includes(searchLower)) {
+            return;
+        }
+        
+        const row = document.createElement('tr');
+        
+        row.innerHTML = `
+            <td><strong>${contact.nom}</strong></td>
+            <td>${contact.telephone || '-'}</td>
+            <td>${contact.whatsapp || '-'}</td>
+            <td>${contact.mail || '-'}</td>
+            <td>${contact.lieu || '-'}</td>
+            <td>${contact.date || '-'}</td>
+            <td>${contact.pays || '-'}</td>
+            <td>
+                <div class="contact-action-buttons">
+                    <button class="contact-action-button view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\'")}')" title="Voir détails">👁️</button>
+                    ${contact.mail ? `<button class="contact-action-button email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
+                    ${contact.telephone ? `<button class="contact-action-button call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
+                </div>
+            </td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+    
+    // Mettre à jour le compteur
+    const visibleContacts = document.querySelectorAll('#allContactsTableBody tr').length;
+    document.getElementById('contactsCount').textContent = `${visibleContacts} contacts trouvés`;
+}
+
+function filterContactsTable() {
+    const filter = document.getElementById('contactsSearchInput').value;
+    
+    // Vérifier quelle vue est active
+    if (document.getElementById('contactsByCountryView').style.display !== 'none') {
+        // Vue par pays active
+        updateContactsByCountryTable(filter);
+    } else {
+        // Vue liste active
+        updateAllContactsTable(filter);
+    }
+}
+
+// Événements pour les boutons de basculement de vue
+document.addEventListener('DOMContentLoaded', function() {
+    // Ces événements seront attachés une fois que le modal sera créé
+    setTimeout(() => {
+        const showByCountryBtn = document.getElementById('showByCountryButton');
+        const showAllContactsBtn = document.getElementById('showAllContactsButton');
+        const backToCountriesBtn = document.getElementById('backToCountriesButton');
+        
+        if (showByCountryBtn) {
+            showByCountryBtn.addEventListener('click', showContactsByCountryView);
+        }
+        
+        if (showAllContactsBtn) {
+            showAllContactsBtn.addEventListener('click', showAllContactsListView);
+        }
+        
+        if (backToCountriesBtn) {
+            backToCountriesBtn.addEventListener('click', function() {
+                document.getElementById('countryDetailsView').style.display = 'none';
+            });
+        }
+        
+        // Recherche dans les contacts
+        const searchInput = document.getElementById('contactsSearchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', filterContactsTable);
+        }
+    }, 1000);
+});
+// =============== FONCTIONS POUR LA VUE D'ENSEMBLE PAR PAYS ===============
+
+function showContactsTable() {
+    showModal('contactsModal');
+    updateContactsByCountryView();
+}
+
+function updateContactsByCountryView(filter = '') {
+    const container = document.getElementById('contactsByCountryView');
+    const searchLower = filter.toLowerCase();
+    
+    // Organiser les contacts par pays
+    const contactsByCountry = organizeContactsByCountry(allContacts);
+    
+    container.innerHTML = '';
+    
+    if (Object.keys(contactsByCountry).length === 0) {
+        container.innerHTML = `
+            <div class="no-contacts">
+                <div style="font-size: 3em; margin-bottom: 15px;">📭</div>
+                <h4>Aucun contact trouvé</h4>
+                <p>Aucun interlocuteur/hôte n'a été enregistré</p>
+            </div>
+        `;
+        document.getElementById('contactsCount').textContent = '0 contacts trouvés';
+        return;
+    }
+    
+    let totalContactsDisplayed = 0;
+    
+    // Trier les pays par nombre de contacts (décroissant)
+    const sortedCountries = Object.keys(contactsByCountry).sort((a, b) => 
+        contactsByCountry[b].count - contactsByCountry[a].count
+    );
+    
+    sortedCountries.forEach(country => {
+        const countryData = contactsByCountry[country];
+        
+        // Filtrer les contacts de ce pays selon la recherche
+        const filteredContacts = countryData.contacts.filter(contact => 
+            searchLower === '' || 
+            contact.nom.toLowerCase().includes(searchLower) ||
+            contact.telephone.toLowerCase().includes(searchLower) ||
+            contact.whatsapp.toLowerCase().includes(searchLower) ||
+            contact.mail.toLowerCase().includes(searchLower) ||
+            contact.lieu.toLowerCase().includes(searchLower) ||
+            country.toLowerCase().includes(searchLower)
+        );
+        
+        if (filteredContacts.length === 0) return;
+        
+        totalContactsDisplayed += filteredContacts.length;
+        
+        // Créer le groupe pour ce pays
+        const countryGroup = document.createElement('div');
+        countryGroup.className = 'country-group';
+        
+        // Créer l'en-tête du pays
+        const countryHeader = document.createElement('div');
+        countryHeader.className = 'country-header';
+        countryHeader.innerHTML = `
+            <h4>
+                <span style="font-size: 1.2em;">🌍</span>
+                ${country}
+            </h4>
+            <div>
+                <span class="country-contact-count">${filteredContacts.length} contact(s)</span>
+                <span class="toggle-icon" style="margin-left: 10px;">▼</span>
+            </div>
+        `;
+        
+        // Créer le contenu (contacts)
+        const countryContents = document.createElement('div');
+        countryContents.className = 'country-contents';
+        
+        filteredContacts.forEach(contact => {
+            const contactItem = document.createElement('div');
+            contactItem.className = 'contact-item-compact';
+            
+            // Formater les détails du contact
+            let contactDetails = '';
+            if (contact.lieu) contactDetails += `<span>📍 ${contact.lieu}</span>`;
+            if (contact.date) contactDetails += `<span>📅 ${contact.date}</span>`;
+            if (contact.telephone) contactDetails += `<span>📞 ${contact.telephone}</span>`;
+            
+            contactItem.innerHTML = `
+                <div class="contact-info-compact">
+                    <div class="contact-name">${contact.nom}</div>
+                    <div class="contact-details">${contactDetails}</div>
+                </div>
+                <div class="contact-actions-compact">
+                    <button class="contact-action-btn view" onclick="showInterlocutorBubble('${contact.nom.replace(/'/g, "\\'")}')" title="Voir détails">👁️</button>
+                    ${contact.mail ? `<button class="contact-action-btn email" onclick="location.href='mailto:${contact.mail}'" title="Envoyer email">📧</button>` : ''}
+                    ${contact.telephone ? `<button class="contact-action-btn call" onclick="location.href='tel:${contact.telephone}'" title="Appeler">📞</button>` : ''}
+                </div>
+            `;
+            
+            countryContents.appendChild(contactItem);
+        });
+        
+        // Événement pour ouvrir/fermer le pays
+        countryHeader.addEventListener('click', function() {
+            const isExpanded = countryContents.classList.contains('expanded');
+            countryContents.classList.toggle('expanded');
+            countryHeader.classList.toggle('expanded');
+            
+            // Animer l'icône
+            const toggleIcon = this.querySelector('.toggle-icon');
+            toggleIcon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+        });
+        
+        // Assembler le groupe
+        countryGroup.appendChild(countryHeader);
+        countryGroup.appendChild(countryContents);
+        container.appendChild(countryGroup);
+        
+        // Ouvrir le premier pays par défaut
+        if (sortedCountries.indexOf(country) === 0) {
+            setTimeout(() => {
+                countryHeader.click();
+            }, 100);
+        }
+    });
+    
+    // Mettre à jour le compteur
+    const totalContacts = allContacts.length;
+    document.getElementById('contactsCount').textContent = 
+        `${totalContactsDisplayed} contacts affichés (sur ${totalContacts} total) dans ${Object.keys(contactsByCountry).length} pays`;
+}
+
+function filterContactsTable() {
+    const filter = document.getElementById('contactsSearchInput').value;
+    updateContactsByCountryView(filter);
+}
+
+// Remplacer la fonction existante showContactsTable
+window.showContactsTable = showContactsTable;
+
+// Événement pour la recherche (à ajouter dans DOMContentLoaded)
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        const searchInput = document.getElementById('contactsSearchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', filterContactsTable);
+        }
+    }, 1000);
+});
     </script> 
 </body>
 </html>
