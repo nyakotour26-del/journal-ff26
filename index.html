@@ -582,30 +582,125 @@
             gap: 15px;
         }
         
-        .photo-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
-            color: white;
-            padding: 10px 18px;
-            border-radius: 25px;
-            text-decoration: none;
-            margin: 8px;
-            font-size: 0.95em;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
+/* =============== APERÇUS PHOTOS AVEC THUMBNAILS =============== */
+.photo-preview-container {
+    display: inline-block;
+    margin: 15px;
+    text-align: center;
+    vertical-align: top;
+    width: 6cm;
+    max-width: 100%;
+}
+
+.photo-link-with-preview {
+    display: block;
+    width: 6cm;
+    height: 6cm;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border: 3px solid var(--gold);
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.photo-link-with-preview:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border-color: var(--secondary-color);
+}
+
+.photo-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    cursor: pointer;
+}
+
+.photo-link-with-preview:hover .photo-thumbnail {
+    transform: scale(1.1);
+}
+
+/* Overlay au survol */
+.photo-link-with-preview::after {
+    content: '🔍 Voir en grand';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px;
+    font-size: 0.9em;
+    font-weight: 600;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.photo-link-with-preview:hover::after {
+    transform: translateY(0);
+}
+
+/* Label sous la photo */
+.photo-label {
+    margin-top: 12px;
+    font-size: 0.95em;
+    font-weight: 600;
+    color: var(--primary-color);
+    padding: 8px 12px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    border-left: 4px solid var(--secondary-color);
+}
+
+/* Indicateur de chargement */
+.photo-thumbnail.loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.photo-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+}
+
+.photo-button:hover::before {
+    transform: translateX(100%);
+}
+
+.photo-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+}
+
+.photo-button::after {
+    content: '📸';
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    display: block;
+}
         
-        .photo-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-        }
+    
         
-        .photo-button::before {
-            content: '📸';
-            font-size: 1.1em;
-        }
+        
         
         .search-section {
             background-color: white;
@@ -1073,28 +1168,69 @@ margin-left: 5px; /* Petit espace après le texte */
             overflow-y: auto;
         }
         
-        .photos-section {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border: 2px dashed #dee2e6;
-        }
-        
-        .photos-title {
-            font-size: 1.1em;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .photos-title::before {
-            content: '🖼️';
-            font-size: 1.2em;
-        }
+/* =============== SECTIONS PHOTOS AMÉLIORÉES =============== */
+.photos-section {
+    background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 3px solid var(--secondary-color);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.photos-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: rotate(45deg);
+    z-index: 0;
+}
+
+.photos-title {
+    font-size: 1.4em;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1;
+    border-left: 6px solid var(--gold);
+}
+
+.photos-title::before {
+    content: '🖼️';
+    font-size: 1.6em;
+    animation: photoIcon 2s infinite;
+}
+
+@keyframes photoIcon {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Container pour les boutons photos */
+.photo-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    padding: 15px;
+}
         
         .admin-section {
             background: linear-gradient(135deg, #2c3e50, #34495e);
@@ -2235,7 +2371,52 @@ margin-left: 5px; /* Petit espace après le texte */
             }
         }
         
-        @media (max-width: 768px) {
+       @media (max-width: 768px) {
+    .photo-preview-container {
+        width: 45vw !important;
+        margin: 10px !important;
+    }
+    
+    .photo-link-with-preview {
+        width: 45vw !important;
+        height: 45vw !important;
+        min-width: unset !important;
+        min-height: unset !important;
+    }
+    
+    .photo-label {
+        font-size: 0.85em !important;
+        padding: 6px 8px !important;
+    }
+    
+    .photo-link-with-preview::after {
+        font-size: 0.8em !important;
+        padding: 8px !important;
+    }
+    
+    /* Pour la galerie photos sur mobile */
+    .photo-buttons-container {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .photo-preview-container {
+        width: 90vw !important;
+        margin: 10px auto !important;
+    }
+    
+    .photo-link-with-preview {
+        width: 90vw !important;
+        height: 90vw !important;
+    }
+    
+    .photo-buttons-container {
+        grid-template-columns: 1fr !important;
+    }
+}
             .search-form {
                 flex-direction: row;
             }
@@ -2552,6 +2733,50 @@ margin-left: 5px; /* Petit espace après le texte */
                 padding: 3px 6px;
                 font-size: 0.7em;
             }
+
+.photo-button {
+        min-width: 80vw !important;
+        min-height: 80px !important;
+        padding: 15px 20px !important;
+        margin: 10px 5px !important;
+        font-size: 1em !important;
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+    }
+    
+    .photo-button::after {
+        margin-right: 15px !important;
+        margin-bottom: 0 !important;
+        font-size: 1.5em !important;
+    }
+    
+    .photos-section {
+        padding: 15px !important;
+        margin: 20px -15px !important;
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-top: 3px solid var(--secondary-color) !important;
+        border-bottom: 3px solid var(--secondary-color) !important;
+    }
+    
+    .photo-buttons-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .photos-title {
+        font-size: 1.2em !importan
+
+t;
+        padding: 12px 15px !important;
+        margin: 0 -15px 15px -15px !important;
+        border-radius: 0 !important;
+    }
+}
+
+
     /* Statistiques sur mobile */
     .stats-row .stat-card {
         height: 1.2cm !important; /* Ajout de 2mm */
@@ -9609,32 +9834,69 @@ function updateShowAllButtonVisibility() {
                 sectionDiv.appendChild(createContactInfoSection(activityData));
             }
             
-            if (activityData.photosLieux || activityData.repertoire || activityData.photosGroupe) {
-                const photosDiv = document.createElement('div');
-                photosDiv.className = 'photos-section';
-                
-                const photosTitle = document.createElement('div');
-                photosTitle.className = 'photos-title';
-                photosTitle.textContent = 'Liens des photos';
-                photosDiv.appendChild(photosTitle);
-                
-                if (activityData.photosLieux) {
-                    const photoButton = createPhotoButton('Photos des lieux', activityData.photosLieux);
-                    photosDiv.appendChild(photoButton);
-                }
-                
-                if (activityData.repertoire) {
-                    const photoButton = createPhotoButton('Répertoire', activityData.repertoire);
-                    photosDiv.appendChild(photoButton);
-                }
-                
-                if (activityData.photosGroupe) {
-                    const photoButton = createPhotoButton('Photos de groupe', activityData.photosGroupe);
-                    photosDiv.appendChild(photoButton);
-                }
-                
-                sectionDiv.appendChild(photosDiv);
-            }
+            /* =============== SECTION PHOTOS AMÉLIORÉE =============== */
+if (activityData.photosLieux || activityData.repertoire || activityData.photosGroupe) {
+    const photosDiv = document.createElement('div');
+    photosDiv.className = 'photos-section';
+    
+    const photosTitle = document.createElement('div');
+    photosTitle.className = 'photos-title';
+    photosTitle.innerHTML = '<span style="color: var(--gold);">📸</span> Galerie Photos et Médias';
+    photosDiv.appendChild(photosTitle);
+    
+    // Container spécial pour les boutons photos
+    const photoButtonsContainer = document.createElement('div');
+    photoButtonsContainer.className = 'photo-buttons-container';
+    
+    if (activityData.photosLieux) {
+    const photoPreview = createPhotoButton('Photos des lieux', activityData.photosLieux);
+    
+    // Mettre à jour le label
+    const label = photoPreview.querySelector('.photo-label');
+    if (label) {
+        label.innerHTML = '🏛️ Photos des lieux<br><small style="font-size: 0.8em; font-weight: normal; opacity: 0.8;">(Extérieur/Intérieur/Coulisses)</small>';
+    }
+    
+    photoButtonsContainer.appendChild(photoPreview);
+}
+    
+    if (activityData.repertoire) {
+        const photoButton = createPhotoButton('🎵 Répertoire musical', activityData.repertoire);
+        photoButton.innerHTML += '<div style="font-size: 0.9em; margin-top: 10px; opacity: 0.9; font-weight: normal;">(Partitions & arrangements)</div>';
+        photoButtonsContainer.appendChild(photoButton);
+    }
+    
+    if (activityData.photosGroupe) {
+        const photoButton = createPhotoButton('👥 Photos de groupe', activityData.photosGroupe);
+        photoButton.innerHTML += '<div style="font-size: 0.9em; margin-top: 10px; opacity: 0.9; font-weight: normal;">(Moments marquants)</div>';
+        photoButtonsContainer.appendChild(photoButton);
+    }
+    
+    photosDiv.appendChild(photoButtonsContainer);
+    
+    // Ajouter un note d'information
+    const photoNote = document.createElement('div');
+    photoNote.style.cssText = `
+        margin-top: 20px;
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        font-size: 0.9em;
+        color: #7f8c8d;
+        text-align: center;
+        border-left: 4px solid var(--gold);
+    `;
+    photoNote.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 5px;">
+            <span style="color: var(--secondary-color);">💡</span>
+            <strong>Conseil :</strong>
+        </div>
+        Cliquez sur les boutons pour accéder aux albums photos et médias correspondants
+    `;
+    photosDiv.appendChild(photoNote);
+    
+    sectionDiv.appendChild(photosDiv);
+}
             
             return sectionDiv;
         }
@@ -9812,16 +10074,60 @@ function updateShowAllButtonVisibility() {
             return noteDiv;
         }
 
-        function createPhotoButton(text, url) {
-            const button = document.createElement('a');
-            button.className = 'photo-button';
-            button.href = url;
-            button.target = '_blank';
-            button.rel = 'noopener noreferrer';
-            button.textContent = text;
-            
-            return button;
+function createPhotoButton(text, url) {
+    // Créer un container pour l'aperçu photo
+    const photoPreview = document.createElement('div');
+    photoPreview.className = 'photo-preview-container';
+    
+    // Créer l'élément image pour l'aperçu
+    const imgPreview = document.createElement('img');
+    imgPreview.className = 'photo-thumbnail';
+    imgPreview.alt = text;
+    imgPreview.title = `📸 ${text}\nCliquez pour ouvrir en grand`;
+    
+    // Créer le lien qui contiendra l'aperçu
+    const photoLink = document.createElement('a');
+    photoLink.className = 'photo-link-with-preview';
+    photoLink.href = url;
+    photoLink.target = '_blank';
+    photoLink.rel = 'noopener noreferrer';
+    
+    // Créer le label/text sous la photo
+    const photoLabel = document.createElement('div');
+    photoLabel.className = 'photo-label';
+    photoLabel.textContent = text;
+    
+    // Configurer l'image d'aperçu
+    // Pour Google Drive, nous pouvons générer une URL de thumbnail
+    if (url.includes('drive.google.com')) {
+        // Convertir l'URL Google Drive en URL de preview
+        let previewUrl = url;
+        if (url.includes('/file/d/')) {
+            const fileId = url.split('/file/d/')[1].split('/')[0];
+            previewUrl = `https://drive.google.com/thumbnail?sz=w400&id=${fileId}`;
+        } else if (url.includes('id=')) {
+            const fileId = url.split('id=')[1].split('&')[0];
+            previewUrl = `https://drive.google.com/thumbnail?sz=w400&id=${fileId}`;
         }
+        imgPreview.src = previewUrl;
+    } else {
+        // Pour d'autres URLs, utiliser directement
+        imgPreview.src = url;
+    }
+    
+    // Gestion des erreurs de chargement d'image
+    imgPreview.onerror = function() {
+        this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNlOGY0ZjgiLz48cGF0aCBkPSJNNTAgNzBMMTUwIDcwTDEyMCAxMzBINzBMMTUwIDEzMEg1MFY3MFoiIGZpbGw9IiMzNDk4ZGIiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjMwIiBmaWxsPSIjZjc0YzNjIi8+PC9zdmc+';
+        this.alt = `Aperçu non disponible pour ${text}`;
+    };
+    
+    // Assembler les éléments
+    photoLink.appendChild(imgPreview);
+    photoPreview.appendChild(photoLink);
+    photoPreview.appendChild(photoLabel);
+    
+    return photoPreview;
+}
 
         function findHeaderIndex(headerText) {
             return headers.findIndex(header => 
