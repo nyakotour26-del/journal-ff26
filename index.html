@@ -1032,13 +1032,13 @@ margin-left: 5px; /* Petit espace après le texte */
         
 .stat-card {
     background: white;
-    padding: 6px 6px; /* Réduit: 5px→3px (haut/bas), 8px→6px (gauche/droite) */
+    padding: 8px 8px; /* Augmenté de 6px à 8px */
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     text-align: center;
     border: 2px solid #87CEEB;
     transition: transform 0.3s ease;
-    height: 1.2cm;
+    height: 1.3cm; /* RÉDUIT de 1.4cm à 1.3cm */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1050,7 +1050,7 @@ margin-left: 5px; /* Petit espace après le texte */
 
 .stat-value {
     font-size: 0.5em !important;
-    font-weight: 300 !important; /* ← CHANGÉ : 800 devient 500 */
+    font-weight: 200 !important; /* ← CHANGÉ : 800 devient 500 */
         color: #87CEEB !important; /* ← BLEU CIEL AU LIEU DE GRIS */
     margin-bottom: 0;
     line-height: 1;
@@ -1325,18 +1325,18 @@ margin-left: 5px; /* Petit espace après le texte */
         
 .activity-stat {
     background: white;
-    padding: 6px 4px; /* Réduit: 8px→6px (haut/bas), 5px→4px (gauche/droite) */
+    padding: 8px 6px; /* Augmenté de 6px 4px à 8px 6px */
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     text-align: center;
     border-left: 4px solid #FF69B4;
     cursor: pointer;
     transition: all 0.3s ease;
-    height: 1.2cm;
+    height: 1.3cm; /* RÉDUIT de 1.4cm à 1.3cm */
     display: flex;
     flex-direction: column;
     justify-content: center;
-}      
+}     
         .activity-stat:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -2697,7 +2697,25 @@ margin-left: 5px; /* Petit espace après le texte */
                 content: '';
                 flex-grow: 1;
             }
-            
+            /* Correction hauteur cartes statistiques sur mobile */
+/* Correction hauteur cartes statistiques sur mobile */
+@media (max-width: 768px) {
+    .stat-card {
+        height: 1.4cm !important; /* RÉDUIT de 1.6cm à 1.4cm */
+        padding: 8px 6px !important; /* Réduit le padding */
+    }
+    
+    .activity-stat {
+        height: 1.4cm !important; /* RÉDUIT de 1.6cm à 1.4cm */
+        padding: 8px 6px !important; /* Réduit le padding */
+    }
+    
+    .stat-label,
+    .activity-stat-label {
+        font-size: 0.7em !important; /* RÉDUIT de 0.75em à 0.7em */
+        line-height: 1.0 !important; /* Réduit l'interligne */
+    }
+}
             .fixed-title {
                 height: 80px;
             }
@@ -9418,7 +9436,7 @@ function updateShowAllButtonVisibility() {
                 { name: 'distanceTrajet', patterns: ['Distance trajet:', 'Distance trajet'] },
                 { name: 'details', patterns: ['Détails sur l\'activité:', 'Détails sur l\'activité', 'Details sur l\'activite'] },
                 { name: 'faits', patterns: ['Faits marquants et Anecdote:', 'Faits marquants et Anecdote'] },
-                { name: 'observations', patterns: ['Observations :', 'Observations'] },
+                { name: 'Playlist', patterns: ['Playlist :', 'Playlist'] },
                 { name: 'nbParticipant', patterns: ['Nb participant:', 'Nb participant'] },
                 { name: 'interlocuteur', patterns: ['Interlocuteur ,hôte', 'Interlocuteur', 'Interlocuteur, hôte'] },
                 { name: 'telephone', patterns: ['Téléphone', 'Telephone'] },
@@ -9602,7 +9620,7 @@ function updateShowAllButtonVisibility() {
                 sectionDiv.appendChild(lieuxInfo);
             }
             
-            if (activityData.details || activityData.faits || activityData.observations) {
+            if (activityData.details || activityData.faits || activityData.Playlist) {
                 const notesSubtitle = document.createElement('h5');
                 notesSubtitle.className = 'subsection-title';
                 notesSubtitle.textContent = 'Notes';
@@ -9616,8 +9634,8 @@ function updateShowAllButtonVisibility() {
                     sectionDiv.appendChild(createNoteBox('Faits marquants et Anecdote:', activityData.faits));
                 }
                 
-                if (activityData.observations) {
-                    sectionDiv.appendChild(createNoteBox('Observations:', activityData.observations));
+                if (activityData.Playlist) {
+                    sectionDiv.appendChild(createNoteBox('Playlist:', activityData.Playlist));
                 }
             }
             
@@ -9803,7 +9821,7 @@ function updateShowAllButtonVisibility() {
                 sectionDiv.appendChild(lieuxInfo);
             }
             
-            if (activityData.details || activityData.faits || activityData.observations) {
+            if (activityData.details || activityData.faits || activityData.Playlist) {
                 const notesSubtitle = document.createElement('h5');
                 notesSubtitle.className = 'subsection-title';
                 notesSubtitle.textContent = 'Notes';
@@ -9817,8 +9835,8 @@ function updateShowAllButtonVisibility() {
                     sectionDiv.appendChild(createNoteBox('Faits marquants et Anecdote:', activityData.faits));
                 }
                 
-                if (activityData.observations) {
-                    sectionDiv.appendChild(createNoteBox('Observations:', activityData.observations));
+                if (activityData.Playlist) {
+                    sectionDiv.appendChild(createNoteBox('Playlist:', activityData.Playlist));
                 }
             }
             
@@ -10728,7 +10746,7 @@ function createPhotoButton(text, url) {
                     header.includes('Heure fin') ||
                     header.includes('Détails sur l\'activité') ||
                     header.includes('Faits marquants') ||
-                    header.includes('Observations')
+                    header.includes('Playlist')
                 )) {
                     return false;
                 }
@@ -10793,7 +10811,7 @@ function createPhotoButton(text, url) {
                         header.includes('Heure fin') ||
                         header.includes('Détails sur l\'activité') ||
                         header.includes('Faits marquants') ||
-                        header.includes('Observations')
+                        header.includes('Playlist')
                     )) {
                         return;
                     }
@@ -10952,8 +10970,8 @@ function createPhotoButton(text, url) {
                 content += `<p><strong>Faits marquants:</strong> ${activityData.faits}</p>`;
             }
             
-            if (activityData.observations) {
-                content += `<p><strong>Observations:</strong> ${activityData.observations}</p>`;
+            if (activityData.Playlist) {
+                content += `<p><strong>Playlist:</strong> ${activityData.Playlist}</p>`;
             }
             
             if (activityData.nbParticipant) {
@@ -12140,7 +12158,7 @@ function exportBookPDFWithParticipants(selectedParticipants, includeList = true,
     }
     
     // Notes (EXACTEMENT comme les fiches)
-    if (activityData.details || activityData.faits || activityData.observations) {
+    if (activityData.details || activityData.faits || activityData.Playlist) {
         content += `<h5 style="font-size: 1.2em; color: #3498db; margin: 20px 0 15px; padding-left: 15px; border-left: 4px solid #3498db; font-weight: 600;">Notes:</h5>`;
         
         if (activityData.details) {
@@ -12165,13 +12183,13 @@ function exportBookPDFWithParticipants(selectedParticipants, includeList = true,
             `;
         }
         
-        if (activityData.observations) {
+        if (activityData.Playlist) {
             content += `
                 <div style="background-color: #fff9c4; border: 2px solid #ffd54f; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
                     <div style="font-weight: 700; margin-bottom: 12px; color: #2c3e50; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
-                        <span>👁️</span> Observations:
+                        <span>👁️</span> Playlist:
                     </div>
-                    <div>${activityData.observations.replace(/\n/g, '<br>')}</div>
+                    <div>${activityData.Playlist.replace(/\n/g, '<br>')}</div>
                 </div>
             `;
         }
@@ -12369,7 +12387,7 @@ function updateGlobalActivityTable() {
                             whatsapp: activityData.whatsapp || '',
                             mail: activityData.mail || '',
                             details: activityData.details || '',
-                            observations: activityData.observations || '',
+                            Playlist: activityData.Playlist || '',
                             faits: activityData.faits || '',
                             rowIndex: rowIndex
                         });
@@ -12412,7 +12430,7 @@ function updateGlobalActivityTable() {
                         whatsapp: activityData.whatsapp || '',
                         mail: activityData.mail || '',
                         details: activityData.details || '',
-                        observations: activityData.observations || '',
+                        Playlist: activityData.Playlist || '',
                         faits: activityData.faits || '',
                         rowIndex: rowIndex
                     });
@@ -12822,7 +12840,7 @@ function exportGlobalActivityPDF() {
                         whatsapp: activityData.whatsapp || '',
                         mail: activityData.mail || '',
                         details: activityData.details || '',
-                        observations: activityData.observations || '',
+                        Playlist: activityData.Playlist || '',
                         faits: activityData.faits || '',
                         rowIndex: rowIndex
                     });
@@ -12861,7 +12879,7 @@ function exportGlobalActivityPDF() {
                     whatsapp: activityData.whatsapp || '',
                     mail: activityData.mail || '',
                     details: activityData.details || '',
-                    observations: activityData.observations || '',
+                    Playlist: activityData.Playlist || '',
                     faits: activityData.faits || '',
                     rowIndex: rowIndex
                 });
@@ -13075,7 +13093,7 @@ function exportGlobalActivityPDF() {
             let detailsHTML = '';
             if (activity.details) detailsHTML += activity.details.substring(0, 80);
             if (activity.details && activity.details.length > 80) detailsHTML += '...';
-            if (activity.observations) detailsHTML += (detailsHTML ? '<br>' : '') + activity.observations.substring(0, 60);
+            if (activity.Playlist) detailsHTML += (detailsHTML ? '<br>' : '') + activity.Playlist.substring(0, 60);
             if (!detailsHTML) detailsHTML = '-';
             
             content += `
