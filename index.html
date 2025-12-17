@@ -11241,6 +11241,56 @@ function createPhotoButton(text, url) {
     text-align: center; 
     background-color: #fce4ec;
 }
+                /* ============ NOUVEAU STYLE POUR LES PHOTOS ============ */
+                .photos-gallery { 
+                    margin: 25px 0;
+                    page-break-inside: avoid;
+                }
+                .photos-title { 
+                    color: #e67e22; 
+                    font-size: 1.2em; 
+                    font-weight: bold; 
+                    margin-bottom: 15px;
+                    padding-bottom: 10px;
+                    border-bottom: 2px solid #ffd54f;
+                }
+                .photo-item { 
+                    margin-bottom: 15px; 
+                    padding: 15px; 
+                    background: white; 
+                    border-radius: 8px; 
+                    border: 1px solid #e0e0e0;
+                    page-break-inside: avoid;
+                }
+                .photo-type { 
+                    color: #9b59b6; 
+                    font-weight: bold; 
+                    margin-bottom: 10px;
+                    font-size: 1.1em;
+                }
+                .photo-links { 
+                    margin-top: 10px; 
+                    padding-top: 10px; 
+                    border-top: 1px dashed #e0e0e0;
+                }
+                .photo-link-item { 
+                    margin: 5px 0; 
+                    padding: 8px 12px; 
+                    background: #f8f9fa; 
+                    border-radius: 5px; 
+                    border-left: 3px solid #3498db;
+                    word-break: break-all;
+                }
+                .photo-notice { 
+                    margin-top: 20px; 
+                    padding: 15px; 
+                    background: #fff9c4; 
+                    border-radius: 8px; 
+                    border: 1px solid #ffd54f; 
+                    font-size: 0.9em; 
+                    color: #7f8c8d;
+                }
+                /* ============ FIN DU STYLE PHOTOS ============ */
                         .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 30px 0; }
                         .stat-item { text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px; }
                         .stat-value { font-size: 2em; font-weight: bold; color: #3498db; }
@@ -11573,7 +11623,205 @@ chaque concert culturel, chaque moment d'évangélisation, et chaque instant de 
             
             content += `
                     </div>
+                                <div class="chapter page-break">
+                <h2>📸 Galerie Photos des Activités</h2>
+                <p style="text-align: center; font-style: italic; margin-bottom: 30px;">
+                    "Toute grâce excellente et tout don parfait descendent d'en haut, du Père des lumières..." (Jacques 1:17)
+                </p>
+    `;
+    
+    // ============ SECTION DES PHOTOS PAR JOURNÉE ============
+    let totalPhotos = 0;
+    let daysWithPhotos = 0;
+    
+    sheetData.forEach((row, index) => {
+        const dateIndex = findHeaderIndex('Date:');
+        const dateStr = row[dateIndex] || 'Date non spécifiée';
+        const paysIndex = findHeaderIndex('Pays:');
+        const pays = paysIndex !== -1 ? row[paysIndex] : '';
+        
+        // Récupérer les photos pour cette journée
+        const photosData = extractPhotosForDay(row);
+        
+        if (photosData.hasPhotos) {
+            daysWithPhotos++;
+            totalPhotos += photosData.photoCount;
+            
+            content += `
+                <div class="entry" style="margin-bottom: 30px;">
+                    <div class="entry-header" style="background: linear-gradient(to right, #9b59b6, #8e44ad);">
+                        <h3>Jour ${index + 1} - ${dateStr}${pays ? ` - ${pays}` : ''}</h3>
+                        <p style="opacity: 0.9; margin-top: 5px;">📸 ${photosData.photoCount} lien(s) photo</p>
+                    </div>
                     
+                    <div class="photos-gallery">
+            `;
+            
+            // Photos des lieux
+            if (photosData.photosLieux) {
+                const lieuxLinks = photosData.photosLieux.split(/[\n,;]+/).map(link => link.trim()).filter(link => link);
+                content += `
+                    <div class="photo-item">
+                        <div class="photo-type">🏛️ Photos des lieux</div>
+                        <p><em>Extérieur, intérieur, coulisses</em></p>
+                        <div class="photo-links">
+                `;
+                
+                lieuxLinks.forEach(link => {
+                    content += `
+                        <div class="photo-link-item">
+                            <a href="${link}" target="_blank" style="color: #3498db; text-decoration: none;">
+                                ${link}
+                            </a>
+                        </div>
+                    `;
+                });
+                
+                content += `</div></div>`;
+            }
+            
+            // Répertoire
+            if (photosData.repertoire) {
+                const repertoireLinks = photosData.repertoire.split(/[\n,;]+/).map(link => link.trim()).filter(link => link);
+                content += `
+                    <div class="photo-item">
+                        <div class="photo-type">🎵 Répertoire musical</div>
+                        <p><em>Partitions, arrangements musicaux</em></p>
+                        <div class="photo-links">
+                `;
+                
+                repertoireLinks.forEach(link => {
+                    content += `
+                        <div class="photo-link-item">
+                            <a href="${link}" target="_blank" style="color: #2ecc71; text-decoration: none;">
+                                ${link}
+                            </a>
+                        </div>
+                    `;
+                });
+                
+                content += `</div></div>`;
+            }
+            
+            // Photos de groupe
+            if (photosData.photosGroupe) {
+                const groupeLinks = photosData.photosGroupe.split(/[\n,;]+/).map(link => link.trim()).filter(link => link);
+                content += `
+                    <div class="photo-item">
+                        <div class="photo-type">👥 Photos de groupe</div>
+                        <p><em>Moments marquants, souvenirs</em></p>
+                        <div class="photo-links">
+                `;
+                
+                groupeLinks.forEach(link => {
+                    content += `
+                        <div class="photo-link-item">
+                            <a href="${link}" target="_blank" style="color: #e74c3c; text-decoration: none;">
+                                ${link}
+                            </a>
+                        </div>
+                    `;
+                });
+                
+                content += `</div></div>`;
+            }
+            
+            content += `
+                        <div class="photo-notice">
+                            <strong>Note :</strong> Cliquez sur les liens pour accéder aux albums photos en ligne.
+                            Les photos sont stockées sur Google Drive ou d'autres plateformes de partage.
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Saut de page tous les 3 jours avec photos
+            if (daysWithPhotos % 3 === 0) {
+                content += `<div class="page-break"></div>`;
+            }
+        }
+    });
+    
+    // ============ RÉSUMÉ DES PHOTOS ============
+    content += `
+                <div style="background: linear-gradient(135deg, #e8f4fc, #d1e7f5); padding: 25px; border-radius: 10px; margin-top: 30px;">
+                    <h3 style="color: #2c3e50; text-align: center; margin-bottom: 15px;">📊 Bilan de la Galerie</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: center;">
+                        <div style="padding: 15px; background: white; border-radius: 8px;">
+                            <div style="font-size: 2.5em; color: #9b59b6; margin-bottom: 5px;">${daysWithPhotos}</div>
+                            <div style="color: #7f8c8d;">Jours avec photos</div>
+                        </div>
+                        <div style="padding: 15px; background: white; border-radius: 8px;">
+                            <div style="font-size: 2.5em; color: #3498db; margin-bottom: 5px;">${totalPhotos}</div>
+                            <div style="color: #7f8c8d;">Liens photos au total</div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 15px; font-style: italic; color: #7f8c8d;">
+                        Cette galerie représente ${Math.round((daysWithPhotos / sheetData.length) * 100)}% des journées documentées
+                    </p>
+                </div>
+            </div>
+    `;
+    
+    // ============ CHAPITRE DES MEILLEURES PHOTOS ============
+    content += `
+        <div class="chapter page-break">
+            <h2>🌟 Moments Marquants en Images</h2>
+            <p style="text-align: center; margin-bottom: 25px;">
+                Quelques-uns des moments les plus significatifs capturés pendant la tournée
+            </p>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="display: inline-block; padding: 20px; background: #fff9c4; border-radius: 10px; border: 2px dashed #ffd54f;">
+                    <div style="font-size: 3em; margin-bottom: 10px;">📷</div>
+                    <h3 style="color: #e67e22; margin: 0;">Photos Disponibles en Ligne</h3>
+                    <p style="margin: 10px 0; color: #7f8c8d;">
+                        Toutes les photos sont accessibles via les liens fournis dans chaque section journalière.
+                    </p>
+                    <p style="font-style: italic; color: #3498db;">
+                        Pour visualiser les photos, rendez-vous sur les liens Google Drive correspondants.
+                    </p>
+                </div>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 10px; margin: 25px 0;">
+                <h4 style="color: #2c3e50; margin-bottom: 15px;">🎭 Types de Photos Disponibles</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                    <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                        <div style="font-size: 2em; margin-bottom: 10px; color: #3498db;">🏛️</div>
+                        <strong>Lieux</strong>
+                        <p style="font-size: 0.9em; color: #7f8c8d; margin: 5px 0;">Extérieur, intérieur, coulisses</p>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                        <div style="font-size: 2em; margin-bottom: 10px; color: #2ecc71;">🎵</div>
+                        <strong>Répertoire</strong>
+                        <p style="font-size: 0.9em; color: #7f8c8d; margin: 5px 0;">Partitions, arrangements</p>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                        <div style="font-size: 2em; margin-bottom: 10px; color: #e74c3c;">👥</div>
+                        <strong>Groupes</strong>
+                        <p style="font-size: 0.9em; color: #7f8c8d; margin: 5px 0;">Moments marquants</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="photo-notice" style="margin-top: 30px;">
+                <h4 style="color: #e67e22; margin-bottom: 10px;">💡 Comment accéder aux photos</h4>
+                <ol style="margin-left: 20px; color: #7f8c8d;">
+                    <li>Cliquez sur les liens fournis dans chaque journée</li>
+                    <li>Les liens ouvrent généralement Google Drive ou d'autres plateformes</li>
+                    <li>Pour Google Drive, vous pouvez parfois prévisualiser les photos directement</li>
+                    <li>Pour télécharger, utilisez l'option de téléchargement de la plateforme</li>
+                </ol>
+                <p style="margin-top: 15px; font-style: italic;">
+                    <strong>Note :</strong> Certains liens peuvent nécessiter une autorisation d'accès.
+                    Contactez les administrateurs si vous rencontrez des difficultés.
+                </p>
+            </div>
+        </div>
+    `;
+    
+    content += `
                     <div class="chapter page-break">
                         <h2>📇 Répertoire des Interlocuteurs/Hôtes</h2>
                         <p>Dieu nous a accordé la grâce de rencontrer ces précieuses personnes :</p>
@@ -12049,10 +12297,37 @@ function exportBookPDFWithParticipants(selectedParticipants, includeList = true,
     exportToBookPDF();
 }
 
-// Modifier la fonction exportToBookPDF pour utiliser les participants sélectionnés
-// Chercher dans exportToBookPDF() la partie qui génère la liste des participants
-// Remplacer TOUR_PARTICIPANTS par window.selectedParticipantsForExport si défini
-        function createBookActivityContent(activityData, prefix) {
+// ============ FONCTION POUR OBTENIR L'URL D'APERÇU D'UNE PHOTO ============
+function getFirstPhotoPreviewUrl(photoString) {
+    if (!photoString || photoString.trim() === '') {
+        return null;
+    }
+    
+    // Séparez les URLs (peut y en avoir plusieurs séparées par des retours à la ligne, virgules, etc.)
+    const urls = photoString.split(/[\n,;]+/).map(url => url.trim()).filter(url => url);
+    
+    if (urls.length === 0) {
+        return null;
+    }
+    
+    // Prenez la première URL
+    const firstUrl = urls[0];
+    
+    // Pour Google Drive, générez une URL d'aperçu
+    if (firstUrl.includes('drive.google.com')) {
+        if (firstUrl.includes('/file/d/')) {
+            const fileId = firstUrl.split('/file/d/')[1].split('/')[0];
+            return `https://drive.google.com/thumbnail?sz=w400&id=${fileId}`;
+        } else if (firstUrl.includes('id=')) {
+            const fileId = firstUrl.split('id=')[1].split('&')[0];
+            return `https://drive.google.com/thumbnail?sz=w400&id=${fileId}`;
+        }
+    }
+    
+    // Pour d'autres URLs (imgur, etc.), on utilise directement
+    return firstUrl;
+}
+function createBookActivityContent(activityData, prefix) {
     // RÉPLIQUE EXACTE de la présentation des fiches
     let content = `<div class="activity-section" style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 6px solid #3498db; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">`;
     
@@ -12269,7 +12544,78 @@ function exportBookPDFWithParticipants(selectedParticipants, includeList = true,
         
         content += `</div></div>`;
     }
-    
+        // ============ SECTION PHOTOS AMÉLIORÉE (APERÇUS) ============
+    if (activityData.photosLieux || activityData.repertoire || activityData.photosGroupe) {
+        content += `<h5 style="font-size: 1.2em; color: #3498db; margin: 20px 0 15px; padding-left: 15px; border-left: 4px solid #3498db; font-weight: 600;">Aperçus Photos:</h5>`;
+        
+        content += `<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin: 20px 0;">`;
+        
+        // Photos des lieux
+        if (activityData.photosLieux) {
+            const previewUrl = getFirstPhotoPreviewUrl(activityData.photosLieux);
+            if (previewUrl) {
+                content += `
+                    <div style="text-align: center;">
+                        <div style="width: 150px; height: 150px; border-radius: 8px; overflow: hidden; margin: 0 auto; border: 2px solid #3498db;">
+                            <img src="${previewUrl}" 
+                                 alt="Photos des lieux" 
+                                 style="width: 100%; height: 100%; object-fit: cover;"
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSI1MCIgeT0iNTAiIGZpbGw9IiMzNDk4ZGIiLz48Y2lyY2xlIGN4PSI3NSIgY3k9IjUwIiByPSIyMCIgZmlsbD0iI2Y3NGMzYyIvPjwvc3ZnPg=='">
+                        </div>
+                        <div style="margin-top: 8px; font-size: 0.85em; font-weight: 600; color: #2c3e50;">Lieux</div>
+                        <div style="font-size: 0.75em; color: #7f8c8d;">(Extérieur/Intérieur)</div>
+                    </div>
+                `;
+            }
+        }
+        
+        // Répertoire
+        if (activityData.repertoire) {
+            const previewUrl = getFirstPhotoPreviewUrl(activityData.repertoire);
+            if (previewUrl) {
+                content += `
+                    <div style="text-align: center;">
+                        <div style="width: 150px; height: 150px; border-radius: 8px; overflow: hidden; margin: 0 auto; border: 2px solid #27ae60;">
+                            <img src="${previewUrl}" 
+                                 alt="Répertoire" 
+                                 style="width: 100%; height: 100%; object-fit: cover;"
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSI1MCIgeT0iNTAiIGZpbGw9IiMyN2FlNjAiLz48Y2lyY2xlIGN4PSI3NSIgY3k9IjUwIiByPSIyMCIgZmlsbD0iI2YzOWMxMiIvPjwvc3ZnPg=='">
+                        </div>
+                        <div style="margin-top: 8px; font-size: 0.85em; font-weight: 600; color: #2c3e50;">Répertoire</div>
+                        <div style="font-size: 0.75em; color: #7f8c8d;">(Partitions)</div>
+                    </div>
+                `;
+            }
+        }
+        
+        // Photos de groupe
+        if (activityData.photosGroupe) {
+            const previewUrl = getFirstPhotoPreviewUrl(activityData.photosGroupe);
+            if (previewUrl) {
+                content += `
+                    <div style="text-align: center;">
+                        <div style="width: 150px; height: 150px; border-radius: 8px; overflow: hidden; margin: 0 auto; border: 2px solid #e74c3c;">
+                            <img src="${previewUrl}" 
+                                 alt="Photos de groupe" 
+                                 style="width: 100%; height: 100%; object-fit: cover;"
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSI1MCIgeT0iNTAiIGZpbGw9IiNlNzRjM2MiLz48Y2lyY2xlIGN4PSI3NSIgY3k9IjUwIiByPSIyMCIgZmlsbD0iI2YzOWMxMiIvPjwvc3ZnPg=='">
+                        </div>
+                        <div style="margin-top: 8px; font-size: 0.85em; font-weight: 600; color: #2c3e50;">Groupe</div>
+                        <div style="font-size: 0.75em; color: #7f8c8d;">(Moments marquants)</div>
+                    </div>
+                `;
+            }
+        }
+        
+        content += `</div>`;
+        
+        // Note d'information
+        content += `
+            <div style="margin-top: 15px; padding: 12px 15px; background: #fff9c4; border-radius: 8px; font-size: 0.9em; color: #7f8c8d; text-align: center; border-left: 4px solid #ffd54f;">
+                <strong>💡 Note :</strong> Aperçus des photos disponibles. Cliquez sur les liens complets dans la section "Galerie Photos".
+            </div>
+        `;
+    }
     content += `</div>`;
     return content;
 }
@@ -13157,6 +13503,69 @@ function getPDFActivityClass(type) {
     if (typeLower.includes('sortie') || typeLower.includes('tourisme') || typeLower.includes('visite')) return 'sortie';
     
     return '';
+}
+// ============ NOUVELLE FONCTION POUR EXTRAIRE LES PHOTOS ============
+// Fonction pour extraire les photos d'une journée
+function extractPhotosForDay(row) {
+    const photosData = {
+        hasPhotos: false,
+        photoCount: 0,
+        photosLieux: '',
+        repertoire: '',
+        photosGroupe: ''
+    };
+    
+    // Chercher dans les sections d'activités
+    const activitySections = findActivitySectionsInHeaders();
+    
+    activitySections.forEach(section => {
+        const activityData = extractActivityData(row, section.index, section.prefix);
+        
+        if (activityData.photosLieux) {
+            photosData.photosLieux = activityData.photosLieux;
+            photosData.photoCount += activityData.photosLieux.split(/[\n,;]+/).filter(link => link.trim()).length;
+        }
+        
+        if (activityData.repertoire) {
+            photosData.repertoire = activityData.repertoire;
+            photosData.photoCount += activityData.repertoire.split(/[\n,;]+/).filter(link => link.trim()).length;
+        }
+        
+        if (activityData.photosGroupe) {
+            photosData.photosGroupe = activityData.photosGroupe;
+            photosData.photoCount += activityData.photosGroupe.split(/[\n,;]+/).filter(link => link.trim()).length;
+        }
+    });
+    
+    // Chercher aussi dans les en-têtes spécifiques de photos
+    const photoHeaders = ['Photos des lieux', 'Répertoire', 'Photos de groupe'];
+    
+    photoHeaders.forEach(header => {
+        const headerIndex = headers.findIndex(h => h && h.includes(header));
+        if (headerIndex !== -1) {
+            const value = row[headerIndex] || '';
+            if (value.trim() !== '') {
+                switch(header) {
+                    case 'Photos des lieux':
+                        photosData.photosLieux = value;
+                        photosData.photoCount += value.split(/[\n,;]+/).filter(link => link.trim()).length;
+                        break;
+                    case 'Répertoire':
+                        photosData.repertoire = value;
+                        photosData.photoCount += value.split(/[\n,;]+/).filter(link => link.trim()).length;
+                        break;
+                    case 'Photos de groupe':
+                        photosData.photosGroupe = value;
+                        photosData.photoCount += value.split(/[\n,;]+/).filter(link => link.trim()).length;
+                        break;
+                }
+            }
+        }
+    });
+    
+    photosData.hasPhotos = photosData.photoCount > 0;
+    
+    return photosData;
 }
 function exportGlobalActivityExcel() {
     // VÉRIFICATION ADMIN - AJOUTEZ CES 4 LIGNES AU DÉBUT
