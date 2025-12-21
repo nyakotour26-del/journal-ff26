@@ -167,6 +167,11 @@
             color: white;
             border: none;
         }
+.floating-button.music {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    color: white;
+    border: none;
+}
         
         /* Info bubble améliorée pour les boutons */
         .floating-button:hover::after {
@@ -3451,17 +3456,19 @@ t;
     </div>
     
     <!-- Boutons flottants -->
-    <div class="floating-buttons">
-        <a href="index.html" class="floating-button home" title="Tout">🏠</a>
-        <button class="floating-button calendar" id="floatingCalendar" title="Calendrier">📅</button>
-        <button class="floating-button lock" id="floatingLock" title="Déverrouiller admin">🔓</button>
-        <button class="floating-button search" id="floatingSearch" title="Recherche">🔍</button>
-        <button class="floating-button list" id="floatingList" title="Afficher toutes les fiches">📋</button>
-        <!-- Bouton contacts -->
-        <button class="floating-button contacts" id="floatingContacts" title="Voir tous les interlocuteurs">📇</button>
-        <!-- Nouveau bouton admin -->
-        <button class="floating-button admin" id="floatingAdmin" title="Panneau d'administration">⚙️</button>
-    </div>
+ <div class="floating-buttons">
+    <a href="index.html" class="floating-button home" title="Tout">🏠</a>
+    <button class="floating-button calendar" id="floatingCalendar" title="Calendrier">📅</button>
+    <button class="floating-button lock" id="floatingLock" title="Déverrouiller admin">🔓</button>
+    <button class="floating-button search" id="floatingSearch" title="Recherche">🔍</button>
+    <button class="floating-button list" id="floatingList" title="Afficher toutes les fiches">📋</button>
+    <!-- Bouton contacts -->
+    <button class="floating-button contacts" id="floatingContacts" title="Voir tous les interlocuteurs">📇</button>
+    <!-- BOUTON POUR LES CHANSONS -->
+    <button class="floating-button music" id="floatingMusic" title="Liste des chansons">🎵</button>
+    <!-- Nouveau bouton admin -->
+    <button class="floating-button admin" id="floatingAdmin" title="Panneau d'administration">⚙️</button>
+</div>
     
     <!-- Bulle de déverrouillage améliorée -->
     <div id="unlockModal" class="unlock-modal">
@@ -3574,35 +3581,39 @@ t;
                 </div>
                 
                 <div class="stats-row">
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalLieux">0</div>
-                        <div class="stat-label">Lieux visités</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalPays">0</div>
-                        <div class="stat-label">Pays visités</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalInterlocuteurs">0</div>
-                        <div class="stat-label">Interlocuteurs</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalParticipants">0</div>
-                        <div class="stat-label">Participants total</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalDureeTrajet">0 h</div>
-                        <div class="stat-label">Durée trajet total</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalDistance">0 km</div>
-                        <div class="stat-label">Distance totale</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalJours">0</div>
-                        <div class="stat-label">Jours enregistrés</div>
-                    </div>
-                </div>
+    <div class="stat-card">
+        <div class="stat-value" id="totalLieux">0</div>
+        <div class="stat-label">Lieux visités</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value" id="totalPays">0</div>
+        <div class="stat-label">Pays visités</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value" id="totalInterlocuteurs">0</div>
+        <div class="stat-label">Interlocuteurs</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value" id="totalParticipants">0</div>
+        <div class="stat-label">Participants total</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value" id="totalDureeTrajet">0 h</div>
+        <div class="stat-label">Durée trajet total</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value" id="totalDistance">0 km</div>
+        <div class="stat-label">Distance totale</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value" id="totalJours">0</div>
+        <div class="stat-label">Jours enregistrés</div>
+    </div>
+       <div class="stat-card" onclick="displaySongsList()" style="cursor: pointer; border-left: 4px solid var(--gold);">
+        <div class="stat-value" id="totalSongs">0</div>
+        <div class="stat-label">Chansons différentes</div>
+    </div>
+</div>
                 
                 <div class="activity-stats" id="activityStats"></div>
                 
@@ -4051,7 +4062,7 @@ Ministère Musical Évangélique</textarea>
     </div>
 
     <script>
-        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtKVtLhOjjH6Lx5r90f5juyEZuZ8cQ6J1Oq54F8TblVlc1M8dZ7Exy7PYJ2w2NA8x8xn7wrxIXZkyW/pub?gid=22714385&single=true&output=csv';
+        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRm6xdVBp9qlFOY9Wx6V3dQB9oZWkCkiI09YgqKPCA9SdGOVynveQCRysjXRFq0upVqsQ0DlJeU5s1J/pub?gid=467081678&single=true&output=csv';
         
         let sheetData = [];
         let headers = [];
@@ -4127,41 +4138,47 @@ function toggleFilterGroup(type) {
             checkAdminStatus();
             
             // Gestion des boutons flottants
-            document.getElementById('floatingCalendar').addEventListener('click', function() {
-                document.querySelector('.calendar-section').scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            document.getElementById('floatingLock').addEventListener('click', function() {
-                showUnlockBubble('admin');
-            });
-            
-            document.getElementById('floatingSearch').addEventListener('click', function() {
-                document.getElementById('searchInput').focus();
-                document.querySelector('.search-section').scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            document.getElementById('floatingList').addEventListener('click', function() {
-                showAllData();
-                document.getElementById('mainContent').scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            // NOUVEAU : Bouton contacts flottant
-            document.getElementById('floatingContacts').addEventListener('click', function() {
-                showContactsTable();
-            });
-            
-            document.getElementById('floatingAdmin').addEventListener('click', function() {
-                const adminSection = document.getElementById('adminSection');
-                if (adminSection) {
-                    adminSection.scrollIntoView({ behavior: 'smooth' });
-                }
-                
-                if (!isAdmin) {
-                    setTimeout(() => {
-                        showUnlockBubble('admin');
-                    }, 500);
-                }
-            });
+// Gestion des boutons flottants
+document.getElementById('floatingCalendar').addEventListener('click', function() {
+    document.querySelector('.calendar-section').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('floatingLock').addEventListener('click', function() {
+    showUnlockBubble('admin');
+});
+
+document.getElementById('floatingSearch').addEventListener('click', function() {
+    document.getElementById('searchInput').focus();
+    document.querySelector('.search-section').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('floatingList').addEventListener('click', function() {
+    showAllData();
+    document.getElementById('mainContent').scrollIntoView({ behavior: 'smooth' });
+});
+
+//  Bouton contacts flottant
+document.getElementById('floatingContacts').addEventListener('click', function() {
+    showContactsTable();
+});
+
+// BOUTON POUR LES CHANSONS
+document.getElementById('floatingMusic').addEventListener('click', function() {
+    displaySongsList();
+});
+
+document.getElementById('floatingAdmin').addEventListener('click', function() {
+    const adminSection = document.getElementById('adminSection');
+    if (adminSection) {
+        adminSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    if (!isAdmin) {
+        setTimeout(() => {
+            showUnlockBubble('admin');
+        }, 500);
+    }
+});
             // Événement pour le bouton du tableau global des activités
 document.getElementById('showGlobalActivityTableButton').addEventListener('click', showGlobalActivityTable);
             document.getElementById('mobileBackButton').addEventListener('click', function(e) {
@@ -6060,16 +6077,22 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
                 activityCounts[key] = 0;
             });
             
-            const validActivityTypes = [
-                'Rencontre/Invitation', 'Concert', 'Ecole', 
-                'Sortie/visite/Tourisme', 'Sortie/visite/tourisme', 'Sortie',
-                'Eglise/culte', 'Eglise', 'culte',
-                'Marché', 'Marche',
-                'Shopping',
-                'Hospice/Hopital', 'Hospice', 'Hopital',
-                'Voyage',
-                'Festival'
-            ];
+             const validActivityTypes = [
+        'Animation',
+        'Voyage', 
+        'Concert',
+        'Rencontre/Invitation',
+        'Etablissement scolaire',
+        'Festival',
+        'Hospice/Hopital',
+        'Sortie/visite/Tourisme',
+        'Eglise/culte',
+        'Marché',
+        'Shopping',
+        'Social',
+        'Jeux/sport',
+        'Repos'
+    ];
             
             for (let i = 1; i <= 7; i++) {
                 const activityHeader = `ACTIVITÉ ${i}`;
@@ -6130,7 +6153,7 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
             console.log('📊 Statistiques activités calculées:', activityCounts);
         }
 
-        function renderActivityStats() {
+       function renderActivityStats() {
     const container = document.getElementById('activityStats');
     container.innerHTML = '';
     
@@ -6143,8 +6166,28 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
         container.className = 'activity-stats';
     }
     
-    Object.keys(activityCounts).forEach(type => {
-        if (activityCounts[type] > 0) {
+    // Liste complète des types d'activités
+    const allActivityTypes = [
+        'Animation',
+        'Voyage', 
+        'Concert',
+        'Rencontre/Invitation',
+        'Etablissement scolaire',
+        'Festival',
+        'Hospice/Hopital',
+        'Sortie/visite/Tourisme',
+        'Eglise/culte',
+        'Marché',
+        'Shopping',
+        'Social',
+        'Jeux/sport',
+        'Repos'
+    ];
+    
+    // Afficher seulement les types qui ont des occurrences
+    allActivityTypes.forEach(type => {
+        const count = activityCounts[type] || 0;
+        if (count > 0) {
             const statDiv = document.createElement('div');
             statDiv.className = 'activity-stat';
             statDiv.setAttribute('data-activity-type', type);
@@ -6152,7 +6195,7 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
             
             const valueDiv = document.createElement('div');
             valueDiv.className = 'activity-stat-value';
-            valueDiv.textContent = activityCounts[type];
+            valueDiv.textContent = count;
             
             const labelDiv = document.createElement('div');
             labelDiv.className = 'activity-stat-label';
@@ -6161,47 +6204,847 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
             statDiv.appendChild(valueDiv);
             statDiv.appendChild(labelDiv);
             
-            // GESTION UNIFIÉE POUR TOUTES LES PLATEFORMES :
-            // Au clic gauche, afficher le menu d'options selon l'appareil
+            // Gestion des clics
             statDiv.addEventListener('click', function(e) {
-                // Empêcher le comportement par défaut du clic
                 e.preventDefault();
                 e.stopPropagation();
                 
-                // Pour mobile, on utilise un modal spécifique
                 if (isMobile) {
                     showMobileActivityOptions(type);
-                } 
-                // Pour tablette et ordinateur, on affiche le menu contextuel
-                else {
+                } else {
                     showActivityMenu(type, e.clientX, e.clientY);
                 }
             });
-            
-            // Conserver le clic droit pour ordinateur (optionnel)
-            if (!isMobile && !isTablet) {
-                statDiv.addEventListener('contextmenu', function(e) {
-                    e.preventDefault();
-                    showActivityMenu(type, e.clientX, e.clientY);
-                });
-            }
-            
-            // Clic avec Ctrl pour afficher directement les lieux (ordinateur uniquement)
-            if (!isMobile && !isTablet) {
-                statDiv.addEventListener('click', function(e) {
-                    if (e.ctrlKey || e.metaKey) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        showActivityLieux(type);
-                    }
-                });
-            }
             
             container.appendChild(statDiv);
         }
     });
 }
-
+function extractAllSongsFromPlaylists() {
+    const songsMap = new Map(); // Pour stocker chanson -> {count: nombre, lieux: Set, dates: Set}
+    
+    console.log("🎵 Extraction de toutes les chansons des playlists...");
+    
+    sheetData.forEach((row, rowIndex) => {
+        // Chercher toutes les colonnes qui contiennent "Playlist"
+        headers.forEach((header, colIndex) => {
+            if (header && (header.includes('Playlist') || header.includes('Playlist:'))) {
+                const playlistContent = row[colIndex] || '';
+                
+                if (playlistContent.trim() !== '') {
+                    // Trouver le lieu correspondant à cette playlist
+                    let lieuCorrespondant = 'Lieu non spécifié';
+                    
+                    // 1. Chercher en arrière pour trouver "Lieux :" dans la même activité
+                    let searchIndex = colIndex - 1;
+                    while (searchIndex >= 0) {
+                        const currentHeader = headers[searchIndex] || '';
+                        if (currentHeader.includes('Lieux :') || currentHeader.includes('Lieux')) {
+                            lieuCorrespondant = row[searchIndex] || 'Lieu non spécifié';
+                            break;
+                        }
+                        // Si on trouve "ACTIVITÉ" ou une autre activité, on arrête
+                        if (currentHeader.includes('ACTIVITÉ') || currentHeader.includes('CONCERT')) {
+                            break;
+                        }
+                        searchIndex--;
+                    }
+                    
+                    // 2. Si pas trouvé, chercher le lieu général de la journée
+                    if (lieuCorrespondant === 'Lieu non spécifié') {
+                        const generalLieuxIndex = headers.findIndex(h => h && h.includes('Lieux :'));
+                        if (generalLieuxIndex !== -1) {
+                            lieuCorrespondant = row[generalLieuxIndex] || 'Lieu non spécifié';
+                        }
+                    }
+                    
+                    // 3. Extraire la date
+                    let date = '';
+                    const dateIndex = findHeaderIndex('Date:');
+                    if (dateIndex !== -1) {
+                        date = row[dateIndex] || '';
+                    }
+                    
+                    // 4. Extraire les chansons (séparées par virgules, points-virgules, ou retours à la ligne)
+                    const songsText = playlistContent
+                        .replace(/\n/g, ',') // Remplacer les retours à la ligne par des virgules
+                        .replace(/;/g, ',')   // Remplacer les points-virgules par des virgules
+                        .replace(/\s*,\s*/g, ',') // Normaliser les espaces autour des virgules
+                        .split(',')
+                        .map(song => song.trim())
+                        .filter(song => 
+                            song !== '' && 
+                            !song.match(/^\d+$/) && 
+                            song.length > 2 &&
+                            !song.includes('http') &&
+                            !song.includes('www.')
+                        );
+                    
+                    // 5. Ajouter chaque chanson avec son lieu
+                    songsText.forEach(song => {
+                        if (!songsMap.has(song)) {
+                            songsMap.set(song, {
+                                count: 0,
+                                lieux: new Set(),
+                                dates: new Set(),
+                                rows: [] // Stocker les indexes des lignes où la chanson apparaît
+                            });
+                        }
+                        
+                        const songData = songsMap.get(song);
+                        songData.count++;
+                        songData.lieux.add(lieuCorrespondant);
+                        if (date) songData.dates.add(date);
+                        songData.rows.push(rowIndex);
+                        
+                        console.log(`   🎶 "${song}" trouvé à ${lieuCorrespondant} (${date})`);
+                    });
+                }
+            }
+        });
+    });
+    
+    console.log(`✅ ${songsMap.size} chansons uniques extraites des playlists`);
+    return songsMap;
+}
+function displaySongsList() {
+    const songsMap = extractAllSongsFromPlaylists();
+    
+    // Créer le modal pour afficher la liste des chansons
+    const modal = document.createElement('div');
+    modal.id = 'songsModal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        border: 3px solid var(--gold);
+    `;
+    
+    // Trier les chansons par fréquence (décroissant)
+    const sortedSongs = Array.from(songsMap.entries())
+        .sort((a, b) => b[1].count - a[1].count);
+    
+    let html = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--gold);">
+            <h3 style="margin: 0; color: var(--primary-color); font-size: 1.5em;">
+                🎵 Liste de toutes les chansons chantées
+            </h3>
+            <button onclick="this.closest('#songsModal').remove()" 
+                    style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--accent-color); padding: 5px;">
+                ✕
+            </button>
+        </div>
+        
+        <div style="margin-bottom: 15px; color: #7f8c8d; display: flex; justify-content: space-between; align-items: center;">
+            <p style="margin: 0;">${sortedSongs.length} chansons différentes chantées au total</p>
+            <!-- AJOUTEZ CE BOUTON POUR L'EXPORT PDF -->
+            <button onclick="exportSongsToPDF()" 
+                    style="background: linear-gradient(to bottom, #e74c3c, #c0392b); 
+                           color: white; border: none; padding: 10px 15px; 
+                           border-radius: 6px; cursor: pointer; font-weight: 600;
+                           display: flex; align-items: center; gap: 8px;">
+                📄 Exporter PDF
+            </button>
+        </div>
+        
+        <div style="max-height: 500px; overflow-y: auto;">
+    `;
+    
+    if (sortedSongs.length === 0) {
+        html += `
+            <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+                <div style="font-size: 3em; margin-bottom: 20px;">🎤</div>
+                <h4>Aucune chanson trouvée</h4>
+                <p>Aucune playlist n'a été enregistrée</p>
+            </div>
+        `;
+    } else {
+        sortedSongs.forEach(([song, data], index) => {
+            // Prendre les 3 premiers lieux comme exemples
+            const lieuxArray = Array.from(data.lieux);
+            const examples = lieuxArray.slice(0, 3).join(', ');
+            
+            html += `
+                <div style="display: flex; justify-content: space-between; align-items: center; 
+                            padding: 15px; margin-bottom: 10px; background: #fff9c4; 
+                            border-radius: 8px; border-left: 4px solid var(--gold);
+                            cursor: pointer;"
+                     onclick="showSongDetails('${song.replace(/'/g, "\\'")}')">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="background: var(--gold); color: white; 
+                                     width: 30px; height: 30px; border-radius: 50%; 
+                                     display: flex; align-items: center; justify-content: center; 
+                                     font-weight: bold; font-size: 0.9em;">${index + 1}</span>
+                        <div>
+                            <div style="font-weight: 600; font-size: 1.1em;">${song}</div>
+                            <div style="font-size: 0.85em; color: #7f8c8d; margin-top: 3px;">
+                                ${examples}${lieuxArray.length > 3 ? '...' : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: var(--accent-color); color: white; 
+                                padding: 5px 12px; border-radius: 15px; font-weight: bold; font-size: 1.1em;">
+                        (${data.count})
+                    </div>
+                </div>
+            `;
+        });
+    }
+    
+    html += `
+        </div>
+        
+        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0; color: #7f8c8d; font-size: 0.9em;">
+            <p>💡 <strong>Cliquez sur une chanson</strong> pour voir tous les lieux où elle a été chantée.</p>
+        </div>
+    `;
+    
+    content.innerHTML = html;
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    // Fermer en cliquant en dehors
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+function showSongDetails(songName) {
+    const songsMap = extractAllSongsFromPlaylists();
+    const songData = songsMap.get(songName);
+    
+    if (!songData) return;
+    
+    const modal = document.createElement('div');
+    modal.id = 'songDetailsModal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+    
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 700px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        border: 3px solid var(--gold);
+    `;
+    
+    const lieuxArray = Array.from(songData.lieux);
+    const datesArray = Array.from(songData.dates);
+    
+    let html = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--gold);">
+            <h3 style="margin: 0; color: var(--primary-color); font-size: 1.5em;">
+                🎵 Détails pour : ${songName}
+            </h3>
+            <button onclick="this.closest('#songDetailsModal').remove()" 
+                    style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--accent-color); padding: 5px;">
+                ✕
+            </button>
+        </div>
+        
+        <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+            <div style="flex: 1; background: #fff9c4; padding: 15px; border-radius: 8px; text-align: center;">
+                <div style="font-size: 2em; color: var(--accent-color); font-weight: bold;">${songData.count}</div>
+                <div style="color: #7f8c8d; font-weight: 600;">fois chantée</div>
+            </div>
+            <div style="flex: 1; background: #e8f4f8; padding: 15px; border-radius: 8px; text-align: center;">
+                <div style="font-size: 2em; color: var(--secondary-color); font-weight: bold;">${lieuxArray.length}</div>
+                <div style="color: #7f8c8d; font-weight: 600;">lieux différents</div>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <button onclick="exportSongToPDF('${songName.replace(/'/g, "\\\\'")}')" 
+                    style="background: linear-gradient(to bottom, #9b59b6, #8e44ad); 
+                           color: white; border: none; padding: 12px 20px; 
+                           border-radius: 8px; cursor: pointer; font-weight: 600;
+                           width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                📄 Exporter cette chanson en PDF
+            </button>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <h4 style="color: var(--primary-color); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                <span>📍</span> Lieux où "${songName}" a été chantée :
+            </h4>
+            <div style="max-height: 200px; overflow-y: auto; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+    `;
+    
+    if (lieuxArray.length === 0) {
+        html += `<p style="color: #7f8c8d; text-align: center;">Aucun lieu spécifié</p>`;
+    } else {
+        lieuxArray.forEach((lieu, index) => {
+            html += `
+                <div style="padding: 8px 10px; margin-bottom: 5px; background: white; border-radius: 6px; border-left: 3px solid var(--secondary-color);">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="background: var(--secondary-color); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8em;">${index + 1}</span>
+                        <span style="font-weight: 500;">${lieu}</span>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    
+    html += `
+            </div>
+        </div>
+        
+        ${datesArray.length > 0 ? `
+        <div style="margin-bottom: 20px;">
+            <h4 style="color: var(--primary-color); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                <span>📅</span> Dates :
+            </h4>
+            <div style="padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                <p style="color: #7f8c8d; margin: 0;">${datesArray.join(', ')}</p>
+            </div>
+        </div>
+        ` : ''}
+        
+        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+            <button onclick="document.getElementById('songDetailsModal').remove(); displaySongsList();" 
+                    style="background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
+                           color: white; border: none; padding: 12px 20px; 
+                           border-radius: 8px; cursor: pointer; font-weight: 600; 
+                           width: 100%;">
+                ↩ Retour à la liste des chansons
+            </button>
+        </div>
+    `;
+    
+    content.innerHTML = html;
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    // Fermer en cliquant en dehors
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+function exportSongsToPDF() {
+    const songsMap = extractAllSongsFromPlaylists();
+    
+    if (songsMap.size === 0) {
+        alert("Aucune chanson à exporter");
+        return;
+    }
+    
+    // Trier les chansons par fréquence (décroissant)
+    const sortedSongs = Array.from(songsMap.entries())
+        .sort((a, b) => b[1].count - a[1].count);
+    
+    // Créer la fenêtre d'impression
+    const printWindow = window.open('', '_blank');
+    
+    let content = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Récapitulatif des chansons - Tournée Europe 2026 NY AKO</title>
+            <style>
+                body { 
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                    margin: 15mm; 
+                    line-height: 1.4;
+                    color: #2c3e50;
+                }
+                
+                .header { 
+                    text-align: center; 
+                    margin-bottom: 20px; 
+                    padding-bottom: 15px;
+                    border-bottom: 3px solid #9b59b6;
+                }
+                
+                .header h1 { 
+                    color: #2c3e50; 
+                    margin-bottom: 10px;
+                    font-size: 24px;
+                }
+                
+                .summary { 
+                    background: #f8f9fa; 
+                    padding: 15px; 
+                    border-radius: 8px; 
+                    margin-bottom: 25px;
+                    border-left: 5px solid #9b59b6;
+                }
+                
+                .song-section { 
+                    margin-bottom: 25px; 
+                    page-break-inside: avoid;
+                    border: 2px solid #9b59b6;
+                    border-radius: 10px;
+                    overflow: hidden;
+                }
+                
+                .song-header { 
+                    background: #9b59b6; 
+                    color: white; 
+                    padding: 15px 20px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .song-title { 
+                    margin: 0; 
+                    font-size: 18px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                
+                .song-count { 
+                    background: rgba(255,255,255,0.3); 
+                    padding: 5px 15px; 
+                    border-radius: 15px; 
+                    font-weight: bold;
+                    font-size: 16px;
+                }
+                
+                .song-details { 
+                    padding: 20px; 
+                    background: white;
+                }
+                
+                .lieux-grid { 
+                    display: grid; 
+                    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                    gap: 10px; 
+                    margin-top: 10px;
+                }
+                
+                .lieu-item { 
+                    background: #f8f9fa; 
+                    padding: 10px; 
+                    border-radius: 6px; 
+                    border-left: 3px solid #3498db;
+                    font-size: 14px;
+                }
+                
+                .lieu-header { 
+                    display: flex; 
+                    align-items: center; 
+                    gap: 8px; 
+                    margin-bottom: 8px;
+                    color: #2c3e50;
+                    font-weight: 600;
+                }
+                
+                .dates { 
+                    font-size: 12px; 
+                    color: #7f8c8d; 
+                    margin-top: 5px;
+                }
+                
+                .footer { 
+                    margin-top: 30px; 
+                    text-align: center; 
+                    color: #7f8c8d; 
+                    font-size: 10px;
+                    padding-top: 15px;
+                    border-top: 1px solid #ddd;
+                }
+                
+                .page-break { page-break-before: always; }
+                
+                @media print { 
+                    body { margin: 10mm; }
+                    .song-section { page-break-inside: avoid; }
+                    .header { margin-top: 0; }
+                }
+                
+                .icon { 
+                    background: rgba(255,255,255,0.2); 
+                    padding: 5px 10px; 
+                    border-radius: 20px;
+                    font-size: 14px;
+                }
+                
+                .total-stats {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 15px;
+                    margin-bottom: 25px;
+                }
+                
+                .stat-box {
+                    background: white;
+                    padding: 15px;
+                    border-radius: 8px;
+                    text-align: center;
+                    border: 2px solid #e0e0e0;
+                }
+                
+                .stat-number {
+                    font-size: 28px;
+                    font-weight: bold;
+                    color: #9b59b6;
+                    margin-bottom: 5px;
+                }
+                
+                .stat-label {
+                    color: #7f8c8d;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>🎵 Récapitulatif complet des chansons chantées</h1>
+                <p>Ministère Musical NY AKO - Tournée Europe 2026</p>
+                <p>Export PDF - Généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+            </div>
+            
+            <div class="summary">
+                <p><strong>📊 Statistiques globales des chansons</strong></p>
+                <div class="total-stats">
+                    <div class="stat-box">
+                        <div class="stat-number">${sortedSongs.length}</div>
+                        <div class="stat-label">Chansons différentes</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">${Array.from(songsMap.values()).reduce((sum, data) => sum + data.count, 0)}</div>
+                        <div class="stat-label">Interprétations totales</div>
+                    </div>
+                </div>
+            </div>
+    `;
+    
+    // Calculer le nombre total de lieux uniques
+    let totalLieuxUniques = 0;
+    sortedSongs.forEach(([song, data]) => {
+        totalLieuxUniques += data.lieux.size;
+    });
+    
+    content += `
+        <div style="background: #e8f4f8; padding: 15px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #3498db;">
+            <p style="margin: 0; color: #2c3e50; font-weight: 600;">
+                📍 Répartition géographique : ${totalLieuxUniques} lieux différents où des chansons ont été interprétées
+            </p>
+        </div>
+    `;
+    
+    // Ajouter chaque chanson avec ses lieux
+    sortedSongs.forEach(([song, data], songIndex) => {
+        const lieuxArray = Array.from(data.lieux);
+        const datesArray = Array.from(data.dates);
+        
+        content += `
+            <div class="song-section">
+                <div class="song-header">
+                    <h3 class="song-title">
+                        <span class="icon">🎵</span>
+                        ${songIndex + 1}. ${song}
+                    </h3>
+                    <span class="song-count">${data.count} fois</span>
+                </div>
+                
+                <div class="song-details">
+                    <div class="lieu-header">
+                        <span>📍</span>
+                        <strong>Lieux où "${song}" a été chantée (${lieuxArray.length} lieux) :</strong>
+                    </div>
+                    
+                    <div class="lieux-grid">
+        `;
+        
+        lieuxArray.forEach((lieu, index) => {
+            content += `
+                <div class="lieu-item">
+                    <div style="font-weight: 600; color: #2c3e50; margin-bottom: 5px;">
+                        ${index + 1}. ${lieu}
+                    </div>
+            `;
+            
+            // Chercher des dates spécifiques pour ce lieu
+            if (datesArray.length > 0) {
+                // Prendre jusqu'à 2 dates pour ce lieu
+                const sampleDates = datesArray.slice(0, 2);
+                content += `
+                    <div class="dates">
+                        ${sampleDates.map(date => `📅 ${date}`).join('<br>')}
+                        ${datesArray.length > 2 ? '...' : ''}
+                    </div>
+                `;
+            }
+            
+            content += `</div>`;
+        });
+        
+        content += `
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Ajouter un saut de page après 3 chansons (pour une meilleure lisibilité)
+        if ((songIndex + 1) % 3 === 0 && songIndex !== sortedSongs.length - 1) {
+            content += `<div class="page-break"></div>`;
+        }
+    });
+    
+    content += `
+            <div class="footer">
+                <p><strong>NY AKO - Ministère Musical Évangélique</strong></p>
+                <p>"Chantez à l'Éternel un cantique nouveau, Chantez ses louanges aux extrémités de la terre" (Ésaïe 42:10)</p>
+                <p>Document réservé au ministère musical - Export PDF</p>
+                <p>Total : ${sortedSongs.length} chansons documentées</p>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    printWindow.document.write(content);
+    printWindow.document.close();
+    
+    // Donner le temps au CSS de charger
+    setTimeout(() => {
+        printWindow.print();
+        
+        // Notification
+        alert(`✅ Export PDF réussi !\n${sortedSongs.length} chansons exportées avec leurs lieux.`);
+    }, 500);
+}
+function exportSongToPDF(songName) {
+    const songsMap = extractAllSongsFromPlaylists();
+    const songData = songsMap.get(songName);
+    
+    if (!songData) {
+        alert("Chanson non trouvée");
+        return;
+    }
+    
+    const lieuxArray = Array.from(songData.lieux);
+    const datesArray = Array.from(songData.dates);
+    
+    const printWindow = window.open('', '_blank');
+    
+    let content = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>${songName} - Récapitulatif - Tournée Europe 2026</title>
+            <style>
+                body { 
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                    margin: 20mm; 
+                    line-height: 1.4;
+                    color: #2c3e50;
+                }
+                
+                .header { 
+                    text-align: center; 
+                    margin-bottom: 30px; 
+                    padding-bottom: 20px;
+                    border-bottom: 4px solid #9b59b6;
+                }
+                
+                .header h1 { 
+                    color: #2c3e50; 
+                    margin-bottom: 10px;
+                    font-size: 28px;
+                }
+                
+                .song-stats { 
+                    display: grid; 
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 20px; 
+                    margin-bottom: 30px;
+                }
+                
+                .stat-card { 
+                    background: white; 
+                    padding: 20px; 
+                    border-radius: 10px; 
+                    text-align: center;
+                    border: 2px solid #9b59b6;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                }
+                
+                .stat-number { 
+                    font-size: 36px; 
+                    font-weight: bold; 
+                    color: #9b59b6; 
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label { 
+                    color: #7f8c8d; 
+                    font-size: 14px; 
+                    font-weight: 600;
+                }
+                
+                .lieux-section { 
+                    margin-top: 30px;
+                }
+                
+                .lieu-table { 
+                    width: 100%; 
+                    border-collapse: collapse; 
+                    margin-top: 15px;
+                }
+                
+                .lieu-table th { 
+                    background: #9b59b6; 
+                    color: white; 
+                    padding: 12px 15px; 
+                    text-align: left;
+                    font-weight: 600;
+                }
+                
+                .lieu-table td { 
+                    padding: 10px 15px; 
+                    border-bottom: 1px solid #eee;
+                }
+                
+                .lieu-table tr:nth-child(even) { 
+                    background: #f8f9fa; 
+                }
+                
+                .footer { 
+                    margin-top: 40px; 
+                    text-align: center; 
+                    color: #7f8c8d; 
+                    font-size: 11px;
+                    padding-top: 20px;
+                    border-top: 1px solid #ddd;
+                }
+                
+                @media print { 
+                    body { margin: 15mm; }
+                }
+                
+                .dates-list { 
+                    font-size: 12px; 
+                    color: #7f8c8d; 
+                    margin-top: 5px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>🎵 ${songName}</h1>
+                <p>Récapitulatif complet - Ministère Musical NY AKO</p>
+                <p style="color: #7f8c8d; font-style: italic;">Export généré le ${new Date().toLocaleDateString('fr-FR')}</p>
+            </div>
+            
+            <div class="song-stats">
+                <div class="stat-card">
+                    <div class="stat-number">${songData.count}</div>
+                    <div class="stat-label">Fois chantée</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${lieuxArray.length}</div>
+                    <div class="stat-label">Lieux différents</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${datesArray.length}</div>
+                    <div class="stat-label">Dates d'interprétation</div>
+                </div>
+            </div>
+            
+            <div class="lieux-section">
+                <h2 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;">
+                    📍 Lieux d'interprétation
+                </h2>
+                
+                <table class="lieu-table">
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Lieu</th>
+                            <th>Dates d'interprétation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
+    
+    lieuxArray.forEach((lieu, index) => {
+        content += `
+            <tr>
+                <td style="font-weight: bold; color: #9b59b6;">${index + 1}</td>
+                <td style="font-weight: 600;">${lieu}</td>
+                <td>
+                    <div class="dates-list">
+        `;
+        
+        // Afficher jusqu'à 3 dates pour ce lieu
+        const sampleDates = datesArray.slice(0, 3);
+        sampleDates.forEach(date => {
+            content += `<div>📅 ${date}</div>`;
+        });
+        
+        if (datesArray.length > 3) {
+            content += `<div style="color: #e74c3c; font-style: italic;">... et ${datesArray.length - 3} autres dates</div>`;
+        }
+        
+        content += `
+                    </div>
+                </td>
+            </tr>
+        `;
+    });
+    
+    content += `
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="footer">
+                <p><strong>NY AKO - Ministère Musical Évangélique</strong></p>
+                <p>"Que la parole de Christ habite parmi vous abondamment" (Colossiens 3:16)</p>
+                <p>Document réservé au ministère musical - Export individuel</p>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    printWindow.document.write(content);
+    printWindow.document.close();
+    
+    setTimeout(() => {
+        printWindow.print();
+    }, 500);
+}
 function showActivityMenu(activityType, x, y) {
     const existingMenu = document.getElementById('activityContextMenu');
     if (existingMenu) {
@@ -7578,15 +8421,19 @@ function extractLieuxByActivityType(activityType) {
             }
         }
 
-        function updateStats() {
-            document.getElementById('totalLieux').textContent = allLieux.length;
-            document.getElementById('totalPays').textContent = allPays.length;
-            document.getElementById('totalInterlocuteurs').textContent = allInterlocuteurs.length;
-            document.getElementById('totalParticipants').textContent = totalParticipants;
-            document.getElementById('totalDureeTrajet').textContent = formatHours(totalDureeTrajet);
-            document.getElementById('totalDistance').textContent = totalDistance.toFixed(0) + ' km';
-            document.getElementById('totalJours').textContent = sheetData.length;
-        }
+       function updateStats() {
+    document.getElementById('totalLieux').textContent = allLieux.length;
+    document.getElementById('totalPays').textContent = allPays.length;
+    document.getElementById('totalInterlocuteurs').textContent = allInterlocuteurs.length;
+    document.getElementById('totalParticipants').textContent = totalParticipants;
+    document.getElementById('totalDureeTrajet').textContent = formatHours(totalDureeTrajet);
+    document.getElementById('totalDistance').textContent = totalDistance.toFixed(0) + ' km';
+    document.getElementById('totalJours').textContent = sheetData.length;
+    
+    // AJOUTEZ CETTE LIGNE POUR COMPTER LES CHANSONS
+    const songsMap = extractAllSongsFromPlaylists();
+    document.getElementById('totalSongs').textContent = songsMap.size;
+}
 
 function renderFilterTags() {
     renderTagsWithCount('lieuxTags', allLieux, 'lieu');
@@ -8017,13 +8864,13 @@ function toggleFilterGroup(type) {
                                         }
                                         window.open(finalLink, '_blank');
                                     } else {
-                                        window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
+                                        window.open('https://docs.google.com/forms/d/e/1FAIpQLSdWZSmWRlCpMPNfNQ9vfhY5wYa1483jJ_TxplrxwAEhcT1UfQ/viewform?usp=header', '_blank');
                                     }
                                 } else {
-                                    window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
+                                    window.open('https://docs.google.com/forms/d/e/1FAIpQLSdWZSmWRlCpMPNfNQ9vfhY5wYa1483jJ_TxplrxwAEhcT1UfQ/viewform?usp=header', '_blank');
                                 }
                             } else {
-                                window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
+                                window.open('https://docs.google.com/forms/d/e/1FAIpQLSdWZSmWRlCpMPNfNQ9vfhY5wYa1483jJ_TxplrxwAEhcT1UfQ/viewform?usp=header', '_blank');
                             }
                             hideModal('dateOptionsModal');
                         } else {
@@ -9415,40 +10262,44 @@ function updateShowAllButtonVisibility() {
         }
 
         function extractActivityData(row, activityIndex, prefix) {
-            const data = {};
-            
-            data.type = row[activityIndex] || '';
-            
-            if (!data.type || data.type.trim() === '') {
-                return data;
-            }
-            
-            console.log(`🔍 Extraction des données pour ${prefix}: "${data.type}"`);
-            
-            const startIndex = activityIndex + 1;
-            
-            const fieldMapping = [
-                { name: 'heureDebut', patterns: ['Heure début:', 'Heure début', 'Heure debut'] },
-                { name: 'heureFin', patterns: ['Heure fin:', 'Heure fin'] },
-                { name: 'lieux', patterns: ['Lieux :', 'Lieux', 'Lieu :', 'Lieu'] },
-                { name: 'trajet', patterns: ['Trajet:', 'Trajet'] },
-                { name: 'dureeTrajet', patterns: ['Durée trajet:', 'Durée trajet', 'Duree trajet'] },
-                { name: 'distanceTrajet', patterns: ['Distance trajet:', 'Distance trajet'] },
-                { name: 'details', patterns: ['Détails sur l\'activité:', 'Détails sur l\'activité', 'Details sur l\'activite'] },
-                { name: 'faits', patterns: ['Faits marquants et Anecdote:', 'Faits marquants et Anecdote'] },
-                { name: 'Playlist', patterns: ['Playlist :', 'Playlist'] },
-                { name: 'nbParticipant', patterns: ['Nb participant:', 'Nb participant'] },
-                { name: 'interlocuteur', patterns: ['Interlocuteur ,hôte', 'Interlocuteur', 'Interlocuteur, hôte'] },
-                { name: 'telephone', patterns: ['Téléphone', 'Telephone'] },
-                { name: 'whatsapp', patterns: ['Whatsapp', 'WhatsApp'] },
-                { name: 'mail', patterns: ['Mail:'] },
-                { name: 'reseauxSociaux', patterns: ['fb ou autre contact sur réseaux sociaux de l\'hôte', 'reseaux sociaux'] },
-                { name: 'aSavoir', patterns: ['À savoir sur l\'interlocuteur', 'A savoir sur l\'interlocuteur'] },
-                { name: 'photosLieux', patterns: ['Photos des lieux (extérieur ,intérieur, coulisse)', 'Photos des lieux'] },
-                { name: 'repertoire', patterns: ['Répertoire:', 'Repertoire'] },
-                { name: 'photosGroupe', patterns: ['Photos de groupe,marquante', 'Photos de groupe'] }
-            ];
-            
+    const data = {};
+    
+    data.type = row[activityIndex] || '';
+    
+    if (!data.type || data.type.trim() === '') {
+        return data;
+    }
+    
+    console.log(`🔍 Extraction des données pour ${prefix}: "${data.type}"`);
+    
+    const startIndex = activityIndex + 1;
+    
+    const fieldMapping = [
+        { name: 'heureDebut', patterns: ['Heure début:', 'Heure début', 'Heure debut'] },
+        { name: 'heureFin', patterns: ['Heure fin:', 'Heure fin'] },
+        { name: 'lieux', patterns: ['Lieux :', 'Lieux', 'Lieu :', 'Lieu'] },
+        { name: 'adresse', patterns: ['Adresse:', 'Adresse'] }, // NOUVEAU
+        { name: 'trajet', patterns: ['Trajet:', 'Trajet'] },
+        { name: 'dureeTrajet', patterns: ['Durée trajet:', 'Durée trajet', 'Duree trajet'] },
+        { name: 'distanceTrajet', patterns: ['Distance trajet:', 'Distance trajet'] },
+        { name: 'details', patterns: ['Détails sur l\'activité:', 'Détails sur l\'activité', 'Details sur l\'activite'] },
+        { name: 'faits', patterns: ['Faits marquants et Anecdote:', 'Faits marquants et Anecdote'] },
+        { name: 'observations', patterns: ['Observations :', 'Observations'] }, // NOUVEAU
+        { name: 'misAuPoint', patterns: ['Mis au point à faire/rappel/remarque'] }, // NOUVEAU
+        { name: 'Playlist', patterns: ['Playlist :', 'Playlist'] },
+        { name: 'nbParticipant', patterns: ['Nb participant:', 'Nb participant'] },
+        { name: 'interlocuteur', patterns: ['Interlocuteur ,hôte', 'Interlocuteur', 'Interlocuteur, hôte'] },
+        { name: 'telephone', patterns: ['Téléphone', 'Telephone'] },
+        { name: 'whatsapp', patterns: ['Whatsapp', 'WhatsApp'] },
+        { name: 'mail', patterns: ['Mail:'] },
+        { name: 'reseauxSociaux', patterns: ['fb ou autre contact sur réseaux sociaux de l\'hôte', 'reseaux sociaux'] },
+        { name: 'aSavoir', patterns: ['À savoir sur l\'interlocuteur', 'A savoir sur l\'interlocuteur'] },
+        { name: 'photosLieux', patterns: ['Photos des lieux (extérieur ,intérieur, coulisse)', 'Photos des lieux'] },
+        { name: 'repertoire', patterns: ['Répertoire:', 'Repertoire'] },
+        { name: 'photosGroupe', patterns: ['Photos de groupe,marquante', 'Photos de groupe'] }
+    ];
+    
+             
             let currentIndex = startIndex;
             let fieldsFound = 0;
             
@@ -9682,16 +10533,15 @@ function updateShowAllButtonVisibility() {
         }
 
         function createActivitySection(activityData, activityPrefix, activityType) {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'activity-section';
-            
-            const activityTitle = document.createElement('h4');
-            activityTitle.className = 'activity-title activity-type';
-            
-                // Extraire le numéro de l'activité (ex: "ACTIVITÉ 1" -> "1")
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'activity-section';
+    
+    // Titre avec numéro et date à droite
+    const activityTitle = document.createElement('h4');
+    activityTitle.className = 'activity-title activity-type';
+    
     const activityNumber = activityPrefix.match(/\d+/)?.[0] || '';
     
-    // Créer le titre avec numéro à gauche et date à droite
     let titleHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
             <div style="display: flex; align-items: center; gap: 10px;">
@@ -9719,205 +10569,209 @@ function updateShowAllButtonVisibility() {
     `;
     
     activityTitle.innerHTML = titleHTML;
-            sectionDiv.appendChild(activityTitle);
-            
-            if (activityData.heureDebut || activityData.heureFin) {
-                const heureGroup = document.createElement('div');
-                
-                const isMobile = window.innerWidth <= 768;
-                heureGroup.className = isMobile ? 'heure-group-mobile' : 'heure-group';
-                
-                if (activityData.heureDebut) {
-                    const heureItem = document.createElement('div');
-                    heureItem.className = 'heure-item';
-                    heureItem.innerHTML = `
-                        <div class="heure-icon">🕐</div>
-                        <div class="heure-label">Heure début</div>
-                        <div class="heure-value">${activityData.heureDebut}</div>
-                    `;
-                    heureGroup.appendChild(heureItem);
-                }
-                
-                if (activityData.heureFin) {
-                    const heureItem = document.createElement('div');
-                    heureItem.className = 'heure-item';
-                    heureItem.innerHTML = `
-                        <div class="heure-icon">🕔</div>
-                        <div class="heure-label">Heure fin</div>
-                        <div class="heure-value">${activityData.heureFin}</div>
-                    `;
-                    heureGroup.appendChild(heureItem);
-                }
-                
-                sectionDiv.appendChild(heureGroup);
-            }
-            
-            if (activityData.lieux || activityData.trajet || activityData.dureeTrajet || activityData.distanceTrajet) {
-                const lieuSubtitle = document.createElement('h5');
-                lieuSubtitle.className = 'subsection-title';
-                lieuSubtitle.textContent = 'Concernant les lieux:';
-                sectionDiv.appendChild(lieuSubtitle);
-                
-                const lieuxInfo = document.createElement('div');
-                
-                const isMobile = window.innerWidth <= 768;
-                if (isMobile) {
-                    lieuxInfo.className = 'lieux-trajet-group';
-                } else {
-                    lieuxInfo.className = 'lieux-info';
-                }
-                
-                if (activityData.lieux) {
-                    const lieuItem = document.createElement('div');
-                    lieuItem.className = 'lieux-item';
-                    lieuItem.innerHTML = `
-                        <div class="lieux-icon">📍</div>
-                        <div class="lieux-label">Lieux</div>
-                        <div class="lieux-value">${activityData.lieux}</div>
-                    `;
-                    lieuxInfo.appendChild(lieuItem);
-                }
-                
-                if (activityData.trajet) {
-                    const trajetItem = document.createElement('div');
-                    trajetItem.className = 'lieux-item';
-                    trajetItem.innerHTML = `
-                        <div class="lieux-icon">🛣️</div>
-                        <div class="lieux-label">Trajet</div>
-                        <div class="lieux-value">${activityData.trajet}</div>
-                    `;
-                    lieuxInfo.appendChild(trajetItem);
-                }
-                
-                if (activityData.dureeTrajet || activityData.distanceTrajet) {
-                    const dureeDistanceGroup = document.createElement('div');
-                    dureeDistanceGroup.className = 'duree-distance-presentation';
-                    
-                    if (activityData.dureeTrajet) {
-                        const dureeItem = document.createElement('div');
-                        dureeItem.className = 'duree-distance-item';
-                        dureeItem.innerHTML = `
-                            <div class="duree-distance-icon">⏱️</div>
-                            <div class="duree-distance-label">Durée trajet</div>
-                            <div class="duree-distance-value">${formatHours(parseDurationToHours(activityData.dureeTrajet))}</div>
-                        `;
-                        dureeDistanceGroup.appendChild(dureeItem);
-                    }
-                    
-                    if (activityData.distanceTrajet) {
-                        const distanceItem = document.createElement('div');
-                        distanceItem.className = 'duree-distance-item';
-                        distanceItem.innerHTML = `
-                            <div class="duree-distance-icon">📏</div>
-                            <div class="duree-distance-label">Distance trajet</div>
-                            <div class="duree-distance-value">${activityData.distanceTrajet} Km</div>
-                        `;
-                        dureeDistanceGroup.appendChild(distanceItem);
-                    }
-                    
-                    lieuxInfo.appendChild(dureeDistanceGroup);
-                }
-                
-                sectionDiv.appendChild(lieuxInfo);
-            }
-            
-            if (activityData.details || activityData.faits || activityData.Playlist) {
-                const notesSubtitle = document.createElement('h5');
-                notesSubtitle.className = 'subsection-title';
-                notesSubtitle.textContent = 'Notes';
-                sectionDiv.appendChild(notesSubtitle);
-                
-                if (activityData.details) {
-                    sectionDiv.appendChild(createNoteBox('Détails sur l\'activité:', activityData.details));
-                }
-                
-                if (activityData.faits) {
-                    sectionDiv.appendChild(createNoteBox('Faits marquants et Anecdote:', activityData.faits));
-                }
-                
-                if (activityData.Playlist) {
-                    sectionDiv.appendChild(createNoteBox('Playlist:', activityData.Playlist));
-                }
-            }
-            
-            if (activityData.nbParticipant) {
-                const participantsDiv = document.createElement('div');
-                participantsDiv.className = 'highlight-value';
-                participantsDiv.innerHTML = `<strong>Nb participant:</strong> ${activityData.nbParticipant} personne(s)`;
-                sectionDiv.appendChild(participantsDiv);
-            }
-            
-            if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || 
-                activityData.mail || activityData.reseauxSociaux || activityData.aSavoir) {
-                sectionDiv.appendChild(createContactInfoSection(activityData));
-            }
-            
-            /* =============== SECTION PHOTOS AMÉLIORÉE =============== */
-if (activityData.photosLieux || activityData.repertoire || activityData.photosGroupe) {
-    const photosDiv = document.createElement('div');
-    photosDiv.className = 'photos-section';
+    sectionDiv.appendChild(activityTitle);
     
-    const photosTitle = document.createElement('div');
-    photosTitle.className = 'photos-title';
-    photosTitle.innerHTML = '<span style="color: var(--gold);">📸</span> Galerie Photos et Médias';
-    photosDiv.appendChild(photosTitle);
-    
-    // Container spécial pour les boutons photos
-    const photoButtonsContainer = document.createElement('div');
-    photoButtonsContainer.className = 'photo-buttons-container';
-    
-    if (activityData.photosLieux) {
-    const photoPreview = createPhotoButton('Photos des lieux', activityData.photosLieux);
-    
-    // Mettre à jour le label
-    const label = photoPreview.querySelector('.photo-label');
-    if (label) {
-        label.innerHTML = '🏛️ Photos des lieux<br><small style="font-size: 0.8em; font-weight: normal; opacity: 0.8;">(Extérieur/Intérieur/Coulisses)</small>';
-    }
-    
-    photoButtonsContainer.appendChild(photoPreview);
-}
-    
-    if (activityData.repertoire) {
-        const photoButton = createPhotoButton('🎵 Répertoire musical', activityData.repertoire);
-        photoButton.innerHTML += '<div style="font-size: 0.9em; margin-top: 10px; opacity: 0.9; font-weight: normal;">(Partitions & arrangements)</div>';
-        photoButtonsContainer.appendChild(photoButton);
-    }
-    
-    if (activityData.photosGroupe) {
-        const photoButton = createPhotoButton('👥 Photos de groupe', activityData.photosGroupe);
-        photoButton.innerHTML += '<div style="font-size: 0.9em; margin-top: 10px; opacity: 0.9; font-weight: normal;">(Moments marquants)</div>';
-        photoButtonsContainer.appendChild(photoButton);
-    }
-    
-    photosDiv.appendChild(photoButtonsContainer);
-    
-    // Ajouter un note d'information
-    const photoNote = document.createElement('div');
-    photoNote.style.cssText = `
-        margin-top: 20px;
-        padding: 12px 15px;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 10px;
-        font-size: 0.9em;
-        color: #7f8c8d;
-        text-align: center;
-        border-left: 4px solid var(--gold);
-    `;
-    photoNote.innerHTML = `
-        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 5px;">
-            <span style="color: var(--secondary-color);">💡</span>
-            <strong>Conseil :</strong>
-        </div>
-        Cliquez sur les boutons pour accéder aux albums photos et médias correspondants
-    `;
-    photosDiv.appendChild(photoNote);
-    
-    sectionDiv.appendChild(photosDiv);
-}
-            
-            return sectionDiv;
+    // SECTION 1: Horaires
+    if (activityData.heureDebut || activityData.heureFin) {
+        const heureGroup = document.createElement('div');
+        const isMobile = window.innerWidth <= 768;
+        heureGroup.className = isMobile ? 'heure-group-mobile' : 'heure-group';
+        
+        if (activityData.heureDebut) {
+            const heureItem = document.createElement('div');
+            heureItem.className = 'heure-item';
+            heureItem.innerHTML = `
+                <div class="heure-icon">🕐</div>
+                <div class="heure-label">Heure début</div>
+                <div class="heure-value">${activityData.heureDebut}</div>
+            `;
+            heureGroup.appendChild(heureItem);
         }
+        
+        if (activityData.heureFin) {
+            const heureItem = document.createElement('div');
+            heureItem.className = 'heure-item';
+            heureItem.innerHTML = `
+                <div class="heure-icon">🕔</div>
+                <div class="heure-label">Heure fin</div>
+                <div class="heure-value">${activityData.heureFin}</div>
+            `;
+            heureGroup.appendChild(heureItem);
+        }
+        
+        sectionDiv.appendChild(heureGroup);
+    }
+    
+    // SECTION 2: Concernant les lieux (avec adresse)
+    if (activityData.lieux || activityData.adresse || activityData.trajet || activityData.dureeTrajet || activityData.distanceTrajet) {
+        const lieuSubtitle = document.createElement('h5');
+        lieuSubtitle.className = 'subsection-title';
+        lieuSubtitle.textContent = 'Concernant les lieux:';
+        sectionDiv.appendChild(lieuSubtitle);
+        
+        const lieuxInfo = document.createElement('div');
+        const isMobile = window.innerWidth <= 768;
+        lieuxInfo.className = isMobile ? 'lieux-trajet-group' : 'lieux-info';
+        
+        // Lieux
+        if (activityData.lieux) {
+            const lieuItem = document.createElement('div');
+            lieuItem.className = 'lieux-item';
+            lieuItem.innerHTML = `
+                <div class="lieux-icon">📍</div>
+                <div class="lieux-label">Lieux</div>
+                <div class="lieux-value">${activityData.lieux}</div>
+            `;
+            lieuxInfo.appendChild(lieuItem);
+        }
+        
+        // Adresse (NOUVEAU)
+        if (activityData.adresse) {
+            const adresseItem = document.createElement('div');
+            adresseItem.className = 'lieux-item';
+            adresseItem.innerHTML = `
+                <div class="lieux-icon">🏠</div>
+                <div class="lieux-label">Adresse</div>
+                <div class="lieux-value">${activityData.adresse}</div>
+            `;
+            lieuxInfo.appendChild(adresseItem);
+        }
+        
+        // Trajet
+        if (activityData.trajet) {
+            const trajetItem = document.createElement('div');
+            trajetItem.className = 'lieux-item';
+            trajetItem.innerHTML = `
+                <div class="lieux-icon">🛣️</div>
+                <div class="lieux-label">Trajet</div>
+                <div class="lieux-value">${activityData.trajet}</div>
+            `;
+            lieuxInfo.appendChild(trajetItem);
+        }
+        
+        // Durée et distance
+        if (activityData.dureeTrajet || activityData.distanceTrajet) {
+            const dureeDistanceGroup = document.createElement('div');
+            dureeDistanceGroup.className = 'duree-distance-presentation';
+            
+            if (activityData.dureeTrajet) {
+                const dureeItem = document.createElement('div');
+                dureeItem.className = 'duree-distance-item';
+                dureeItem.innerHTML = `
+                    <div class="duree-distance-icon">⏱️</div>
+                    <div class="duree-distance-label">Durée trajet</div>
+                    <div class="duree-distance-value">${formatHours(parseDurationToHours(activityData.dureeTrajet))}</div>
+                `;
+                dureeDistanceGroup.appendChild(dureeItem);
+            }
+            
+            if (activityData.distanceTrajet) {
+                const distanceItem = document.createElement('div');
+                distanceItem.className = 'duree-distance-item';
+                distanceItem.innerHTML = `
+                    <div class="duree-distance-icon">📏</div>
+                    <div class="duree-distance-label">Distance trajet</div>
+                    <div class="duree-distance-value">${activityData.distanceTrajet} Km</div>
+                `;
+                dureeDistanceGroup.appendChild(distanceItem);
+            }
+            
+            lieuxInfo.appendChild(dureeDistanceGroup);
+        }
+        
+        sectionDiv.appendChild(lieuxInfo);
+    }
+    
+    // SECTION 3: Notes de l'activité (avec nouvelles sections)
+    if (activityData.details || activityData.faits || activityData.observations || activityData.misAuPoint || activityData.Playlist) {
+        const notesSubtitle = document.createElement('h5');
+        notesSubtitle.className = 'subsection-title';
+        notesSubtitle.textContent = 'Notes de l\'activité:';
+        sectionDiv.appendChild(notesSubtitle);
+        
+        // Détails sur l'activité
+        if (activityData.details) {
+            sectionDiv.appendChild(createNoteBox('Détails sur l\'activité:', activityData.details));
+        }
+        
+        // Faits marquants
+        if (activityData.faits) {
+            sectionDiv.appendChild(createNoteBox('Faits marquants et Anecdote:', activityData.faits));
+        }
+        
+        // Observations (NOUVEAU)
+        if (activityData.observations) {
+            sectionDiv.appendChild(createNoteBox('Observations:', activityData.observations));
+        }
+        
+        // Mis au point (NOUVEAU)
+        if (activityData.misAuPoint) {
+            sectionDiv.appendChild(createNoteBox('Mis au point à faire/rappel/remarque:', activityData.misAuPoint));
+        }
+        
+        // Playlist
+        if (activityData.Playlist) {
+            sectionDiv.appendChild(createNoteBox('Playlist:', activityData.Playlist));
+        }
+    }
+    
+    // SECTION 4: Participants
+    if (activityData.nbParticipant) {
+        const participantsDiv = document.createElement('div');
+        participantsDiv.className = 'highlight-value';
+        participantsDiv.innerHTML = `<strong>Nb participant:</strong> ${activityData.nbParticipant} personne(s)`;
+        sectionDiv.appendChild(participantsDiv);
+    }
+    
+    // SECTION 5: Information sur Interlocuteur/Hôte
+    if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || 
+        activityData.mail || activityData.reseauxSociaux || activityData.aSavoir) {
+        sectionDiv.appendChild(createContactInfoSection(activityData));
+    }
+    
+    // SECTION 6: Galerie Photos et Médias
+    if (activityData.photosLieux || activityData.repertoire || activityData.photosGroupe) {
+        const photosDiv = document.createElement('div');
+        photosDiv.className = 'photos-section';
+        
+        const photosTitle = document.createElement('div');
+        photosTitle.className = 'photos-title';
+        photosTitle.innerHTML = '<span style="color: var(--gold);">📸</span> Galerie Photos et Médias';
+        photosDiv.appendChild(photosTitle);
+        
+        const photoButtonsContainer = document.createElement('div');
+        photoButtonsContainer.className = 'photo-buttons-container';
+        
+        // Photos des lieux
+        if (activityData.photosLieux) {
+            const photoPreview = createPhotoButton('Photos des lieux', activityData.photosLieux);
+            const label = photoPreview.querySelector('.photo-label');
+            if (label) {
+                label.innerHTML = '🏛️ Photos des lieux<br><small style="font-size: 0.8em; font-weight: normal; opacity: 0.8;">(Extérieur/Intérieur/Coulisses)</small>';
+            }
+            photoButtonsContainer.appendChild(photoPreview);
+        }
+        
+        // Répertoire
+        if (activityData.repertoire) {
+            const photoButton = createPhotoButton('🎵 Répertoire musical', activityData.repertoire);
+            photoButton.innerHTML += '<div style="font-size: 0.9em; margin-top: 10px; opacity: 0.9; font-weight: normal;">(Partitions & arrangements)</div>';
+            photoButtonsContainer.appendChild(photoButton);
+        }
+        
+        // Photos de groupe
+        if (activityData.photosGroupe) {
+            const photoButton = createPhotoButton('👥 Photos de groupe', activityData.photosGroupe);
+            photoButton.innerHTML += '<div style="font-size: 0.9em; margin-top: 10px; opacity: 0.9; font-weight: normal;">(Moments marquants)</div>';
+            photoButtonsContainer.appendChild(photoButton);
+        }
+        
+        photosDiv.appendChild(photoButtonsContainer);
+        sectionDiv.appendChild(photosDiv);
+    }
+    
+    return sectionDiv;
+}
 
         function createContactInfoSection(activityData) {
             const contactDiv = document.createElement('div');
@@ -10075,22 +10929,30 @@ if (activityData.photosLieux || activityData.repertoire || activityData.photosGr
             return itemDiv;
         }
 
-        function createNoteBox(title, content) {
-            const noteDiv = document.createElement('div');
-            noteDiv.className = 'note-box';
-            
-            const titleDiv = document.createElement('div');
-            titleDiv.className = 'note-title';
-            titleDiv.textContent = title;
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.innerHTML = content.replace(/\n/g, '<br>');
-            
-            noteDiv.appendChild(titleDiv);
-            noteDiv.appendChild(contentDiv);
-            
-            return noteDiv;
-        }
+      function createNoteBox(title, content) {
+    const noteDiv = document.createElement('div');
+    noteDiv.className = 'note-box';
+    
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'note-title';
+    
+    // Ajouter des icônes selon le type de note
+    let icon = '📝';
+    if (title.includes('Faits marquants')) icon = '🌟';
+    if (title.includes('Observations')) icon = '👁️';
+    if (title.includes('Mis au point')) icon = '💡';
+    if (title.includes('Playlist')) icon = '🎵';
+    
+    titleDiv.innerHTML = `${icon} ${title}`;
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+    
+    noteDiv.appendChild(titleDiv);
+    noteDiv.appendChild(contentDiv);
+    
+    return noteDiv;
+}
 
 function createPhotoButton(text, url) {
     // Créer un container pour l'aperçu photo
