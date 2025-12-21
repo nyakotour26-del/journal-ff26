@@ -3647,6 +3647,7 @@ t;
                         <button class="admin-button" id="selectiveExportButton" disabled>📄 Export sélectif</button>
                         <button class="admin-button" id="exportBookButton" disabled>📚 Gérer participants + Exporter PDF</button>
                         <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
+			<button class="admin-button" id="viewSourceSheetButton" style="background: linear-gradient(to bottom, #8e44ad, #7d3c98);">📊 Voir la source Google Sheet</button>
                         <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
 			<button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
 <button class="admin-button" id="showGlobalActivityTableButton" style="background: linear-gradient(to bottom, #3498db, #2980b9);">📈 Tableau global activités</button>
@@ -4554,6 +4555,7 @@ document.getElementById('showGlobalActivityTableButton').addEventListener('click
                             <button class="admin-button" id="selectiveExportButton">📄 Export sélectif</button>
                             <button class="admin-button" id="exportBookButton">📚 Gérer participants + Exporter PDF</button>
                             <button class="admin-button" id="publicListsButton">📋 Listes organisées</button>
+				<button class="admin-button" id="viewSourceSheetButton" style="background: linear-gradient(to bottom, #8e44ad, #7d3c98);">📊 Voir la source Google Sheet</button>
                             <button class="admin-button" id="showContactsButton">📇 Tableau des contacts</button>
 			<button class="admin-button" id="showActivitySummaryButton">📊 Tableau activités par type</button>
 			<button class="admin-button" id="showGlobalActivityTableButton" style="background: linear-gradient(to bottom, #3498db, #2980b9);">📈 Tableau global activités</button>
@@ -4573,6 +4575,9 @@ document.getElementById('showActivitySummaryButton').addEventListener('click', s
 document.getElementById('showGlobalActivityTableButton').addEventListener('click', showGlobalActivityTable);
                 document.getElementById('logoutButton').addEventListener('click', logoutAdmin);
             }
+document.getElementById('viewSourceSheetButton').addEventListener('click', function() {
+    window.open('https://docs.google.com/spreadsheets/d/1luwFDmaYdfMpxhQWxaNioCLgfzvRifWSHQCF_p1_Z9c/edit', '_blank');
+});
             
             console.log('✅ Interface admin mise à jour');
         }
@@ -4639,7 +4644,13 @@ document.getElementById('showGlobalActivityTableButton').addEventListener('click
     document.getElementById('showContactsButton').addEventListener('click', showContactsTable);
     document.getElementById('showActivitySummaryButton').addEventListener('click', showActivitySummaryTable);
     document.getElementById('showGlobalActivityTableButton').addEventListener('click', showGlobalActivityTable);
-    
+ document.getElementById('viewSourceSheetButton').addEventListener('click', function() {
+    if (!isAdmin) {
+        showUnlockBubble('admin');
+    } else {
+        window.open('https://docs.google.com/spreadsheets/d/1luwFDmaYdfMpxhQWxaNioCLgfzvRifWSHQCF_p1_Z9c/edit', '_blank');
+    }
+});   
     renderCalendar();
     
     const dataInfo = document.getElementById('dataInfo');
