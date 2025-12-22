@@ -4587,7 +4587,7 @@ document.getElementById('showGlobalActivityTableButton').addEventListener('click
                 document.getElementById('logoutButton').addEventListener('click', logoutAdmin);
             }
 document.getElementById('viewSourceSheetButton').addEventListener('click', function() {
-    window.open('https://docs.google.com/spreadsheets/d/1luwFDmaYdfMpxhQWxaNioCLgfzvRifWSHQCF_p1_Z9c/edit', '_blank');
+    window.open('https://docs.google.com/spreadsheets/d/14tN-7gx85F8C2TJkYf4LGttkVguVBcKvLqnDM8aTQjU/edit', '_blank');
 });
             
             console.log('✅ Interface admin mise à jour');
@@ -4659,7 +4659,7 @@ document.getElementById('viewSourceSheetButton').addEventListener('click', funct
     if (!isAdmin) {
         showUnlockBubble('admin');
     } else {
-        window.open('https://docs.google.com/spreadsheets/d/1luwFDmaYdfMpxhQWxaNioCLgfzvRifWSHQCF_p1_Z9c/edit', '_blank');
+        window.open('https://docs.google.com/spreadsheets/d/14tN-7gx85F8C2TJkYf4LGttkVguVBcKvLqnDM8aTQjU/edit', '_blank');
     }
 });   
     renderCalendar();
@@ -6095,85 +6095,34 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
         }
 
         function calculateActivityCounts() {
-            Object.keys(activityCounts).forEach(key => {
-                activityCounts[key] = 0;
-            });
-            
-             const validActivityTypes = [
-        'Animation',
-        'Voyage', 
-        'Concert',
-        'Rencontre/Invitation',
-        'Etablissement scolaire',
-        'Festival',
-        'Hospice/Hopital',
-        'Sortie/visite/Tourisme',
-        'Eglise/culte',
-        'Marché',
-        'Shopping',
-        'Social',
-        'Jeux/sport',
-        'Repos'
-    ];
-            
-            for (let i = 1; i <= 7; i++) {
-                const activityHeader = `ACTIVITÉ ${i}`;
-                const activityHeaderAlt = `ACTIVITE ${i}`;
-                const activityHeaderAlt2 = `ACTIVITE${i}`;
-                const activityHeaderAlt3 = `ACTIVITÉ${i}`;
-                
-                const activityIndex = headers.findIndex(header => 
-                    header && (
-                        header.trim().toUpperCase() === activityHeader ||
-                        header.trim().toUpperCase() === activityHeaderAlt ||
-                        header.trim().toUpperCase() === activityHeaderAlt2 ||
-                        header.trim().toUpperCase() === activityHeaderAlt3 ||
-                        header.includes(`ACTIVITÉ ${i}`) ||
-                        header.includes(`ACTIVITE ${i}`) ||
-                        header.includes(`ACTIVITE${i}`) ||
-                        header.includes(`ACTIVITÉ${i}`)
-                    )
-                );
-                
-                if (activityIndex !== -1) {
-                    sheetData.forEach(row => {
-                        const activityType = row[activityIndex] || '';
-                        if (activityType && activityType.trim() !== '') {
-                            const normalizedType = activityType.trim();
-                            
-                            if (normalizedType.toLowerCase() === 'sortie/visite/tourisme' || 
-                                normalizedType.toLowerCase() === 'sortie/visite/tourisme') {
-                                activityCounts['Sortie/visite/Tourisme']++;
-                            } else if (validActivityTypes.includes(normalizedType)) {
-                                activityCounts[normalizedType]++;
-                            } else {
-                                activityCounts[normalizedType] = 1;
-                                console.log(`🆕 Nouvelle activité détectée et ajoutée: ${normalizedType}`);
-                            }
-                        }
-                    });
-                }
-            }
-            
-            const concertColumns = headers
-                .map((header, index) => 
-                    (header && header.includes('CONCERT')) ? index : -1
-                )
-                .filter(index => index !== -1);
-            
-            concertColumns.forEach(colIndex => {
-                sheetData.forEach(row => {
-                    const concertValue = row[colIndex] || '';
-                    if (concertValue && 
-                        (concertValue.toLowerCase() === 'oui' || 
-                         concertValue.toLowerCase().includes('concert'))) {
-                        activityCounts['Concert']++;
+    // Réinitialisez tous les compteurs
+    activityCounts = {}; // Vide complètement au lieu de réinitialiser
+    
+    for (let i = 1; i <= 7; i++) {
+        const activityHeader = `ACTIVITÉ ${i}`;
+        const activityIndex = headers.findIndex(header => 
+            header && header.includes(activityHeader)
+        );
+        
+        if (activityIndex !== -1) {
+            sheetData.forEach(row => {
+                const activityType = row[activityIndex] || '';
+                if (activityType && activityType.trim() !== '') {
+                    const normalizedType = activityType.trim();
+                    
+                    // TOUJOURS ajouter l'activité
+                    if (!activityCounts[normalizedType]) {
+                        activityCounts[normalizedType] = 1;
+                    } else {
+                        activityCounts[normalizedType]++;
                     }
-                });
+                }
             });
-            
-            console.log('📊 Statistiques activités calculées:', activityCounts);
         }
+    }
+    
+    console.log('📊 Statistiques activités calculées:', activityCounts);
+}
 
        function renderActivityStats() {
     const container = document.getElementById('activityStats');
@@ -6189,22 +6138,23 @@ function addSuggestionToContainer(container, suggestion, searchInput) {
     }
     
     // Liste complète des types d'activités
-    const allActivityTypes = [
-        'Animation',
-        'Voyage', 
-        'Concert',
-        'Rencontre/Invitation',
-        'Etablissement scolaire',
-        'Festival',
-        'Hospice/Hopital',
-        'Sortie/visite/Tourisme',
-        'Eglise/culte',
-        'Marché',
-        'Shopping',
-        'Social',
-        'Jeux/sport',
-        'Repos'
-    ];
+const allActivityTypes = [
+    'Animation',
+    'Voyage', 
+    'Concert',
+    'Rencontre/Invitation',
+    'Réunion',
+    'Etablissement scolaire',
+    'Festival',
+    'Hospice/Hopital',
+    'Sortie/visite/Tourisme',
+    'Eglise/culte',
+    'Marché',
+    'Shopping',
+    'Social',
+    'Jeux/sport',
+    'Repos'
+];
     
     // Afficher seulement les types qui ont des occurrences
     allActivityTypes.forEach(type => {
@@ -10246,16 +10196,8 @@ function updateShowAllButtonVisibility() {
             const activitySections = findActivitySectionsInHeaders();
             let hasActivities = false;
             
-            const validActivityTypes = [
-                'Rencontre/Invitation', 'Concert', 'Ecole', 
-                'Sortie/visite/Tourisme', 'Sortie/visite/tourisme', 'Sortie',
-                'Eglise/culte', 'Eglise', 'culte',
-                'Marché', 'Marche',
-                'Shopping',
-                'Hospice/Hopital', 'Hospice', 'Hopital',
-                'Voyage',
-                'Festival'
-            ];
+         // On accepte MAINTENANT TOUTES les activités
+// Cette liste n'est plus utilisée pour filtrer
             
             activitySections.forEach(section => {
                 const activityData = extractActivityData(row, section.index, section.prefix);
@@ -10271,18 +10213,19 @@ function updateShowAllButtonVisibility() {
                     const normalizedType = activityData.type ? activityData.type.trim() : '';
                     
                     if (normalizedType) {
-                        const isActivityValid = validActivityTypes.some(validType => 
-                            normalizedType.toLowerCase().includes(validType.toLowerCase())
-                        );
-                        
-                        const hasActivityData = activityData.heureDebut || activityData.lieux || 
-                                              activityData.interlocuteur || activityData.nbParticipant;
-                        
-                        if (isActivityValid || hasActivityData) {
-                            sectionDiv.appendChild(createActivitySection(activityData, section.prefix, normalizedType));
-                            hasActivities = true;
-                        }
-                    }
+    // ACCEPTEZ TOUTES les activités qui ont un nom
+    // Plus besoin de vérifier si c'est dans une liste
+    const hasActivityData = activityData.heureDebut || activityData.lieux || 
+                          activityData.interlocuteur || activityData.nbParticipant ||
+                          activityData.details || activityData.Playlist;
+    
+    // Afficher l'activité si elle a un nom ET soit des données, soit c'est un nom significatif
+    if (normalizedType.length > 2 && (hasActivityData || normalizedType.length > 3)) {
+        sectionDiv.appendChild(createActivitySection(activityData, section.prefix, normalizedType));
+        hasActivities = true;
+        console.log(`✅ Activité affichée: "${normalizedType}" dans fiche`);
+    }
+}
                 }
             });
             
@@ -10517,15 +10460,15 @@ function updateShowAllButtonVisibility() {
                 }
                 
                 if (activityData.lieux) {
-                    const lieuItem = document.createElement('div');
-                    lieuItem.className = 'lieux-item';
-                    lieuItem.innerHTML = `
-                        <div class="lieux-icon">📍</div>
-                        <div class="lieux-label">Lieux</div>
-                        <div class="lieux-value">${activityData.lieux}</div>
-                    `;
-                    lieuxInfo.appendChild(lieuItem);
-                }
+    const lieuItem = document.createElement('div');
+    lieuItem.className = 'lieux-item';
+    lieuItem.innerHTML = `
+        <div class="lieux-icon" style="color: #8B4513;">📍</div>
+        <div class="lieux-label" style="color: #8B4513;">Lieux</div>
+        <div class="lieux-value" style="color: #8B4513; font-weight: bold;">${activityData.lieux}</div>
+    `;
+    lieuxInfo.appendChild(lieuItem);
+}
                 
                 if (activityData.trajet) {
                     const trajetItem = document.createElement('div');
@@ -10714,27 +10657,27 @@ function updateShowAllButtonVisibility() {
         
         // Lieux
         if (activityData.lieux) {
-            const lieuItem = document.createElement('div');
-            lieuItem.className = 'lieux-item';
-            lieuItem.innerHTML = `
-                <div class="lieux-icon">📍</div>
-                <div class="lieux-label">Lieux</div>
-                <div class="lieux-value">${activityData.lieux}</div>
-            `;
-            lieuxInfo.appendChild(lieuItem);
-        }
+    const lieuItem = document.createElement('div');
+    lieuItem.className = 'lieux-item';
+    lieuItem.innerHTML = `
+        <div class="lieux-icon" style="color: #8B4513;">📍</div>
+        <div class="lieux-label" style="color: #8B4513;">Lieux</div>
+        <div class="lieux-value" style="color: #8B4513; font-weight: bold;">${activityData.lieux}</div>
+    `;
+    lieuxInfo.appendChild(lieuItem);
+}
         
         // Adresse (NOUVEAU)
-        if (activityData.adresse) {
-            const adresseItem = document.createElement('div');
-            adresseItem.className = 'lieux-item';
-            adresseItem.innerHTML = `
-                <div class="lieux-icon">🏠</div>
-                <div class="lieux-label">Adresse</div>
-                <div class="lieux-value">${activityData.adresse}</div>
-            `;
-            lieuxInfo.appendChild(adresseItem);
-        }
+if (activityData.adresse) {
+    const adresseItem = document.createElement('div');
+    adresseItem.className = 'lieux-item';
+    adresseItem.innerHTML = `
+        <div class="lieux-icon" style="color: #8B4513;">🏠</div>
+        <div class="lieux-label" style="color: #8B4513;">Adresse</div>
+        <div class="lieux-value" style="color: #8B4513; font-weight: bold;">${activityData.adresse}</div>
+    `;
+    lieuxInfo.appendChild(adresseItem);
+}
         
         // Trajet
         if (activityData.trajet) {
@@ -13409,41 +13352,42 @@ function createBookActivityContent(activityData, prefix) {
         content += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">`;
         
         if (activityData.lieux) {
-            content += `
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 2px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80px;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; color: #ff9800;">📍</span>
-                        <span style="font-size: 0.9em; color: #7f8c8d; font-weight: 600;">Lieux</span>
-                    </div>
-                    <span style="font-size: 1.2em; font-weight: 800; color: #ff9800; text-align: center;">${activityData.lieux}</span>
-                </div>
-            `;
-        }
+    content += `
+        <div style="background: #f8f9fa; padding: 10px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2em; color: #8B4513;">📍</span>
+                <span style="font-size: 0.85em; color: #8B4513;">Lieux</span>
+            </div>
+            <span style="font-size: 1.1em; font-weight: 700; color: #8B4513; margin-top: 5px;">${activityData.lieux}</span>
+        </div>
+    `;
+}
         
-        // ADRESSE (NOUVEAU)
-        if (activityData.adresse) {
-            content += `
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 2px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80px;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; color: #ff9800;">🏠</span>
-                        <span style="font-size: 0.9em; color: #7f8c8d; font-weight: 600;">Adresse</span>
-                    </div>
-                    <span style="font-size: 1.2em; font-weight: 800; color: #ff9800; text-align: center;">${activityData.adresse}</span>
-                </div>
-            `;
-        }
+        // Adresse
+if (activityData.adresse) {
+    content += `
+        <div style="background: #f8f9fa; padding: 10px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2em; color: #8B4513;">🏠</span>
+                <span style="font-size: 0.85em; color: #8B4513;">Adresse</span>
+            </div>
+            <span style="font-size: 1.1em; font-weight: 700; color: #8B4513; margin-top: 5px;">${activityData.adresse}</span>
+        </div>
+    `;
+}
         
-        if (activityData.trajet) {
-            content += `
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 2px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80px;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
-                        <span style="font-size: 1.5em; color: #ff9800;">🛣️</span>
-                        <span style="font-size: 0.9em; color: #7f8c8d; font-weight: 600;">Trajet</span>
-                    </div>
-                    <span style="font-size: 1.2em; font-weight: 800; color: #ff9800; text-align: center;">${activityData.trajet}</span>
-                </div>
-            `;
-        }
+       // Trajet
+if (activityData.trajet) {
+    content += `
+        <div style="background: #f8f9fa; padding: 10px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2em; color: #8B4513;">🛣️</span>
+                <span style="font-size: 0.85em; color: #8B4513;">Trajet</span>
+            </div>
+            <span style="font-size: 1.1em; font-weight: 700; color: #8B4513; margin-top: 5px;">${activityData.trajet}</span>
+        </div>
+    `;
+}
         
         // Durée et distance EXACTEMENT comme les fiches
         if (activityData.dureeTrajet || activityData.distanceTrajet) {
