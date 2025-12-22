@@ -172,6 +172,11 @@
     color: white;
     border: none;
 }
+.floating-button.mis-au-point {
+    background: linear-gradient(135deg, #ff9800, #e68900);
+    color: white;
+    border: none;
+}
         
         /* Info bubble améliorée pour les boutons */
         .floating-button:hover::after {
@@ -3466,6 +3471,8 @@ t;
     <button class="floating-button contacts" id="floatingContacts" title="Voir tous les interlocuteurs">📇</button>
     <!-- BOUTON POUR LES CHANSONS -->
     <button class="floating-button music" id="floatingMusic" title="Liste des chansons">🎵</button>
+    <!-- NOUVEAU BOUTON POUR MIS AU POINT -->
+    <button class="floating-button mis-au-point" id="floatingMisAuPoint" title="Voir tous les points à revoir">📌</button>
     <!-- Nouveau bouton admin -->
     <button class="floating-button admin" id="floatingAdmin" title="Panneau d'administration">⚙️</button>
 </div>
@@ -4168,6 +4175,10 @@ document.getElementById('floatingMusic').addEventListener('click', function() {
     displaySongsList();
 });
 
+// NOUVEAU BOUTON POUR MIS AU POINT
+document.getElementById('floatingMisAuPoint').addEventListener('click', function() {
+    showAllMisAuPoint();
+});
 document.getElementById('floatingAdmin').addEventListener('click', function() {
     const adminSection = document.getElementById('adminSection');
     if (adminSection) {
@@ -7598,8 +7609,11 @@ function scrollToRow(rowIndex) {
             entries[rowIndex].style.boxShadow = '';
         }, 3000);
         
-        // Fermer le modal
-        hideModal('globalActivityModal');
+        // Fermer le modal si ouvert
+        const modal = document.querySelector('.modal[style*="display: flex"]');
+        if (modal) {
+            modal.style.display = 'none';
+        }
     }
 }
 // Fonctions d'export
@@ -15330,6 +15344,241 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 1000);
 });
+// =============== NOUVELLE FONCTION POUR AFFICHER TOUS LES MIS AU POINT ===============
+
+function showAllMisAuPoint() {
+    console.log('📌 Extraction de tous les "Mis au point à faire/rappel/remarque"...');
+    
+    // Structure pour organiser les données par fiche
+    const fichesWithMisAuPoint = [];
+    
+    sheetData.forEach((row, rowIndex) => {
+        const dateIndex = findHeaderIndex('Date:');
+        const paysIndex = findHeaderIndex('Pays:');
+        const lieuGeneralIndex = findHeaderIndex('Lieux :');
+        
+        const date = dateIndex !== -1 ? row[dateIndex] : 'Date inconnue';
+        const pays = paysIndex !== -1 ? row[paysIndex] : 'Pays inconnu';
+        const lieuGeneral = lieuGeneralIndex !== -1 ? row[lieuGeneralIndex] : 'Lieu non spécifié';
+        
+        // Extraire les remarques générales de la fiche
+        const remarqueGeneralIndex = findHeaderIndex('Remarque général à revoir');
+        const remarqueGeneral = remarqueGeneralIndex !== -1 ? row[remarqueGeneralIndex] : '';
+        
+        // Chercher dans toutes les activités (1 à 7)
+        const activitesWithMisAuPoint = [];
+        
+        for (let i = 1; i <= 7; i++) {
+            const activityHeader = `ACTIVITÉ ${i}`;
+            const activityIndex = headers.findIndex(header => 
+                header && header.includes(activityHeader)
+            );
+            
+            if (activityIndex !== -1) {
+                const activityType = row[activityIndex] || '';
+                
+                if (activityType.trim() !== '') {
+                    // Chercher "Mis au point à faire/rappel/remarque" dans cette activité
+                    let misAuPointFound = '';
+                    let lieuActivite = '';
+                    
+                    // Chercher le lieu spécifique de l'activité
+                    for (let j = activityIndex + 1; j < headers.length; j++) {
+                        const currentHeader = headers[j] || '';
+                        
+                        // Trouver le lieu de l'activité
+                        if (currentHeader.includes('Lieux :') && !lieuActivite) {
+                            lieuActivite = row[j] || lieuGeneral;
+                        }
+                        
+                        // Trouver "Mis au point à faire/rappel/remarque"
+                        if (currentHeader.includes('Mis au point à faire/rappel/remarque')) {
+                            const misAuPointValue = row[j] || '';
+                            if (misAuPointValue.trim() !== '') {
+                                misAuPointFound = misAuPointValue;
+                            }
+                            break;
+                        }
+                        
+                        // Si on arrive à une nouvelle activité, on arrête
+                        if (j > activityIndex && headers[j] && headers[j].includes('ACTIVITÉ')) {
+                            break;
+                        }
+                    }
+                    
+                    if (misAuPointFound.trim() !== '') {
+                        activitesWithMisAuPoint.push({
+                            type: activityType.trim(),
+                            lieu: lieuActivite,
+                            misAuPoint: misAuPointFound,
+                            activityNumber: i
+                        });
+                    }
+                }
+            }
+        }
+        
+        // Ajouter la fiche seulement si elle a des "Mis au point" ou une remarque générale
+        if (activitesWithMisAuPoint.length > 0 || remarqueGeneral.trim() !== '') {
+            fichesWithMisAuPoint.push({
+                rowIndex: rowIndex,
+                date: date,
+                pays: pays,
+                lieuGeneral: lieuGeneral,
+                remarqueGeneral: remarqueGeneral,
+                activites: activitesWithMisAuPoint
+            });
+        }
+    });
+    
+    // Afficher les résultats
+    displayMisAuPointResults(fichesWithMisAuPoint);
+}
+
+function displayMisAuPointResults(fiches) {
+    const container = document.getElementById('journalEntries');
+    
+    if (fiches.length === 0) {
+        container.innerHTML = `
+            <div class="no-data">
+                <h3>📌 Aucun "Mis au point à faire/rappel/remarque" trouvé</h3>
+                <p>Aucune remarque à revoir n'a été enregistrée dans les fiches.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = `
+        <div style="background: linear-gradient(135deg, #fff9c4, #ffecb3); 
+                    padding: 25px; 
+                    border-radius: 15px; 
+                    margin-bottom: 30px;
+                    border: 3px solid #ff9800;
+                    box-shadow: 0 10px 30px rgba(255, 152, 0, 0.2);">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                <div style="background: #ff9800; color: white; padding: 10px 15px; border-radius: 10px; font-size: 1.5em;">📌</div>
+                <div>
+                    <h2 style="margin: 0; color: #e65100; font-size: 1.8em;">Points à revoir / Rappels / Remarques</h2>
+                    <p style="margin: 5px 0 0 0; color: #7f8c8d; font-size: 1.1em;">
+                        ${fiches.length} fiche(s) avec des remarques à traiter
+                    </p>
+                </div>
+            </div>
+            <p style="color: #666; font-size: 1em; padding: 10px; background: rgba(255, 255, 255, 0.5); border-radius: 8px;">
+                📋 Liste complète de tous les points nécessitant une attention particulière, regroupés par fiche et par activité.
+            </p>
+        </div>
+    `;
+    
+    fiches.forEach(fiche => {
+        html += `
+            <div class="journal-entry" style="border-left: 6px solid #ff9800; border-top: 2px solid #ff9800;">
+                <div class="entry-header" style="background: linear-gradient(to right, #ff9800, #e68900);">
+                    <h2 class="entry-title-large" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>${fiche.date}</span>
+                        <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 0.9em;">
+                            Jour ${fiche.rowIndex + 1}
+                        </span>
+                    </h2>
+                    <div class="entry-lieux" style="font-size: 1.3em; font-weight: 600;">
+                        ${fiche.pays} / ${fiche.lieuGeneral}
+                    </div>
+                </div>
+                
+                <div class="entry-content">
+        `;
+        
+        // Afficher les "Mis au point" par activité
+        if (fiche.activites.length > 0) {
+            html += `
+                <div class="section">
+                    <h3 class="section-title" style="color: #ff9800; border-bottom-color: #ff9800;">
+                        📝 Points par activité
+                    </h3>
+            `;
+            
+            fiche.activites.forEach(activite => {
+                html += `
+                    <div style="margin-bottom: 25px; padding: 20px; background: #fff9c4; border-radius: 12px; border-left: 5px solid #ff9800;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                            <div style="background: #ff9800; color: white; width: 35px; height: 35px; border-radius: 50%; 
+                                        display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                                ${activite.activityNumber}
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; color: #e65100; font-size: 1.3em;">
+                                    ${activite.type}
+                                </h4>
+                                <p style="margin: 5px 0 0 0; color: #7f8c8d; font-size: 0.95em;">
+                                    📍 ${activite.lieu}
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: white; padding: 18px; border-radius: 10px; border: 2px solid #ffe082;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: #ff9800; font-weight: 600;">
+                                <span>📌</span>
+                                <span>Point à traiter :</span>
+                            </div>
+                            <div style="color: #333; line-height: 1.6; font-size: 1.05em;">
+                                ${activite.misAuPoint.replace(/\n/g, '<br>')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+        }
+        
+        // Afficher la remarque générale de la fiche
+        if (fiche.remarqueGeneral.trim() !== '') {
+            html += `
+                <div class="section">
+                    <h3 class="section-title" style="color: #e74c3c; border-bottom-color: #e74c3c;">
+                        ⚠️ Remarque générale de la fiche
+                    </h3>
+                    <div class="note-box" style="background: #ffebee; border: 2px solid #e74c3c; border-left: 6px solid #e74c3c;">
+                        <div class="note-title" style="color: #e74c3c;">
+                            ⚠️ Remarque à revoir
+                        </div>
+                        <div style="color: #c62828; line-height: 1.6; font-size: 1.05em;">
+                            ${fiche.remarqueGeneral.replace(/\n/g, '<br>')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Bouton pour voir la fiche complète
+        html += `
+                <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 2px dashed #ffcc80;">
+                    <button onclick="scrollToRow(${fiche.rowIndex})" 
+                            style="background: linear-gradient(to bottom, #ff9800, #e68900); 
+                                   color: white; border: none; padding: 12px 25px; 
+                                   border-radius: 25px; cursor: pointer; font-weight: 600;
+                                   display: inline-flex; align-items: center; gap: 10px;">
+                        📄 Voir la fiche complète
+                    </button>
+                </div>
+                
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+    
+    // Faire défiler vers le haut
+    container.scrollIntoView({ behavior: 'smooth' });
+    
+    // Afficher le bouton retour mobile
+    if (window.innerWidth <= 1024) {
+        document.getElementById('mobileBackButton').style.display = 'block';
+    }
+    
+    console.log(`✅ Affichage de ${fiches.length} fiches avec des points à revoir`);
+}
     </script> 
 </body>
 </html>
