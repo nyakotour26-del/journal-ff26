@@ -4063,7 +4063,7 @@ Ministère Musical Évangélique</textarea>
     </div>
 
     <script>
-        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRm6xdVBp9qlFOY9Wx6V3dQB9oZWkCkiI09YgqKPCA9SdGOVynveQCRysjXRFq0upVqsQ0DlJeU5s1J/pub?gid=467081678&single=true&output=csv';
+        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2CusUy_pQjSTq72UWHc6vh-raGX-nVeaT-m0CBfrKASPtfkJPBhG7fzEdxgTPKB9FlU_oWRhOjXkP/pub?gid=817857801&single=true&output=csv';
         
         let sheetData = [];
         let headers = [];
@@ -8276,24 +8276,44 @@ function extractLieuxByActivityType(activityType) {
             return [...new Set(lieux)];
         }
 
-        function extractPaysForDate(row) {
-            const pays = [];
+       function extractPaysForDate(row) {
+    const paysSet = new Set();
+    
+    const paysColumns = headers
+        .map((header, index) => 
+            (header && header.includes('Pays')) ? index : -1
+        )
+        .filter(index => index !== -1);
+    
+    paysColumns.forEach(colIndex => {
+        const value = row[colIndex] || '';
+        if (value.trim()) {
+            // Séparer les pays par virgules, points-virgules, ou "et"
+            const paysArray = value
+                .split(/[,;]|\bet\b/)
+                .map(pays => pays.trim())
+                .filter(pays => pays.length > 0);
             
-            const paysColumns = headers
-                .map((header, index) => 
-                    (header && header.includes('Pays')) ? index : -1
-                )
-                .filter(index => index !== -1);
-            
-            paysColumns.forEach(colIndex => {
-                const value = row[colIndex] || '';
-                if (value && value.trim() !== '') {
-                    pays.push(value.trim());
+            paysArray.forEach(pays => {
+                // Nettoyer le nom du pays
+                let cleanPays = pays
+                    .replace(/\(.*?\)/g, '')  // Supprimer les parenthèses
+                    .replace(/["']/g, '')     // Supprimer les guillemets
+                    .replace(/\s+/g, ' ')     // Supprimer les espaces multiples
+                    .trim();
+                
+                // Normaliser la casse
+                cleanPays = cleanPays.charAt(0).toUpperCase() + cleanPays.slice(1).toLowerCase();
+                
+                if (cleanPays.length > 1) {
+                    paysSet.add(cleanPays);
                 }
             });
-            
-            return [...new Set(pays)];
         }
+    });
+    
+    return Array.from(paysSet);
+}
 
         function extractAllLieux() {
             const allLieuxSet = new Set();
@@ -8345,19 +8365,73 @@ function extractLieuxByActivityType(activityType) {
         }
 
         function extractAllPays() {
-            const allPaysSet = new Set();
-            
-            headers.forEach((header, index) => {
-                if (header && header.includes('Pays')) {
-                    sheetData.forEach(row => {
-                        const value = row[index] || '';
-                        if (value.trim()) allPaysSet.add(value.trim());
+    const allPaysSet = new Set();
+    
+    headers.forEach((header, index) => {
+        if (header && header.includes('Pays')) {
+            sheetData.forEach(row => {
+                const value = row[index] || '';
+                if (value.trim()) {
+                    // Séparer les pays par virgules, points-virgules, ou "et"
+                    const paysArray = value
+                        .split(/[,;]|\bet\b/)
+                        .map(pays => pays.trim())
+                        .filter(pays => 
+                            pays.length > 0 && 
+                            !pays.match(/^\d+$/) && 
+                            !pays.includes('http')
+                        );
+                    
+                    paysArray.forEach(pays => {
+                        // Nettoyer le nom du pays
+                        let cleanPays = pays;
+                        
+                        // Supprimer les parenthèses et leur contenu
+                        cleanPays = cleanPays.replace(/\(.*?\)/g, '');
+                        
+                        // Supprimer les guillemets
+                        cleanPays = cleanPays.replace(/["']/g, '');
+                        
+                        // Supprimer les espaces multiples
+                        cleanPays = cleanPays.replace(/\s+/g, ' ').trim();
+                        
+                        // Normaliser la casse (première lettre majuscule)
+                        cleanPays = cleanPays.charAt(0).toUpperCase() + cleanPays.slice(1).toLowerCase();
+                        
+                        if (cleanPays.length > 1) {
+                            allPaysSet.add(cleanPays);
+                        }
                     });
                 }
             });
-            
-            allPays = Array.from(allPaysSet).sort();
         }
+    });
+    
+    // Liste de pays européens connus pour validation
+    const europeanCountries = [
+        'France', 'Allemagne', 'Suisse', 'Italie', 'Espagne', 'Portugal', 'Belgique',
+        'Pays-Bas', 'Luxembourg', 'Royaume-Uni', 'Angleterre', 'UK', 'Écosse',
+        'Suède', 'Norvège', 'Danemark', 'Finlande', 'Autriche', 'Hongrie',
+        'Pologne', 'République Tchèque', 'Slovaquie', 'Slovénie', 'Croatie',
+        'Roumanie', 'Bulgarie', 'Grèce', 'Chypre', 'Malte', 'Irlande'
+    ];
+    
+    // Filtrer et trier les pays
+    allPays = Array.from(allPaysSet)
+        .filter(pays => {
+            // Vérifier si c'est un pays européen connu
+            const isEuropeanCountry = europeanCountries.some(country => 
+                pays.toLowerCase().includes(country.toLowerCase()) || 
+                country.toLowerCase().includes(pays.toLowerCase())
+            );
+            
+            // Accepter aussi les pays courts qui pourraient être des abréviations
+            return isEuropeanCountry || pays.length > 2;
+        })
+        .sort((a, b) => a.localeCompare(b));
+    
+    console.log('🌍 Pays extraits séparément:', allPays);
+}
 
         function calculateTotals() {
             totalDureeTrajet = 0;
@@ -8899,7 +8973,7 @@ function toggleFilterGroup(type) {
                     isAdmin ? '📝' : '🔒',
                     () => {
                         if (isAdmin) {
-                            window.open('https://docs.google.com/forms/d/e/1FAIpQLSczdjxBSEmxufU9RDbnuREWNV8TS_oK7N6u9qtA8WEktCWspQ/viewform?usp=header', '_blank');
+                            window.open('https://docs.google.com/forms/d/e/1FAIpQLSdWZSmWRlCpMPNfNQ9vfhY5wYa1483jJ_TxplrxwAEhcT1UfQ/viewform?usp=header', '_blank');
                             hideModal('dateOptionsModal');
                         } else {
                             showUnlockBubble('date');
@@ -10874,32 +10948,38 @@ function updateShowAllButtonVisibility() {
             return contactDiv;
         }
 
-        function createEndOfDaySection(row) {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'section';
-            
-            const title = document.createElement('h3');
-            title.className = 'section-title';
-            title.textContent = 'Bilan de la Journée';
-            sectionDiv.appendChild(title);
-            
-            const notesSubtitle = document.createElement('h5');
-            notesSubtitle.className = 'subsection-title';
-            notesSubtitle.textContent = 'Notes';
-            sectionDiv.appendChild(notesSubtitle);
-            
-            const resumeIndex = findHeaderIndex('RESUME');
-            if (resumeIndex !== -1 && row[resumeIndex]) {
-                sectionDiv.appendChild(createNoteBox('RESUME', row[resumeIndex]));
-            }
-            
-            const noteIndex = findHeaderIndex('Note de la journée:');
-            if (noteIndex !== -1 && row[noteIndex]) {
-                sectionDiv.appendChild(createNoteBox('Note de la journée:', row[noteIndex]));
-            }
-            
-            return sectionDiv;
-        }
+       function createEndOfDaySection(row) {
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'section';
+    
+    const title = document.createElement('h3');
+    title.className = 'section-title';
+    title.textContent = 'Bilan de la Journée';
+    sectionDiv.appendChild(title);
+    
+    const notesSubtitle = document.createElement('h5');
+    notesSubtitle.className = 'subsection-title';
+    notesSubtitle.textContent = 'Notes';
+    sectionDiv.appendChild(notesSubtitle);
+    
+    const resumeIndex = findHeaderIndex('RESUME');
+    if (resumeIndex !== -1 && row[resumeIndex]) {
+        sectionDiv.appendChild(createNoteBox('RESUME', row[resumeIndex]));
+    }
+    
+    const noteIndex = findHeaderIndex('Note de la journée:');
+    if (noteIndex !== -1 && row[noteIndex]) {
+        sectionDiv.appendChild(createNoteBox('Note de la journée:', row[noteIndex]));
+    }
+    
+    // AJOUTER LA REMARQUE GÉNÉRALE À REVOIR
+    const remarqueIndex = findHeaderIndex('Remarque général à revoir');
+    if (remarqueIndex !== -1 && row[remarqueIndex] && row[remarqueIndex].trim() !== '') {
+        sectionDiv.appendChild(createNoteBox('Remarque à revoir:', row[remarqueIndex]));
+    }
+    
+    return sectionDiv;
+}
 
         function createAdminSection(row) {
             const sectionDiv = document.createElement('div');
