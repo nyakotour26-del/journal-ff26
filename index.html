@@ -12309,7 +12309,7 @@ chaque concert culturel, chaque moment d'évangélisation, et chaque instant de 
                     <div class="table-of-contents" style="margin: 30px 0;">
     <h2 style="text-align: center; color: #2c3e50; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #3498db; font-size: 20px;">📑 Table des matières</h2>
     
-    <div style="column-count: 3; column-gap: 20px; column-rule: 1px solid #e0e0e0; font-size: 9px;">
+    <div style="column-count: 3; column-gap: 20px; column-rule: 1px solid #e0e0e0; font-size: 12px;">
         ${sheetData.map((row, index) => {
             const dateIndex = 1;
             const dateStr = row[dateIndex] || 'Date non spécifiée';
@@ -12330,14 +12330,14 @@ chaque concert culturel, chaque moment d'évangélisation, et chaque instant de 
             return `
                 <div style="margin-bottom: 8px; padding: 6px 8px; border-bottom: 1px dashed #eee; page-break-inside: avoid;">
                     <div style="display: flex; align-items: flex-start; gap: 5px;">
-                        <span style="background: #3498db; color: white; padding: 2px 6px; border-radius: 3px; font-size: 8px; font-weight: bold; min-width: 25px; text-align: center;">
+                        <span style="background: #3498db; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; min-width: 25px; text-align: center;">
                             ${index + 1}
                         </span>
                         <div style="flex: 1;">
-                            <div style="font-weight: 600; color: #2c3e50; font-size: 9px; line-height: 1.2;">
+                            <div style="font-weight: 600; color: #2c3e50; font-size: 11px; line-height: 1.2;">
                                 Jour ${index + 1} - ${shortDate}
                             </div>
-                            ${pays ? `<div style="color: #7f8c8d; font-size: 8px; margin-top: 2px;">${pays}</div>` : ''}
+                            ${pays ? `<div style="color: #7f8c8d; font-size: 12px; margin-top: 2px;">${pays}</div>` : ''}
                         </div>
                     </div>
                 </div>
@@ -12373,7 +12373,7 @@ chaque concert culturel, chaque moment d'évangélisation, et chaque instant de 
                         <h4 style="color: #e74c3c; margin-bottom: 8px; font-size: 16px; font-weight: bold;">1ère Voix & Danseuses :</h4>
                         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                             ${premiereVoix.map(p => `
-                                <div style="padding: 6px 12px; background: white; border-radius: 6px; border: 1px solid #ffcccc; font-size: 11px; min-width: 70px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                <div style="padding: 6px 12px; background: white; border-radius: 6px; border: 1px solid #ffcccc; font-size: 14px; min-width: 70px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                                     ${p.name}
                                 </div>
                             `).join('')}
@@ -12394,7 +12394,7 @@ chaque concert culturel, chaque moment d'évangélisation, et chaque instant de 
                         <h4 style="color: #3498db; margin-bottom: 8px; font-size: 16px; font-weight: bold;">2ème Voix & Danseuses :</h4>
                         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                             ${deuxiemeVoix.map(p => `
-                                <div style="padding: 6px 12px; background: white; border-radius: 6px; border: 1px solid #cce7ff; font-size: 11px; min-width: 70px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                <div style="padding: 6px 12px; background: white; border-radius: 6px; border: 1px solid #cce7ff; font-size: 14px; min-width: 70px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                                     ${p.name}
                                 </div>
                             `).join('')}
@@ -12415,7 +12415,7 @@ chaque concert culturel, chaque moment d'évangélisation, et chaque instant de 
                         <h4 style="color: #2ecc71; margin-bottom: 8px; font-size: 16px; font-weight: bold;">3ème Voix & Danseurs :</h4>
                         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                             ${troisiemeVoix.map(p => `
-                                <div style="padding: 6px 12px; background: white; border-radius: 6px; border: 1px solid #ccffdd; font-size: 11px; min-width: 70px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                <div style="padding: 6px 12px; background: white; border-radius: 6px; border: 1px solid #ccffdd; font-size: 14px; min-width: 70px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                                     ${p.name}${p.role.includes('bass') ? ' (bass)' : ''}
                                 </div>
                             `).join('')}
@@ -12441,7 +12441,7 @@ chaque concert culturel, chaque moment d'évangélisation, et chaque instant de 
                             const instrument = p.role.replace('Musicien / ', '').replace('Le leader du groupe', 'Leader');
                             return `
                                 <div style="padding: 8px; background: white; border-radius: 6px; text-align: center; border: 1px solid #cce7ff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                                    <div style="font-weight: bold; font-size: 12px; color: #2c3e50; margin-bottom: 3px;">${p.name}</div>
+                                    <div style="font-weight: bold; font-size: 14px; color: #2c3e50; margin-bottom: 3px;">${p.name}</div>
                                     <div style="font-size: 9px; color: #7f8c8d;">${instrument}</div>
                                 </div>
                             `;
