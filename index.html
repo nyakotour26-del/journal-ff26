@@ -13976,12 +13976,23 @@ function updateGlobalActivityTable() {
             
             // Couleur différente selon le type
             const colors = {
-                'Concert': '#e74c3c',
-                'Rencontre': '#2ecc71',
-                'Eglise': '#9b59b6',
-                'Sortie': '#f39c12',
-                'default': '#3498db'
-            };
+    'Animation': '#00b894',
+    'Voyage': '#f39c12',
+    'Concert': '#e74c3c',
+    'Rencontre': '#2ecc71',
+    'Réunion': '#d35400',
+    'Etablissement': '#a29bfe',
+    'Festival': '#1abc9c',
+    'Hospice': '#fdcb6e',
+    'Sortie': '#f1c40f',
+    'Eglise': '#9b59b6',
+    'Marché': '#2980b9',
+    'Shopping': '#6c5ce7',
+    'Social': '#fd79a8',
+    'Jeux': '#636e72',
+    'Repos': '#b2bec3',
+    'default': '#3498db'
+};
             
             const color = colors[type.split('/')[0]] || colors[type] || colors['default'];
             
