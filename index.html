@@ -3921,7 +3921,7 @@ Que Dieu vous bénisse abondamment !
 
 Fraternellement en Christ,
 L'équipe NY AKO
-Ministère Musical Évangélique</textarea>
+Groupe artistique -LLB Madagascar</textarea>
             </div>
             
             <div class="modal-actions">
@@ -5448,7 +5448,7 @@ function exportContactsPDF() {
             <div class="footer">
                 <p><strong>Gloire au Seigneur !</strong></p>
                 <p>"Que la grâce du Seigneur Jésus-Christ, l'amour de Dieu, et la communion du Saint-Esprit soient avec vous tous." (2 Corinthiens 13:13)</p>
-                <p>NY AKO - Ministère Musical Évangélique</p>
+                <p>NY AKO - Groupe artistique -LLB Madagascar</p>
             </div>
         </body>
         </html>
@@ -5547,7 +5547,7 @@ function exportCountryContactsPDF(countryName, contacts) {
             </table>
             
             <div class="footer">
-                <p><strong>NY AKO - Ministère Musical Évangélique</strong></p>
+                <p><strong>NY AKO - Groupe artistique -LLB Madagascar</strong></p>
                 <p>"Que la grâce du Seigneur Jésus-Christ, l'amour de Dieu, et la communion du Saint-Esprit soient avec vous tous." (2 Corinthiens 13:13)</p>
             </div>
         </body>
@@ -6846,7 +6846,7 @@ function exportSongsToPDF() {
     
     content += `
             <div class="footer">
-                <p><strong>NY AKO - Ministère Musical Évangélique</strong></p>
+                <p><strong>NY AKO - Groupe artistique -LLB Madagascar</strong></p>
                 <p>"Chantez à l'Éternel un cantique nouveau, Chantez ses louanges aux extrémités de la terre" (Ésaïe 42:10)</p>
                 <p>Document réservé au ministère musical - Export PDF</p>
                 <p>Total : ${sortedSongs.length} chansons documentées</p>
@@ -7052,7 +7052,7 @@ function exportSongToPDF(songName) {
             </div>
             
             <div class="footer">
-                <p><strong>NY AKO - Ministère Musical Évangélique</strong></p>
+                <p><strong>NY AKO - Groupe artistique -LLB Madagascar</strong></p>
                 <p>"Que la parole de Christ habite parmi vous abondamment" (Colossiens 3:16)</p>
                 <p>Document réservé au ministère musical - Export individuel</p>
             </div>
@@ -7680,7 +7680,7 @@ function exportActivityTablePDF(activityType, tableData) {
             </table>
             
             <div class="footer">
-                <p><strong>NY AKO - Ministère Musical Évangélique</strong></p>
+                <p><strong>NY AKO - Groupe artistique -LLB Madagascar</strong></p>
                 <p>Tournée Europe 2026 - Document exporté</p>
             </div>
         </body>
@@ -10828,14 +10828,14 @@ function updateShowAllButtonVisibility() {
         sectionDiv.appendChild(createContactInfoSection(activityData));
     }
     
-    // SECTION 6: Galerie Photos et Médias
+    // SECTION 6: Photos liées à l’activité
     if (activityData.photosLieux || activityData.repertoire || activityData.photosGroupe) {
         const photosDiv = document.createElement('div');
         photosDiv.className = 'photos-section';
         
         const photosTitle = document.createElement('div');
         photosTitle.className = 'photos-title';
-        photosTitle.innerHTML = '<span style="color: var(--gold);">📸</span> Galerie Photos et Médias';
+        photosTitle.innerHTML = '<span style="color: var(--gold);">📸</span> Photos liées à l’activité';
         photosDiv.appendChild(photosTitle);
         
         const photoButtonsContainer = document.createElement('div');
@@ -10978,18 +10978,18 @@ function updateShowAllButtonVisibility() {
     
     const resumeIndex = findHeaderIndex('RESUME');
     if (resumeIndex !== -1 && row[resumeIndex]) {
-        sectionDiv.appendChild(createNoteBox('RESUME', row[resumeIndex]));
+        sectionDiv.appendChild(createNoteBoxWithColor('RESUME', row[resumeIndex], '#90EE90')); // Vert pomme clair
     }
     
     const noteIndex = findHeaderIndex('Note de la journée:');
     if (noteIndex !== -1 && row[noteIndex]) {
-        sectionDiv.appendChild(createNoteBox('Note de la journée:', row[noteIndex]));
+        sectionDiv.appendChild(createNoteBoxWithColor('Note de la journée:', row[noteIndex], '#98FB98')); // Vert pomme
     }
     
     // AJOUTER LA REMARQUE GÉNÉRALE À REVOIR
     const remarqueIndex = findHeaderIndex('Remarque général à revoir');
     if (remarqueIndex !== -1 && row[remarqueIndex] && row[remarqueIndex].trim() !== '') {
-        sectionDiv.appendChild(createNoteBox('Remarque à revoir:', row[remarqueIndex]));
+        sectionDiv.appendChild(createNoteBoxWithColor('Remarque à revoir:', row[remarqueIndex], '#C1FFC1')); // Vert pomme très clair
     }
     
     return sectionDiv;
@@ -12281,7 +12281,7 @@ function createPhotoButton(text, url) {
                 </head>
                 <body>
                     <h1>📚 Livre de la Tournée Europe 2026</h1>
-                    <h2 style="text-align: center; color: #8e44ad;">Ministère Musical Évangélique NY AKO</h2>
+                    <h2 style="text-align: center; color: #8e44ad;">Ny AKO - Groupe -LLB Madagascar</h2>
                     
                     <div class="bible-verse">
                         <p>"Chantez à l'Éternel un cantique nouveau, chantez ses louanges aux extrémités de la terre!" (Ésaïe 42:10)</p>
@@ -12306,32 +12306,61 @@ Cette promesse de Jésus s'est manifestée de manière tangible à chaque rassem
 chaque concert culturel, chaque moment d'évangélisation, et chaque instant de prière partagé.</p>
                     </div>
                     
-                    <div class="table-of-contents">
-                        <h2>📑 Table des matières</h2>
-                        ${sheetData.map((row, index) => {
-                            const dateIndex = 1;
-                            const dateStr = row[dateIndex] || 'Date non spécifiée';
-                            const paysIndex = findHeaderIndex('Pays:');
-                            const pays = paysIndex !== -1 ? row[paysIndex] : '';
-                            return `
-                                <div class="toc-item">
-                                    <div class="toc-number">${index + 1}</div>
-                                    <div class="toc-title">Jour ${index + 1} - ${dateStr}${pays ? ` (${pays})` : ''}</div>
-                                </div>
-                            `;
-                        }).join('')}
+                    <div class="table-of-contents" style="margin: 30px 0;">
+    <h2 style="text-align: center; color: #2c3e50; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #3498db; font-size: 20px;">📑 Table des matières</h2>
+    
+    <div style="column-count: 3; column-gap: 20px; column-rule: 1px solid #e0e0e0; font-size: 9px;">
+        ${sheetData.map((row, index) => {
+            const dateIndex = 1;
+            const dateStr = row[dateIndex] || 'Date non spécifiée';
+            const paysIndex = findHeaderIndex('Pays:');
+            const pays = paysIndex !== -1 ? row[paysIndex] : '';
+            
+            // Formater la date plus courte pour gagner de la place
+            let shortDate = dateStr;
+            // Essayer de formater la date en format court
+            const dateObj = parseDate(dateStr);
+            if (dateObj && !isNaN(dateObj.getTime())) {
+                shortDate = dateObj.toLocaleDateString('fr-FR', {
+                    day: '2-digit',
+                    month: '2-digit'
+                });
+            }
+            
+            return `
+                <div style="margin-bottom: 8px; padding: 6px 8px; border-bottom: 1px dashed #eee; page-break-inside: avoid;">
+                    <div style="display: flex; align-items: flex-start; gap: 5px;">
+                        <span style="background: #3498db; color: white; padding: 2px 6px; border-radius: 3px; font-size: 8px; font-weight: bold; min-width: 25px; text-align: center;">
+                            ${index + 1}
+                        </span>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #2c3e50; font-size: 9px; line-height: 1.2;">
+                                Jour ${index + 1} - ${shortDate}
+                            </div>
+                            ${pays ? `<div style="color: #7f8c8d; font-size: 8px; margin-top: 2px;">${pays}</div>` : ''}
+                        </div>
                     </div>
+                </div>
+            `;
+        }).join('')}
+    </div>
+    
+    <div style="text-align: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid #ddd; font-size: 8px; color: #7f8c8d;">
+        ${sheetData.length} journées au total • Export généré le ${new Date().toLocaleDateString('fr-FR')}
+    </div>
+</div>
                     
-                  <div class="chapter">
-    <h2>🙏 Participants de la Tournée</h2>
+                 <div class="chapter" style="margin-top: 20px;">
+    <h2 style="font-size: 20px; color: #2c3e50; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #3498db; text-align: center;">🙏 Participants de la Tournée</h2>
     
     ${window.selectedParticipantsForExport && window.selectedParticipantsForExport.length > 0 ? `
-        <p style="text-align: center; margin-bottom: 20px; font-style: italic; color: #7f8c8d;">
+        <p style="text-align: center; margin-bottom: 15px; font-style: italic; color: #7f8c8d; font-size: 12px;">
             Liste des participants sélectionnés pour cette édition (${window.selectedParticipantsForExport.length} participant(s))
         </p>
         
-        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid var(--gold);">
-            <h3 style="color: var(--primary-color); text-align: center; margin-bottom: 15px;">🎤 Chanteurs & Danseurs</h3>
+        <!-- Section Chanteurs & Danseurs - police agrandie -->
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #f39c12; border-top: 1px solid #e0e0e0; box-shadow: 0 3px 10px rgba(0,0,0,0.05);">
+            <h3 style="color: #e67e22; text-align: center; margin-bottom: 12px; font-size: 16px; font-weight: bold;">🎤 Chanteurs & Danseurs</h3>
             
             <!-- 1ère Voix -->
             ${(() => {
@@ -12340,11 +12369,11 @@ chaque concert culturel, chaque moment d'évangélisation, et chaque instant de 
                 );
                 if (premiereVoix.length > 0) {
                     return `
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="color: #e74c3c; margin-bottom: 10px;">1ère Voix & Danseuses :</h4>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                    <div style="margin-bottom: 15px;">
+                        <h4 style="color: #e74c3c; margin-bottom: 8px; font-size: 16px; font-weight: bold;">1ère Voix & Danseuses :</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                             ${premiereVoix.map(p => `
-                                <div style="padding: 10px; background: white; border-radius: 5px; text-align: center;">
+                                <div style="padding: 6px 12px; background: white; border-radius: 6px; border: 1px solid #ffcccc; font-size: 11px; min-width: 70px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                                     ${p.name}
                                 </div>
                             `).join('')}
@@ -12361,11 +12390,11 @@ chaque concert culturel, chaque moment d'évangélisation, et chaque instant de 
                 );
                 if (deuxiemeVoix.length > 0) {
                     return `
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="color: #3498db; margin-bottom: 10px;">2ème Voix & Danseuses :</h4>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                    <div style="margin-bottom: 15px;">
+                        <h4 style="color: #3498db; margin-bottom: 8px; font-size: 16px; font-weight: bold;">2ème Voix & Danseuses :</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                             ${deuxiemeVoix.map(p => `
-                                <div style="padding: 10px; background: white; border-radius: 5px; text-align: center;">
+                                <div style="padding: 6px 12px; background: white; border-radius: 6px; border: 1px solid #cce7ff; font-size: 11px; min-width: 70px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                                     ${p.name}
                                 </div>
                             `).join('')}
@@ -12382,11 +12411,11 @@ chaque concert culturel, chaque moment d'évangélisation, et chaque instant de 
                 );
                 if (troisiemeVoix.length > 0) {
                     return `
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="color: #2ecc71; margin-bottom: 10px;">3ème Voix & Danseurs :</h4>
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                    <div style="margin-bottom: 10px;">
+                        <h4 style="color: #2ecc71; margin-bottom: 8px; font-size: 16px; font-weight: bold;">3ème Voix & Danseurs :</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                             ${troisiemeVoix.map(p => `
-                                <div style="padding: 10px; background: white; border-radius: 5px; text-align: center;">
+                                <div style="padding: 6px 12px; background: white; border-radius: 6px; border: 1px solid #ccffdd; font-size: 11px; min-width: 70px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                                     ${p.name}${p.role.includes('bass') ? ' (bass)' : ''}
                                 </div>
                             `).join('')}
@@ -12398,33 +12427,44 @@ chaque concert culturel, chaque moment d'évangélisation, et chaque instant de 
         </div>
         
         <!-- Musiciens -->
-        <div style="background: #e8f4fc; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid var(--secondary-color);">
-            <h3 style="color: var(--primary-color); text-align: center; margin-bottom: 15px;">🎼 Musiciens</h3>
-            
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-                ${window.selectedParticipantsForExport.filter(p => 
-                    p.role && p.role.includes('Musicien')
-                ).map(p => `
-                    <div style="padding: 10px; background: white; border-radius: 5px; text-align: center;">
-                        <strong>${p.name}</strong><br>
-                        <small style="color: #7f8c8d;">${p.role.replace('Musicien / ', '')}</small>
+        ${(() => {
+            const musiciens = window.selectedParticipantsForExport.filter(p => 
+                p.role && p.role.includes('Musicien')
+            );
+            if (musiciens.length > 0) {
+                return `
+                <div style="background: #e8f4fc; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #3498db; border-top: 1px solid #e0e0e0; box-shadow: 0 3px 10px rgba(0,0,0,0.05);">
+                    <h3 style="color: #2980b9; text-align: center; margin-bottom: 12px; font-size: 16px; font-weight: bold;">🎼 Musiciens</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                        ${musiciens.map(p => {
+                            const instrument = p.role.replace('Musicien / ', '').replace('Le leader du groupe', 'Leader');
+                            return `
+                                <div style="padding: 8px; background: white; border-radius: 6px; text-align: center; border: 1px solid #cce7ff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="font-weight: bold; font-size: 12px; color: #2c3e50; margin-bottom: 3px;">${p.name}</div>
+                                    <div style="font-size: 9px; color: #7f8c8d;">${instrument}</div>
+                                </div>
+                            `;
+                        }).join('')}
                     </div>
-                `).join('')}
-            </div>
-        </div>
+                </div>`;
+            }
+            return '';
+        })()}
         
-        <p style="text-align: center; margin-top: 20px; font-style: italic; color: #7f8c8d;">
+        <!-- Citation -->
+        <div style="text-align: center; margin: 15px 0; padding: 10px; background: #fff9c4; border-radius: 8px; border: 1px dashed #ffd54f; font-size: 11px; font-style: italic;">
             "Je rends grâce à mon Dieu chaque fois que je fais mention de vous" (Philippiens 1:3)
-        </p>
-        
-        <div style="background: #fff9c4; padding: 15px; border-radius: 8px; margin-top: 20px; border: 1px dashed #ffd54f;">
-            
         </div>
+        
+       
+        
     ` : `
-        <div style="text-align: center; padding: 40px; color: #7f8c8d;">
-            <div style="font-size: 3em; margin-bottom: 20px;">👥</div>
-            <h3 style="margin-bottom: 10px;">Aucun participant sélectionné</h3>
-            <p>Utilisez "Gérer participants" pour choisir qui inclure dans cette édition.</p>
+        <!-- Aucun participant -->
+        <div style="text-align: center; padding: 25px; color: #95a5a6; background: #f9f9f9; border-radius: 10px; margin: 15px 0; border: 1px dashed #ddd; box-shadow: 0 3px 10px rgba(0,0,0,0.05);">
+            <div style="font-size: 32px; margin-bottom: 10px;">👥</div>
+            <h3 style="margin-bottom: 8px; font-size: 16px; color: #7f8c8d;">Aucun participant sélectionné</h3>
+            <p style="font-size: 12px;">Utilisez "Gérer participants" pour choisir qui inclure dans cette édition</p>
         </div>
     `}
 </div>
@@ -12956,7 +12996,7 @@ chaque concert culturel, chaque moment d'évangélisation, et chaque instant de 
                             
                             <div style="border-top: 2px solid #3498db; padding-top: 20px; margin-top: 20px;">
                                 <p style="font-weight: bold; font-size: 1.3em; color: #2c3e50;">
-                                    NY AKO - Ministère Musical Évangélique
+                                    NY AKO - Groupe artistique -LLB Madagascar
                                 </p>
                                 <p style="margin-top: 10px; font-style: italic;">
                                     "Que la grâce du Seigneur Jésus-Christ, l'amour de Dieu, 
@@ -13295,43 +13335,66 @@ function getFirstPhotoPreviewUrl(photoString) {
     return firstUrl;
 }
 function createBookActivityContent(activityData, prefix) {
-    // RÉPLIQUE EXACTE de la présentation des fiches
-    let content = `<div class="activity-section" style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 6px solid #3498db; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">`;
+    // EXACTEMENT comme les fiches de la page
+    let content = `<div style="margin-bottom: 30px; padding: 20px; background: white; border-radius: 10px; border: 2px solid #e9ecef; box-shadow: 0 5px 15px rgba(0,0,0,0.05); page-break-inside: avoid;">`;
     
-    // Titre comme dans les fiches
-    content += `<h4 class="activity-title" style="font-size: 1.3em; color: #2c3e50; margin-bottom: 20px; padding: 15px; border-radius: 8px; border-bottom: 2px solid rgba(0,0,0,0.1); font-weight: 700; text-align: center; background-color: #fce4ec;">`;
+    // Titre EXACTEMENT comme les fiches avec date à droite
+    const activityNumber = prefix.match(/\d+/)?.[0] || '';
     
     if (prefix.includes('CONCERT')) {
-        content += `<span style="color: #e67e22;">🎵 ${prefix}</span>`;
+        content += `
+            <h4 style="font-size: 1.3em; color: #e74c3c; margin-bottom: 20px; padding: 15px; border-radius: 10px; background: linear-gradient(135deg, #ffeaea, #ffcccc); border-left: 5px solid #e74c3c; font-weight: 700; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="background: #e74c3c; color: white; padding: 5px 15px; border-radius: 5px; font-size: 1em; font-weight: bold;">
+                        Concert ${activityNumber}
+                    </span>
+                    <span>${prefix}${activityData.lieux ? ` à ${activityData.lieux}` : ''}</span>
+                </div>
+                <div style="color: #666; font-size: 0.85em; font-style: italic;">
+                    ${activityData.date || ''}
+                </div>
+            </h4>
+        `;
     } else {
-        content += `<span style="color: #2c3e50;">📅 ${prefix}: ${activityData.type || 'Activité'}</span>`;
+        content += `
+            <h4 style="font-size: 1.3em; color: #2c3e50; margin-bottom: 20px; padding: 15px; border-radius: 10px; background: linear-gradient(135deg, #fce4ec, #f8bbd9); border-left: 5px solid #e91e63; font-weight: 700; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="background: #e74c3c; color: white; padding: 5px 15px; border-radius: 5px; font-size: 1em; font-weight: bold;">
+                        Activité ${activityNumber}
+                    </span>
+                    <span>${activityData.type || 'Activité'}${activityData.interlocuteur ? ` - ${activityData.interlocuteur}` : ''}${activityData.lieux ? ` à ${activityData.lieux}` : ''}</span>
+                </div>
+                <div style="color: #666; font-size: 0.85em; font-style: italic;">
+                    ${activityData.date || ''}
+                </div>
+            </h4>
+        `;
     }
-    content += `</h4>`;
     
-    // Groupe d'heures (EXACTEMENT comme les fiches)
+    // Groupe d'heures EXACTEMENT comme les fiches
     if (activityData.heureDebut || activityData.heureFin) {
         content += `<div style="display: flex; gap: 15px; margin-bottom: 20px;">`;
         
         if (activityData.heureDebut) {
             content += `
-                <div style="flex: 1; background: #f8f9fa; padding: 10px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 50px;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 0.8em;">🕐</span>
-                        <span style="font-size: 0.8em; color: #7f8c8d;">Heure début</span>
+                <div style="flex: 1; background: #f8f9fa; padding: 12px 15px; border-radius: 10px; text-align: center; border: 2px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <span style="font-size: 1.2em; color: #3498db;">🕐</span>
+                        <span style="font-size: 0.9em; color: #7f8c8d; font-weight: 600;">Heure début</span>
                     </div>
-                    <span style="font-size: 1.1em; font-weight: 700; color: #27ae60; margin-top: 5px;">${activityData.heureDebut}</span>
+                    <span style="font-size: 1.4em; font-weight: 800; color: #27ae60;">${activityData.heureDebut}</span>
                 </div>
             `;
         }
         
         if (activityData.heureFin) {
             content += `
-                <div style="flex: 1; background: #f8f9fa; padding: 10px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 50px;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 0.8em;">🕔</span>
-                        <span style="font-size: 0.8em; color: #7f8c8d;">Heure fin</span>
+                <div style="flex: 1; background: #f8f9fa; padding: 12px 15px; border-radius: 10px; text-align: center; border: 2px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <span style="font-size: 1.2em; color: #3498db;">🕔</span>
+                        <span style="font-size: 0.9em; color: #7f8c8d; font-weight: 600;">Heure fin</span>
                     </div>
-                    <span style="font-size: 1.1em; font-weight: 700; color: #27ae60; margin-top: 5px;">${activityData.heureFin}</span>
+                    <span style="font-size: 1.4em; font-weight: 800; color: #27ae60;">${activityData.heureFin}</span>
                 </div>
             `;
         }
@@ -13339,56 +13402,69 @@ function createBookActivityContent(activityData, prefix) {
         content += `</div>`;
     }
     
-    // Lieux (EXACTEMENT comme les fiches)
-    if (activityData.lieux || activityData.trajet || activityData.dureeTrajet || activityData.distanceTrajet) {
+    // Section "Concernant les lieux:" EXACTEMENT comme les fiches (AVEC ADRESSE)
+    if (activityData.lieux || activityData.adresse || activityData.trajet || activityData.dureeTrajet || activityData.distanceTrajet) {
         content += `<h5 style="font-size: 1.2em; color: #3498db; margin: 20px 0 15px; padding-left: 15px; border-left: 4px solid #3498db; font-weight: 600;">Concernant les lieux:</h5>`;
         
         content += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">`;
         
         if (activityData.lieux) {
             content += `
-                <div style="background: #f8f9fa; padding: 10px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 1.2em; color: #ff9800;">📍</span>
-                        <span style="font-size: 0.85em; color: #7f8c8d;">Lieux</span>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 2px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                        <span style="font-size: 1.5em; color: #ff9800;">📍</span>
+                        <span style="font-size: 0.9em; color: #7f8c8d; font-weight: 600;">Lieux</span>
                     </div>
-                    <span style="font-size: 1.1em; font-weight: 700; color: #ff9800; margin-top: 5px;">${activityData.lieux}</span>
+                    <span style="font-size: 1.2em; font-weight: 800; color: #ff9800; text-align: center;">${activityData.lieux}</span>
+                </div>
+            `;
+        }
+        
+        // ADRESSE (NOUVEAU)
+        if (activityData.adresse) {
+            content += `
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 2px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                        <span style="font-size: 1.5em; color: #ff9800;">🏠</span>
+                        <span style="font-size: 0.9em; color: #7f8c8d; font-weight: 600;">Adresse</span>
+                    </div>
+                    <span style="font-size: 1.2em; font-weight: 800; color: #ff9800; text-align: center;">${activityData.adresse}</span>
                 </div>
             `;
         }
         
         if (activityData.trajet) {
             content += `
-                <div style="background: #f8f9fa; padding: 10px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 1.2em; color: #ff9800;">🛣️</span>
-                        <span style="font-size: 0.85em; color: #7f8c8d;">Trajet</span>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 2px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                        <span style="font-size: 1.5em; color: #ff9800;">🛣️</span>
+                        <span style="font-size: 0.9em; color: #7f8c8d; font-weight: 600;">Trajet</span>
                     </div>
-                    <span style="font-size: 1.1em; font-weight: 700; color: #ff9800; margin-top: 5px;">${activityData.trajet}</span>
+                    <span style="font-size: 1.2em; font-weight: 800; color: #ff9800; text-align: center;">${activityData.trajet}</span>
                 </div>
             `;
         }
         
-        // Durée et distance (EXACTEMENT comme les fiches)
+        // Durée et distance EXACTEMENT comme les fiches
         if (activityData.dureeTrajet || activityData.distanceTrajet) {
-            content += `<div style="grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">`;
+            content += `<div style="grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">`;
             
             if (activityData.dureeTrajet) {
                 content += `
-                    <div style="background: #f8f9fa; padding: 6px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
-                        <div style="font-size: 1.5em; margin-bottom: 8px;">⏱️</div>
-                        <div style="font-size: 0.9em; color: #7f8c8d; margin-bottom: 5px;">Durée trajet</div>
-                        <div style="font-size: 1.1em; font-weight: 700; color: #2c3e50;">${formatHours(parseDurationToHours(activityData.dureeTrajet))}</div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 2px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80px;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">⏱️</div>
+                        <div style="font-size: 0.9em; color: #7f8c8d; margin-bottom: 8px; font-weight: 600;">Durée trajet</div>
+                        <div style="font-size: 1.4em; font-weight: 800; color: #2c3e50;">${formatHours(parseDurationToHours(activityData.dureeTrajet))}</div>
                     </div>
                 `;
             }
             
             if (activityData.distanceTrajet) {
                 content += `
-                    <div style="background: #f8f9fa; padding: 6px 12px; border-radius: 8px; text-align: center; border: 1px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px;">
-                        <div style="font-size: 1.5em; margin-bottom: 8px;">📏</div>
-                        <div style="font-size: 0.9em; color: #7f8c8d; margin-bottom: 5px;">Distance trajet</div>
-                        <div style="font-size: 1.1em; font-weight: 700; color: #2c3e50;">${activityData.distanceTrajet} Km</div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 2px solid #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80px;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">📏</div>
+                        <div style="font-size: 0.9em; color: #7f8c8d; margin-bottom: 8px; font-weight: 600;">Distance trajet</div>
+                        <div style="font-size: 1.4em; font-weight: 800; color: #2c3e50;">${activityData.distanceTrajet} Km</div>
                     </div>
                 `;
             }
@@ -13399,70 +13475,97 @@ function createBookActivityContent(activityData, prefix) {
         content += `</div>`;
     }
     
-    // Notes (EXACTEMENT comme les fiches)
-    if (activityData.details || activityData.faits || activityData.Playlist) {
-        content += `<h5 style="font-size: 1.2em; color: #3498db; margin: 20px 0 15px; padding-left: 15px; border-left: 4px solid #3498db; font-weight: 600;">Notes:</h5>`;
+    // Section "Notes de l'activité:" avec TOUTES les sous-sections
+    if (activityData.details || activityData.faits || activityData.observations || activityData.misAuPoint || activityData.Playlist) {
+        content += `<h5 style="font-size: 1.2em; color: #3498db; margin: 20px 0 15px; padding-left: 15px; border-left: 4px solid #3498db; font-weight: 600;">Notes de l'activité:</h5>`;
         
+        // Détails sur l'activité
         if (activityData.details) {
             content += `
                 <div style="background-color: #fff9c4; border: 2px solid #ffd54f; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
-                    <div style="font-weight: 700; margin-bottom: 12px; color: #2c3e50; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
-                        <span>📝</span> Détails sur l'activité:
+                    <div style="font-weight: 700; margin-bottom: 15px; color: #2c3e50; font-size: 1.1em; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.2em;">📝</span> Détails sur l'activité:
                     </div>
-                    <div>${activityData.details.replace(/\n/g, '<br>')}</div>
+                    <div style="color: #333; line-height: 1.6; font-size: 1em;">${activityData.details.replace(/\n/g, '<br>')}</div>
                 </div>
             `;
         }
         
+        // Faits marquants
         if (activityData.faits) {
             content += `
                 <div style="background-color: #fff9c4; border: 2px solid #ffd54f; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
-                    <div style="font-weight: 700; margin-bottom: 12px; color: #2c3e50; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
-                        <span>🌟</span> Faits marquants et Anecdote:
+                    <div style="font-weight: 700; margin-bottom: 15px; color: #2c3e50; font-size: 1.1em; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.2em;">🌟</span> Faits marquants et Anecdote:
                     </div>
-                    <div>${activityData.faits.replace(/\n/g, '<br>')}</div>
+                    <div style="color: #333; line-height: 1.6; font-size: 1em;">${activityData.faits.replace(/\n/g, '<br>')}</div>
                 </div>
             `;
         }
         
+        // OBSERVATIONS (NOUVEAU)
+        if (activityData.observations) {
+            content += `
+                <div style="background-color: #fff9c4; border: 2px solid #ffd54f; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
+                    <div style="font-weight: 700; margin-bottom: 15px; color: #2c3e50; font-size: 1.1em; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.2em;">👁️</span> Observations:
+                    </div>
+                    <div style="color: #333; line-height: 1.6; font-size: 1em;">${activityData.observations.replace(/\n/g, '<br>')}</div>
+                </div>
+            `;
+        }
+        
+        // MIS AU POINT (NOUVEAU)
+        if (activityData.misAuPoint) {
+            content += `
+                <div style="background-color: #fff9c4; border: 2px solid #ffd54f; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
+                    <div style="font-weight: 700; margin-bottom: 15px; color: #2c3e50; font-size: 1.1em; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.2em;">💡</span> Mis au point à faire/rappel/remarque:
+                    </div>
+                    <div style="color: #333; line-height: 1.6; font-size: 1em;">${activityData.misAuPoint.replace(/\n/g, '<br>')}</div>
+                </div>
+            `;
+        }
+        
+        // Playlist
         if (activityData.Playlist) {
             content += `
                 <div style="background-color: #fff9c4; border: 2px solid #ffd54f; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
-                    <div style="font-weight: 700; margin-bottom: 12px; color: #2c3e50; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
-                        <span>👁️</span> Playlist:
+                    <div style="font-weight: 700; margin-bottom: 15px; color: #2c3e50; font-size: 1.1em; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.2em;">🎵</span> Playlist:
                     </div>
-                    <div>${activityData.Playlist.replace(/\n/g, '<br>')}</div>
+                    <div style="color: #333; line-height: 1.6; font-size: 1em;">${activityData.Playlist.replace(/\n/g, '<br>')}</div>
                 </div>
             `;
         }
     }
     
-    // Participants (EXACTEMENT comme les fiches)
+    // Participants EXACTEMENT comme les fiches
     if (activityData.nbParticipant) {
         content += `
-            <div style="font-size: 1.2em; font-weight: 700; color: #e74c3c; padding: 12px; background: #f8f9fa; border-radius: 8px; text-align: left; border: 1px solid #e9ecef; margin: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <strong>Nb participant:</strong> ${activityData.nbParticipant} personne(s)
+            <div style="font-size: 1.3em; font-weight: 800; color: #e74c3c; padding: 15px; background: #f8f9fa; border-radius: 10px; text-align: center; border: 2px solid #e9ecef; margin: 20px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+                <strong style="font-size: 1.1em;">Nb participant:</strong> ${activityData.nbParticipant} personne(s)
             </div>
         `;
     }
     
-    // Contacts (EXACTEMENT comme les fiches)
-    if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || activityData.mail) {
+    // Contacts EXACTEMENT comme les fiches
+    if (activityData.interlocuteur || activityData.telephone || activityData.whatsapp || activityData.mail || activityData.reseauxSociaux || activityData.aSavoir) {
         content += `
-            <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 20px; border-radius: 10px; margin-top: 15px; border: 2px solid #ddd;">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ddd;">
-                    <span style="font-size: 1.2em;">📞</span>
-                    <h4 style="margin: 0; color: #2c3e50; font-size: 1.2em;">Information sur Interlocuteur ,hôte</h4>
+            <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 25px; border-radius: 15px; margin-top: 25px; border: 3px solid #ddd; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid #ddd;">
+                    <span style="font-size: 1.5em; color: #3498db;">📞</span>
+                    <h4 style="margin: 0; color: #2c3e50; font-size: 1.4em; font-weight: 700;">Information sur Interlocuteur ,hôte</h4>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
         `;
         
         if (activityData.interlocuteur) {
             content += `
-                <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                    <span style="font-size: 1.2em;">👤</span>
-                    <span style="flex: 1; font-weight: 500;">${activityData.interlocuteur}</span>
+                <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-left: 4px solid #3498db;">
+                    <span style="font-size: 1.5em; color: #2c3e50;">👤</span>
+                    <span style="flex: 1; font-weight: 700; font-size: 1.1em;">${activityData.interlocuteur}</span>
                 </div>
             `;
         }
@@ -13471,9 +13574,9 @@ function createBookActivityContent(activityData, prefix) {
             const tels = activityData.telephone.split(/[,;]/).map(tel => tel.trim()).filter(tel => tel);
             tels.forEach(tel => {
                 content += `
-                    <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                        <span style="font-size: 1.2em; color: #3498db;">📞</span>
-                        <span style="flex: 1; font-weight: 500;">
+                    <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-left: 4px solid #3498db;">
+                        <span style="font-size: 1.5em; color: #3498db;">📞</span>
+                        <span style="flex: 1; font-weight: 600; font-size: 1.1em;">
                             <a href="tel:${tel}" style="color: #3498db; text-decoration: none;">${tel}</a>
                         </span>
                     </div>
@@ -13485,9 +13588,9 @@ function createBookActivityContent(activityData, prefix) {
             const whatsapps = activityData.whatsapp.split(/[,;]/).map(num => num.trim()).filter(num => num);
             whatsapps.forEach(num => {
                 content += `
-                    <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                        <span style="font-size: 1.2em; color: #25D366;">💬</span>
-                        <span style="flex: 1; font-weight: 500;">
+                    <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-left: 4px solid #25D366;">
+                        <span style="font-size: 1.5em; color: #25D366;">💬</span>
+                        <span style="flex: 1; font-weight: 600; font-size: 1.1em;">
                             <a href="https://wa.me/${num.replace(/[^\d+]/g, '')}" style="color: #25D366; text-decoration: none;" target="_blank">${num}</a>
                         </span>
                     </div>
@@ -13499,9 +13602,9 @@ function createBookActivityContent(activityData, prefix) {
             const emails = activityData.mail.split(/[,;]/).map(email => email.trim()).filter(email => email);
             emails.forEach(email => {
                 content += `
-                    <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                        <span style="font-size: 1.2em; color: #e74c3c;">📧</span>
-                        <span style="flex: 1; font-weight: 500;">
+                    <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-left: 4px solid #e74c3c;">
+                        <span style="font-size: 1.5em; color: #e74c3c;">📧</span>
+                        <span style="flex: 1; font-weight: 600; font-size: 1.1em;">
                             <a href="mailto:${email}" style="color: #e74c3c; text-decoration: none;">${email}</a>
                         </span>
                     </div>
@@ -13509,28 +13612,51 @@ function createBookActivityContent(activityData, prefix) {
             });
         }
         
+        if (activityData.reseauxSociaux) {
+            content += `
+                <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-left: 4px solid #9b59b6; grid-column: 1 / -1;">
+                    <span style="font-size: 1.5em; color: #9b59b6;">👥</span>
+                    <span style="flex: 1; font-weight: 600; font-size: 1.1em;">${activityData.reseauxSociaux}</span>
+                </div>
+            `;
+        }
+        
+        if (activityData.aSavoir) {
+            content += `
+                <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-left: 4px solid #f39c12; grid-column: 1 / -1;">
+                    <span style="font-size: 1.5em; color: #f39c12;">💡</span>
+                    <span style="flex: 1; font-weight: 600; font-size: 1.1em;">
+                        <strong>À savoir sur l'interlocuteur:</strong> ${activityData.aSavoir}
+                    </span>
+                </div>
+            `;
+        }
+        
         content += `</div></div>`;
     }
-        // ============ SECTION PHOTOS AMÉLIORÉE (APERÇUS) ============
+    
+        // ============ SECTION PHOTOS AVEC APERÇUS 6cm × 6cm ============
     if (activityData.photosLieux || activityData.repertoire || activityData.photosGroupe) {
-        content += `<h5 style="font-size: 1.2em; color: #3498db; margin: 20px 0 15px; padding-left: 15px; border-left: 4px solid #3498db; font-weight: 600;">Aperçus Photos:</h5>`;
+        content += `<h5 style="font-size: 1.2em; color: #ff9800; margin: 20px 0 15px; padding-left: 15px; border-left: 4px solid #ff9800; font-weight: 600;">Photos souvenir:</h5>`;
         
-        content += `<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin: 20px 0;">`;
+        content += `<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(6cm, 1fr)); gap: 20px; margin: 20px 0; justify-items: center;">`;
         
         // Photos des lieux
         if (activityData.photosLieux) {
             const previewUrl = getFirstPhotoPreviewUrl(activityData.photosLieux);
             if (previewUrl) {
                 content += `
-                    <div style="text-align: center;">
-                        <div style="width: 150px; height: 150px; border-radius: 8px; overflow: hidden; margin: 0 auto; border: 2px solid #3498db;">
+                    <div style="text-align: center; width: 6cm;">
+                        <div style="width: 6cm; height: 6cm; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); border: 3px solid #ff9800; position: relative; background: linear-gradient(135deg, #f8f9fa, #e9ecef); margin-bottom: 10px;">
                             <img src="${previewUrl}" 
                                  alt="Photos des lieux" 
                                  style="width: 100%; height: 100%; object-fit: cover;"
-                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSI1MCIgeT0iNTAiIGZpbGw9IiMzNDk4ZGIiLz48Y2lyY2xlIGN4PSI3NSIgY3k9IjUwIiByPSIyMCIgZmlsbD0iI2Y3NGMzYyIvPjwvc3ZnPg=='">
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjI0IiBoZWlnaHQ9IjIyNCIgdmlld0JveD0iMCAwIDIyNCAyMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIyNCIgaGVpZ2h0PSI3NSIgeT0iNzUiIGZpbGw9IiNmZjgwMDAiLz48Y2lyY2xlIGN4PSIxMTIiIGN5PSI3NSIgcj0iMzAiIGZpbGw9IiNmMzljMTIiLz48L3N2Zz4=';">
                         </div>
-                        <div style="margin-top: 8px; font-size: 0.85em; font-weight: 600; color: #2c3e50;">Lieux</div>
-                        <div style="font-size: 0.75em; color: #7f8c8d;">(Extérieur/Intérieur)</div>
+                        <div style="font-weight: 600; color: #2c3e50; font-size: 0.9em; padding: 8px; background: white; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); border-left: 4px solid #ff9800; width: 6cm;">
+                            🏛️ Photos des lieux<br>
+                            <small style="font-size: 0.8em; font-weight: normal; opacity: 0.8;">(Extérieur/Intérieur/Coulisses)</small>
+                        </div>
                     </div>
                 `;
             }
@@ -13541,15 +13667,17 @@ function createBookActivityContent(activityData, prefix) {
             const previewUrl = getFirstPhotoPreviewUrl(activityData.repertoire);
             if (previewUrl) {
                 content += `
-                    <div style="text-align: center;">
-                        <div style="width: 150px; height: 150px; border-radius: 8px; overflow: hidden; margin: 0 auto; border: 2px solid #27ae60;">
+                    <div style="text-align: center; width: 6cm;">
+                        <div style="width: 6cm; height: 6cm; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); border: 3px solid #27ae60; position: relative; background: linear-gradient(135deg, #f8f9fa, #e9ecef); margin-bottom: 10px;">
                             <img src="${previewUrl}" 
                                  alt="Répertoire" 
                                  style="width: 100%; height: 100%; object-fit: cover;"
-                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSI1MCIgeT0iNTAiIGZpbGw9IiMyN2FlNjAiLz48Y2lyY2xlIGN4PSI3NSIgY3k9IjUwIiByPSIyMCIgZmlsbD0iI2YzOWMxMiIvPjwvc3ZnPg=='">
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjI0IiBoZWlnaHQ9IjIyNCIgdmlld0JveD0iMCAwIDIyNCAyMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIyNCIgaGVpZ2h0PSI3NSIgeT0iNzUiIGZpbGw9IiMyN2FlNjAiLz48Y2lyY2xlIGN4PSIxMTIiIGN5PSI3NSIgcj0iMzAiIGZpbGw9IiNmMzljMTIiLz48L3N2Zz4=';">
                         </div>
-                        <div style="margin-top: 8px; font-size: 0.85em; font-weight: 600; color: #2c3e50;">Répertoire</div>
-                        <div style="font-size: 0.75em; color: #7f8c8d;">(Partitions)</div>
+                        <div style="font-weight: 600; color: #2c3e50; font-size: 0.9em; padding: 8px; background: white; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); border-left: 4px solid #27ae60; width: 6cm;">
+                            🎵 Répertoire musical<br>
+                            <small style="font-size: 0.8em; font-weight: normal; opacity: 0.8;">(Partitions & arrangements)</small>
+                        </div>
                     </div>
                 `;
             }
@@ -13560,15 +13688,17 @@ function createBookActivityContent(activityData, prefix) {
             const previewUrl = getFirstPhotoPreviewUrl(activityData.photosGroupe);
             if (previewUrl) {
                 content += `
-                    <div style="text-align: center;">
-                        <div style="width: 150px; height: 150px; border-radius: 8px; overflow: hidden; margin: 0 auto; border: 2px solid #e74c3c;">
+                    <div style="text-align: center; width: 6cm;">
+                        <div style="width: 6cm; height: 6cm; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); border: 3px solid #3498db; position: relative; background: linear-gradient(135deg, #f8f9fa, #e9ecef); margin-bottom: 10px;">
                             <img src="${previewUrl}" 
                                  alt="Photos de groupe" 
                                  style="width: 100%; height: 100%; object-fit: cover;"
-                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSI1MCIgeT0iNTAiIGZpbGw9IiNlNzRjM2MiLz48Y2lyY2xlIGN4PSI3NSIgY3k9IjUwIiByPSIyMCIgZmlsbD0iI2YzOWMxMiIvPjwvc3ZnPg=='">
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjI0IiBoZWlnaHQ9IjIyNCIgdmlld0BveD0iMCAwIDIyNCAyMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIyNCIgaGVpZ2h0PSI3NSIgeT0iNzUiIGZpbGw9IiMzNDk4ZGIiLz48Y2lyY2xlIGN4PSIxMTIiIGN5PSI3NSIgcj0iMzAiIGZpbGw9IiNmMzljMTIiLz48L3N2Zz4=';">
                         </div>
-                        <div style="margin-top: 8px; font-size: 0.85em; font-weight: 600; color: #2c3e50;">Groupe</div>
-                        <div style="font-size: 0.75em; color: #7f8c8d;">(Moments marquants)</div>
+                        <div style="font-weight: 600; color: #2c3e50; font-size: 0.9em; padding: 8px; background: white; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); border-left: 4px solid #3498db; width: 6cm;">
+                            👥 Photos de groupe<br>
+                            <small style="font-size: 0.8em; font-weight: normal; opacity: 0.8;">(Moments marquants)</small>
+                        </div>
                     </div>
                 `;
             }
@@ -13579,10 +13709,11 @@ function createBookActivityContent(activityData, prefix) {
         // Note d'information
         content += `
             <div style="margin-top: 15px; padding: 12px 15px; background: #fff9c4; border-radius: 8px; font-size: 0.9em; color: #7f8c8d; text-align: center; border-left: 4px solid #ffd54f;">
-                <strong>💡 Note :</strong> Aperçus des photos disponibles. Cliquez sur les liens complets dans la section "Galerie Photos".
+                <strong>💡 Note :</strong> Aperçus des photos disponibles. Les liens complets sont dans la fiche originale.
             </div>
         `;
     }
+    
     content += `</div>`;
     return content;
 }
@@ -14441,7 +14572,7 @@ function exportGlobalActivityPDF() {
     
     content += `
             <div class="footer">
-                <p><strong>NY AKO - Ministère Musical Évangélique</strong></p>
+                <p><strong>NY AKO - Groupe artistique -LLB Madagascar</strong></p>
                 <p>Document réservé aux administrateurs - Export PDF</p>
                 <p>"Que tout ce que vous faites se fasse avec amour." (1 Corinthiens 16:14)</p>
                 <p>Total : ${totalActivities} activités exportées</p>
@@ -14775,7 +14906,7 @@ function exportActivitySummaryPDF() {
                 <p><strong>Total : ${totalActivities} activités enregistrées</strong></p>
                 <p><strong>${sortedActivities.length} types d'activités différents</strong></p>
                 <p>"Que tout ce que vous faites se fasse avec amour." (1 Corinthiens 16:14)</p>
-                <p>NY AKO - Ministère Musical Évangélique</p>
+                <p>NY AKO - Groupe artistique -LLB Madagascar</p>
             </div>
         </body>
         </html>
@@ -15578,6 +15709,53 @@ function displayMisAuPointResults(fiches) {
     }
     
     console.log(`✅ Affichage de ${fiches.length} fiches avec des points à revoir`);
+}
+function createNoteBoxWithColor(title, content, backgroundColor) {
+    const noteDiv = document.createElement('div');
+    noteDiv.className = 'note-box';
+    noteDiv.style.cssText = `
+        background-color: ${backgroundColor};
+        border: 2px solid #32CD32;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    `;
+    
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'note-title';
+    titleDiv.style.cssText = `
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: #2c3e50;
+        font-size: 1.1em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid rgba(50, 205, 50, 0.3);
+    `;
+    
+    // Ajouter des icônes selon le type de note
+    let icon = '📝';
+    if (title.includes('Note de la journée')) icon = '📅';
+    if (title.includes('Remarque à revoir')) icon = '⚠️';
+    if (title.includes('RESUME')) icon = '📊';
+    
+    titleDiv.innerHTML = `${icon} ${title}`;
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+    contentDiv.style.cssText = `
+        color: #2c3e50;
+        line-height: 1.6;
+        font-size: 1em;
+    `;
+    
+    noteDiv.appendChild(titleDiv);
+    noteDiv.appendChild(contentDiv);
+    
+    return noteDiv;
 }
     </script> 
 </body>
