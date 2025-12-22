@@ -6560,10 +6560,10 @@ function exportSongsToPDF() {
             <title>Récapitulatif des chansons - Tournée Europe 2026 NY AKO</title>
             <style>
                 body { 
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                    font-family: Arial, sans-serif; 
                     margin: 15mm; 
                     line-height: 1.4;
-                    color: #2c3e50;
+                    color: #000000;
                 }
                 
                 .header { 
@@ -6574,137 +6574,81 @@ function exportSongsToPDF() {
                 }
                 
                 .header h1 { 
-                    color: #2c3e50; 
+                    color: #000000; 
                     margin-bottom: 10px;
-                    font-size: 24px;
+                    font-size: 22px;
                 }
                 
                 .summary { 
-                    background: #f8f9fa; 
+                    background: #f0f0f0; 
                     padding: 15px; 
-                    border-radius: 8px; 
-                    margin-bottom: 25px;
+                    margin-bottom: 20px;
                     border-left: 5px solid #9b59b6;
                 }
                 
                 .song-section { 
-                    margin-bottom: 25px; 
-                    page-break-inside: avoid;
-                    border: 2px solid #9b59b6;
-                    border-radius: 10px;
+                    margin-bottom: 20px; 
+                    border: 1px solid #9b59b6;
+                    border-radius: 5px;
                     overflow: hidden;
                 }
                 
                 .song-header { 
                     background: #9b59b6; 
                     color: white; 
-                    padding: 15px 20px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
+                    padding: 10px 15px;
+                    display: block;
                 }
                 
                 .song-title { 
                     margin: 0; 
-                    font-size: 18px;
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
+                    font-size: 16px;
+                    display: block;
                 }
                 
                 .song-count { 
-                    background: rgba(255,255,255,0.3); 
-                    padding: 5px 15px; 
-                    border-radius: 15px; 
+                    background: white; 
+                    color: #9b59b6;
+                    padding: 3px 10px; 
+                    border-radius: 10px; 
                     font-weight: bold;
-                    font-size: 16px;
+                    float: right;
                 }
                 
                 .song-details { 
-                    padding: 20px; 
+                    padding: 15px; 
                     background: white;
                 }
                 
-                .lieux-grid { 
-                    display: grid; 
-                    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                    gap: 10px; 
+                .lieux-list { 
                     margin-top: 10px;
                 }
                 
                 .lieu-item { 
                     background: #f8f9fa; 
-                    padding: 10px; 
-                    border-radius: 6px; 
+                    padding: 8px; 
+                    margin-bottom: 5px; 
                     border-left: 3px solid #3498db;
-                    font-size: 14px;
-                }
-                
-                .lieu-header { 
-                    display: flex; 
-                    align-items: center; 
-                    gap: 8px; 
-                    margin-bottom: 8px;
-                    color: #2c3e50;
-                    font-weight: 600;
-                }
-                
-                .dates { 
-                    font-size: 12px; 
-                    color: #7f8c8d; 
-                    margin-top: 5px;
+                    font-size: 13px;
                 }
                 
                 .footer { 
                     margin-top: 30px; 
                     text-align: center; 
-                    color: #7f8c8d; 
+                    color: #666666; 
                     font-size: 10px;
                     padding-top: 15px;
-                    border-top: 1px solid #ddd;
+                    border-top: 1px solid #ccc;
                 }
                 
-                .page-break { page-break-before: always; }
+                /* Styles simples compatibles Safari */
+                .page-break { 
+                    page-break-before: always; 
+                }
                 
                 @media print { 
                     body { margin: 10mm; }
                     .song-section { page-break-inside: avoid; }
-                    .header { margin-top: 0; }
-                }
-                
-                .icon { 
-                    background: rgba(255,255,255,0.2); 
-                    padding: 5px 10px; 
-                    border-radius: 20px;
-                    font-size: 14px;
-                }
-                
-                .total-stats {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 15px;
-                    margin-bottom: 25px;
-                }
-                
-                .stat-box {
-                    background: white;
-                    padding: 15px;
-                    border-radius: 8px;
-                    text-align: center;
-                    border: 2px solid #e0e0e0;
-                }
-                
-                .stat-number {
-                    font-size: 28px;
-                    font-weight: bold;
-                    color: #9b59b6;
-                    margin-bottom: 5px;
-                }
-                
-                .stat-label {
-                    color: #7f8c8d;
-                    font-size: 12px;
-                    font-weight: 600;
                 }
             </style>
         </head>
@@ -6716,114 +6660,35 @@ function exportSongsToPDF() {
             </div>
             
             <div class="summary">
-                <p><strong>📊 Statistiques globales des chansons</strong></p>
-                <div class="total-stats">
-                    <div class="stat-box">
-                        <div class="stat-number">${sortedSongs.length}</div>
-                        <div class="stat-label">Chansons différentes</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">${Array.from(songsMap.values()).reduce((sum, data) => sum + data.count, 0)}</div>
-                        <div class="stat-label">Interprétations totales</div>
-                    </div>
-                </div>
+                <p><strong>📊 Statistiques globales</strong></p>
+                <p>${sortedSongs.length} chansons différentes</p>
+                <p>${Array.from(songsMap.values()).reduce((sum, data) => sum + data.count, 0)} interprétations totales</p>
             </div>
-    `;
-    
-    // Calculer le nombre total de lieux uniques
-    let totalLieuxUniques = 0;
-    sortedSongs.forEach(([song, data]) => {
-        totalLieuxUniques += data.lieux.size;
-    });
-    
-    content += `
-        <div style="background: #e8f4f8; padding: 15px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #3498db;">
-            <p style="margin: 0; color: #2c3e50; font-weight: 600;">
-                📍 Répartition géographique : ${totalLieuxUniques} lieux différents où des chansons ont été interprétées
-            </p>
-        </div>
     `;
     
     // Ajouter chaque chanson avec ses lieux
     sortedSongs.forEach(([song, data], songIndex) => {
         const lieuxArray = Array.from(data.lieux);
-        const datesArray = Array.from(data.dates);
         
         content += `
             <div class="song-section">
                 <div class="song-header">
                     <h3 class="song-title">
-                        <span class="icon">🎵</span>
                         ${songIndex + 1}. ${song}
                     </h3>
                     <span class="song-count">${data.count} fois</span>
                 </div>
                 
                 <div class="song-details">
-                    <div class="lieu-header">
-                        <span>📍</span>
-                        <strong>Lieux où "${song}" a été chantée (${lieuxArray.length} lieux) :</strong>
-                    </div>
-                    
-                                            <div class="lieux-grid">
+                    <p><strong>Lieux où "${song}" a été chantée:</strong></p>
+                    <div class="lieux-list">
         `;
         
-        // Créer un Map pour associer chaque lieu à sa date
-        const lieuDateMap = new Map();
-        
-        // Pour chaque lieu, trouver la date correspondante
-        lieuxArray.forEach((lieu) => {
-            // Chercher dans toutes les données pour trouver la date correspondante à ce lieu
-            let datePourCeLieu = 'Date non spécifiée';
-            
-            // Parcourir toutes les fiches où cette chanson apparaît
-            if (data.rows && Array.isArray(data.rows)) {
-                data.rows.forEach(rowIndex => {
-                    const row = sheetData[rowIndex];
-                    // Chercher le lieu dans cette fiche
-                    const lieuxCols = headers
-                        .map((header, index) => 
-                            (header && header.includes('Lieux')) ? index : -1
-                        )
-                        .filter(index => index !== -1);
-                    
-                    lieuxCols.forEach(colIndex => {
-                        const lieuValue = row[colIndex] || '';
-                        if (lieuValue.includes(lieu)) {
-                            // Trouver la date de cette fiche
-                            const dateIndex = findHeaderIndex('Date:');
-                            if (dateIndex !== -1) {
-                                datePourCeLieu = row[dateIndex] || 'Date non spécifiée';
-                            }
-                        }
-                    });
-                });
-            }
-            
-            lieuDateMap.set(lieu, datePourCeLieu);
-        });
-        
-        // Afficher les lieux avec leurs dates correspondantes
-        Array.from(lieuDateMap.entries()).forEach(([lieu, date], index) => {
+        lieuxArray.forEach((lieu, index) => {
             content += `
-                    <div class="lieu-item">
-                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                            <div style="background: var(--secondary-color); color: white; 
-                                        width: 24px; height: 24px; border-radius: 50%; 
-                                        display: flex; align-items: center; justify-content: center; 
-                                        font-size: 0.8em; font-weight: bold;">
-                                ${index + 1}
-                            </div>
-                            <div style="flex: 1;">
-                                <div style="font-weight: 600; color: #2c3e50; margin-bottom: 3px;">
-                                    ${lieu}
-                                </div>
-                                <div class="dates" style="font-size: 0.85em; color: #7f8c8d;">
-                                    📅 ${date}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="lieu-item">
+                    ${index + 1}. ${lieu}
+                </div>
             `;
         });
         
@@ -6832,18 +6697,12 @@ function exportSongsToPDF() {
                 </div>
             </div>
         `;
-        
-        // Ajouter un saut de page après 3 chansons (pour une meilleure lisibilité)
-        if ((songIndex + 1) % 3 === 0 && songIndex !== sortedSongs.length - 1) {
-            content += `<div class="page-break"></div>`;
-        }
     });
     
     content += `
             <div class="footer">
                 <p><strong>NY AKO - Groupe artistique -LLB Madagascar</strong></p>
-                <p>"Chantez à l'Éternel un cantique nouveau, Chantez ses louanges aux extrémités de la terre" (Ésaïe 42:10)</p>
-                <p>Document réservé au ministère musical - Export PDF</p>
+                <p>"Chantez à l'Éternel un cantique nouveau" (Ésaïe 42:10)</p>
                 <p>Total : ${sortedSongs.length} chansons documentées</p>
             </div>
         </body>
@@ -6853,14 +6712,19 @@ function exportSongsToPDF() {
     printWindow.document.write(content);
     printWindow.document.close();
     
-    // Donner le temps au CSS de charger
+    // Attendre un peu avant d'imprimer
     setTimeout(() => {
         printWindow.print();
         
-        // Notification
-        alert(`✅ Export PDF réussi !\n${sortedSongs.length} chansons exportées avec leurs lieux.`);
-    }, 500);
+        // Fermer la fenêtre après impression
+        setTimeout(() => {
+            printWindow.close();
+        }, 500);
+        
+        alert(`✅ Export PDF réussi !\n${sortedSongs.length} chansons exportées.`);
+    }, 1000);
 }
+
 function exportSongToPDF(songName) {
     const songsMap = extractAllSongsFromPlaylists();
     const songData = songsMap.get(songName);
@@ -31602,5 +31466,4 @@ function createNoteBoxWithColor(title, content, backgroundColor) {
     </script> 
 </body>
 </html>
-
 
