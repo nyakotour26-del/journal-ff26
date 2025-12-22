@@ -29926,28 +29926,53 @@ function updateGlobalActivityTable() {
 
 // Fonction pour obtenir l'icône appropriée selon le type d'activité
 function getActivityIcon(type) {
-    const icons = {
-        'Concert': '🎵',
-        'concert': '🎵',
-        'Rencontre': '🤝',
-        'rencontre': '🤝',
-        'Eglise': '⛪',
-        'eglise': '⛪',
-        'Ecole': '🏫',
-        'école': '🏫',
-        'Sortie': '🚶',
-        'sortie': '🚶',
-        'Tourisme': '🏛️',
-        'tourisme': '🏛️',
-        'Marché': '🛒',
-        'marché': '🛒',
-        'Shopping': '🛍️',
-        'shopping': '🛍️',
-        'Voyage': '✈️',
-        'voyage': '✈️',
-        'Festival': '🎪',
-        'festival': '🎪'
-    };
+const icons = {
+    'Concert': '🎵',
+    'concert': '🎵',
+    'Rencontre': '🤝',
+    'rencontre': '🤝',
+    'Eglise': '⛪',
+    'eglise': '⛪',
+    'Ecole': '🏫',
+    'école': '🏫',
+    'Sortie': '🚶',
+    'sortie': '🚶',
+    'Tourisme': '🏛️',
+    'tourisme': '🏛️',
+    'Marché': '🛒',
+    'marché': '🛒',
+    'Shopping': '🛍️',
+    'shopping': '🛍️',
+    'Voyage': '✈️',
+    'voyage': '✈️',
+    'Festival': '🎪',
+    'festival': '🎪',
+    // Nouvelles activités ajoutées
+    'Réunion': '📊',
+    'réunion': '📊',
+    'Animation': '🎭',
+    'animation': '🎭',
+    'Invitation': '📨',
+    'invitation': '📨',
+    'Etablissement scolaire': '🏫',
+    'établissement scolaire': '🏫',
+    'Hospice': '🏥',
+    'hospice': '🏥',
+    'Hopital': '🏥',
+    'hôpital': '🏥',
+    'Visite': '👀',
+    'visite': '👀',
+    'Culte': '🙏',
+    'culte': '🙏',
+    'Social': '👥',
+    'social': '👥',
+    'Jeux': '🎮',
+    'jeux': '🎮',
+    'Sport': '⚽',
+    'sport': '⚽',
+    'Repos': '😴',
+    'repos': '😴'
+};
     
     for (const [key, icon] of Object.entries(icons)) {
         if (type.toLowerCase().includes(key.toLowerCase())) {
@@ -31577,4 +31602,5 @@ function createNoteBoxWithColor(title, content, backgroundColor) {
     </script> 
 </body>
 </html>
+
 
