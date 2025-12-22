@@ -14143,31 +14143,28 @@ function updateGlobalActivityTable() {
 
 // Fonction pour obtenir l'icône appropriée selon le type d'activité
 function getActivityIcon(type) {
-   const activityIcons = new Map([
-    // Format: [activité, [icône_principale, icône_alternative1, icône_alternative2]]
-    ['concert', ['🎤', '🎵', '🎶']],
-    ['festival', ['🎪', '🎡', '🎠']],
-    ['animation', ['🎭', '🌟', '✨']],
-    ['réunion', ['👨‍💼', '📊', '💼']],
-    ['rencontre', ['🤝', '💬', '👥']],
-    ['invitation', ['✉️', '📨', '🎟️']],
-    ['école', ['📚', '🏫', '✏️']],
-    ['voyage', ['🧳', '✈️', '🌎']],
-    ['tourisme', ['🗺️', '📸', '🏛️']],
-    ['visite', ['🔭', '👁️', '📍']],
-    ['sortie', ['🚶', '🚪', '👣']],
-    ['marché', ['🛒', '🍎', '🥦']],
-    ['shopping', ['🛍️', '💳', '👠']],
-    ['hospice', ['👵', '🪑', '❤️']],
-    ['hopital', ['🏥', '🚑', '⚕️']],
-    ['hôpital', ['🏥', '🚑', '⚕️']],
-    ['eglise', ['⛪', '⛲', '🕍']],
-    ['culte', ['🙏', '📿', '🕯️']],
-    ['social', ['👨‍👩‍👧‍👦', '🥂', '🎉']],
-    ['jeux', ['🎲', '♟️', '🎮']],
-    ['sport', ['⚽', '🏃', '🏋️']],
-    ['repos', ['🛌', '😴', '🌙']]
-]);
+    const icons = {
+        'Concert': '🎵',
+        'concert': '🎵',
+        'Rencontre': '🤝',
+        'rencontre': '🤝',
+        'Eglise': '⛪',
+        'eglise': '⛪',
+        'Ecole': '🏫',
+        'école': '🏫',
+        'Sortie': '🚶',
+        'sortie': '🚶',
+        'Tourisme': '🏛️',
+        'tourisme': '🏛️',
+        'Marché': '🛒',
+        'marché': '🛒',
+        'Shopping': '🛍️',
+        'shopping': '🛍️',
+        'Voyage': '✈️',
+        'voyage': '✈️',
+        'Festival': '🎪',
+        'festival': '🎪'
+    };
     
     for (const [key, icon] of Object.entries(icons)) {
         if (type.toLowerCase().includes(key.toLowerCase())) {
