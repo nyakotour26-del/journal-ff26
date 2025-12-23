@@ -40,13 +40,13 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background: linear-gradient(135deg, #e8f4f8 0%, #d1e7f5 100%);
-            padding: 20px;
-            padding-top: calc(var(--title-height) + 30px);
-        }
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background: background: #f8f9fa;
+    padding: 20px;
+    padding-top: calc(var(--title-height) + 30px);
+}
         
         /* Zone titre fixe */
         .fixed-title {
@@ -179,23 +179,7 @@
     border: none;
 }
         
-        /* Info bubble améliorée pour les boutons */
-        .floating-button:hover::after {
-            content: attr(title);
-            position: absolute;
-            bottom: 60px;
-            right: 0;
-            background: rgba(0, 0, 0, 0.85);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.8em;
-            white-space: nowrap;
-            z-index: 1001;
-            animation: fadeIn 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        
+   
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -13720,15 +13704,17 @@ if (activityData.trajet) {
 }
 
         function showDataInfo() {
-            document.getElementById('dataInfo').innerHTML = `
-                <div class="success-message">
-                    ✅ Journal chargé avec succès : ${sheetData.length} journée${sheetData.length > 1 ? 's' : ''}
-                    <br><small>${headers.length} colonnes détectées • Durée totale des trajets: ${formatHours(totalDureeTrajet)} • Distance totale: ${totalDistance.toFixed(0)}km</small>
-                    <br><small>Cliquez sur un lieu, un interlocuteur ou un pays pour filtrer les entrées</small>
-                    <br><small><strong>À Dieu soit la gloire !</strong></small>
-                </div>
-            `;
-        }
+    const dataInfo = document.getElementById('dataInfo');
+    dataInfo.innerHTML = `
+        <div style="background: transparent; color: #2c3e50; padding: 15px; border-radius: 8px; margin: 15px 0; text-align: center; border: 2px dashed #3498db; font-size: 0.95em;">
+            ✅ <strong>Données chargées avec succès :</strong> ${sheetData.length} journée(s)<br>
+            📊 ${headers.length} colonnes détectées • Durée totale des trajets: ${formatHours(totalDureeTrajet)} • Distance totale: ${totalDistance.toFixed(0)}km<br>
+            💡 <em>Cliquez sur un lieu, un interlocuteur ou un pays pour filtrer les entrées</em><br>
+            🙏 <strong>À Dieu soit la gloire !</strong>
+        </div>
+    `;
+    dataInfo.style.display = 'block';
+}
 
         function showError(message) {
             document.getElementById('dataInfo').innerHTML = `
