@@ -2372,6 +2372,13 @@ margin-left: 5px; /* Petit espace après le texte */
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 15px !important;
     }
+ #dataSuccessMessage {
+        background: transparent !important;
+        color: #2c3e50 !important;
+        padding: 12px !important;
+        margin: 10px 0 !important;
+        border: 2px dashed #3498db !important;
+        font-size: 0.9em !important;
 }
 
 @media (max-width: 480px) {
@@ -13703,10 +13710,10 @@ if (activityData.trajet) {
     return content;
 }
 
-        function showDataInfo() {
+       function showDataInfo() {
     const dataInfo = document.getElementById('dataInfo');
     dataInfo.innerHTML = `
-        <div style="background: transparent; color: #2c3e50; padding: 15px; border-radius: 8px; margin: 15px 0; text-align: center; border: 2px dashed #3498db; font-size: 0.95em;">
+        <div id="dataSuccessMessage" style="background: transparent; color: #2c3e50; padding: 15px; border-radius: 8px; margin: 15px 0; text-align: center; border: 2px dashed #3498db; font-size: 0.95em;">
             ✅ <strong>Données chargées avec succès :</strong> ${sheetData.length} journée(s)<br>
             📊 ${headers.length} colonnes détectées • Durée totale des trajets: ${formatHours(totalDureeTrajet)} • Distance totale: ${totalDistance.toFixed(0)}km<br>
             💡 <em>Cliquez sur un lieu, un interlocuteur ou un pays pour filtrer les entrées</em><br>
