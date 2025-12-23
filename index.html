@@ -7,7 +7,7 @@
     <style>
         :root {
             --primary-color: #2c3e50;
-            --secondary-color: #3498db;
+                --secondary-color: #b33951;
             --accent-color: #e74c3c;
             --light-color: #ecf0f1;
             --text-color: #2c3e50;
@@ -22,7 +22,7 @@
             --concert-orange: #ff9800;
             --neutral-border: #e0e0e0;
             --activity-title-bg: #fce4ec;
-            --section-title-color: #87CEEB;
+            --section-title-color: #b33951;
             --sidebar-width: 45%;
             --apple-green: #8db600;
             --pink: #ff69b4;
@@ -30,6 +30,7 @@
             --mauve: #8e44ad;
             --gold: #FFD700;
             --purple: #9b59b6;
+	    --main-theme-color: #b33951;
         }
         
         * {
@@ -237,28 +238,28 @@
         }
         
         .special-frame {
-            position: relative;
-            padding: 15px;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, var(--light-blue), var(--secondary-color));
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border: 12px solid transparent;
-            background-clip: padding-box;
-            overflow: hidden;
-        }
-        
-        .special-frame::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            left: -6px;
-            right: -6px;
-            bottom: -6px;
-            background: linear-gradient(45deg, var(--secondary-color), var(--light-blue), var(--secondary-color));
-            border-radius: 26px;
-            z-index: -1;
-        }
+    position: relative;
+    padding: 15px;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #f8e0e5, #b33951);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border: 12px solid transparent;
+    background-clip: padding-box;
+    overflow: hidden;
+}
+
+.special-frame::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    background: linear-gradient(45deg, #b33951, #f8e0e5, #b33951);
+    border-radius: 26px;
+    z-index: -1;
+}
         
         header {
             text-align: center;
@@ -300,7 +301,7 @@
             align-items: center;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-blue);
+            border-bottom: 2px solid #3498db;
         }
         
         .date-options-title {
@@ -451,24 +452,24 @@
         }
         
         .section-title {
-            font-size: 1.4em;
-            color: #b33951;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 3px solid #b33951;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .section-title::before {
-            content: '';
-            width: 8px;
-            height: 25px;
-            background: #b33951;
-            border-radius: 4px;
-        }
+    font-size: 1.4em;
+    color: #b33951;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #b33951;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title::before {
+    content: '';
+    width: 8px;
+    height: 25px;
+    background: #b33951;
+    border-radius: 4px;
+}
         
         .subsection-title {
             font-size: 1.2em;
@@ -513,7 +514,7 @@
     background-color: #f8f9fa;
     padding: 15px;
     border-radius: 8px;
-    border-left: 4px solid var(--secondary-color);
+    border-left: 4px solid #b33951;
     grid-column: 1 / -1;  /* Prend toute la largeur */
     width: 100%;  
     margin: 0;  
@@ -524,7 +525,7 @@
     padding: 8px 12px;
     background: white;
     border-radius: 6px;
-    border-left: 3px solid var(--accent-color);
+    border-left: 3px solid #b33951;
     font-family: "Brush Script MT", cursive;  /
     font-weight: bold;                        /
     font-size: 1.1em;                         /
@@ -1060,8 +1061,8 @@ margin-left: 5px; /* Petit espace après le texte */
 
 .stat-value {
     font-size: 0.5em !important;
-    font-weight: 200 !important; /* ← CHANGÉ : 800 devient 500 */
-        color: #87CEEB !important; /* ← BLEU CIEL AU LIEU DE GRIS */
+    font-weight: 200 !important; 
+        color: #87CEEB !important; 
     margin-bottom: 0;
     line-height: 1;
 }
@@ -1137,7 +1138,6 @@ margin-left: 5px; /* Petit espace après le texte */
             margin-bottom: 20px;
             padding: 15px;
             border-radius: 8px;
-            border-bottom: 2px solid rgba(0,0,0,0.1);
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -1217,7 +1217,7 @@ margin-left: 5px; /* Petit espace après le texte */
     box-shadow: 0 6px 12px rgba(0,0,0,0.1);
     position: relative;
     z-index: 1;
-    border-left: 6px solid var(--gold);
+    border-left: 6px solid #b33951;
 }
 
 .photos-title::before {
@@ -1426,7 +1426,7 @@ margin-left: 5px; /* Petit espace après le texte */
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid var(--light-blue);
+            border-bottom: 2px solid #3498db;
         }
         
         .modal-title {
@@ -2516,7 +2516,7 @@ margin-left: 5px; /* Petit espace après le texte */
         border-radius: 0;  /* Retire les coins arrondis pour un look plus large */
         border-left: none;  /* Retire la bordure gauche */
         border-top: 3px solid var(--secondary-color);  /* Ajoute une bordure en haut */
-        border-bottom: 3px solid var(--secondary-color);  /* Ajoute une bordure en bas */
+        border-bottom: 3px solid #b33951;  
     }
     
     /* Pour les éléments individuels du programme */
@@ -2526,7 +2526,7 @@ margin-left: 5px; /* Petit espace après le texte */
         margin-bottom: 10px;  /* Plus d'espace entre les éléments */
         background: white;  /* Fond blanc pour mieux voir */
         border-radius: 10px;  /* Coins arrondis */
-        border-left: 4px solid var(--accent-color);  /* Bordure colorée */
+        border-left: 4px solid #b33951;  /* Bordure colorée */
         box-shadow: 0 3px 6px rgba(0,0,0,0.1);  /* Ombre pour profondeur */
     }
             
@@ -2786,7 +2786,7 @@ margin-left: 5px; /* Petit espace après le texte */
         border-left: none !important;
         border-right: none !important;
         border-top: 3px solid var(--secondary-color) !important;
-        border-bottom: 3px solid var(--secondary-color) !important;
+        border-bottom: 3px solid #3498db;
     }
     
     .photo-buttons-container {
