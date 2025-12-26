@@ -10014,6 +10014,7 @@ function clearSearchHighlight() {
             return results;
         }
 
+// Remplacer la fonction showAllData() par cette version corrigée
 function showAllData() {
     currentSearchTerm = '';
     currentSearchType = '';
@@ -10033,14 +10034,6 @@ function showAllData() {
         statusDiv.style.display = 'none';
     }
     
-    // MASQUER LE BOUTON DE NAVIGATION ENTRE RÉSULTATS
-    document.getElementById('floatingNavigation').style.display = 'none';
-    
-    // Réinitialiser les variables de recherche
-    currentSearchResults = [];
-    currentResultIndex = -1;
-    searchHighlights = [];
-    
     // Masquer le bouton retour mobile
     document.getElementById('mobileBackButton').style.display = 'none';
     
@@ -10050,16 +10043,12 @@ function showAllData() {
     // Faire défiler vers le haut du contenu principal
     document.getElementById('mainContent').scrollIntoView({ behavior: 'smooth' });
     
-    console.log('📋 Affichage de toutes les journées (recherche annulée)');
+    console.log('📋 Affichage de toutes les journées');
 }
+
 // Corriger également la fonction displayAllJournalEntries() pour qu'elle affiche toujours les données
 function displayAllJournalEntries() {
     const container = document.getElementById('journalEntries');
-    
-    // NE PAS effacer si on a une recherche active
-    if (currentSearchTerm || currentSearchType) {
-        return;
-    }
     
     container.innerHTML = '';
     
@@ -10083,24 +10072,21 @@ function displayAllJournalEntries() {
     
     container.insertBefore(header, container.firstChild);
     
-    if (window.innerWidth <= 1024) {
-        document.getElementById('mobileBackButton').style.display = 'none';
-    }
-    
     console.log(`✅ ${sheetData.length} journées affichées`);
 }
+
 // Modifier aussi le bouton "Tout" dans les boutons flottants
 document.addEventListener('DOMContentLoaded', function() {
     
     
-    // Gestion du bouton "Tout" flottant
-document.getElementById('floatingHome').addEventListener('click', function() {
-    showAllData();
-    document.getElementById('mainContent').scrollIntoView({ behavior: 'smooth' });
-});
-
-// Gestion du bouton "Afficher toutes les journées" 
-document.getElementById('showAllButton').addEventListener('click', showAllData);
+    // Gestion du bouton "Tout" flottant (ligne 180 environ)
+    document.getElementById('floatingHome').addEventListener('click', function() {
+        showAllData();
+        document.getElementById('mainContent').scrollIntoView({ behavior: 'smooth' });
+    });
+    
+    // Gestion du bouton "Afficher toutes les journées" (ligne 250 environ)
+    document.getElementById('showAllButton').addEventListener('click', showAllData);
     
 });
 
