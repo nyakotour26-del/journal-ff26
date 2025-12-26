@@ -4059,7 +4059,20 @@ Groupe artistique -LLB Madagascar</textarea>
         let sheetData = [];
         let headers = [];
         let datesWithData = [];
-        let currentDate = new Date(2026, 3, 1); // Avril 2026
+        let currentDate = new Date(); // Date d'aujourd'hui
+
+// Si nous sommes avant mai 2026, on force avril 2026
+// Sinon, on garde le mois courant
+const now = new Date();
+if (now.getFullYear() < 2026 || (now.getFullYear() === 2026 && now.getMonth() < 4)) {
+    // Avant mai 2026 : on commence en avril 2026
+    currentDate = new Date(2026, 3, 1); // Avril 2026 (les mois commencent à 0)
+} else {
+    // À partir de mai 2026 : on commence au mois courant
+    currentDate = new Date(now.getFullYear(), now.getMonth(), 1);
+}
+
+console.log('📅 Date de départ du calendrier:', currentDate);
         let selectedDate = null;
         let allLieux = [];
         let allInterlocuteurs = [];
@@ -4734,7 +4747,8 @@ updateExportButtonsVisibility();
                 
                 processCSVData(csvText);
                 
-                currentDate = new Date(2026, 3, 1);
+                // Ne pas réinitialiser currentDate ici - garder la valeur définie au début
+// currentDate reste inchangé
                 renderCalendar();
                 
             } catch (error) {
