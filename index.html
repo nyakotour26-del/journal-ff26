@@ -15,8 +15,8 @@
             --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             --dark-blue: #1a2530;
             --light-blue: #aed6f1;
-            --note-bg: #fff9c4;
-            --note-border: #ffd54f;
+            --note-bg:  #fce4ec;
+            --note-border: #b33951;
             --concert-bg: #e8f4fc;
             --activity-bg: #f8f9fa;
             --concert-orange: #ff9800;
@@ -380,23 +380,25 @@
         }
         
         .entry-header {
-            background: #c44569;
-            color: white;
-            padding: 15px 20px;
-        }
+    background: #c44569;
+    color: white;
+    padding: 8px 12px; 
+    min-height: auto; 
+}
         
-        .entry-title-large {
-            font-size: 1.8em;
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-        
-        .entry-lieux {
-            font-size: 1.2em;
-            opacity: 0.9;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
+       .entry-title-large {
+    font-size: 1em;
+    margin-bottom: 2px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.entry-lieux {
+    font-size: 1em; 
+    margin-bottom: 2px;
+    font-weight: 500;
+    line-height: 1.1;
+}
         
         .jour-number {
             font-size: 1.1em;
@@ -424,10 +426,10 @@
         }
         
         .section-title {
-    font-size: 1.4em;
+    font-size: 1.2em;
     color: #b33951;
     margin-bottom: 20px;
-    padding-bottom: 12px;
+    padding-bottom: 10px;
     border-bottom: 3px solid #b33951;
     font-weight: 600;
     display: flex;
@@ -1090,7 +1092,7 @@ margin-left: 5px; /* Petit espace après le texte */
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 25px;
-            border-left: 6px solid #b33951;
+            border-left: 4px solid #b33951;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transition: transform 0.3s ease;
         }
@@ -2389,6 +2391,28 @@ margin-left: 5px; /* Petit espace après le texte */
         margin: 10px 0 !important;
         border: 2px dashed #3498db !important;
         font-size: 0.9em !important;
+}
+.entry-title-large {
+        font-size: 1.3em !important; /* ← Plus petit sur mobile */
+        line-height: 1.1 !important;
+        margin-bottom: 2px !important;
+    }
+    
+    .entry-lieux {
+        font-size: 0.9em !important; /* ← Plus petit sur mobile */
+        line-height: 1.1 !important;
+        margin-bottom: 2px !important;
+    }
+    
+    .jour-number {
+        font-size: 0.8em !important;
+        padding: 2px 8px !important;
+        margin-top: 2px !important;
+    }
+    
+    .entry-header {
+        padding: 8px 12px !important;
+    }
 }
 
 @media (max-width: 480px) {
