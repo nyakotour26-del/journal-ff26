@@ -8916,35 +8916,40 @@ function toggleFilterGroup(type) {
                     optionsList.appendChild(lieuxPaysDiv);
                 }
                 
-                optionsList.appendChild(createDateOption(
-                    'Voir les données du jour',
-                    'Accéder aux données correspondantes de cette journée',
-                    '📄',
-                    () => {
-                        const rowIndex = dayData.rowIndex;
-                        if (rowIndex !== undefined && rowIndex >= 0) {
-                            const journalEntries = document.getElementById('journalEntries');
-                            const entryElements = journalEntries.querySelectorAll('.journal-entry');
-                            
-                            if (entryElements.length > rowIndex) {
-                                entryElements[rowIndex].scrollIntoView({ 
-                                    behavior: 'smooth', 
-                                    block: 'center' 
-                                });
-                                
-                                entryElements[rowIndex].style.boxShadow = '0 0 0 3px var(--accent-color)';
-                                setTimeout(() => {
-                                    entryElements[rowIndex].style.boxShadow = '';
-                                }, 3000);
-                                
-                                if (window.innerWidth <= 1024) {
-                                    document.getElementById('mobileBackButton').style.display = 'block';
-                                }
-                            }
-                        }
-                        hideModal('dateOptionsModal');
-                    }
-                ));
+               optionsList.appendChild(createDateOption(
+    'Voir les données du jour',
+    'Accéder aux données correspondantes de cette journée',
+    '📄',
+    () => {
+        // AJOUTER CES 3 LIGNES POUR EFFACER LA RECHERCHE AVANT
+        currentSearchTerm = '';
+        currentSearchType = '';
+        displayAllJournalEntries(); // Cette fonction efface les résultats filtrés
+        
+        const rowIndex = dayData.rowIndex;
+        if (rowIndex !== undefined && rowIndex >= 0) {
+            const journalEntries = document.getElementById('journalEntries');
+            const entryElements = journalEntries.querySelectorAll('.journal-entry');
+            
+            if (entryElements.length > rowIndex) {
+                entryElements[rowIndex].scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+                
+                entryElements[rowIndex].style.boxShadow = '0 0 0 3px var(--accent-color)';
+                setTimeout(() => {
+                    entryElements[rowIndex].style.boxShadow = '';
+                }, 3000);
+                
+                if (window.innerWidth <= 1024) {
+                    document.getElementById('mobileBackButton').style.display = 'block';
+                }
+            }
+        }
+        hideModal('dateOptionsModal');
+    }
+));
                 
                 optionsList.appendChild(createDateOption(
                     'Voir les Interlocuteurs/Hôtes',
