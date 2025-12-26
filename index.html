@@ -3456,7 +3456,7 @@ t;
     
     <!-- Boutons flottants -->
  <div class="floating-buttons">
-    <button class="floating-button home" id="floatingHome" title="Tout">🏠</button>
+    <a href="index.html" class="floating-button home" title="Tout">🏠</a>
     <button class="floating-button calendar" id="floatingCalendar" title="Calendrier">📅</button>
     <button class="floating-button lock" id="floatingLock" title="Déverrouiller admin">🔓</button>
     <button class="floating-button search" id="floatingSearch" title="Recherche">🔍</button>
@@ -16167,70 +16167,6 @@ function createNoteBoxWithColor(title, content, backgroundColor) {
     
     return noteDiv;
 }
-
-// ============================================
-// CORRECTION BOUTON "TOUT" 🏠
-// ============================================
-
-// Attendre que tout soit chargé
-setTimeout(function() {
-    console.log('🔧 Vérification du bouton Tout...');
-    
-    // Méthode 1 : Vérifier si le bouton existe
-    const boutonTout = document.getElementById('floatingHome');
-    
-    if (boutonTout) {
-        console.log('✅ Bouton Tout trouvé avec ID: floatingHome');
-        
-        // Retirer tout ancien événement
-        boutonTout.replaceWith(boutonTout.cloneNode(true));
-        
-        // Re-sélectionner le bouton
-        const nouveauBouton = document.getElementById('floatingHome');
-        
-        // Ajouter le nouvel événement
-        nouveauBouton.addEventListener('click', function(e) {
-            e.preventDefault(); // Empêche tout comportement par défaut
-            console.log('🎯 Bouton Tout cliqué !');
-            
-            // Appeler la fonction
-            if (typeof showAllData === 'function') {
-                showAllData();
-                document.getElementById('mainContent').scrollIntoView({ behavior: 'smooth' });
-            } else {
-                console.error('❌ showAllData n\'est pas une fonction');
-            }
-        });
-        
-        // Test au clic droit aussi
-        nouveauBouton.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            console.log('Clic droit sur le bouton Tout');
-        });
-        
-    } else {
-        console.error('❌ Bouton Tout NON TROUVÉ ! Vérifiez le HTML');
-        
-        // Solution d'urgence : créer le bouton si nécessaire
-        const floatingButtons = document.querySelector('.floating-buttons');
-        if (floatingButtons) {
-            const emergencyButton = document.createElement('button');
-            emergencyButton.className = 'floating-button home';
-            emergencyButton.id = 'floatingHome';
-            emergencyButton.title = 'Tout';
-            emergencyButton.innerHTML = '🏠';
-            emergencyButton.style.background = 'linear-gradient(135deg, #ff0000, #cc0000)'; // Rouge pour le voir
-            
-            emergencyButton.addEventListener('click', function() {
-                alert('Bouton Tout d\'urgence !');
-                showAllData();
-            });
-            
-            floatingButtons.insertBefore(emergencyButton, floatingButtons.firstChild);
-            console.log('🚨 Bouton d\'urgence créé !');
-        }
-    }
-}, 1000); 
     </script> 
 </body>
 </html>
