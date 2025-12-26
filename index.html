@@ -16153,6 +16153,67 @@ function createNoteBoxWithColor(title, content, backgroundColor) {
     
     return noteDiv;
 }
+// ============================================
+// BOUTON MOBILE "⬅ Tout" - CORRECTION
+// ============================================
+
+// Attendre que la page soit chargée
+setTimeout(function() {
+    const mobileBackButton = document.getElementById('mobileBackButton');
+    
+    if (mobileBackButton) {
+        console.log('🔧 Configuration du bouton mobile "Tout"');
+        
+        // Retirer tout ancien événement
+        mobileBackButton.replaceWith(mobileBackButton.cloneNode(true));
+        
+        // Re-sélectionner
+        const newButton = document.getElementById('mobileBackButton');
+        
+        // Ajouter le nouvel événement
+        newButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('📱 Bouton mobile "Tout" cliqué !');
+            console.log('   - Effacement de la recherche');
+            console.log('   - Affichage de toutes les fiches');
+            
+            // FONCTION PRINCIPALE : EFFACER ET TOUT AFFICHER
+            if (typeof showAllData === 'function') {
+                showAllData();
+            } else {
+                console.error('❌ showAllData non disponible');
+                // Solution de secours
+                currentSearchTerm = '';
+                currentSearchType = '';
+                document.getElementById('searchInput').value = '';
+                displayAllJournalEntries();
+            }
+            
+            // Faire défiler
+            setTimeout(() => {
+                const mainContent = document.querySelector('.main-content') || 
+                                   document.getElementById('mainContent');
+                if (mainContent) {
+                    mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+            
+            // Masquer le bouton
+            this.style.display = 'none';
+            
+            // Petit effet visuel
+            this.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 200);
+        });
+        
+    } else {
+        console.error('❌ Bouton mobile non trouvé');
+    }
+}, 500);
     </script> 
 </body>
 </html>
