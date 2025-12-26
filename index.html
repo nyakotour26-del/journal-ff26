@@ -11389,13 +11389,13 @@ if (activityData.adresse) {
     
     const noteIndex = findHeaderIndex('Note de la journée:');
     if (noteIndex !== -1 && row[noteIndex]) {
-        sectionDiv.appendChild(createNoteBoxWithColor('Note de la journée:', row[noteIndex], '#98FB98')); // Vert pomme
+        sectionDiv.appendChild(createNoteBoxWithColor('Note de la journée:', row[noteIndex], '#E6E6FA')); // Vert pomme
     }
     
     // AJOUTER LA REMARQUE GÉNÉRALE À REVOIR
     const remarqueIndex = findHeaderIndex('Remarque général à revoir');
     if (remarqueIndex !== -1 && row[remarqueIndex] && row[remarqueIndex].trim() !== '') {
-        sectionDiv.appendChild(createNoteBoxWithColor('Remarque à revoir:', row[remarqueIndex], '#C1FFC1')); // Vert pomme très clair
+        sectionDiv.appendChild(createNoteBoxWithColor('Remarque à revoir:', row[remarqueIndex], '#E6E6FA')); // Vert pomme très clair
     }
     
     return sectionDiv;
