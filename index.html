@@ -92,41 +92,41 @@
         
         /* Boutons flottants */
         .floating-buttons {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+    position: fixed;
+    right: 15px; 
+    bottom: 15px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; 
+}
         
-        .floating-button {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: white;
-            border: 2px solid var(--secondary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5em;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            color: var(--primary-color);
-            text-decoration: none;
-        }
+       .floating-button {
+    width: 40px;  
+    height: 40px; 
+    border-radius: 50%;
+    background: white;
+    border: 2px solid var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2); /* Ombre plus légère */
+    transition: all 0.3s ease;
+    color: var(--primary-color);
+    text-decoration: none;
+}
         
-        /* Bouton admin spécifique (1cm = ~40px pour une bonne visibilité) */
-        .floating-button.admin {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #8e44ad, #7d3c98);
-            color: white;
-            border: none;
-            font-size: 1.2em;
-        }
+       /* Bouton admin spécifique */
+.floating-button.admin {
+    width: 36px;  
+    height: 36px;
+    background: linear-gradient(135deg, #8e44ad, #7d3c98);
+    color: white;
+    border: none;
+    font-size: 1.1em; 
+}
         
         .floating-button:hover {
             transform: scale(1.1);
@@ -189,7 +189,26 @@
     content: "↑↓";
     font-size: 1.2em;
     font-weight: bold;
-}   
+}
+
+/* NOUVEAUX STYLES POUR LES BOUTONS DE NAVIGATION ENTRE FICHES */
+.floating-button.navigate-up {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    color: white;
+    border: none;
+}
+
+.floating-button.navigate-down {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    border: none;
+}
+
+.floating-button.navigate-up::before,
+.floating-button.navigate-down::before {
+    font-size: 1.5em;
+    font-weight: bold;
+}  
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -378,6 +397,10 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
+/* Assure que le début des fiches est visible */
+.journal-entry {
+    scroll-margin-top: 70px; /* Ajustez selon votre header fixe */
+}
         
         .entry-header {
     background: #c44569;
@@ -3497,6 +3520,14 @@ t;
 <button class="floating-button navigation" id="floatingNavigation" title="Naviguer entre les résultats (↑↓)" style="display: none;">
     🔍
 </button>
+
+<!-- NOUVEAUX BOUTONS POUR NAVIGUER ENTRE LES FICHES -->
+<button class="floating-button navigate-up" id="floatingNavigateUp" title="Fiche précédente (↑)" style="display: none;">
+    🔼
+</button>
+<button class="floating-button navigate-down" id="floatingNavigateDown" title="Fiche suivante (↓)" style="display: none;">
+    🔽
+</button>
 </div>
     
     <!-- Bulle de déverrouillage améliorée -->
@@ -4240,6 +4271,16 @@ document.getElementById('floatingNavigation').addEventListener('dblclick', funct
     e.preventDefault();
     navigateToPrevResult();
 });
+
+// NOUVEAU : Boutons pour naviguer entre les fiches
+document.getElementById('floatingNavigateUp').addEventListener('click', function() {
+    navigateToPreviousEntry();
+});
+
+document.getElementById('floatingNavigateDown').addEventListener('click', function() {
+    navigateToNextEntry();
+});
+
             // Événement pour le bouton du tableau global des activités
 document.getElementById('showGlobalActivityTableButton').addEventListener('click', showGlobalActivityTable);
             document.getElementById('mobileBackButton').addEventListener('click', function(e) {
@@ -10114,7 +10155,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
 });
 
-// Ajouter cette fonction pour vérifier si on affiche des résultats filtrés
 function isShowingFilteredResults() {
     const container = document.getElementById('journalEntries');
     const header = container.querySelector('div:first-child');
@@ -10157,6 +10197,9 @@ function updateShowAllButtonVisibility() {
     if (window.innerWidth <= 1024) {
         document.getElementById('mobileBackButton').style.display = 'none';
     }
+ setTimeout(() => {
+        setupEntryNavigation();
+    }, 300);
 }
 // Fonction unifiée pour exécuter une recherche et gérer l'affichage
 function executeSearch(searchTerm, searchType, title = '') {
@@ -10388,6 +10431,9 @@ function executeSearch(searchTerm, searchType, title = '') {
     if (window.innerWidth <= 1024) {
         document.getElementById('mobileBackButton').style.display = 'block';
     }
+ setTimeout(() => {
+        setupEntryNavigation();
+    }, 300);
 }
         function updateSearchHighlights() {
             searchHighlights = [];
@@ -10497,20 +10543,57 @@ function navigateToHighlight(index) {
 // Gestion des touches clavier pour la navigation
 function setupKeyboardNavigation() {
     document.addEventListener('keydown', function(event) {
-        // Vérifier si le bouton de navigation est visible
+        // Vérifier si le bouton de navigation entre résultats est visible
         const navButton = document.getElementById('floatingNavigation');
-        if (navButton.style.display === 'none') return;
-        
-        // Flèche vers le bas ou Entrée pour résultat suivant
-        if (event.key === 'ArrowDown' || event.key === 'Enter') {
-            event.preventDefault();
-            navigateToNextResult();
+        if (navButton.style.display !== 'none') {
+            // Flèche vers le bas ou Entrée pour résultat suivant
+            if (event.key === 'ArrowDown' || event.key === 'Enter') {
+                event.preventDefault();
+                navigateToNextResult();
+            }
+            
+            // Flèche vers le haut pour résultat précédent
+            if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                navigateToPrevResult();
+            }
         }
         
-        // Flèche vers le haut pour résultat précédent
-        if (event.key === 'ArrowUp') {
-            event.preventDefault();
-            navigateToPrevResult();
+        // NOUVEAU : Touches pour naviguer entre les fiches
+        // Toujours actives quand il y a des fiches
+        if (allEntries.length > 0) {
+            // Page Up ou Flèche Gauche pour fiche précédente
+            if (event.key === 'PageUp' || event.key === 'ArrowLeft') {
+                event.preventDefault();
+                navigateToPreviousEntry();
+            }
+            
+            // Page Down ou Flèche Droite pour fiche suivante
+            if (event.key === 'PageDown' || event.key === 'ArrowRight') {
+                event.preventDefault();
+                navigateToNextEntry();
+            }
+            
+            // Touche 'Home' pour première fiche
+            if (event.key === 'Home') {
+    event.preventDefault();
+    currentEntryIndex = 0;
+    scrollToEntry(currentEntryIndex);
+    updateEntryNavigationButtons();
+    
+    // Décalage supplémentaire vers le haut pour bien voir le début
+    setTimeout(() => {
+        window.scrollBy(0, -50); // Remonte un peu plus
+    }, 300);
+}
+            
+            // Touche 'End' pour dernière fiche
+            if (event.key === 'End') {
+                event.preventDefault();
+                currentEntryIndex = allEntries.length - 1;
+                scrollToEntry(currentEntryIndex);
+                updateNavigationButtons();
+            }
         }
     });
 }
@@ -16238,7 +16321,118 @@ setTimeout(function() {
         console.error('❌ Bouton mobile non trouvé');
     }
 }, 500);
+// =============== FONCTIONS DE NAVIGATION ENTRE LES FICHES ===============
+let currentEntryIndex = -1;
+let allEntries = [];
+
+function updateNavigationButtons() {
+    const entries = document.querySelectorAll('.journal-entry');
+    allEntries = Array.from(entries);
+    
+    const upButton = document.getElementById('floatingNavigateUp');
+    const downButton = document.getElementById('floatingNavigateDown');
+    
+    if (allEntries.length > 1) {
+        // Afficher les boutons seulement s'il y a plus d'une fiche
+        upButton.style.display = 'flex';
+        downButton.style.display = 'flex';
+        
+        // Si aucune fiche n'est sélectionnée, sélectionner la première
+        if (currentEntryIndex === -1 && allEntries.length > 0) {
+            currentEntryIndex = 0;
+        }
+        
+        // Mettre à jour les états des boutons
+        upButton.disabled = currentEntryIndex === 0;
+        downButton.disabled = currentEntryIndex === allEntries.length - 1;
+        
+        // Changer l'opacité pour indiquer l'état désactivé
+        upButton.style.opacity = currentEntryIndex === 0 ? '0.5' : '1';
+        downButton.style.opacity = currentEntryIndex === allEntries.length - 1 ? '0.5' : '1';
+    } else {
+        // Masquer les boutons s'il n'y a qu'une seule fiche ou aucune
+        upButton.style.display = 'none';
+        downButton.style.display = 'none';
+    }
+}
+
+function navigateToPreviousEntry() {
+    if (currentEntryIndex > 0) {
+        currentEntryIndex--;
+        scrollToEntryTop(currentEntryIndex); // ← Utiliser la nouvelle fonction
+        updateEntryNavigationButtons();
+    }
+}
+
+function navigateToNextEntry() {
+    if (currentEntryIndex < allEntries.length - 1) {
+        currentEntryIndex++;
+        scrollToEntryTop(currentEntryIndex); // ← Utiliser la nouvelle fonction
+        updateEntryNavigationButtons();
+    }
+}
+
+function scrollToEntry(index) {
+    if (index >= 0 && index < allEntries.length) {
+        const entry = allEntries[index];
+        
+        // Enlever le surlignage précédent
+        document.querySelectorAll('.journal-entry').forEach(e => {
+            e.style.boxShadow = '';
+            e.style.border = '2px solid var(--neutral-border)';
+        });
+        
+        // Surligner la fiche active
+        entry.style.boxShadow = '0 0 0 3px var(--accent-color)';
+        entry.style.border = '3px solid var(--accent-color)';
+        entry.style.transition = 'all 0.3s ease';
+        entry.style.zIndex = '100';
+        
+        // CORRECTION ICI : Faire défiler jusqu'au DÉBUT de la fiche
+        entry.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start'  // ← CHANGÉ de 'center' à 'start'
+        });
+        
+        // Enlever le surlignage après 5 secondes
+        setTimeout(() => {
+            entry.style.boxShadow = '';
+            entry.style.border = '2px solid var(--neutral-border)';
+        }, 5000);
+    }
+}
+// Mettre à jour les boutons de navigation quand les fiches changent
+function setupEntryNavigation() {
+    setTimeout(() => {
+        updateNavigationButtons();
+    }, 500);
+}
+function scrollToEntryTop(index) {
+    if (index >= 0 && index < allEntries.length) {
+        const entry = allEntries[index];
+        const headerHeight = document.querySelector('.fixed-title').offsetHeight || 100;
+        
+        // Calculer la position exacte
+        const entryTop = entry.offsetTop;
+        const scrollPosition = entryTop - headerHeight - 20; // -20 pour une petite marge
+        
+        // Appliquer le surlignage
+        document.querySelectorAll('.journal-entry').forEach(e => {
+            e.style.boxShadow = '';
+            e.style.border = '2px solid var(--neutral-border)';
+        });
+        
+        entry.style.boxShadow = '0 0 0 3px var(--accent-color)';
+        entry.style.border = '3px solid var(--accent-color)';
+        
+        // Défilement précis
+        window.scrollTo({
+            top: scrollPosition,
+            behavior: 'smooth'
+        });
+    }
+}
+
     </script> 
 </body>
 </html>
-
